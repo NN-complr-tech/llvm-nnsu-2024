@@ -10,11 +10,12 @@ public:
     explicit WarnVisitor(ASTContext *Context) : Context(Context) {}
 
     bool VisitFunctionDecl(FunctionDecl *Func) {
-        if (Func->getNameInfo().getAsString().find("deprecated") != std::string::npos) {
+        const char *name_data = Func->getName().data();
+        if (std::string(name_data).find("deprecated") != std::string::npos) {
             DiagnosticsEngine &Diags = Context->getDiagnostics();
             unsigned DiagID = Diags.getCustomDiagID(DiagnosticsEngine::Warning,
                                                    "Function '%0' contains 'deprecated' in its name");
-            Diags.Report(Func->getLocation(), DiagID) << Func->getNameInfo().getAsString();
+            Diags.Report(Func->getLocation(), DiagID) << name_data;
         }
         return true;
     }
