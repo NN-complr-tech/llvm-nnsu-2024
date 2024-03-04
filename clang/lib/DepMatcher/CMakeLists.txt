@@ -21,7 +21,6 @@
 add_llvm_library(clangDepMatcher MODULE deprecatedMatcher.cpp PLUGIN_TOOL clang)
 
 
-# tmp
 # add_clang_library(clangDepMatcher
     
 #     deprecatedMatcher.cpp
@@ -46,4 +45,4 @@ if(WIN32 OR CYGWIN)
     )
 endif()
 
-set(CLANG_TEST_DEPS "clangDepMatcher" ${CLANG_TEST_DEPS} PARENT_SCOPE)
+# set(CLANG_TEST_DEPS "clangDepMatcher" ${CLANG_TEST_DEPS} PARENT_SCOPE)
