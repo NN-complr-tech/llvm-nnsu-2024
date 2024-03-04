@@ -20,25 +20,11 @@
 # from the plugin.
 add_llvm_library(clangDepMatcher MODULE deprecatedMatcher.cpp PLUGIN_TOOL clang)
 
-
-# add_clang_library(clangDepMatcher
-    
-#     deprecatedMatcher.cpp
-    
-#     LINK_LIBS
-#     clangAST
-#     clangASTMatchers
-#     clangBasic
-#     clangFrontend
-#     clangSerialization
-#     clangTooling
-#   )
-
 if(WIN32 OR CYGWIN)
   set(LLVM_LINK_COMPONENTS
       Support
   )
-  clang_target_link_libraries(clangDepMatcher PRIVATE
+  target_link_libraries(clangDepMatcher PRIVATE
     clangAST
     clangBasic
     clangFrontend
