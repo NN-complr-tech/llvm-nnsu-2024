@@ -30,7 +30,7 @@ class MyAction : public clang::PluginASTAction {
  public:
     std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
         clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
-        return std::unique_ptr<clang::ASTConsumer>(new MyConsumer);
+        return std::make_unique<MyConsumer>();
     }
  protected:
     bool ParseArgs(const clang::CompilerInstance &Compiler, const std::vector<std::string> &args) override {
