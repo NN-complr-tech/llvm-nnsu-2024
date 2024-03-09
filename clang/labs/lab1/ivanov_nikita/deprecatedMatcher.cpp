@@ -36,7 +36,7 @@ class DeprecatedPlugin : public PluginASTAction {
 protected:
   std::unique_ptr<ASTConsumer> CreateASTConsumer (
     CompilerInstance &Compiler, llvm::StringRef InFile) override {
-      return std::unique_ptr<ASTConsumer>(new DepConsumer(Compiler));
+      return std::make_unique<DepConsumer>(Compiler);
     }
 
   bool ParseArgs(const CompilerInstance &Compiler, 
@@ -48,7 +48,7 @@ protected:
   }
 
   void PrintHelp(llvm::raw_ostream& ros) {
-    ros << "Help for DeprecatedPlugin plugin goes here\n";
+    ros << "Deprecated Plugin version 1.0\n";
   }
 };
 

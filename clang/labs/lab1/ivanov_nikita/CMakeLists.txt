@@ -1,9 +1,3 @@
-# set(LLVM_LINK_COMPONENTS Support)
-
-# add_executable(clangDepMatcher deprecatedMatcher.cpp)
-
-# target_link_libraries(clangDepMatcher clangTooling)
-
 add_llvm_library(clangDepMatcher MODULE deprecatedMatcher.cpp PLUGIN_TOOL clang)
 
 if(WIN32 OR CYGWIN)
