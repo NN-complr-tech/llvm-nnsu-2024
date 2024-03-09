@@ -1,11 +1,9 @@
-// Copyright 2024 Sharapov Georgiy
-
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
-class MyVisitor : public clang::RecursiveASTVisitor<MyVisitor> {
+class DepWarningVisitor : public clang::RecursiveASTVisitor<DepWarningVisitor> {
  public:
     bool VisitFunctionDecl(clang::FunctionDecl *F) {
         if (F->hasAttr<clang::DeprecatedAttr>()) {
@@ -17,20 +15,20 @@ class MyVisitor : public clang::RecursiveASTVisitor<MyVisitor> {
     }
 };
 
-class MyConsumer : public clang::ASTConsumer {
+class DepWarningConsumer : public clang::ASTConsumer {
  public:
     void HandleTranslationUnit(clang::ASTContext &Context) override {
         Visitor.TraverseDecl(Context.getTranslationUnitDecl());
     }
  private:
-    MyVisitor Visitor;
+    DepWarningVisitor Visitor;
 };
 
-class MyAction : public clang::PluginASTAction {
+class DepWarningAction : public clang::PluginASTAction {
  public:
     std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
         clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
-        return std::make_unique<MyConsumer>();
+        return std::make_unique<DepWarningConsumer>();
     }
  protected:
     bool ParseArgs(const clang::CompilerInstance &Compiler, const std::vector<std::string> &args) override {
@@ -38,4 +36,5 @@ class MyAction : public clang::PluginASTAction {
     }
 };
 
-static clang::FrontendPluginRegistry::Add<MyAction> X("myPlugin", "myPlugin");
+static clang::FrontendPluginRegistry::Add<DepWarningAction>
+X("DepEmitWarning", "Emit warning for each deprecated function");

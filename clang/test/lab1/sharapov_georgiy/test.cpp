@@ -1,4 +1,4 @@
-// RUN: %clang++ -cc1 -load %llvmshlibdir/Plugin.so -plugin myPlugin %s 2>&1 | FileCheck %s
+// RUN: %clang++ -cc1 -load %llvmshlibdir/Plugin%pluginext -plugin DepEmitWarning %s 2>&1 | FileCheck %s
 
 // CHECK: test.cpp:5:6: warning: function 'oldSum' is deprecated
 [[deprecated]]
