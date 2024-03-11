@@ -8,4 +8,4 @@ struct Point3D {
   double m_x{};
   double m_y{};
   double m_z{};
-}
+};

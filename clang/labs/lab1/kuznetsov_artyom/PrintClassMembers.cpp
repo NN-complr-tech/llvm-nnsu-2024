@@ -33,4 +33,20 @@ public:
 private:
   PrintClassMembersVisitor m_visitor;
 };
+
+class PrintClassMembersAction final : public PluginASTAction {
+public:
+  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &ci,
+                                                 StringRef) override {
+    return std::make_unique<PrintClassMembersConsumer>(&ci.getASTContext());
+  }
+
+  bool ParseArgs(const CompilerInstance &ci,
+                 const std::vector<std::string> &args) override {
+    return true;
+  }
+};
 } // namespace
+
+static FrontendPluginRegistry::Add<PrintClassMembersAction>
+    X("pcm_plugin", "Prints all members of the class");
