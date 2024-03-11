@@ -20,4 +20,17 @@ public:
 private:
   ASTContext *m_context;
 };
-}
+
+class PrintClassMembersConsumer final : public ASTConsumer {
+public:
+  explicit PrintClassMembersConsumer(ASTContext *сontext)
+      : m_visitor(сontext) {}
+
+  void HandleTranslationUnit(ASTContext &context) override {
+    m_visitor.TraverseDecl(context.getTranslationUnitDecl());
+  }
+
+private:
+  PrintClassMembersVisitor m_visitor;
+};
+} // namespace
