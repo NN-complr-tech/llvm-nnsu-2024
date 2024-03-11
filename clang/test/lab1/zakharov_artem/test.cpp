@@ -9,6 +9,13 @@
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
 // RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=var\
+// RUN: -plugin-arg-rename cur-name=c\
+// RUN: -plugin-arg-rename new-name=new_var %t/rename_non_existent_var.cpp
+// RUN: diff %t/rename_non_existent_var_expected.cpp %t/rename_non_existent_var.cpp
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=func\
 // RUN: -plugin-arg-rename cur-name=function\
 // RUN: -plugin-arg-rename new-name=new_func %t/rename_func.cpp
@@ -16,10 +23,24 @@
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
 // RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=func\
+// RUN: -plugin-arg-rename cur-name=function\
+// RUN: -plugin-arg-rename new-name=f %t/rename_non_existent_func.cpp
+// RUN: diff %t/rename_non_existent_func_expected.cpp %t/rename_non_existent_func.cpp
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=class\
 // RUN: -plugin-arg-rename cur-name=Base\
 // RUN: -plugin-arg-rename new-name=SimpleClass %t/rename_class.cpp
 // RUN: diff %t/rename_class_expected.cpp %t/rename_class.cpp
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename cur-name=B\
+// RUN: -plugin-arg-rename new-name=C %t/rename_non_existent_class.cpp
+// RUN: diff %t/rename_non_existent_class_expected.cpp %t/rename_non_existent_class.cpp
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
 // RUN: -add-plugin rename\
@@ -45,6 +66,22 @@ int func() {
   new_var++;
   return new_var;
 }
+//--- rename_non_existent_var.cpp
+int func() {
+  int a = 2;
+  int b = 3;
+  b += a;
+  a++;
+  return b - a;
+}
+//--- rename_non_existent_var_expected.cpp
+int func() {
+  int a = 2;
+  int b = 3;
+  b += a;
+  a++;
+  return b - a;
+}
 //--- rename_func.cpp
 int function(int param) {
     int a;
@@ -66,6 +103,26 @@ int other_func(){
   new_func(3);
   int a = new_func(2) + 3;
   return a;
+}
+//--- rename_non_existent_func.cpp
+int func(int a) {
+  int b = 2;
+  return a + b;
+}
+
+void func2() {
+  int c = func(2);
+  int b = func(c) + func(3);
+}
+//--- rename_non_existent_func_expected.cpp
+int func(int a) {
+  int b = 2;
+  return a + b;
+}
+
+void func2() {
+  int c = func(2);
+  int b = func(c) + func(3);
 }
 //--- rename_class.cpp
 class Base{
@@ -98,4 +155,34 @@ void func() {
   SimpleClass a;
   SimpleClass* var = new SimpleClass(1, 2);
   delete var;
+}
+//--- rename_non_existent_class.cpp
+class A{
+ private:
+  int var1;
+  double var2;
+ public:
+ A() {};
+ ~A() {};
+};
+
+void func() {
+  A var1;
+  A* var2 = new A;
+  delete var2;
+}
+//--- rename_non_existent_class_expected.cpp
+class A{
+ private:
+  int var1;
+  double var2;
+ public:
+ A() {};
+ ~A() {};
+};
+
+void func() {
+  A var1;
+  A* var2 = new A;
+  delete var2;
 }
