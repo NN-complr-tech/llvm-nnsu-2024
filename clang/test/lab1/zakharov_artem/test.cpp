@@ -47,10 +47,37 @@
 // RUN: -plugin-arg-rename help\
 // RUN: 2>&1 | FileCheck %s --check-prefix=HELP
 
+// RUN: not %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename cur-name=B\
+// RUN: -plugin-arg-rename new-name=C\
+// RUN: 2>&1 | FileCheck %s --check-prefix=ERROR
+
+// RUN: not %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename cur-name=B\
+// RUN: -plugin-arg-rename new-name=C\
+// RUN: -plugin-arg-rename param=val\
+// RUN: 2>&1 | FileCheck %s --check-prefix=ERROR
+
+// RUN: not %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=undefined\
+// RUN: -plugin-arg-rename cur-name=B\
+// RUN: -plugin-arg-rename new-name=C\
+// RUN: 2>&1 | FileCheck %s --check-prefix=ERROR
+
+// RUN: not %clang_cc1 -load %llvmshlibdir/RenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: 2>&1 | FileCheck %s --check-prefix=ERROR
+
 // HELP: Specify three required arguments:
 // HELP: -plugin-arg-rename type=["var", "func", "class"]
 // HELP: -plugin-arg-rename cur-name="Current identifier name"
 // HELP: -plugin-arg-rename new-name="New identifier name"
+
+//ERROR: Invalid arguments
+//ERROR: Specify "-plugin-arg-rename help" for usage
 
 //--- rename_var.cpp
 int func() {
