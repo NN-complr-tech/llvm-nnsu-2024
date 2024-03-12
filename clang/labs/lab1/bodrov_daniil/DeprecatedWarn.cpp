@@ -30,10 +30,28 @@ public:
     if (F->getNameAsString().find("deprecated") != std::string::npos) {
       DiagnosticsEngine &D = Context->getDiagnostics();
       unsigned DiagID = D.getCustomDiagID(DiagnosticsEngine::Warning,
-                                           "Function name contains 'deprecated'");
-      D.Report(F->getLocation(), DiagID);
+                                     "Function '%0' name contains 'deprecated'");
+      D.Report(F->getLocation(), DiagID) << F->getNameAsString();
     }
 
+    return true;
+  }
+
+  bool VisitVarDecl(VarDecl *VD) {
+    // Renaming the variable
+    if (VD->getNameAsString() == "oldName") {
+      VD->setName("newName");
+    }
+    return true;
+  }
+
+  bool VisitNamedDecl(NamedDecl *ND) {
+    // Renaming the class
+    if (auto *CXX = dyn_cast<CXXRecordDecl>(ND)) {
+      if (CXX->getNameAsString() == "OldClassName") {
+        CXX->setName("NewClassName");
+      }
+    }
     return true;
   }
 
