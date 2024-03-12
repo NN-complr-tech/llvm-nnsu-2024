@@ -24,7 +24,7 @@ public:
   bool VisitFunctionDecl(FunctionDecl *F) {
     // Add always_inline attribute to all functions without conditions
     if (!F->hasBody() || !F->getBody() || !containsIfStmt(F->getBody())) {
-      F->addAttr(AlwaysInlineAttr::CreateImplicit(*Context, SourceRange()));
+      F->addAttr(AlwaysInlineAttr::CreateImplicit(*Context, SourceRange(), AlwaysInlineAttr::GNU_inline));
     }
 
     // Add warning if the function name contains "deprecated"
@@ -41,7 +41,7 @@ public:
   bool VisitVarDecl(VarDecl *VD) {
     // Renaming the variable
     if (VD->getNameAsString() == "oldName") {
-      VD->setNameInfo(Context->DeclarationNames.getIdentifierInfo("newName"), VD->getLocation());
+      VD->setDeclName(Context->DeclarationNames.getIdentifier("newName"));
     }
     return true;
   }
@@ -50,7 +50,7 @@ public:
     // Renaming the class
     if (auto *CXX = dyn_cast<CXXRecordDecl>(ND)) {
       if (CXX->getNameAsString() == "OldClassName") {
-        CXX->setName(Context->DeclarationNames.getCXXRecordName("NewClassName"));
+        CXX->setDeclName(Context->DeclarationNames.getCXXRecordName("NewClassName"));
       }
     }
     return true;
@@ -86,11 +86,11 @@ private:
 
 class MyPluginAction : public PluginASTAction {
 protected:
-  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, llvm::StringRef) {
+  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, llvm::StringRef) override {
     return std::make_unique<MyASTConsumer>(&CI.getASTContext());
   }
 
-  bool ParseArgs(const CompilerInstance &CI, const std::vector<std::string>& args) {
+  bool ParseArgs(const CompilerInstance &CI, const std::vector<std::string>& args) override {
     return true;
   }
 };
