@@ -2,6 +2,7 @@
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/Frontend/CompilerInstance.h"
+#include "clang/Basic/AttrKinds.h" // Include this header for AlwaysInlineAttr
 
 using namespace clang;
 
@@ -22,15 +23,15 @@ public:
 
   bool VisitFunctionDecl(FunctionDecl *F) {
     // Add always_inline attribute to all functions without conditions
-    if (!F->hasBody() || !F->getBody()->containsConditionalStmt()) {
-      F->addAttr(AlwaysInlineAttr::CreateImplicit(Context));
+    if (!F->hasBody() || !F->getBody() || !F->getBody()->containsStmt<IfStmt>()) {
+      F->addAttr(AlwaysInlineAttr::CreateImplicit(*Context, AttributeCommonInfo()));
     }
 
     // Add warning if the function name contains "deprecated"
     if (F->getNameAsString().find("deprecated") != std::string::npos) {
       DiagnosticsEngine &D = Context->getDiagnostics();
       unsigned DiagID = D.getCustomDiagID(DiagnosticsEngine::Warning,
-                                     "Function '%0' name contains 'deprecated'");
+                                           "Function '%0' name contains 'deprecated'");
       D.Report(F->getLocation(), DiagID) << F->getNameAsString();
     }
 
