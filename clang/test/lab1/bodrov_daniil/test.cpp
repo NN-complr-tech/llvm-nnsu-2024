@@ -1,27 +1,16 @@
-// RUN: split-file %s %t
-// RUN: %clang_cc1 -load %llvmshlibdir/DeprecatedWarnPlugin%pluginext -add-plugin deprecated-warn -verify %t/bad_one.cpp 
-// RUN: %clang_cc1 -load %llvmshlibdir/DeprecatedWarnPlugin%pluginext -add-plugin deprecated-warn -verify %t/good_one.cpp 
+// RUN: %clang_cc1 -load %llvmshlibdir/DeprecatedWarnPlugin%pluginext -plugin deprecated-function-warning %s 2>&1 | FileCheck %s --check-prefix=DEPRECATED
+// REQUIRES: plugins
 
-//--- good_one.cpp
-// expected-no-diagnostics  
-int sum(int a, int b) {
-    return a + b;
-}
+// DEPRECATED: warning: Deprecated in function name
+void foo_deprecated(int a, int b);
 
-void deprecate_sum(int a, int b) {
-    ;
-}
+// DEPRECATED: warning: Deprecated in function name
+void deprecated(int c);
 
+// DEPRECATED-NOT: warning: Deprecated in function name
+void abc();
 
-//--- bad_one.cpp
-int _deprecated_sum(int a, int b) { // expected-warning {{Function '_deprecated_sum' contains 'deprecated' in its name}}
-    return a + b;
-}
+// RUN: %clang_cc1 -load %llvmshlibdir/DeprecatedWarnPlugin%pluginext -plugin deprecated-function-warning %s -plugin-arg-deprecated-function-warning help 2>&1 | FileCheck %s --check-prefix=HELP
+// REQUIRES: plugins
 
-void _sumdeprecated_(int a, int b) { // expected-warning {{Function '_sumdeprecated_' contains 'deprecated' in its name}}
-    ;
-}
-
-void _sum_deprecated(int a, int b) { // expected-warning {{Function '_sum_deprecated' contains 'deprecated' in its name}}
-    ;
-}
+// HELP: Deprecated function warn
