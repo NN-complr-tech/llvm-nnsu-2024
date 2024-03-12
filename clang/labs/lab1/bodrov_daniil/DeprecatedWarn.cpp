@@ -23,8 +23,8 @@ public:
 
   bool VisitFunctionDecl(FunctionDecl *F) {
     // Add always_inline attribute to all functions without conditions
-    if (!F->hasBody() || !F->getBody() || !F->getBody()->containsStmt<IfStmt>()) {
-      F->addAttr(AlwaysInlineAttr::CreateImplicit(*Context, AttributeCommonInfo()));
+    if (!F->hasBody() || !F->getBody() || !containsIfStmt(F->getBody())) {
+      F->addAttr(AlwaysInlineAttr::CreateImplicit(*Context, SourceRange()));
     }
 
     // Add warning if the function name contains "deprecated"
@@ -41,7 +41,7 @@ public:
   bool VisitVarDecl(VarDecl *VD) {
     // Renaming the variable
     if (VD->getNameAsString() == "oldName") {
-      VD->setName("newName");
+      VD->setNameInfo(Context->DeclarationNames.getIdentifierInfo("newName"), VD->getLocation());
     }
     return true;
   }
@@ -50,7 +50,7 @@ public:
     // Renaming the class
     if (auto *CXX = dyn_cast<CXXRecordDecl>(ND)) {
       if (CXX->getNameAsString() == "OldClassName") {
-        CXX->setName("NewClassName");
+        CXX->setName(Context->DeclarationNames.getCXXRecordName("NewClassName"));
       }
     }
     return true;
@@ -58,6 +58,18 @@ public:
 
 private:
   ASTContext *Context;
+
+  bool containsIfStmt(Stmt *S) {
+    if (!S)
+      return false;
+    if (isa<IfStmt>(S))
+      return true;
+    for (Stmt *Child : S->children()) {
+      if (containsIfStmt(Child))
+        return true;
+    }
+    return false;
+  }
 };
 
 class MyASTConsumer : public ASTConsumer {
