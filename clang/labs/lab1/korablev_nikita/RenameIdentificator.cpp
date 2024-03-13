@@ -3,11 +3,15 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/Rewrite/Core/Rewriter.h"
+
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/ADT/StringRef.h"
 
+#include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Tooling/Transformer/RewriteRule.h"
+#include "clang/Tooling/Transformer/Transformer.h"
 #include "clang/Tooling/Transformer/Stencil.h"
-
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -15,7 +19,6 @@ using namespace clang::transformer;
 
 using ::clang::transformer::changeTo;
 using ::clang::transformer::makeRule;
-using ::clang::transformer::node;
 using ::clang::transformer::RewriteRuleWith;
 
 
@@ -55,7 +58,6 @@ public:
                 cat("'sum' has been renamed 'renamed'"));
     }
 };
-
 
 class RenameIdPlugin: public clang::PluginASTAction {
 private:
