@@ -51,5 +51,5 @@ public:
 
 static clang::FrontendPluginRegistry::Add<PrintClassASTAction>
     X("print-class-plugin",
-      "A plugin that prints the names of classes (structures), as well as the "
+      "A plugin that prints the names of classes (structures) as well as the "
       "fields contained in them.");
