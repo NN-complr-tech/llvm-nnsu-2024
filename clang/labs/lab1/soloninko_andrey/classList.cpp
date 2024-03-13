@@ -43,3 +43,4 @@ public:
 
 static clang::FrontendPluginRegistry::Add<PrintClassAction>
     X("class_list_plugin", "Prints all members of the class");
+    
