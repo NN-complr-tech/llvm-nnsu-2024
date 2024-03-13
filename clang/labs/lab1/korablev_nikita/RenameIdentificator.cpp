@@ -35,8 +35,6 @@ public:
     bool VisitFunctionDecl(FunctionDecl *FD) {
         std::string name = FD->getNameAsString();
         
-        llvm::outs() << "FunctionDecl: " << name << "\n";
-
         if (name == oldName) {
             rewriter.ReplaceText(FD->getNameInfo().getSourceRange(), newName);
             rewriter.overwriteChangedFiles();
@@ -48,7 +46,6 @@ public:
     bool VisitDeclRefExpr(DeclRefExpr *DRE) {
         std::string name = DRE->getNameInfo().getAsString();
 
-        llvm::outs() << "DeclRefExpr: " << name <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(DRE->getNameInfo().getSourceRange(), newName);
             rewriter.overwriteChangedFiles();
@@ -57,59 +54,20 @@ public:
         return true;
     }
 
-    // bool VisitCallExpr(CallExpr *CE) {
-    //     // llvm::outs() << oldName <<"\n";
-    //     // const DeclContext *ParentContext = DRE->getDecl()->getDeclContext();
-    //     // llvm::outs() << !isa<CXXRecordDecl>(ParentContext) <<"\n";
-    //     std::string name = CE->getDirectCallee()->getNameAsString();
-    //     if (name.find(concSt) != std::string::npos) return true;
-
-    //     llvm::outs() << "CallExpr: " << name <<"\n";
-    //     if (oldName == "" || newName == "") esRename(std::string(name));
-    //     else if (name != oldName) return true;
-
-    //     rewriter.ReplaceText(CE->getCallee()->getSourceRange(), newName);
-    //     rewriter.overwriteChangedFiles();
-
-    //     return true;
-    // }
-
-    // bool VisitParmVarDecl(ParmVarDecl *PVD) {
-    //     // const DeclContext *ParentContext = PVD->getParentFunctionOrMethod()->getParent();
-    //     // llvm::outs() << !isa<CXXRecordDecl>(ParentContext) <<"\n";
-    //     std::string name = PVD->getNameAsString();
-    //     if (name.find(concSt) != std::string::npos) return true;
-
-    //     llvm::outs() << "ParmVarDecl: " << name <<"\n";
-    //     if (oldName == "" || newName == "") esRename(name);
-    //     else if (name != oldName) return true;
-
-    //     rewriter.ReplaceText(PVD->getLocation(), name.size(), newName);
-    //     rewriter.overwriteChangedFiles();
-
-    //     return true;
-    // }
-
     bool VisitVarDecl(VarDecl *VD) {
-        const DeclContext *ParentContext = VD->getParentFunctionOrMethod()->getParent();
-
         std::string name = VD->getNameAsString();
 
-        llvm::outs() << "VarDecl: " << name <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(VD->getLocation(), name.size(), newName);
-
             rewriter.overwriteChangedFiles();
         }
 
         if (VD->getType().getAsString() == oldName + " *") {
-            llvm::outs() << VD->getType().getAsString() <<"\n";
             rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
             rewriter.overwriteChangedFiles();
         }
 
         if (VD->getType().getAsString() == oldName) {
-            llvm::outs() << VD->getType().getAsString() <<"\n";
             rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
             rewriter.overwriteChangedFiles();
         }
@@ -120,14 +78,11 @@ public:
     bool VisitCXXRecordDecl(CXXRecordDecl *CXXRD) {
         std::string name = CXXRD->getNameAsString();
 
-        llvm::outs() << "CXXRecordDecl: " << name << " " << oldName <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(CXXRD->getLocation(), name.size(), newName);
 
             const CXXDestructorDecl *CXXDD = CXXRD->getDestructor();
-            if (CXXDD) {
-                rewriter.ReplaceText(CXXDD->getLocation(), name.size() + 1, "~" + newName);
-            }
+            if (CXXDD) rewriter.ReplaceText(CXXDD->getLocation(), name.size() + 1, "~" + newName);
 
             rewriter.overwriteChangedFiles();
         }
@@ -138,7 +93,6 @@ public:
     bool VisitCXXNewExpr(CXXNewExpr *CXXNE) {
         std::string name = CXXNE->getConstructExpr()->getType().getAsString();
 
-        llvm::outs() << "CXXRecordDecl: " << name <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(CXXNE->getExprLoc(), name.size() + 4, "new " + newName);
             rewriter.overwriteChangedFiles();
@@ -156,17 +110,13 @@ public:
 
     void HandleTranslationUnit(ASTContext &Context) override {
         visitor.TraverseDecl(Context.getTranslationUnitDecl());
-
-        // makeRule(declRefExpr(to(functionDecl(hasName("sum")))),
-        //         changeTo(cat("renamed")),
-        //         cat("'sum' has been renamed 'renamed'"));
     }
 };
 
 class RenameIdPlugin: public clang::PluginASTAction {
 private:
-    std::string OldName = "";
-    std::string NewName = "";
+    std::string OldName;
+    std::string NewName;
 protected:
     bool ParseArgs(const clang::CompilerInstance &Compiler,
         const std::vector<std::string> &args) override {
