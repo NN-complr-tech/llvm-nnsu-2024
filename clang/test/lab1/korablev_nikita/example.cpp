@@ -13,5 +13,7 @@ int sum(int a, int b) {
 
 void func2() {
     A* a = new A;
+    A b;
+
     delete a;
 };

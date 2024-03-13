@@ -34,8 +34,9 @@ public:
 
     bool VisitFunctionDecl(FunctionDecl *FD) {
         std::string name = FD->getNameAsString();
+        
+        llvm::outs() << "FunctionDecl: " << name << "\n";
 
-        llvm::outs() << "FunctionDecl: " << name <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(FD->getNameInfo().getSourceRange(), newName);
             rewriter.overwriteChangedFiles();
@@ -91,25 +92,43 @@ public:
 
     bool VisitVarDecl(VarDecl *VD) {
         const DeclContext *ParentContext = VD->getParentFunctionOrMethod()->getParent();
-        llvm::outs() << VD->getType().getAsString() <<"\n";
 
         std::string name = VD->getNameAsString();
 
         llvm::outs() << "VarDecl: " << name <<"\n";
         if (name == oldName) {
             rewriter.ReplaceText(VD->getLocation(), name.size(), newName);
+
+            rewriter.overwriteChangedFiles();
+        }
+
+        if (VD->getType().getAsString() == oldName + " *") {
+            llvm::outs() << VD->getType().getAsString() <<"\n";
+            rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
+            rewriter.overwriteChangedFiles();
+        }
+
+        if (VD->getType().getAsString() == oldName) {
+            llvm::outs() << VD->getType().getAsString() <<"\n";
+            rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
             rewriter.overwriteChangedFiles();
         }
 
         return true;
     }
 
-    bool VisitCXXRecordDecl(CXXRecordDecl *CRD) {
-        std::string name = CRD->getNameAsString();
+    bool VisitCXXRecordDecl(CXXRecordDecl *CXXRD) {
+        std::string name = CXXRD->getNameAsString();
 
-        llvm::outs() << "CXXRecordDecl: " << name <<"\n";
-        if (name != oldName) {
-            rewriter.ReplaceText(CRD->getLocation(), name.size(), newName);
+        llvm::outs() << "CXXRecordDecl: " << name << " " << oldName <<"\n";
+        if (name == oldName) {
+            rewriter.ReplaceText(CXXRD->getLocation(), name.size(), newName);
+
+            const CXXDestructorDecl *CXXDD = CXXRD->getDestructor();
+            if (CXXDD) {
+                rewriter.ReplaceText(CXXDD->getLocation(), name.size() + 1, "~" + newName);
+            }
+
             rewriter.overwriteChangedFiles();
         }
 
@@ -127,7 +146,6 @@ public:
 
         return true;
     }
-
 };
 
 class RenameIdConsumer : public ASTConsumer {
