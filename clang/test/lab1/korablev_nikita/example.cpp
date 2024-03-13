@@ -1,3 +1,17 @@
-int sun(int a, int b) {
+class A {
+public:
+    A() {};
+    ~A();
+};
+
+int sum(int a, int b) {
+    int c = sum(1, 2);
+    c++;
+    a += b;
     return a+b;
+};
+
+void func2() {
+    A* a = new A;
+    delete a;
 };
