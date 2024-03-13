@@ -14,9 +14,9 @@ class AlwaysInlineVisitor : public RecursiveASTVisitor<AlwaysInlineVisitor> {
   AlwaysInlineVisitor(ASTContext *myContext) : myContext(myContext) {}
 
   bool VisitFunctionDecl(FunctionDecl *func) {
-    
+
     if (func->isInlined()) {
-      return true; // Function is already inline, no need to add the attribute
+      return true;
     }
     Stmt *Body = func->getBody();
       if (Body && isa<CompoundStmt>(Body)) {
