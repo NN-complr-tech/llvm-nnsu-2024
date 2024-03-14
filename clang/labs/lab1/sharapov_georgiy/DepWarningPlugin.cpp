@@ -1,6 +1,7 @@
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Basic/SourceLocation.h"
+#include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/Lex/Lexer.h"
@@ -86,8 +87,11 @@ protected:
       } else if (Arg.find("--attr-style=") == 0) {
         attrStyle = Arg.substr(std::string("--attr-style=").length());
         if (attrStyle != "c++14" && attrStyle != "gcc" && attrStyle != "both") {
-          llvm::outs() << "\n  Invalid value for attr-style. Using default "
-                          "value 'both'.\n\n";
+          clang::DiagnosticsEngine &Diag = Compiler.getDiagnostics();
+          unsigned DiagID = Diag.getCustomDiagID(
+              clang::DiagnosticsEngine::Warning,
+              "Invalid value for attr-style. Using default value 'both'.");
+          Diag.Report(DiagID);
           attrStyle = "both";
         }
       }
