@@ -1,4 +1,5 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassMembersPlugin%pluginext -plugin pcm_plugin %s 1>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassMembersPlugin%pluginext -plugin
+// pcm_plugin %s 1>&1 | FileCheck %s
 
 namespace {
 // CHECK: Point3D (struct)
@@ -59,4 +60,15 @@ struct User {
     int m_cash{};
   };
 };
+
+class CheckStatic {
+  static float staticMember;
+};
+
+float CheckStatic::staticMember = 0;
+
+class CheckConst {
+  const char constMember{};
+};
+
 } // namespace
