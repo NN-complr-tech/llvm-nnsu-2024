@@ -16,6 +16,7 @@ public:
     }
     return true;
   }
+  ASTContext *Context;
 };
 
 class PrintClassConsumer : public ASTConsumer {
@@ -23,7 +24,7 @@ public:
   explicit PrintClassConsumer(CompilerInstance &CI)
       : Visitor(&CI.getASTContext()) {}
 
-  virtual void HandleTranslationUnit(ASTContext &Context) {
+  void HandleTranslationUnit(ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 
@@ -41,7 +42,7 @@ public:
   }
 
   bool ParseArgs(const CompilerInstance &CI,
-                 const std::vector<std::string> &args) {
+                 const std::vector<std::string> &args) override {
     return true;
   }
 };
