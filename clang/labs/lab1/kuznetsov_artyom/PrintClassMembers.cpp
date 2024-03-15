@@ -14,14 +14,20 @@ public:
     if (declaration->isStruct() || declaration->isClass()) {
       outInfoUserType(declaration);
 
-      auto members = declaration->fields();
-
-      for (const auto &member : members) {
-        llvm::outs() << "|_ " << member->getNameAsString() << ' ';
-        llvm::outs() << '(' << getTypeString(member) << '|';
-        llvm::outs() << getAccessSpecifierAsString(member) << ")\n";
+      for (const auto &decl : declaration->decls()) {
+        if (auto notStaticMember = llvm::dyn_cast<clang::FieldDecl>(decl)) {
+          llvm::outs() << "|_ " << notStaticMember->getNameAsString() << ' ';
+          llvm::outs() << '(' << getTypeAsString(notStaticMember) << '|';
+          llvm::outs() << getAccessSpecifierAsString(notStaticMember) << ")\n";
+        } else if (auto staticMember = llvm::dyn_cast<clang::VarDecl>(decl)) {
+          if (staticMember->isStaticDataMember()) {
+            llvm::outs() << "|_ " << staticMember->getNameAsString() << ' ';
+            llvm::outs() << '(' << getTypeAsString(staticMember) << '|';
+            llvm::outs() << getAccessSpecifierAsString(staticMember)
+                         << "|static)\n";
+          }
+        }
       }
-
       llvm::outs() << '\n';
     }
     return true;
@@ -34,12 +40,12 @@ private:
     llvm::outs() << (userType->isTemplated() ? "|template)" : ")") << '\n';
   }
 
-  std::string getTypeString(const clang::FieldDecl *member) {
+  std::string getTypeAsString(const clang::ValueDecl *member) {
     clang::QualType type = member->getType();
     return type.getAsString();
   }
 
-  std::string getAccessSpecifierAsString(const clang::FieldDecl *member) {
+  std::string getAccessSpecifierAsString(const clang::ValueDecl *member) {
     switch (member->getAccess()) {
     case clang::AS_public:
       return "public";

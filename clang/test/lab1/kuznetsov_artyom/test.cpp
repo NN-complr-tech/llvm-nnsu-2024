@@ -1,5 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassMembersPlugin%pluginext -plugin
-// pcm_plugin %s 1>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassMembersPlugin%pluginext -plugin pcm_plugin %s 1>&1 | FileCheck %s
 
 namespace {
 // CHECK: Point3D (struct)
@@ -48,27 +47,42 @@ private:
 };
 
 // CHECK: User (struct)
-struct User {
-  // CHECK-NEXT: |_ m_id (int|public)
-  int m_id{};
+// CHECK-NEXT: |_ m_id (int|public)
+// CHECK-NEXT: |_ m_human (Human|public)
 
-  // CHECK: Human (struct)
+// CHECK: Human (struct)
+// CHECK-NEXT: |_ m_age (int|public)
+// CHECK-NEXT: |_ m_cash (int|public)
+
+struct User {
   struct Human {
-    // CHECK-NEXT: |_ m_age (int|public)
     int m_age{};
-    // CHECK-NEXT: |_ m_cash (int|public)
     int m_cash{};
   };
+  int m_id{};
+  Human m_human{};
 };
 
+// CHECK: CheckStatic (class)
 class CheckStatic {
-  static float staticMember;
+  // CHECK-NEXT: |_ m_staticMember (float|private|static)
+  static float m_staticMember;
 };
 
-float CheckStatic::staticMember = 0;
+float CheckStatic::m_staticMember = 0.0f;
 
+// CHECK: CheckConst (class)
 class CheckConst {
-  const char constMember{};
+  // CHECK-NEXT: |_ m_constMember (const char|private)
+  const char m_constMember{};
 };
+
+// CHECK: CheckStaticConstTemplate (class|template)
+template <typename T> class CheckStaticConstTemplate {
+  // CHECK-NEXT: |_ m_member (const T|private|static)
+  static const T m_member;
+};
+
+template <typename T> const T CheckStaticConstTemplate<T>::m_member{};
 
 } // namespace
