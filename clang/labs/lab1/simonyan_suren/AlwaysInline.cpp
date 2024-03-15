@@ -7,19 +7,18 @@
 using namespace clang;
 
 class AlwaysInlineVisitor : public RecursiveASTVisitor<AlwaysInlineVisitor> {
-  private:
+private:
   ASTContext *myContext;
 
-  public:
+public:
   AlwaysInlineVisitor(ASTContext *myContext) : myContext(myContext) {}
 
   bool VisitFunctionDecl(FunctionDecl *func) {
-
     if (func->isInlined()) {
       return true;
     }
     Stmt *Body = func->getBody();
-      if (Body && isa<CompoundStmt>(Body)) {
+    if (Body && isa<CompoundStmt>(Body)) {
       CompoundStmt *BodyCompound = cast<CompoundStmt>(Body);
       bool hasConditions = false;
       for (Stmt *S : BodyCompound->body()) {
@@ -30,13 +29,21 @@ class AlwaysInlineVisitor : public RecursiveASTVisitor<AlwaysInlineVisitor> {
       }
       if (!hasConditions) {
         func->addAttr(AlwaysInlineAttr::CreateImplicit(*myContext));
-        llvm::outs() << "__attribute__((always_inline)) "
-        << func->getNameAsString() << "\n";
+
+        if (func->hasAttr<AlwaysInlineAttr>()) {
+          llvm::outs() << "AlwaysInlineAttr added successfully to function "
+                       << func->getNameAsString() << ""
+                       << "\n";
+        } else {
+          llvm::outs() << "Failed to add AlwaysInlineAttr to function "
+                       << func->getNameAsString() << ""
+                       << "\n";
+        }
       }
     }
     return true;
   }
-  };
+};
 
 class AlwaysInlineConsumer : public ASTConsumer {
 public:
@@ -53,8 +60,7 @@ private:
 class AlwaysInlinePlugin : public PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(CompilerInstance &Compiler,
-                    llvm::StringRef) override {
+  CreateASTConsumer(CompilerInstance &Compiler, llvm::StringRef) override {
     return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
   }
   bool ParseArgs(const CompilerInstance &Compiler,
@@ -64,4 +70,5 @@ public:
 };
 
 static FrontendPluginRegistry::Add<AlwaysInlinePlugin>
-    X("always-inlines-plugin", "Print a function without conditions with an attribute");
+    X("always-inlines-plugin",
+      "Print a function without conditions with an attribute");
