@@ -15,4 +15,15 @@ class MyClass1 {
     float var;
     // CHECK-NEXT: |_var1
     double var1;
+    // CHECK: InClass
+    class InClass {
+        //CHECK-NEXT: |_InVar
+        int InVar;
+    };
+};
+
+// CHECK: TClass
+template<typename T> class TClass {
+    // CHECK-NEXT: TVar
+    T TVar;
 };

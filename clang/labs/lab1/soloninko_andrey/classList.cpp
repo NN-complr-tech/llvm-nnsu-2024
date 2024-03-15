@@ -4,11 +4,9 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 
-using namespace clang;
-
-class PrintClass : public RecursiveASTVisitor<PrintClass> {
+class PrintClass : public clang::RecursiveASTVisitor<PrintClass> {
 public:
-  bool VisitCXXRecordDecl(CXXRecordDecl *declaration) {
+  bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
       llvm::outs() << declaration->getNameAsString() << "\n";
       for (auto field_member : declaration->fields()) {
@@ -20,22 +18,22 @@ public:
   }
 };
 
-class MyASTConsumer : public ASTConsumer {
+class MyASTConsumer : public clang::ASTConsumer {
 public:
   PrintClass Visitor;
-  void HandleTranslationUnit(ASTContext &Context) override {
+  void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
 
-class PrintClassAction : public PluginASTAction {
+class PrintClassAction : public clang::PluginASTAction {
 public:
-  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &ci,
+  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &ci,
                                                  llvm::StringRef) override {
     return std::make_unique<MyASTConsumer>();
   }
 
-  bool ParseArgs(const CompilerInstance &ci,
+  bool ParseArgs(const clang::CompilerInstance &ci,
                  const std::vector<std::string> &args) override {
     return true;
   }
@@ -43,4 +41,3 @@ public:
 
 static clang::FrontendPluginRegistry::Add<PrintClassAction>
     X("class_list_plugin", "Prints all members of the class");
-    
