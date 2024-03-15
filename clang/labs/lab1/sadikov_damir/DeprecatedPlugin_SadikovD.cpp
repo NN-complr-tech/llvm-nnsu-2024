@@ -13,7 +13,7 @@ public:
           FunDec->getASTContext().getDiagnostics();
       unsigned DiagID =
           Diags.getCustomDiagID(clang::DiagnosticsEngine::Warning,
-                                "Function name contains 'deprecated'");
+                                "Name of function '%0' contains 'deprecated'");
       Diags.Report(FunDec->getLocation(), DiagID) << FunctionName;
     }
     return true;
