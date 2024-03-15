@@ -1,5 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassPlugin%pluginext -add-plugin print-class-plugin %s | FileCheck %s
-
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassPlugin%pluginext -plugin print-class-plugin %s | FileCheck %s
 class SimpleClass {
     int a;
     float b;
@@ -58,3 +57,6 @@ struct Computer {
 // CHECK-NEXT: |_size
 // CHECK: Motherboard
 // CHECK: GPU
+
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassPlugin%pluginext -plugin print-class-plugin %s -plugin-arg-print-class-plugin help 2>&1 | FileCheck %s --check-prefix=HELP
+// HELP: #Help for the Clang
