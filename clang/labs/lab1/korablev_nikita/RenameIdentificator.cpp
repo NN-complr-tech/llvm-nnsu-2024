@@ -7,32 +7,16 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/ADT/StringRef.h"
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/ASTMatchers/ASTMatchers.h"
-#include "clang/Tooling/Transformer/RewriteRule.h"
-#include "clang/Tooling/Transformer/Transformer.h"
-#include "clang/Tooling/Transformer/Stencil.h"
-
-using namespace clang;
-using namespace clang::ast_matchers;
-using namespace clang::transformer;
-
-using ::clang::transformer::changeTo;
-using ::clang::transformer::makeRule;
-using ::clang::transformer::RewriteRuleWith;
-
-
-
-class RenameVisitor: public RecursiveASTVisitor<RenameVisitor> {
+class RenameVisitor: public clang::RecursiveASTVisitor<RenameVisitor> {
 private:
-    Rewriter rewriter;
+    clang::Rewriter rewriter;
     std::string oldName;
     std::string newName;
 public:
-    explicit RenameVisitor(Rewriter Rewriter, std::string OldName,
+    explicit RenameVisitor(clang::Rewriter Rewriter, std::string OldName,
                                  std::string NewName) : rewriter(Rewriter), oldName(OldName), newName(NewName) {};
 
-    bool VisitFunctionDecl(FunctionDecl *FD) {
+    bool VisitFunctionDecl(clang::FunctionDecl *FD) {
         std::string name = FD->getNameAsString();
         
         if (name == oldName) {
@@ -43,7 +27,7 @@ public:
         return true;
     }
 
-    bool VisitDeclRefExpr(DeclRefExpr *DRE) {
+    bool VisitDeclRefExpr(clang::DeclRefExpr *DRE) {
         std::string name = DRE->getNameInfo().getAsString();
 
         if (name == oldName) {
@@ -54,7 +38,7 @@ public:
         return true;
     }
 
-    bool VisitVarDecl(VarDecl *VD) {
+    bool VisitVarDecl(clang::VarDecl *VD) {
         std::string name = VD->getNameAsString();
 
         if (name == oldName) {
@@ -62,12 +46,7 @@ public:
             rewriter.overwriteChangedFiles();
         }
 
-        if (VD->getType().getAsString() == oldName + " *") {
-            rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
-            rewriter.overwriteChangedFiles();
-        }
-
-        if (VD->getType().getAsString() == oldName) {
+        if (VD->getType().getAsString() == oldName + " *" || VD->getType().getAsString() == oldName) {
             rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(), name.size(), newName);
             rewriter.overwriteChangedFiles();
         }
@@ -75,13 +54,13 @@ public:
         return true;
     }
 
-    bool VisitCXXRecordDecl(CXXRecordDecl *CXXRD) {
+    bool VisitCXXRecordDecl(clang::CXXRecordDecl *CXXRD) {
         std::string name = CXXRD->getNameAsString();
 
         if (name == oldName) {
             rewriter.ReplaceText(CXXRD->getLocation(), name.size(), newName);
 
-            const CXXDestructorDecl *CXXDD = CXXRD->getDestructor();
+            const clang::CXXDestructorDecl *CXXDD = CXXRD->getDestructor();
             if (CXXDD) rewriter.ReplaceText(CXXDD->getLocation(), name.size() + 1, "~" + newName);
 
             rewriter.overwriteChangedFiles();
@@ -90,7 +69,7 @@ public:
         return true;
     }
 
-    bool VisitCXXNewExpr(CXXNewExpr *CXXNE) {
+    bool VisitCXXNewExpr(clang::CXXNewExpr *CXXNE) {
         std::string name = CXXNE->getConstructExpr()->getType().getAsString();
 
         if (name == oldName) {
@@ -102,13 +81,13 @@ public:
     }
 };
 
-class RenameIdConsumer : public ASTConsumer {
+class RenameIdConsumer : public clang::ASTConsumer {
     RenameVisitor visitor;
 public:
-    explicit RenameIdConsumer(CompilerInstance &CI, std::string oldName, std::string newName): 
+    explicit RenameIdConsumer(clang::CompilerInstance &CI, std::string oldName, std::string newName): 
                 visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()), oldName, newName) {}
 
-    void HandleTranslationUnit(ASTContext &Context) override {
+    void HandleTranslationUnit(clang::ASTContext &Context) override {
         visitor.TraverseDecl(Context.getTranslationUnitDecl());
     }
 };
@@ -142,5 +121,5 @@ public:
     }
 };
 
-static FrontendPluginRegistry::Add<RenameIdPlugin>
+static clang::FrontendPluginRegistry::Add<RenameIdPlugin>
 X("renamed-id", "Idetificator was renamed.");
