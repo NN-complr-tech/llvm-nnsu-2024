@@ -59,7 +59,7 @@ public:
         << "NameClass\n"
         << "|_nameField\n\n"
         << "##Version\n"
-        << "Version 1.0\n\n";
+        << "Version 1.1\n\n";
   }
 };
 
