@@ -7,12 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Install clang-format
-      run: |
-        sudo apt-get install -y clang-format
-    - name: Run clang-format
-      run: |
-        git-clang-format --diff `git merge-base ${GITHUB_SHA} ${GITHUB_BASE_REF}`
+    - uses: DoozyX/clang-format-lint-action@v0.15
+      with:
+        source: '.'
   clang-tidy:
     runs-on: ubuntu-latest
     steps:
