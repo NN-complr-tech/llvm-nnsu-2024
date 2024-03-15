@@ -5,17 +5,12 @@
 
 class DeprecatedPluginVisitor
     : public clang::RecursiveASTVisitor<DeprecatedPluginVisitor> {
-private:
-  clang::ASTContext *Context;
-
 public:
-  explicit DeprecatedPluginVisitor(clang::CompilerInstance &Compiler)
-      : Context(&Compiler.getASTContext()) {}
-
   bool VisitFunctionDecl(clang::FunctionDecl *FunDec) {
     std::string FunctionName = FunDec->getNameInfo().getAsString();
     if (FunctionName.find("deprecated") != std::string::npos) {
-      clang::DiagnosticsEngine &Diags = Context->getDiagnostics();
+      clang::DiagnosticsEngine &Diags =
+          FunDec->getASTContext().getDiagnostics();
       unsigned DiagID =
           Diags.getCustomDiagID(clang::DiagnosticsEngine::Warning,
                                 "Function name contains 'deprecated'");
@@ -30,8 +25,6 @@ private:
   DeprecatedPluginVisitor Visitor;
 
 public:
-  explicit DeprecatedPluginConsumer(clang::CompilerInstance &Compiler)
-      : Visitor(Compiler) {}
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
@@ -42,7 +35,7 @@ public:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<DeprecatedPluginConsumer>(Compiler);
+    return std::make_unique<DeprecatedPluginConsumer>();
   }
 
 protected:
