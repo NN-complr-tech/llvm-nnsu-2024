@@ -9,79 +9,79 @@
 
 class RenameVisitor : public clang::RecursiveASTVisitor<RenameVisitor> {
 private:
-  clang::Rewriter rewriter;
-  std::string oldName;
-  std::string newName;
+  clang::Rewriter Rewriter;
+  std::string OldName;
+  std::string NewName;
 
 public:
   explicit RenameVisitor(clang::Rewriter Rewriter, std::string OldName,
                          std::string NewName)
-      : rewriter(Rewriter), oldName(OldName), newName(NewName){};
+      : Rewriter(Rewriter), OldName(OldName), NewName(NewName){};
 
   bool VisitFunctionDecl(clang::FunctionDecl *FD) {
-    std::string name = FD->getNameAsString();
+    std::string Name = FD->getNameAsString();
 
-    if (name == oldName) {
-      rewriter.ReplaceText(FD->getNameInfo().getSourceRange(), newName);
-      rewriter.overwriteChangedFiles();
+    if (Name == OldName) {
+      Rewriter.ReplaceText(FD->getNameInfo().getSourceRange(), NewName);
+      Rewriter.overwriteChangedFiles();
     }
 
     return true;
   }
 
   bool VisitDeclRefExpr(clang::DeclRefExpr *DRE) {
-    std::string name = DRE->getNameInfo().getAsString();
+    std::string Name = DRE->getNameInfo().getAsString();
 
-    if (name == oldName) {
-      rewriter.ReplaceText(DRE->getNameInfo().getSourceRange(), newName);
-      rewriter.overwriteChangedFiles();
+    if (Name == OldName) {
+      Rewriter.ReplaceText(DRE->getNameInfo().getSourceRange(), NewName);
+      Rewriter.overwriteChangedFiles();
     }
 
     return true;
   }
 
   bool VisitVarDecl(clang::VarDecl *VD) {
-    std::string name = VD->getNameAsString();
+    std::string Name = VD->getNameAsString();
 
-    if (name == oldName) {
-      rewriter.ReplaceText(VD->getLocation(), name.size(), newName);
-      rewriter.overwriteChangedFiles();
+    if (Name == OldName) {
+      Rewriter.ReplaceText(VD->getLocation(), Name.size(), NewName);
+      Rewriter.overwriteChangedFiles();
     }
 
-    if (VD->getType().getAsString() == oldName + " *" ||
-        VD->getType().getAsString() == oldName) {
-      rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(),
-                           name.size(), newName);
-      rewriter.overwriteChangedFiles();
+    if (VD->getType().getAsString() == OldName + " *" ||
+        VD->getType().getAsString() == OldName) {
+      Rewriter.ReplaceText(VD->getTypeSourceInfo()->getTypeLoc().getBeginLoc(),
+                           Name.size(), NewName);
+      Rewriter.overwriteChangedFiles();
     }
 
     return true;
   }
 
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *CXXRD) {
-    std::string name = CXXRD->getNameAsString();
+    std::string Name = CXXRD->getNameAsString();
 
-    if (name == oldName) {
-      rewriter.ReplaceText(CXXRD->getLocation(), name.size(), newName);
+    if (Name == OldName) {
+      Rewriter.ReplaceText(CXXRD->getLocation(), Name.size(), NewName);
 
       const clang::CXXDestructorDecl *CXXDD = CXXRD->getDestructor();
       if (CXXDD)
-        rewriter.ReplaceText(CXXDD->getLocation(), name.size() + 1,
-                             "~" + newName);
+        Rewriter.ReplaceText(CXXDD->getLocation(), Name.size() + 1,
+                             "~" + NewName);
 
-      rewriter.overwriteChangedFiles();
+      Rewriter.overwriteChangedFiles();
     }
 
     return true;
   }
 
   bool VisitCXXNewExpr(clang::CXXNewExpr *CXXNE) {
-    std::string name = CXXNE->getConstructExpr()->getType().getAsString();
+    std::string Name = CXXNE->getConstructExpr()->getType().getAsString();
 
-    if (name == oldName) {
-      rewriter.ReplaceText(CXXNE->getExprLoc(), name.size() + 4,
-                           "new " + newName);
-      rewriter.overwriteChangedFiles();
+    if (Name == OldName) {
+      Rewriter.ReplaceText(CXXNE->getExprLoc(), Name.size() + 4,
+                           "new " + NewName);
+      Rewriter.overwriteChangedFiles();
     }
 
     return true;
@@ -92,10 +92,10 @@ class RenameIdConsumer : public clang::ASTConsumer {
   RenameVisitor visitor;
 
 public:
-  explicit RenameIdConsumer(clang::CompilerInstance &CI, std::string oldName,
-                            std::string newName)
+  explicit RenameIdConsumer(clang::CompilerInstance &CI, std::string OldName,
+                            std::string NewName)
       : visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()),
-                oldName, newName) {}
+                OldName, NewName) {}
 
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     visitor.TraverseDecl(Context.getTranslationUnitDecl());
