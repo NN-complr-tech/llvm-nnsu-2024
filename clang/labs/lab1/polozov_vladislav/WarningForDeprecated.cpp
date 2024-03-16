@@ -3,7 +3,7 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
-
+#include <algorithm>
 using namespace clang;
 
 class WarningDeprecatedConsumer : public ASTConsumer {
@@ -19,22 +19,9 @@ public:
       Visitor(ASTContext *_Context) : Context(_Context) {}
       bool VisitFunctionDecl(FunctionDecl *FD) {
         std::string want_find = "deprecated";
-        bool find = false;
         std::string name = FD->getNameInfo().getAsString();
-        for (int i = 0; i + want_find.size() - 1 < name.size(); i++) {
-          bool ok = true;
-          for (int j = 0; j < want_find.size(); j++) {
-            if (want_find[j] != name[i + j]) {
-              ok = false;
-              break;
-            }
-          }
-          if (ok) {
-            find = true;
-            break;
-          }
-        }
-        if (find) {
+        std::transform(name.begin(),name.end(),name.begin(), ::tolower);
+        if (name.find(want_find) != std::string::npos) {
           DiagnosticsEngine &Diags = Context->getDiagnostics();
           unsigned DiagID = Diags.getCustomDiagID(
               DiagnosticsEngine::Warning, "find 'deprecated' in function name");
