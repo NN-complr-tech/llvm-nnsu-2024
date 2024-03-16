@@ -15,7 +15,7 @@ public:
             llvm::outs() << "  |_ " << field->getNameAsString() << "\n";
         } else if (auto *staticField = clang::dyn_cast<clang::VarDecl>(decl)) {
             if (staticField->isStaticDataMember()) {
-                llvm::outs() << "  |_ (static) " << staticField->getNameAsString() << "\n";
+                llvm::outs() << "  |_ " << staticField->getNameAsString() << "\n";
             }
         }
     }
