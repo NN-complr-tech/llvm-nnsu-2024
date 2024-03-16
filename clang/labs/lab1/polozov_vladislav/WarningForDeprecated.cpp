@@ -31,8 +31,8 @@ public:
         return true;
       }
     };
-    Visitor MyVisitor(&Instance.getASTContext());
-    MyVisitor.TraverseDecl(context.getTranslationUnitDecl());
+    Visitor Visitor(&Instance.getASTContext());
+    Visitor.TraverseDecl(context.getTranslationUnitDecl());
   }
 };
 
