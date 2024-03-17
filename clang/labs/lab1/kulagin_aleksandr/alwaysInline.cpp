@@ -24,9 +24,11 @@ namespace {
           if (body != nullptr) {
             bool cond_found = false;
             for (clang::Stmt* st : body->children()) {
-              if (clang::isa<clang::IfStmt>(st) ||
-              clang::isa<clang::WhileStmt>(st) || clang::isa<clang::ForStmt>(st)
-              || clang::isa<clang::DoStmt>(st)) {
+              if (clang::isa<clang::IfStmt>(st)
+              || clang::isa<clang::WhileStmt>(st)
+              || clang::isa<clang::ForStmt>(st)
+              || clang::isa<clang::DoStmt>(st)
+              || clang::isa<clang::SwitchStmt>(st)) {
                 cond_found = true;
                 break;
               }

@@ -59,8 +59,20 @@ void foo7() {
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo8 'int \(int, int\)'}}
-int foo8(int a, int b) {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo8 'void \(\)'}}
+void foo8() {
+  int a = 1;
+  switch (a) {
+    case 1:
+      break;
+    default:
+      break;
+  }
+}
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo9 'int \(int, int\)'}}
+int foo9(int a, int b) {
   int c;
   c = a+b;
   return c;
