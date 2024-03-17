@@ -38,21 +38,21 @@ public:
 
 class ClassMembersPrinter final : public clang::RecursiveASTVisitor<ClassMembersPrinter> {
 public:
-  explicit ClassMembersPrinter(clang::ASTContext *Context) : Context_(Context) {}
+  explicit ClassMembersPrinter(clang::ASTContext *Context) : Context(Context) {}
 
-  bool VisitCXXRecordDecl(clang::CXXRecordDecl *Declaration) {
+  bool visitCXXRecordDecl(clang::CXXRecordDecl *Declaration) {
     if (Declaration->isStruct() || Declaration->isClass()) {
-      UserTypePrinter_.print(Declaration);
+      UserPrinter.print(Declaration);
 
       for (const auto &Decl : Declaration->decls()) {
         if (auto Field = llvm::dyn_cast<clang::FieldDecl>(Decl)) {
-          MemberInfoPrinter_.print(Field, "field");
+          MemberPrinter.print(Field, "field");
         } else if (auto Var = llvm::dyn_cast<clang::VarDecl>(Decl)) {
           if (Var->isStaticDataMember()) {
-            MemberInfoPrinter_.print(Var, "static");
+            MemberPrinter.print(Var, "static");
           }
         } else if (auto Method = llvm::dyn_cast<clang::CXXMethodDecl>(Decl)) {
-          MemberInfoPrinter_.print(Method, "method");
+          MemberPrinter.print(Method, "method");
         }
       }
       llvm::outs() << '\n';
@@ -61,21 +61,21 @@ public:
   }
 
 private:
-  clang::ASTContext *Context_;
-  MemberInfoPrinter MemberInfoPrinter_;
-  UserTypePrinter UserTypePrinter_;
+  clang::ASTContext *Context;
+  MemberInfoPrinter MemberPrinter;
+  UserTypePrinter UserPrinter;
 };
 
 class ClassMembersConsumer final : public clang::ASTConsumer {
 public:
-  explicit ClassMembersConsumer(clang::ASTContext *Context) : Visitor_(Context) {}
+  explicit ClassMembersConsumer(clang::ASTContext *Context) : Visitor(Context) {}
 
   void HandleTranslationUnit(clang::ASTContext &Context) override {
-    Visitor_.TraverseDecl(Context.getTranslationUnitDecl());
+    Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 
 private:
-  ClassMembersPrinter Visitor_;
+  ClassMembersPrinter Visitor;
 };
 
 class ClassFieldPrinterAction final : public clang::PluginASTAction {

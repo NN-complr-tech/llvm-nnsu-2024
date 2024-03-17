@@ -6,8 +6,8 @@ class Empty {};
 // CHECK: Data (class)
 class Data {
 public:
-  int a; // CHECK-NEXT: |_ a (int|public)
-  static int b; // CHECK-NEXT: |_ b (int|public|static)
+  int A; // CHECK-NEXT: |_ A (int|public)
+  static int B; // CHECK-NEXT: |_ B (int|public|static)
   void func() {} // CHECK-NEXT: |_ func (void (void)|public|method)
 };
 
@@ -15,55 +15,55 @@ public:
 template <typename T>
 class Template {
 public:
-  T value; // CHECK-NEXT: |_ value (T|public)
+  T Value; // CHECK-NEXT: |_ Value (T|public)
 };
 
 // CHECK: TestClass (class)
 class TestClass {
 public:
-  int publicInt; // CHECK-NEXT: |_ publicInt (int|public)
-  static int publicStaticInt; // CHECK-NEXT: |_ publicStaticInt (int|public|static)
+  int PublicInt; // CHECK-NEXT: |_ PublicInt (int|public)
+  static int PublicStaticInt; // CHECK-NEXT: |_ PublicStaticInt (int|public|static)
   void publicFunc() {} // CHECK-NEXT: |_ publicFunc (void (void)|public|method)
 
 private:
-  int privateInt; // CHECK-NEXT: |_ privateInt (int|private)
-  static int privateStaticInt; // CHECK-NEXT: |_ privateStaticInt (int|private|static)
+  int PrivateInt; // CHECK-NEXT: |_ PrivateInt (int|private)
+  static int PrivateStaticInt; // CHECK-NEXT: |_ PrivateStaticInt (int|private|static)
   void privateFunc() {} // CHECK-NEXT: |_ privateFunc (void (void)|private|method)
 };
 
 // CHECK: AnotherTestClass (class)
 class AnotherTestClass {
 public:
-  double publicDouble; // CHECK-NEXT: |_ publicDouble (double|public)
-  static double publicStaticDouble; // CHECK-NEXT: |_ publicStaticDouble (double|public|static)
+  double PublicDouble; // CHECK-NEXT: |_ PublicDouble (double|public)
+  static double PublicStaticDouble; // CHECK-NEXT: |_ PublicStaticDouble (double|public|static)
   double publicFunc(); // CHECK-NEXT: |_ publicFunc (double (void)|public|method)
 
-  Template<TestClass> t_TestClass; // CHECK-NEXT: |_ t_TestClass (Template<TestClass>|public)
+  Template<TestClass> TTestClass; // CHECK-NEXT: |_ TTestClass (Template<TestClass>|public)
 
 private:
-  double privateDouble; // CHECK-NEXT: |_ privateDouble (double|private)
-  static double privateStaticDouble; // CHECK-NEXT: |_ privateStaticDouble (double|private|static)
-  float privateFunc(const char* str); // CHECK-NEXT: privateFunc (float (const char *)|private|method)
+  double PrivateDouble; // CHECK-NEXT: |_ PrivateDouble (double|private)
+  static double PrivateStaticDouble; // CHECK-NEXT: |_ PrivateStaticDouble (double|private|static)
+  float privateFunc(const char* Str); // CHECK-NEXT: privateFunc (float (const char *)|private|method)
 };
 
 // CHECK: DerivedClass (class)
 class DerivedClass : public TestClass {
 public:
-  int derivedPublicInt; // CHECK-NEXT: |_ derivedPublicInt (int|public)
-  static int derivedPublicStaticInt; // CHECK-NEXT: |_ derivedPublicStaticInt (int|public|static)
-  TestClass derivedPublicFunc(Template<int> data, Template<const char*> data_str); // CHECK-NEXT: |_ derivedPublicFunc (TestClass (Template<int>, Template<const char *>)|public|method)
+  int DerivedPublicInt; // CHECK-NEXT: |_ DerivedPublicInt (int|public)
+  static int DerivedPublicStaticInt; // CHECK-NEXT: |_ DerivedPublicStaticInt (int|public|static)
+  TestClass derivedPublicFunc(Template<int> Data, Template<const char*> DataStr); // CHECK-NEXT: |_ derivedPublicFunc (TestClass (Template<int>, Template<const char *>)|public|method)
 
-  AnotherTestClass classField; // CHECK-NEXT: |_ classField (AnotherTestClass|public)
+  AnotherTestClass ClassField; // CHECK-NEXT: |_ ClassField (AnotherTestClass|public)
 
 private:
-  int derivedPrivateInt; // CHECK-NEXT: |_ derivedPrivateInt (int|private)
-  static int derivedPrivateStaticInt; // CHECK-NEXT: |_ derivedPrivateStaticInt (int|private|static)
+  int DerivedPrivateInt; // CHECK-NEXT: |_ DerivedPrivateInt (int|private)
+  static int DerivedPrivateStaticInt; // CHECK-NEXT: |_ DerivedPrivateStaticInt (int|private|static)
   void derivedPrivateFunc(); // CHECK-NEXT: |_ derivedPrivateFunc (void (void)|private|method)
-  Template<Template<TestClass>> t_TestClass; // CHECK-NEXT: |_ t_TestClass (Template<Template<TestClass> >|private)
+  Template<Template<TestClass>> TTestClass; // CHECK-NEXT: |_ TTestClass (Template<Template<TestClass> >|private)
 };
 
 // CHECK: MyStruct (struct)
 struct MyStruct {
-  int x; // CHECK-NEXT: |_ x (int|public)
-  double y; // CHECK-NEXT: |_ y (double|public)
+  int X; // CHECK-NEXT: |_ X (int|public)
+  double Y; // CHECK-NEXT: |_ Y (double|public)
 };
