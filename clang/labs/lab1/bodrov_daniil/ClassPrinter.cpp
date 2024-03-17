@@ -6,16 +6,16 @@
 
 class MemberInfoPrinter {
 public:
-  void print(const clang::ValueDecl *member, const std::string &memberType) {
-    llvm::outs() << "|_ " << member->getNameAsString() << ' ';
-    llvm::outs() << '(' << member->getType().getAsString() << '|';
-    llvm::outs() << getAccessSpecifierAsString(member)
-                 << (memberType == "field" ? ")" : ("|" + memberType + ")")) << "\n";
+  void print(const clang::ValueDecl *Member, const std::string &MemberType) {
+    llvm::outs() << "|_ " << Member->getNameAsString() << ' ';
+    llvm::outs() << '(' << Member->getType().getAsString() << '|';
+    llvm::outs() << getAccessSpecifierAsString(Member)
+                 << (MemberType == "field" ? ")" : ("|" + MemberType + ")")) << "\n";
   }
 
 private:
-  std::string getAccessSpecifierAsString(const clang::ValueDecl *member) {
-    switch (member->getAccess()) {
+  std::string getAccessSpecifierAsString(const clang::ValueDecl *Member) {
+    switch (Member->getAccess()) {
     case clang::AS_public:
       return "public";
     case clang::AS_protected:
@@ -30,31 +30,31 @@ private:
 
 class UserTypePrinter {
 public:
-  void print(clang::CXXRecordDecl *userType) {
-    llvm::outs() << userType->getNameAsString() << ' ';
-    llvm::outs() << (userType->isStruct() ? "(struct" : "(class");
-    llvm::outs() << (userType->isTemplated() ? "|template)" : ")") << '\n';
+  void print(clang::CXXRecordDecl *UserType) {
+    llvm::outs() << UserType->getNameAsString() << ' ';
+    llvm::outs() << (UserType->isStruct() ? "(struct" : "(class");
+    llvm::outs() << (UserType->isTemplated() ? "|template)" : ")") << '\n';
   }
 };
 
 class ClassMembersPrinter final
     : public clang::RecursiveASTVisitor<ClassMembersPrinter> {
 public:
-  explicit ClassMembersPrinter(clang::ASTContext *context) : context_(context) {}
+  explicit ClassMembersPrinter(clang::ASTContext *Context) : Context_(Context) {}
 
-  bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
-    if (declaration->isStruct() || declaration->isClass()) {
-      userTypePrinter_.print(declaration);
+  bool VisitCXXRecordDecl(clang::CXXRecordDecl *Declaration) {
+    if (Declaration->isStruct() || Declaration->isClass()) {
+      UserTypePrinter_.print(Declaration);
 
-      for (const auto &decl : declaration->decls()) {
-        if (auto field = llvm::dyn_cast<clang::FieldDecl>(decl)) {
-          memberInfoPrinter_.print(field, "field");
-        } else if (auto var = llvm::dyn_cast<clang::VarDecl>(decl)) {
-          if (var->isStaticDataMember()) {
-            memberInfoPrinter_.print(var, "static");
+      for (const auto &Decl : Declaration->decls()) {
+        if (auto Field = llvm::dyn_cast<clang::FieldDecl>(Decl)) {
+          MemberInfoPrinter_.print(Field, "field");
+        } else if (auto Var = llvm::dyn_cast<clang::VarDecl>(Decl)) {
+          if (Var->isStaticDataMember()) {
+            MemberInfoPrinter_.print(Var, "static");
           }
-        } else if (auto method = llvm::dyn_cast<clang::CXXMethodDecl>(decl)) {
-          memberInfoPrinter_.print(method, "method");
+        } else if (auto Method = llvm::dyn_cast<clang::CXXMethodDecl>(Decl)) {
+          MemberInfoPrinter_.print(Method, "method");
         }
       }
       llvm::outs() << '\n';
@@ -63,33 +63,33 @@ public:
   }
 
 private:
-  clang::ASTContext *context_;
-  MemberInfoPrinter memberInfoPrinter_;
-  UserTypePrinter userTypePrinter_;
+  clang::ASTContext *Context_;
+  MemberInfoPrinter MemberInfoPrinter_;
+  UserTypePrinter UserTypePrinter_;
 };
 
 class ClassMembersConsumer final : public clang::ASTConsumer {
 public:
-  explicit ClassMembersConsumer(clang::ASTContext *context)
-      : visitor_(context) {}
+  explicit ClassMembersConsumer(clang::ASTContext *Context)
+      : Visitor_(Context) {}
 
-  void HandleTranslationUnit(clang::ASTContext &context) override {
-    visitor_.TraverseDecl(context.getTranslationUnitDecl());
+  void HandleTranslationUnit(clang::ASTContext &Context) override {
+    Visitor_.TraverseDecl(Context.getTranslationUnitDecl());
   }
 
 private:
-  ClassMembersPrinter visitor_;
+  ClassMembersPrinter Visitor_;
 };
 
 class ClassFieldPrinterAction final : public clang::PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
-    return std::make_unique<ClassMembersConsumer>(&ci.getASTContext());
+  CreateASTConsumer(clang::CompilerInstance &CI, llvm::StringRef) override {
+    return std::make_unique<ClassMembersConsumer>(&CI.getASTContext());
   }
 
-  bool ParseArgs(const clang::CompilerInstance &ci,
-                 const std::vector<std::string> &args) override {
+  bool ParseArgs(const clang::CompilerInstance &CI,
+                 const std::vector<std::string> &Args) override {
     return true;
   }
 };
