@@ -69,7 +69,10 @@ namespace {
               // TODO: wrap in ifs
               decl->dropAttr<clang::OptimizeNoneAttr>();
               decl->dropAttr<clang::NoInlineAttr>();
-              decl->addAttr(clang::AlwaysInlineAttr::Create(decl->getASTContext()));
+              // TODO: how to put correct location??
+              clang::SourceLocation location(decl->getSourceRange().getBegin());
+              clang::SourceRange range(location);
+              decl->addAttr(clang::AlwaysInlineAttr::Create(decl->getASTContext(), range));
             }
           }
         }
