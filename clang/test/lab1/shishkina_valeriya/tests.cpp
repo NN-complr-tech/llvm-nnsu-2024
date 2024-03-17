@@ -1,32 +1,32 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesNamePlugin%pluginext -plugin print-classes %s 1>&1 | FileCheck %s
 
-// CHECK: test1
-struct test1
+// CHECK: Test1
+struct Test1
 {
-    // CHECK-NEXT: |_ a
-    int a;
-    // CHECK-NEXT: |_ b
-    int b;
+    // CHECK-NEXT: |_ A
+    int A;
+    // CHECK-NEXT: |_ B
+    int B;
 };
 
-// CHECK: test2
-class test2
+// CHECK: Test2
+class Test2
 {
-    // CHECK-NEXT: |_ arr
-    double arr;
-    // CHECK-NEXT: |_ b
-    const int b = 2;
+    // CHECK-NEXT: |_ Arr
+    double Arr;
+    // CHECK-NEXT: |_ B
+    const int B = 2;
 };
 
-// CHECK: test3
-class test3
+// CHECK: Test3
+class Test3
 {
-    // CHECK-NEXT: |_ arg
-    static int arg;
+    // CHECK-NEXT: |_ Arg
+    static int Arg;
 public:
-    // CHECK-NEXT: |_ brr
-    int brr = 2;
+    // CHECK-NEXT: |_ Brr
+    int Brr = 2;
 };
 
-// CHECK: test4
-struct test4{};
+// CHECK: Test4
+struct Test4{};
