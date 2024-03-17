@@ -1,27 +1,31 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/"AlwaysInlinePlugin"%pluginext -add-plugin always-inlines-plugin | FileCheck %s
+// RUN: d:\gitrepos\llvm-nnsu-2024\build\bin\clang.exe -cc1 -internal-isystem d:/gitrepos/llvm-nnsu-2024/build/lib/clang/17/include -nostdsysteminc -load D:\GitRepos\llvm-nnsu-2024\build\bin/AlwaysInlinePlugin.dll -plugin always-inlines-plugin %s | d:\gitrepos\llvm-nnsu-2024\build\bin\filecheck.exe %s
 
+// CHECK: Added attribute always_inline in sum
+int sum(int A, int B) { return A + B; }
 
-// CHECK: AlwaysInlineAttr added successfully to function sum
-// CHECK: AlwaysInlineAttr added successfully to function fun_with_while
-
-int sum (int a, int b) { return a + b; }
-
-void checkAlw(int a, int b) {
-  if (a < b) {
-    a = b;
-  }
-}
-
-void fun_with_while() {
-    int i = 0;
-    while(i < 5) {
-        i++;
+// CHECK: checkAlw not suitable for the attribute
+void checkAlw(int A, int B) {
+  {
+    if (A > B) {
+      A = B;
     }
-}
-
-void ifEqual(char a, char b) {
-  if (a != b) {
   }
 }
 
-inline int sum_with_inline(int a, int b) { return a + b; }
+// CHECK: Added attribute always_inline in checkEmpty
+void checkEmpty() {}
+
+// CHECK: ifEqual not suitable for the attribute
+void ifEqual(char A, char B) {
+  {
+    {
+      {
+        {
+          while (true) {
+          }
+          {}
+        }
+      }
+    }
+  }
+}

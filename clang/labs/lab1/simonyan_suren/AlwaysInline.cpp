@@ -3,72 +3,82 @@
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
+#include <stack>
 
-using namespace clang;
-
-class AlwaysInlineVisitor : public RecursiveASTVisitor<AlwaysInlineVisitor> {
-private:
-  ASTContext *myContext;
-
+class AlwaysInlineVisitor
+    : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
 public:
-  AlwaysInlineVisitor(ASTContext *myContext) : myContext(myContext) {}
+  AlwaysInlineVisitor(clang::ASTContext *MyContext) : MyContext(MyContext) {}
 
-  bool VisitFunctionDecl(FunctionDecl *func) {
-    if (func->isInlined()) {
-      return true;
-    }
-    Stmt *Body = func->getBody();
-    if (Body && isa<CompoundStmt>(Body)) {
-      CompoundStmt *BodyCompound = cast<CompoundStmt>(Body);
-      bool hasConditions = false;
-      for (Stmt *S : BodyCompound->body()) {
-        if (isa<IfStmt>(S)) {
-          hasConditions = true;
-          break;
-        }
+  bool VisitFunctionDecl(clang::FunctionDecl *Func) {
+    bool ContainsConditional = false;
+    std::stack<clang::Stmt *> stack;
+    stack.push(Func->getBody());
+
+    while (!stack.empty()) {
+      clang::Stmt *CurrentNode = stack.top();
+      stack.pop();
+
+      if (clang::isa<clang::IfStmt>(CurrentNode) ||
+          clang::isa<clang::SwitchStmt>(CurrentNode) ||
+          clang::isa<clang::ForStmt>(CurrentNode) ||
+          clang::isa<clang::WhileStmt>(CurrentNode)) {
+        ContainsConditional = true;
+        break;
       }
-      if (!hasConditions) {
-        func->addAttr(AlwaysInlineAttr::CreateImplicit(*myContext));
 
-        if (func->hasAttr<AlwaysInlineAttr>()) {
-          llvm::outs() << "AlwaysInlineAttr added successfully to function "
-                       << func->getNameAsString() << ""
-                       << "\n";
-        } else {
-          llvm::outs() << "Failed to add AlwaysInlineAttr to function "
-                       << func->getNameAsString() << ""
-                       << "\n";
+      if (auto parent = clang::dyn_cast<clang::CompoundStmt>(CurrentNode)) {
+        for (auto Child : parent->body()) {
+          stack.push(Child);
         }
       }
     }
+
+    if (!ContainsConditional) {
+      clang::SourceRange FuncRange = Func->getSourceRange();
+      Func->addAttr(
+          clang::AlwaysInlineAttr::CreateImplicit(*MyContext, FuncRange));
+      auto ThisAttr = Func->getAttr<clang::AlwaysInlineAttr>();
+      llvm::outs() << "Added attribute " << ThisAttr->getSpelling() << " in "
+                   << Func->getNameAsString() << "\n";
+    } else {
+      llvm::outs() << Func->getNameAsString()
+                   << " not suitable for the attribute\n";
+    }
+
     return true;
   }
+
+private:
+  clang::ASTContext *MyContext;
 };
 
-class AlwaysInlineConsumer : public ASTConsumer {
+class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
-  AlwaysInlineConsumer(ASTContext *myContext) : myVisitor(myContext) {}
+  AlwaysInlineConsumer(clang::ASTContext *MyContext) : MyVisitor(MyContext) {}
 
-  void HandleTranslationUnit(ASTContext &myContext) override {
-    myVisitor.TraverseDecl(myContext.getTranslationUnitDecl());
+  void HandleTranslationUnit(clang::ASTContext &MyContext) override {
+    MyVisitor.TraverseDecl(MyContext.getTranslationUnitDecl());
   }
 
 private:
-  AlwaysInlineVisitor myVisitor;
+  AlwaysInlineVisitor MyVisitor;
 };
 
-class AlwaysInlinePlugin : public PluginASTAction {
+class AlwaysInlinePlugin : public clang::PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(CompilerInstance &Compiler, llvm::StringRef) override {
+  CreateASTConsumer(clang::CompilerInstance &Compiler,
+                    llvm::StringRef) override {
     return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
   }
-  bool ParseArgs(const CompilerInstance &Compiler,
-                 const std::vector<std::string> &args) override {
+
+  bool ParseArgs(const clang::CompilerInstance &,
+                 const std::vector<std::string> &) override {
     return true;
   }
 };
 
-static FrontendPluginRegistry::Add<AlwaysInlinePlugin>
+static clang::FrontendPluginRegistry::Add<AlwaysInlinePlugin>
     X("always-inlines-plugin",
       "Print a function without conditions with an attribute");
