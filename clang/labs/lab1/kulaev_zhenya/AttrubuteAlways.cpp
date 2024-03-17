@@ -11,35 +11,35 @@ public:
   AlwaysInlineVisitor(clang::ASTContext *MyContext) : MyContext(MyContext) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *Func) {
-    bool containsConditional = false;
+    bool ContainsConditional = false;
     std::stack<clang::Stmt *> stack;
     stack.push(Func->getBody());
 
     while (!stack.empty()) {
-      clang::Stmt *currentNode = stack.top();
+      clang::Stmt *CurrentNode = stack.top();
       stack.pop();
 
-      if (clang::isa<clang::IfStmt>(currentNode) ||
-          clang::isa<clang::SwitchStmt>(currentNode) ||
-          clang::isa<clang::ForStmt>(currentNode) ||
-          clang::isa<clang::WhileStmt>(currentNode)) {
-        containsConditional = true;
+      if (clang::isa<clang::IfStmt>(CurrentNode) ||
+          clang::isa<clang::SwitchStmt>(CurrentNode) ||
+          clang::isa<clang::ForStmt>(CurrentNode) ||
+          clang::isa<clang::WhileStmt>(CurrentNode)) {
+        ContainsConditional = true;
         break;
       }
 
-      if (auto parent = clang::dyn_cast<clang::CompoundStmt>(currentNode)) {
+      if (auto parent = clang::dyn_cast<clang::CompoundStmt>(CurrentNode)) {
         for (auto Child : parent->body()) {
           stack.push(Child);
         }
       }
     }
 
-    if (!containsConditional) {
+    if (!ContainsConditional) {
       clang::SourceRange FuncRange = Func->getSourceRange();
       Func->addAttr(
           clang::AlwaysInlineAttr::CreateImplicit(*MyContext, FuncRange));
-      auto thisAttr = Func->getAttr<clang::AlwaysInlineAttr>();
-      llvm::outs() << "Added attribute " << thisAttr->getSpelling() << " in "
+      auto ThisAttr = Func->getAttr<clang::AlwaysInlineAttr>();
+      llvm::outs() << "Added attribute " << ThisAttr->getSpelling() << " in "
                    << Func->getNameAsString() << "\n";
     } else {
       llvm::outs() << Func->getNameAsString() << " "
