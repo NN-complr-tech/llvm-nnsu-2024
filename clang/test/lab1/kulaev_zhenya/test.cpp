@@ -1,18 +1,31 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/AttrubuteAlwaysPlugin%pluginext -plugin always_inlines-plugin %s 1>&1 | FileCheck %s
 
-// CHECK: __attribute__((always_inline)) sum
-int sum(int a, int b) { return a + b; }
+// CHECK: Added attribute always_inline in sum
+int sum(int A, int B) { return A + B; }
 
-void checkAlw(int a, int b) {
-  if (a < b) {
-    a = b;
+// CHECK: checkAlw not suitable for the attribute
+void checkAlw(int A, int B) {
+  {
+    if (A > B) {
+      A = B;
+    }
   }
 }
 
-// CHECK: __attribute__((always_inline)) checkEmpty
-void checkEmpty() { ; }
+// CHECK: Added attribute always_inline in checkEmpty
+void checkEmpty() {}
 
-void ifEqual(char a, char b) {
-  if (a != b) {
+// CHECK: ifEqual not suitable for the attribute
+void ifEqual(char A, char B) {
+  {
+    {
+      {
+        {
+          while (true) {
+          }
+          {}
+        }
+      }
+    }
   }
 }
