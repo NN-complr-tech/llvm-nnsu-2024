@@ -1,9 +1,7 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PluginWarningDeprecated%pluginext -plugin
-// warning-deprecated %s 2>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/PluginWarningDeprecated%pluginext -plugin warning-deprecated %s 2>&1 | FileCheck %s
 
 // CHECK: warning: find 'deprecated' in function name
-
-void deprEcated(int a, int b) { int c = a + b; }
+void deprEcated(int a, int b) { int c = a + b; };
 
 // CHECK-NOT: warning: find 'deprecated' in function name
 void Matrix_Mult() { ; };
@@ -24,9 +22,6 @@ struct A {
   int foo_deprecatd_a(int a, int b) { return a + b; }
 };
 
-// RUN: %clang_cc1 -load %llvmshlibdir/PluginWarningDeprecated%pluginext -plugin
-// warning-deprecated %s -plugin-arg-warning-deprecated help 2>&1 | FileCheck %s
-// --check-prefix=HELP
+// RUN: %clang_cc1 -load %llvmshlibdir/PluginWarningDeprecated%pluginext -plugin warning-deprecated %s -plugin-arg-warning-deprecated help 2>&1 | FileCheck %s --check-prefix=HELP
 
-// HELP: Plugin Warning Deprecated prints a warning if a function name contains
-// 'deprecated'
+// HELP: Plugin Warning Deprecated prints a warning if a function name contains 'deprecated'
