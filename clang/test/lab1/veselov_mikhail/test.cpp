@@ -3,20 +3,20 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename old-name=a\
-// RUN: -plugin-arg-rename new-name=new_var %t/rename_var.cpp
+// RUN: -plugin-arg-rename new-name=c %t/rename_var.cpp
 // RUN: FileCheck %s < %t/rename_var.cpp --check-prefix=VAR
 
 // VAR: int func() {
-// VAR-NEXT: int new_var = 2, b = 2;
-// VAR-NEXT: new_var = b + new_var;
-// VAR-NEXT: new_var++;
-// VAR-NEXT:  return new_var;
+// VAR-NEXT: int c = 2, b = 2;
+// VAR-NEXT: c = b + c;
+// VAR-NEXT: c++;
+// VAR-NEXT:  return c;
 // VAR-NEXT: }
 
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename old-name=c\
-// RUN: -plugin-arg-rename new-name=new_var %t/rename_non_existent_var.cpp
+// RUN: -plugin-arg-rename new-name=c %t/rename_non_existent_var.cpp
 // RUN: FileCheck %s < %t/rename_non_existent_var.cpp --check-prefix=NON_EXIST_VAR
 
 // NON_EXIST_VAR: int func() {

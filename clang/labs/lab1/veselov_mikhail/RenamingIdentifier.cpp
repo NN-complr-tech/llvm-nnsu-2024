@@ -17,7 +17,7 @@ public:
       : Rewriter(rewriter), oldName(oldName), newName(newName) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *FD) {
-    if (FD->getName() == oldName) {
+    if (FD->getNameAsString() == oldName) {
       Rewriter.ReplaceText(FD->getNameInfo().getSourceRange(), newName);
     }
     return true;
@@ -32,7 +32,7 @@ public:
   }
 
   bool VisitVarDecl(clang::VarDecl *VD) {
-    if (VD->getName() == oldName) {
+    if (VD->getNameAsString() == oldName) {
       Rewriter.ReplaceText(VD->getLocation(), oldName.size(), newName);
     }
     if (VD->getType().getAsString() == oldName + " *") {
@@ -55,7 +55,7 @@ public:
   }
 
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *CXXRD) {
-    if (CXXRD->getName() == oldName) {
+    if (CXXRD->getNameAsString() == oldName) {
       Rewriter.ReplaceText(CXXRD->getLocation(), newName);
       const auto *destructor = CXXRD->getDestructor();
       if (destructor) {
@@ -107,12 +107,12 @@ public:
 class RenamePlugin : public clang::PluginASTAction {
 private:
   std::string oldName;
-  
   std::string newName;
 
 protected:
   bool ParseArgs(const clang::CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
+    
     std::vector<std::pair<std::string, std::string>> parameters = {
         {"old-name=", ""}, {"new-name=", ""}};
 
@@ -170,4 +170,4 @@ public:
 };
 
 static clang::FrontendPluginRegistry::Add<RenamePlugin>
-    X("rename-identifier", "Rename variable, function or class identifier");
+    X("rename", "Rename variable, function or class identifier");
