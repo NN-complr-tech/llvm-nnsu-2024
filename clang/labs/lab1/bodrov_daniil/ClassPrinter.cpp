@@ -4,24 +4,23 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 
-using namespace clang;
-
 class MemberInfoPrinter {
 public:
-  void print(const ValueDecl *member, const std::string &memberType) {
+  void print(const clang::ValueDecl *member, const std::string &memberType) {
     llvm::outs() << "|_ " << member->getNameAsString() << ' ';
     llvm::outs() << '(' << member->getType().getAsString() << '|';
-    llvm::outs() << getAccessSpecifierAsString(member) << (memberType == "field" ? ")" : ("|" + memberType + ")") ) << "\n";
+    llvm::outs() << getAccessSpecifierAsString(member)
+                 << (memberType == "field" ? ")" : ("|" + memberType + ")")) << "\n";
   }
 
 private:
-  std::string getAccessSpecifierAsString(const ValueDecl *member) {
+  std::string getAccessSpecifierAsString(const clang::ValueDecl *member) {
     switch (member->getAccess()) {
-    case AS_public:
+    case clang::AS_public:
       return "public";
-    case AS_protected:
+    case clang::AS_protected:
       return "protected";
-    case AS_private:
+    case clang::AS_private:
       return "private";
     default:
       return "unknown";
@@ -31,29 +30,30 @@ private:
 
 class UserTypePrinter {
 public:
-  void print(CXXRecordDecl *userType) {
+  void print(clang::CXXRecordDecl *userType) {
     llvm::outs() << userType->getNameAsString() << ' ';
     llvm::outs() << (userType->isStruct() ? "(struct" : "(class");
     llvm::outs() << (userType->isTemplated() ? "|template)" : ")") << '\n';
   }
 };
 
-class ClassMembersPrinter final : public RecursiveASTVisitor<ClassMembersPrinter> {
+class ClassMembersPrinter final
+    : public clang::RecursiveASTVisitor<ClassMembersPrinter> {
 public:
-  explicit ClassMembersPrinter(ASTContext *context) : context_(context) {}
+  explicit ClassMembersPrinter(clang::ASTContext *context) : context_(context) {}
 
-  bool VisitCXXRecordDecl(CXXRecordDecl *declaration) {
+  bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isStruct() || declaration->isClass()) {
       userTypePrinter_.print(declaration);
 
       for (const auto &decl : declaration->decls()) {
-        if (auto field = llvm::dyn_cast<FieldDecl>(decl)) {
+        if (auto field = llvm::dyn_cast<clang::FieldDecl>(decl)) {
           memberInfoPrinter_.print(field, "field");
-        } else if (auto var = llvm::dyn_cast<VarDecl>(decl)) {
+        } else if (auto var = llvm::dyn_cast<clang::VarDecl>(decl)) {
           if (var->isStaticDataMember()) {
             memberInfoPrinter_.print(var, "static");
           }
-        } else if (auto method = llvm::dyn_cast<CXXMethodDecl>(decl)) {
+        } else if (auto method = llvm::dyn_cast<clang::CXXMethodDecl>(decl)) {
           memberInfoPrinter_.print(method, "method");
         }
       }
@@ -63,16 +63,17 @@ public:
   }
 
 private:
-  ASTContext *context_;
+  clang::ASTContext *context_;
   MemberInfoPrinter memberInfoPrinter_;
   UserTypePrinter userTypePrinter_;
 };
 
-class ClassMembersConsumer final : public ASTConsumer {
+class ClassMembersConsumer final : public clang::ASTConsumer {
 public:
-  explicit ClassMembersConsumer(ASTContext *context) : visitor_(context) {}
+  explicit ClassMembersConsumer(clang::ASTContext *context)
+      : visitor_(context) {}
 
-  void HandleTranslationUnit(ASTContext &context) override {
+  void HandleTranslationUnit(clang::ASTContext &context) override {
     visitor_.TraverseDecl(context.getTranslationUnitDecl());
   }
 
@@ -80,16 +81,18 @@ private:
   ClassMembersPrinter visitor_;
 };
 
-class ClassFieldPrinterAction final : public PluginASTAction {
+class ClassFieldPrinterAction final : public clang::PluginASTAction {
 public:
-  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &ci, llvm::StringRef) override {
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
     return std::make_unique<ClassMembersConsumer>(&ci.getASTContext());
   }
 
-  bool ParseArgs(const CompilerInstance &ci, const std::vector<std::string> &args) override {
+  bool ParseArgs(const clang::CompilerInstance &ci,
+                 const std::vector<std::string> &args) override {
     return true;
   }
 };
 
-static FrontendPluginRegistry::Add<ClassFieldPrinterAction>
+static clang::FrontendPluginRegistry::Add<ClassFieldPrinterAction>
     X("class-field-printer", "Prints all members of the class");
