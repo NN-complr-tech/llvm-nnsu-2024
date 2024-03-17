@@ -14,31 +14,31 @@ namespace {
 
   class AlwaysInlineConsumer : public clang::ASTConsumer {
   public:
-    bool HandleTopLevelDecl(clang::DeclGroupRef decl_group) override {
-      for (clang::Decl* decl : decl_group) {
-        if (clang::isa<clang::FunctionDecl>(decl)) {
-          if (decl->getAttr<clang::AlwaysInlineAttr>()) {
+    bool HandleTopLevelDecl(clang::DeclGroupRef DeclGroup) override {
+      for (clang::Decl *Decl : DeclGroup) {
+        if (clang::isa<clang::FunctionDecl>(Decl)) {
+          if (Decl->getAttr<clang::AlwaysInlineAttr>()) {
             continue;
           }
-          clang::Stmt* body = decl->getBody();
-          if (body != nullptr) {
-            bool cond_found = false;
-            for (clang::Stmt* st : body->children()) {
-              if (clang::isa<clang::IfStmt>(st)
-              || clang::isa<clang::WhileStmt>(st)
-              || clang::isa<clang::ForStmt>(st)
-              || clang::isa<clang::DoStmt>(st)
-              || clang::isa<clang::SwitchStmt>(st)) {
-                cond_found = true;
+          clang::Stmt *Body = Decl->getBody();
+          if (Body != nullptr) {
+            bool CondFound = false;
+            for (clang::Stmt *St : Body->children()) {
+              if (clang::isa<clang::IfStmt>(St)
+              || clang::isa<clang::WhileStmt>(St)
+              || clang::isa<clang::ForStmt>(St)
+              || clang::isa<clang::DoStmt>(St)
+              || clang::isa<clang::SwitchStmt>(St)) {
+                CondFound = true;
                 break;
               }
             }
-            if (!cond_found) {
+            if (!CondFound) {
               // TODO: how to put correct location??
-              clang::SourceLocation location(decl->getSourceRange().getBegin());
-              clang::SourceRange range(location);
-              decl->addAttr(
-              clang::AlwaysInlineAttr::Create(decl->getASTContext(), range));
+              clang::SourceLocation Location(Decl->getSourceRange().getBegin());
+              clang::SourceRange Range(Location);
+              Decl->addAttr(
+              clang::AlwaysInlineAttr::Create(Decl->getASTContext(), Range));
             }
           }
         }
@@ -51,13 +51,19 @@ namespace {
   protected:
     std::unique_ptr<clang::ASTConsumer>
     CreateASTConsumer(
-    clang::CompilerInstance& compiler, llvm::StringRef in_file
+    clang::CompilerInstance &Compiler, llvm::StringRef InFile
     ) override {
       return std::make_unique<AlwaysInlineConsumer>();
     }
     bool ParseArgs(
-    const clang::CompilerInstance& compiler, const std::vector<std::string>& args
+    const clang::CompilerInstance &Compiler, const std::vector<std::string> &Args
     ) override {
+      for (const std::string &Arg : Args) {
+        if (Arg == "--help") {
+          llvm::outs() << "adds always_inline if no conditions inside body\n";
+          return false;
+        }
+      }
       return true;
     }
   };

@@ -1,66 +1,71 @@
 // RUN: %clang_cc1 -ast-dump -ast-dump-filter foo -load %llvmshlibdir/kulaginAlwaysInline%pluginext -add-plugin always-inline %s | FileCheck %s
 // COM: %clang_cc1 -load %llvmshlibdir/kulaginAlwaysInline%pluginext -add-plugin always-inline %s -emit-llvm -o - | FileCheck %s
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo1 'void \(\)'}}
-void __attribute__((always_inline)) foo1() {
-  return;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo1 'int \(\)'}}
+int __attribute__((always_inline)) foo1() {
+  return 0;
 }
 // CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo2 'void \(\)'}}
-void foo2() {
-
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo2 'int \(\)'}}
+int foo2() {
+  return 0;
 }
 // CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo3 'void \(\)'}}
-void foo3() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo3 'int \(\)'}}
+int foo3() {
   bool f = true;
   if (f) {
     f = false;
   }
+  return 0;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo4 'void \(\)'}}
-void foo4() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo4 'int \(\)'}}
+int foo4() {
   while (true) {
 
   }
+  return 0;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo5 'void \(\)'}}
-void foo5() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo5 'int \(\)'}}
+int foo5() {
   for (int i = 0; i < 5; i++) {
 
   }
+  return 0;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo6 'void \(\)'}}
-void foo6() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo6 'int \(\)'}}
+int foo6() {
   while (true) {
     if (false) {
       int d = -1;
       if (d) {
-        return;
+        return d;
       }
     }
   }
+  return 0;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo7 'void \(\)'}}
-void foo7() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo7 'int \(\)'}}
+int foo7() {
   do {
 
   } while(true);
+  return 0;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo8 'void \(\)'}}
-void foo8() {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo8 'int \(\)'}}
+int foo8() {
   int a = 1;
   switch (a) {
     case 1:
@@ -68,6 +73,7 @@ void foo8() {
     default:
       break;
   }
+  return a;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
