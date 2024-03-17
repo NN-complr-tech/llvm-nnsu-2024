@@ -9,8 +9,7 @@ public:
   void print(const clang::ValueDecl *Member, const std::string &MemberType) {
     llvm::outs() << "|_ " << Member->getNameAsString() << ' ';
     llvm::outs() << '(' << Member->getType().getAsString() << '|';
-    llvm::outs() << getAccessSpecifierAsString(Member)
-                 << (MemberType == "field" ? ")" : ("|" + MemberType + ")")) << "\n";
+    llvm::outs() << getAccessSpecifierAsString(Member) << (MemberType == "field" ? ")" : ("|" + MemberType + ")")) << "\n";
   }
 
 private:
@@ -37,8 +36,7 @@ public:
   }
 };
 
-class ClassMembersPrinter final
-    : public clang::RecursiveASTVisitor<ClassMembersPrinter> {
+class ClassMembersPrinter final : public clang::RecursiveASTVisitor<ClassMembersPrinter> {
 public:
   explicit ClassMembersPrinter(clang::ASTContext *Context) : Context_(Context) {}
 
@@ -70,8 +68,7 @@ private:
 
 class ClassMembersConsumer final : public clang::ASTConsumer {
 public:
-  explicit ClassMembersConsumer(clang::ASTContext *Context)
-      : Visitor_(Context) {}
+  explicit ClassMembersConsumer(clang::ASTContext *Context) : Visitor_(Context) {}
 
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor_.TraverseDecl(Context.getTranslationUnitDecl());
@@ -83,16 +80,13 @@ private:
 
 class ClassFieldPrinterAction final : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(clang::CompilerInstance &CI, llvm::StringRef) override {
+  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &CI, llvm::StringRef) override {
     return std::make_unique<ClassMembersConsumer>(&CI.getASTContext());
   }
 
-  bool ParseArgs(const clang::CompilerInstance &CI,
-                 const std::vector<std::string> &Args) override {
+  bool ParseArgs(const clang::CompilerInstance &CI, const std::vector<std::string> &Args) override {
     return true;
   }
 };
 
-static clang::FrontendPluginRegistry::Add<ClassFieldPrinterAction>
-    X("class-field-printer", "Prints all members of the class");
+static clang::FrontendPluginRegistry::Add<ClassFieldPrinterAction> X("class-field-printer", "Prints all members of the class");
