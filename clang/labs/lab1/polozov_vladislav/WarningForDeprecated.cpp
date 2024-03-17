@@ -12,16 +12,16 @@ class WarningDeprecatedConsumer : public ASTConsumer {
 public:
   WarningDeprecatedConsumer(CompilerInstance &Instance) : Instance(Instance) {}
 
-  void HandleTranslationUnit(ASTContext &context) override {
-
+  void HandleTranslationUnit(ASTContext &Context) override {
+    
     struct Visitor : public RecursiveASTVisitor<Visitor> {
       ASTContext *Context;
-      Visitor(ASTContext *_Context) : Context(_Context) {}
+      Visitor(ASTContext *Context) : Context(Context) {}
       bool VisitFunctionDecl(FunctionDecl *FD) {
-        std::string want_find = "deprecated";
+        std::string WantFind = "deprecated";
         std::string name = FD->getNameInfo().getAsString();
-        std::transform(name.begin(),name.end(),name.begin(), ::tolower);
-        if (name.find(want_find) != std::string::npos) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+        if (name.find(WantFind) != std::string::npos) {
           DiagnosticsEngine &Diags = Context->getDiagnostics();
           unsigned DiagID = Diags.getCustomDiagID(
               DiagnosticsEngine::Warning, "find 'deprecated' in function name");
@@ -31,8 +31,8 @@ public:
         return true;
       }
     };
-    Visitor Visitor(&Instance.getASTContext());
-    Visitor.TraverseDecl(context.getTranslationUnitDecl());
+    DeprWarnPrintVisitor Visitor(&Instance.getASTContext());
+    DeprWarnPrintVisitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
 
@@ -45,13 +45,14 @@ protected:
   }
 
   bool ParseArgs(const CompilerInstance &CI,
-                 const std::vector<std::string> &args) override {
+                 const std::vector<std::string> &Args) override {
     if (!args.empty() && args[0] == "help")
       PrintHelp(llvm::errs());
     return true;
   }
   void PrintHelp(llvm::raw_ostream &ros) {
-    ros << "Plugin Warning Deprecated prints a warning if a function name contains 'deprecated'\n";
+    ros << "Plugin Warning Deprecated prints a warning if a function name "
+           "contains 'deprecated'\n";
   }
 };
 
