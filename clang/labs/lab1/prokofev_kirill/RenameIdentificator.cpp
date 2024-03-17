@@ -121,7 +121,7 @@ protected:
 public:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &Compiler,
-                    llvm::StringRef InFile)  override {
+                    llvm::StringRef InFile) override {
     return std::make_unique<RenameConsumer>(Compiler, oldName, newName);
   }
 };
