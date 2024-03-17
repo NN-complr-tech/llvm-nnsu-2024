@@ -6,13 +6,10 @@
 using namespace clang;
 
 class DepFuncVisitor : public RecursiveASTVisitor<DepFuncVisitor> {
-
 private:
-
     ASTContext *Context;
 
 public:
-
     explicit DepFuncVisitor(ASTContext *context) : Context(context) {}
 
     bool VisitFunctionDecl(FunctionDecl *func) {
@@ -29,13 +26,10 @@ public:
 };
 
 class DepFuncConsumer : public ASTConsumer {
-
 private:
-
     CompilerInstance &instance;
 
 public:
-
     explicit DepFuncConsumer(CompilerInstance &CI) : instance(CI) {}
 
     void HandleTranslationUnit(ASTContext &context) override {
@@ -46,9 +40,7 @@ public:
 
 
 class DepFuncPlugin : public PluginASTAction {
-
 protected:
-
   std::unique_ptr<ASTConsumer>  CreateASTConsumer(CompilerInstance &compiler,
                     llvm::StringRef InFile) override {
     return std::make_unique<DepFuncConsumer>(compiler);
