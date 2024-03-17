@@ -10,7 +10,8 @@ public:
     llvm::outs() << "|_ " << Member->getNameAsString() << ' ';
     llvm::outs() << '(' << Member->getType().getAsString() << '|';
     llvm::outs() << getAccessSpecifierAsString(Member);
-    llvm::outs() << (MemberType == "field" ? ")" : ("|" + MemberType + ")")) << "\n";
+    llvm::outs() << (MemberType == "field" ? ")" : ("|" + MemberType + ")"))
+                 << "\n";
   }
 
 private:
@@ -70,7 +71,8 @@ private:
 
 class ClassMembersConsumer final : public clang::ASTConsumer {
 public:
-  explicit ClassMembersConsumer(clang::ASTContext *Context) : Visitor(Context) {}
+  explicit ClassMembersConsumer(clang::ASTContext *Context)
+      : Visitor(Context) {}
 
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
@@ -82,8 +84,8 @@ private:
 
 class ClassFieldPrinterAction final : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
-      clang::CompilerInstance &CI, llvm::StringRef) override {
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &CI, llvm::StringRef) override {
     return std::make_unique<ClassMembersConsumer>(&CI.getASTContext());
   }
 
@@ -93,5 +95,5 @@ public:
   }
 };
 
-static clang::FrontendPluginRegistry::Add<ClassFieldPrinterAction> X(
-    "class-field-printer", "Prints all members of the class");
+static clang::FrontendPluginRegistry::Add<ClassFieldPrinterAction>
+    X("class-field-printer", "Prints all members of the class");
