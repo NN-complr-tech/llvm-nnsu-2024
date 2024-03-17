@@ -53,7 +53,8 @@ protected:
                  const std::vector<std::string> &Args) override {
     for (const std::string &arg : Args) {
       if (arg == "--help") {
-        llvm::outs() << "This plugin displays the name of the class and it's fields.";
+        llvm::outs()
+            << "This plugin displays the name of the class and it's fields.";
         return false;
       }
     }
