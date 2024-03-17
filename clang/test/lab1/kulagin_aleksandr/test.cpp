@@ -15,27 +15,30 @@ void foo2() {
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo3 'void \(\)'}}
 void foo3() {
-  if (true) {
-    int c;
+  bool f = true;
+  if (f) {
+    f = false;
   }
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo4 'void \(\)'}}
-// COM: test the rest after -emit-llvm is resolved
-
 void foo4() {
   while (true) {
 
   }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo5 'void \(\)'}}
 void foo5() {
   for (int i = 0; i < 5; i++) {
 
   }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo6 'void \(\)'}}
 void foo6() {
   while (true) {
     if (false) {
@@ -46,9 +49,20 @@ void foo6() {
     }
   }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
 
-int foo7(int a, int b) {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo7 'void \(\)'}}
+void foo7() {
+  do {
+
+  } while(true);
+}
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:[0-9]+:[0-9]+, line:[0-9]+:[0-9]+> line:[0-9]+:[0-9]+ foo8 'int \(int, int\)'}}
+int foo8(int a, int b) {
   int c;
   c = a+b;
   return c;
 }
+// CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:[0-9]+:[0-9]+> always_inline}}
