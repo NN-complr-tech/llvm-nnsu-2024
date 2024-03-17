@@ -1,7 +1,10 @@
+#include "clang/AST/Decl.h"
+#include "clang/AST/DeclGroup.h"
 #include "clang/AST/Stmt.h"
 #include "clang/AST/AST.h"
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/Basic/SourceLocation.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/ADT/StringRef.h"
@@ -12,7 +15,8 @@ namespace {
 
   class AlwaysInlineConsumer : public clang::ASTConsumer {
   public:
-    void HandleTranslationUnit(clang::ASTContext& context) override {
+    // OLD, do nothing, can safely ignore or delete
+    void HandleTranslationUnitOLD(clang::ASTContext& context) {
       struct Visitor : public clang::RecursiveASTVisitor<Visitor> {
         clang::ASTContext& context;
         Visitor(clang::ASTContext& context) : context(context) {}
@@ -32,6 +36,9 @@ namespace {
               }
             }
             if (!cond_found) {
+              if (func->hasAttr<clang::NoInlineAttr>()) {
+                func->dropAttr<clang::NoInlineAttr>();
+              }
               func->addAttr(clang::AlwaysInlineAttr::CreateImplicit(context));
             }
           }
@@ -39,6 +46,35 @@ namespace {
         }
       } visitor(context);
       visitor.TraverseDecl(context.getTranslationUnitDecl());
+    }
+    bool HandleTopLevelDecl(clang::DeclGroupRef decl_group) override {
+      for (clang::Decl* decl : decl_group) {
+        if (clang::isa<clang::FunctionDecl>(decl)) {
+          if (decl->getAttr<clang::AlwaysInlineAttr>()) {
+            continue;
+          }
+          clang::Stmt* body = decl->getBody();
+          if (body != nullptr) {
+            bool cond_found = false;
+            for (clang::Stmt* st : body->children()) {
+              if (clang::isa<clang::IfStmt>(st) || clang::isa<clang::WhileStmt>(st) || clang::isa<clang::ForStmt>(st)) {
+                cond_found = true;
+                break;
+              }
+            }
+            if (!cond_found) {
+              if (decl->hasAttr<clang::NoInlineAttr>()) {
+                //decl->dropAttr<clang::NoInlineAttr>();
+              }
+              // TODO: wrap in ifs
+              decl->dropAttr<clang::OptimizeNoneAttr>();
+              decl->dropAttr<clang::NoInlineAttr>();
+              decl->addAttr(clang::AlwaysInlineAttr::Create(decl->getASTContext()));
+            }
+          }
+        }
+      }
+      return true;
     }
   };
 
