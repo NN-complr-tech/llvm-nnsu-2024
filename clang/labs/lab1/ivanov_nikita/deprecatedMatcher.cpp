@@ -9,7 +9,9 @@ class DepConsumer : public ASTConsumer {
   CompilerInstance &Instance;
 
 public:
-  explicit DepConsumer(CompilerInstance &CI) : Instance(CI) {}
+  explicit DepConsumer(CompilerInstance &CI) : Instance(CI) {
+    
+  }
 
   void HandleTranslationUnit(ASTContext &Context) override {
     struct Visitor : public RecursiveASTVisitor<Visitor> {
