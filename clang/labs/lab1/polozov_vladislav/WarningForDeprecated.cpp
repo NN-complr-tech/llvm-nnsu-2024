@@ -13,7 +13,7 @@ public:
   WarningDeprecatedConsumer(CompilerInstance &Instance) : Instance(Instance) {}
 
   void HandleTranslationUnit(ASTContext &Context) override {
-    
+
     struct Visitor : public RecursiveASTVisitor<Visitor> {
       ASTContext *Context;
       Visitor(ASTContext *Context) : Context(Context) {}
@@ -31,7 +31,7 @@ public:
         return true;
       }
     };
-    DeprWarnPrintVisitor Visitor(&Instance.getASTContext());
+    Visitor DeprWarnPrintVisitor(&Instance.getASTContext());
     DeprWarnPrintVisitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
@@ -46,7 +46,7 @@ protected:
 
   bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &Args) override {
-    if (!args.empty() && args[0] == "help")
+    if (!Args.empty() && Args[0] == "help")
       PrintHelp(llvm::errs());
     return true;
   }
