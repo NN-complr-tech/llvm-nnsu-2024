@@ -100,7 +100,7 @@ private:
 
 public:
   explicit RenameConsumer(clang::CompilerInstance &CI, Types type,
-                             clang::StringRef oldName, clang::StringRef newName)
+                           clang::StringRef oldName, clang::StringRef newName)
       : Visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()), type,
                 oldName, newName) {}
 
