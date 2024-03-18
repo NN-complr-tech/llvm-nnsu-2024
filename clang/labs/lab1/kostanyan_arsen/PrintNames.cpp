@@ -38,7 +38,7 @@ public:
 class ClassPrinterPluginAction : public clang::PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-   CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
+  CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
     return std::make_unique<ClassPrinterASTConsumer>();
   }
 
