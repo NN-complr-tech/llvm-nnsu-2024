@@ -11,10 +11,11 @@ private:
   std::string ExcludeFunc;
 
 public:
-  explicit DepFuncVisitor(ASTContext *Context) : Context(Context) {}
+  explicit DepFuncVisitor(ASTContext *Context, const std::string &ExcludeFunc)
+      : Context(Context), ExcludeFunc(ExcludeFunc) {}
 
   bool VisitFunctionDecl(FunctionDecl *Func) {
-	if (Func->getNameInfo().getAsString() == ExcludeFunc) {
+    if (Func->getNameInfo().getAsString() == ExcludeFunc) {
       return true;
     }
     if (Func->getNameInfo().getAsString().find("deprecated") !=
@@ -31,21 +32,26 @@ public:
 };
 
 class DepFuncConsumer : public ASTConsumer {
+private:
+  std::string ExcludeFunc;
 public:
-  explicit DepFuncConsumer(CompilerInstance &CI) {}
+  explicit DepFuncConsumer(CompilerInstance &CI)
+      : ExcludeFunc(ExcludeFunc) {}
 
   void HandleTranslationUnit(ASTContext &Context) override {
-    DepFuncVisitor Visitor(&Context);
+    DepFuncVisitor Visitor(&Context, ExcludeFunc);
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
 
 class DepFuncPlugin : public PluginASTAction {
 protected:
+  std::string ExcludeFunc = "";
+  
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<DepFuncConsumer>(Compiler);
+    return std::make_unique<DepFuncConsumer>(Compiler, ExcludeFunc);
   }
 
   bool ParseArgs(const CompilerInstance &Compiler,
