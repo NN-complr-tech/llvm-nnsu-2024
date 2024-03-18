@@ -13,7 +13,7 @@ public:
   explicit DepFuncVisitor(ASTContext *Context) : Context(Context) {}
 
   bool VisitFunctionDecl(FunctionDecl *Func) {
-    if (func->getNameInfo().getAsString().find("deprecated") !=
+    if (Func->getNameInfo().getAsString().find("deprecated") !=
         std::string::npos) {
       DiagnosticsEngine &Diags = Context->getDiagnostics();
       size_t CustomDiagID = 
