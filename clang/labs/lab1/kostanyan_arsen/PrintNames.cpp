@@ -43,7 +43,15 @@ public:
   }
 
   bool ParseArgs(const clang::CompilerInstance &ci,
-                 const std::vector<std::string> &args) override {
+                 const std::vector<std::string> &Args) override {
+    for (const auto &arg : Args) {
+      if (arg == "--help") {
+        llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
+                        "of a codebase and prints the name and fields of each "
+                        "class it encounters\n";
+        return true;
+      }
+    }
     return true;
   }
 };
