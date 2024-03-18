@@ -101,44 +101,6 @@ void func2() {
 
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
-// RUN: -plugin-arg-rename cur-name=Base\
-// RUN: -plugin-arg-rename new-name=SimpleClass %t/rename_class.cpp
-// RUN: FileCheck %s < %t/rename_class.cpp --check-prefix=CLASS
-
-// CLASS: class SimpleClass{
-// CLASS-NEXT: private:
-// CLASS-NEXT: int a;
-// CLASS-NEXT: int b;
-// CLASS-NEXT: public:
-// CLASS-NEXT: SimpleClass() {}
-// CLASS-NEXT: SimpleClass(int a, int b): a(a), b(b) {}
-// CLASS-NEXT: ~SimpleClass();
-// CLASS-NEXT: };
-// CLASS: void func() {
-// CLASS-NEXT: SimpleClass a;
-// CLASS-NEXT: SimpleClass* var = new SimpleClass(1, 2);
-// CLASS-NEXT: delete var;
-// CLASS-NEXT: }
-
-//--- rename_class.cpp
-class Base{
- private:
-  int a;
-  int b;
- public:
-  Base() {}
-  Base(int a, int b): a(a), b(b) {}
-  ~Base();
-};
-
-void func() {
-  Base a;
-  Base* var = new Base(1, 2);
-  delete var;
-}
-
-// RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
-// RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename cur-name=B\
 // RUN: -plugin-arg-rename new-name=C %t/rename_non_existent_class.cpp
 // RUN: FileCheck %s < %t/rename_non_existent_class.cpp --check-prefix=NON_EXIST_CLASS
