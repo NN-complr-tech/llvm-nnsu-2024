@@ -27,3 +27,13 @@ template<typename T> class TClass {
     // CHECK-NEXT: |_ TVar
     T TVar;
 };
+
+// CHECK: StaticCat
+class StaticCat {
+  // CHECK-NEXT: |_ variable
+  static int variable;
+};
+
+// RUN: %clang_cc1 -load %llvmshlibdir/Myfirstplugin%pluginext -plugin classprinter -plugin-arg-classprinter help 2>&1 %s | FileCheck %s --check-prefix=HELP
+
+// HELP: Plugin prints names of classes and their fields
