@@ -2,8 +2,6 @@
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
-#include "clang/Tooling/ArgumentsAdjusters.h"
-
 
 using namespace clang;
 
@@ -67,12 +65,6 @@ protected:
       }
     }
     return true;
-  }
-
-  void AddArgs(CommandLineArguments &Args) override {
-    Args.AddStringOption(
-        "-excluding", [this](StringRef Value) { ExcludeFunc = Value.str(); },
-        "Exclude function from deprecated warning");
   }
 };
 
