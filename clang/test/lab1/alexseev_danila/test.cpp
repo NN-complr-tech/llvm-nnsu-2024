@@ -7,13 +7,13 @@ void deprecated();
 void deprecated123();
 
 // CHECK: warning: Function contains 'deprecated' in its name
-void AAAdeprecatedOOO();
+void aaAdeprecatedOoo();
 
 // CHECK-NOT: warning: Function contains 'deprecated' in its name
 void something();
 
 // CHECK-NOT: warning: Function contains 'deprecated' in its name
-void deprecate_d();
+void deprecatend();
 
 // CHECK-NOT: warning: Function contains 'deprecated' in its name
 void deprecate();
