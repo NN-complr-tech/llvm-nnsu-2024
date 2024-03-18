@@ -8,11 +8,15 @@ using namespace clang;
 class DepFuncVisitor : public RecursiveASTVisitor<DepFuncVisitor> {
 private:
   ASTContext *Context;
+  std::string ExcludeFunc;
 
 public:
   explicit DepFuncVisitor(ASTContext *Context) : Context(Context) {}
 
   bool VisitFunctionDecl(FunctionDecl *Func) {
+	if (Func->getNameInfo().getAsString() == ExcludeFunc) {
+      return true;
+    }
     if (Func->getNameInfo().getAsString().find("deprecated") !=
         std::string::npos) {
       DiagnosticsEngine &Diags = Context->getDiagnostics();
@@ -27,14 +31,11 @@ public:
 };
 
 class DepFuncConsumer : public ASTConsumer {
-private:
-  CompilerInstance &Instance;
-
 public:
-  explicit DepFuncConsumer(CompilerInstance &CI) : Instance(CI) {}
+  explicit DepFuncConsumer(CompilerInstance &CI) {}
 
   void HandleTranslationUnit(ASTContext &Context) override {
-    DepFuncVisitor Visitor(&Instance.getASTContext());
+    DepFuncVisitor Visitor(&Context);
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
@@ -49,6 +50,13 @@ protected:
 
   bool ParseArgs(const CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
+    for (size_t i = 0; i < Args.size(); ++i) {
+      const std::string &Arg = Args[i];
+      if (Arg == "-excluding") {
+        ExcludeFunc = Args[i + 1];
+        i++;
+      }
+    }
     return true;
   }
 };
