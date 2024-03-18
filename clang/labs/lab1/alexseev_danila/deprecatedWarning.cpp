@@ -16,7 +16,7 @@ public:
     if (Func->getNameInfo().getAsString().find("deprecated") !=
         std::string::npos) {
       DiagnosticsEngine &Diags = Context->getDiagnostics();
-      size_t CustomDiagID = 
+      size_t CustomDiagID =
           Diags.getCustomDiagID(DiagnosticsEngine::Warning,
                                 "Function contains 'deprecated' in its name");
       Diags.Report(Func->getLocation(), CustomDiagID)
