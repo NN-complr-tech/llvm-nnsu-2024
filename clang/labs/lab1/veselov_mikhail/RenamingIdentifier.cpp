@@ -4,7 +4,6 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/Rewrite/Core/Rewriter.h"
 
-
 class RenameVisitor : public clang::RecursiveASTVisitor<RenameVisitor> {
 
 private:
@@ -13,10 +12,9 @@ private:
   std::string new_name;
 
 public:
-  explicit RenameVisitor(clang::Rewriter rewriter,
-                         clang::StringRef cur_name, clang::StringRef new_name)
-      : rewriter(rewriter), cur_name(cur_name), new_name(new_name) {
-  }
+  explicit RenameVisitor(clang::Rewriter rewriter, clang::StringRef cur_name,
+                         clang::StringRef new_name)
+      : rewriter(rewriter), cur_name(cur_name), new_name(new_name) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *F) {
     if (F->getName() == cur_name) {
@@ -70,8 +68,7 @@ public:
 
   bool VisitCXXConstructorDecl(clang::CXXConstructorDecl *CD) {
     if (CD->getNameAsString() == cur_name) {
-      rewriter.ReplaceText(CD->getLocation(), cur_name.size(),
-                           new_name);
+      rewriter.ReplaceText(CD->getLocation(), cur_name.size(), new_name);
     }
     return true;
   }
@@ -121,12 +118,14 @@ protected:
     new_name = args[1];
 
     if (cur_name.find("=") == 0 || cur_name.find("=") == std::string::npos) {
-      llvm::errs() << "Error -plugin-arg-rename cur-name=\"Current identifier name\""
-                   << "\n";
+      llvm::errs()
+          << "Error -plugin-arg-rename cur-name=\"Current identifier name\""
+          << "\n";
     }
     if (new_name.find("=") == 0 || new_name.find("=") == std::string::npos) {
-      llvm::errs() << "Error -plugin-arg-rename new-name=\"New identifier name\""
-                   << "\n";
+      llvm::errs()
+          << "Error -plugin-arg-rename new-name=\"New identifier name\""
+          << "\n";
     }
 
     cur_name = cur_name.substr(cur_name.find("=") + 1);
