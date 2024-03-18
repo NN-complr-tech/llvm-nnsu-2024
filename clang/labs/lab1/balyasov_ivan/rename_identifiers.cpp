@@ -16,8 +16,7 @@ private:
 public:
   explicit RenameVisitor(clang::Rewriter rewriter, Types type,
                          clang::StringRef oldName, clang::StringRef newName)
-      : rewriter(rewriter), type(type), oldName(oldName), newName(newName) {
-  }
+      : rewriter(rewriter), type(type), oldName(oldName), newName(newName) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *func) {
     if (type == Types::Func && func->getName() == oldName) {
@@ -101,8 +100,7 @@ private:
 
 public:
   explicit RenameConsumer(clang::CompilerInstance &CI, Types type,
-                             clang::StringRef oldName,
-                             clang::StringRef newName)
+                             clang::StringRef oldName, clang::StringRef newName)
       : Visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()), type,
                 oldName, newName) {}
 
@@ -177,10 +175,10 @@ protected:
   void PrintParamsError(const clang::CompilerInstance &CI) {
     clang::DiagnosticsEngine &D = CI.getDiagnostics();
 
-    D.Report(
-        D.getCustomDiagID(clang::DiagnosticsEngine::Error,
-                          "Invalid arguments\n"
-                          "Specify \"-plugin-arg-renameIds help\" for usage\n"));
+    D.Report(D.getCustomDiagID(
+        clang::DiagnosticsEngine::Error,
+        "Invalid arguments\n"
+        "Specify \"-plugin-arg-renameIds help\" for usage\n"));
   }
 
 public:
@@ -189,7 +187,6 @@ public:
                     clang::StringRef InFile) override {
     return std::make_unique<RenameConsumer>(CI, type, oldName, newName);
   }
-
 };
 
 static clang::FrontendPluginRegistry::Add<RenamePlugin>
