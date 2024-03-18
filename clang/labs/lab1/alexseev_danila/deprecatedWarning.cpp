@@ -8,7 +8,7 @@ using namespace clang;
 class DepFuncVisitor : public RecursiveASTVisitor<DepFuncVisitor> {
 private:
   ASTContext *Context;
-  std::string ExcludeFunc;
+  std::string ExcludeFunc = "";
 
 public:
   explicit DepFuncVisitor(ASTContext *Context, const std::string &ExcludeFunc)
@@ -33,10 +33,10 @@ public:
 
 class DepFuncConsumer : public ASTConsumer {
 private:
-  std::string ExcludeFunc;
+  std::string ExcludeFunc = "";
 
 public:
-  explicit DepFuncConsumer(CompilerInstance &CI, const std::string &ExcludeFunc)
+  explicit DepFuncConsumer(const std::string &ExcludeFunc)
       : ExcludeFunc(ExcludeFunc) {}
 
   void HandleTranslationUnit(ASTContext &Context) override {
