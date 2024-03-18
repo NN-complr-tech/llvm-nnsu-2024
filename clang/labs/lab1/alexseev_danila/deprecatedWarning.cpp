@@ -34,7 +34,7 @@ public:
 class DepFuncConsumer : public ASTConsumer {
 private:
   std::string ExcludeFunc;
-  
+
 public:
   explicit DepFuncConsumer(CompilerInstance &CI, const std::string &ExcludeFunc)
       : ExcludeFunc(ExcludeFunc) {}
@@ -65,6 +65,13 @@ protected:
       }
     }
     return true;
+  }
+
+  void AddArgs(CommandLineArguments &Args) override {
+  Args.AddStringOption(
+    "-excluding",
+    [this](StringRef Value) { ExcludeFunc = Value.str(); },
+    "Exclude function from deprecated warning");
   }
 };
 
