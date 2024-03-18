@@ -35,7 +35,7 @@ class DepFuncConsumer : public ASTConsumer {
 private:
   std::string ExcludeFunc;
 public:
-  explicit DepFuncConsumer(CompilerInstance &CI)
+  explicit DepFuncConsumer(CompilerInstance &CI, const std::string &ExcludeFunc)
       : ExcludeFunc(ExcludeFunc) {}
 
   void HandleTranslationUnit(ASTContext &Context) override {
