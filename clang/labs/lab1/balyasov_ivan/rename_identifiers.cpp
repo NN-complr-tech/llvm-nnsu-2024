@@ -99,9 +99,10 @@ private:
   RenameVisitor Visitor;
 
 public:
-  explicit RenameConsumer(clang::CompilerInstance &CI, Types type, 
+  explicit RenameConsumer(clang::CompilerInstance &CI, Types type,
                           clang::StringRef oldName, clang::StringRef newName)
-      : Visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()), type, oldName, newName) {}
+      : Visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()), type,
+                +oldName, newName) {}
 
   void HandleTranslationUnit(clang::ASTContext &context) override {
     Visitor.TraverseDecl(context.getTranslationUnitDecl());
