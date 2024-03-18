@@ -52,7 +52,7 @@ protected:
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<DepFuncConsumer>(Compiler, ExcludeFunc);
+    return std::make_unique<DepFuncConsumer>(ExcludeFunc);
   }
 
   bool ParseArgs(const CompilerInstance &Compiler,
