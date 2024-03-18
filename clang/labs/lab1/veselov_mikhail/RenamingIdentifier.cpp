@@ -6,6 +6,12 @@
 
 
 class RenameVisitor : public clang::RecursiveASTVisitor<RenameVisitor> {
+
+private:
+  clang::Rewriter rewriter;
+  std::string cur_name;
+  std::string new_name;
+
 public:
   explicit RenameVisitor(clang::Rewriter rewriter,
                          clang::StringRef cur_name, clang::StringRef new_name)
@@ -79,14 +85,13 @@ public:
   }
 
   bool save_changes() { return rewriter.overwriteChangedFiles(); }
-
-private:
-  clang::Rewriter rewriter;
-  std::string cur_name;
-  std::string new_name;
 };
 
 class RenameASTConsumer : public clang::ASTConsumer {
+
+private:
+  RenameVisitor Visitor;
+
 public:
   explicit RenameASTConsumer(clang::CompilerInstance &CI,
                              clang::StringRef cur_name,
@@ -100,18 +105,13 @@ public:
       llvm::errs() << "An error occurred while saving changes to a file!\n";
     }
   }
-
-private:
-  RenameVisitor Visitor;
 };
 
 class VeselRenamePlugin : public clang::PluginASTAction {
-public:
-  std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(clang::CompilerInstance &CI,
-                    clang::StringRef InFile) override {
-    return std::make_unique<RenameASTConsumer>(CI, cur_name, new_name);
-  }
+
+private:
+  std::string cur_name;
+  std::string new_name;
 
 protected:
   bool ParseArgs(const clang::CompilerInstance &CI,
@@ -135,9 +135,12 @@ protected:
     return true;
   }
 
-private:
-  std::string cur_name;
-  std::string new_name;
+public:
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &CI,
+                    clang::StringRef InFile) override {
+    return std::make_unique<RenameASTConsumer>(CI, cur_name, new_name);
+  }
 };
 
 static clang::FrontendPluginRegistry::Add<VeselRenamePlugin>
