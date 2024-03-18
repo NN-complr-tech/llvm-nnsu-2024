@@ -39,7 +39,6 @@ public:
   }
 };
 
-
 class DepFuncPlugin : public PluginASTAction {
 protected:
   std::unique_ptr<ASTConsumer>
