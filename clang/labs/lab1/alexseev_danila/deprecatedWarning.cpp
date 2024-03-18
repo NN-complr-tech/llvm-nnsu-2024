@@ -68,10 +68,10 @@ protected:
   }
 
   void AddArgs(CommandLineArguments &Args) override {
-  Args.AddStringOption(
-    "-excluding",
-    [this](StringRef Value) { ExcludeFunc = Value.str(); },
-    "Exclude function from deprecated warning");
+    Args.AddStringOption(
+        "-excluding",
+        [this](StringRef Value) { ExcludeFunc = Value.str(); },
+        "Exclude function from deprecated warning");
   }
 };
 
