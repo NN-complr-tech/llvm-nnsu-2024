@@ -22,7 +22,8 @@ public:
       if (clang::isa<clang::IfStmt>(CurrentNode) ||
           clang::isa<clang::SwitchStmt>(CurrentNode) ||
           clang::isa<clang::ForStmt>(CurrentNode) ||
-          clang::isa<clang::WhileStmt>(CurrentNode)) {
+          clang::isa<clang::WhileStmt>(CurrentNode) ||
+          clang::isa<clang::DoStmt>(CurrentNode)) {
         ContainsConditional = true;
         break;
       }
@@ -38,13 +39,6 @@ public:
       clang::SourceRange FuncRange = Func->getSourceRange();
       Func->addAttr(
           clang::AlwaysInlineAttr::CreateImplicit(*MyContext, FuncRange));
-      auto ThisAttr = Func->getAttr<clang::AlwaysInlineAttr>();
-      llvm::outs() << "Added attribute " << ThisAttr->getSpelling() << " in "
-                   << Func->getNameAsString() << "\n";
-    } else {
-      llvm::outs() << Func->getNameAsString() << " "
-                   << "not suitable for the attribute"
-                   << "\n";
     }
 
     return true;
