@@ -34,6 +34,7 @@ public:
 class DepFuncConsumer : public ASTConsumer {
 private:
   std::string ExcludeFunc;
+  
 public:
   explicit DepFuncConsumer(CompilerInstance &CI, const std::string &ExcludeFunc)
       : ExcludeFunc(ExcludeFunc) {}
@@ -47,7 +48,7 @@ public:
 class DepFuncPlugin : public PluginASTAction {
 protected:
   std::string ExcludeFunc = "";
-  
+
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
