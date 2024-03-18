@@ -3,7 +3,7 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
-
+s 
 class ClassPrinter : public clang::RecursiveASTVisitor<ClassPrinter> {
 public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
@@ -37,7 +37,8 @@ public:
 
 class ClassPrinterPluginAction : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &ci,
+  std::unique_ptr<clang::ASTConsumer> 
+  CreateASTConsumer(clang::CompilerInstance &ci,
                                                  llvm::StringRef) override {
     return std::make_unique<ClassPrinterASTConsumer>();
   }
