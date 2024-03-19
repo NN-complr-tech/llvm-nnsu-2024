@@ -41,9 +41,9 @@ public:
         }
 
         if (FD->hasAttr<clang::AlwaysInlineAttr>()) {
-          llvm::outs() << "Attribute 'always_inline' is present in the AST after addition.\n";
+          llvm::outs() << "Attribute 'always_inline' is present in the AST after addition.";
         } else {
-          llvm::outs() << "Attribute 'always_inline' is not present in the AST after addition.\n";
+          llvm::outs() << "Attribute 'always_inline' is not present in the AST after addition.";
         }
       }
     }
