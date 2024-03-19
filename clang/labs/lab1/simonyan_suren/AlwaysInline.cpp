@@ -5,11 +5,12 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include <stack>
 
-class AlwaysInlineVisitor {
+class AlwaysInlineVisitor
+    : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
 public:
   AlwaysInlineVisitor(clang::ASTContext *MyContext) : MyContext(MyContext) {}
 
-  void VisitFunctionDecl(clang::FunctionDecl *Func) {
+  bool VisitFunctionDecl(clang::FunctionDecl *Func) {
     bool ContainsConditional = false;
     std::stack<clang::Stmt *> stack;
     stack.push(Func->getBody());
@@ -38,13 +39,9 @@ public:
       clang::SourceRange FuncRange = Func->getSourceRange();
       Func->addAttr(
           clang::AlwaysInlineAttr::CreateImplicit(*MyContext, FuncRange));
-      Func->getAttr<clang::AlwaysInlineAttr>();
-      llvm::outs() << "Added attribute always_inline in "
-                   << Func->getNameAsString() << "\n";
-    } else {
-      llvm::outs() << "Don't added attribute always_inline in "
-          << Func->getNameAsString() << "\n";
     }
+
+    return true;
   }
 
 private:
@@ -55,11 +52,8 @@ class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
   AlwaysInlineConsumer(clang::ASTContext *MyContext) : MyVisitor(MyContext) {}
 
-  void HandleTranslationUnit(clang::ASTContext &Context) override {
-    for (auto &Decl : Context.getTranslationUnitDecl()->decls()) {
-      if (auto *FD = clang::dyn_cast<clang::FunctionDecl>(Decl))
-        MyVisitor.VisitFunctionDecl(FD);
-    }
+  void HandleTranslationUnit(clang::ASTContext &MyContext) override {
+    MyVisitor.TraverseDecl(MyContext.getTranslationUnitDecl());
   }
 
 private:
@@ -73,7 +67,6 @@ public:
                     llvm::StringRef) override {
     return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
   }
-
   bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
     return true;
