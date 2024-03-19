@@ -36,15 +36,8 @@ public:
           FD->addAttr(
               clang::AlwaysInlineAttr::CreateImplicit(FD->getASTContext()));
           FD->print(llvm::outs() << "__attribute__((always_inline)) ");
-        } else {
+        } else
           FD->print(llvm::outs());
-        }
-
-        if (FD->hasAttr<clang::AlwaysInlineAttr>()) {
-          llvm::outs() << "Attribute 'always_inline' is present in the AST after addition.";
-        } else {
-          llvm::outs() << "Attribute 'always_inline' is not present in the AST after addition.";
-        }
       }
     }
     return true;
