@@ -44,7 +44,7 @@ private:
 class AlwaysInlinePlugin : public PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(CompilerInstance &Compiler,llvm::StringRef) override {
+  CreateASTConsumer(CompilerInstance &Compiler, llvm::StringRef) override {
     return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
   }
   bool ParseArgs(const CompilerInstance &Compiler,
