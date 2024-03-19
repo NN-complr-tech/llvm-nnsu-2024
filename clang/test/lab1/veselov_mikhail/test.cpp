@@ -7,6 +7,8 @@
 // RUN: -plugin-arg-rename new-name=new_var %t/rename_var.cpp
 // RUN: FileCheck %s < %t/rename_var.cpp --check-prefix=VAR
 
+//--- rename_var.cpp
+
 // VAR: int func() {
 // VAR-NEXT: int new_var = 2, b = 2;
 // VAR-NEXT: new_var = b + new_var;
@@ -14,7 +16,6 @@
 // VAR-NEXT:  return new_var;
 // VAR-NEXT: }
 
-//--- rename_var.cpp
 int func() {
   int a = 2, b = 2;
   a = b + a;
@@ -29,6 +30,8 @@ int func() {
 // RUN: -plugin-arg-rename new-name=new_var %t/rename_non_existent_var.cpp
 // RUN: FileCheck %s < %t/rename_non_existent_var.cpp --check-prefix=NON_EXIST_VAR
 
+//--- rename_non_existent_var.cpp
+
 // NON_EXIST_VAR: int func() {
 // NON_EXIST_VAR-NEXT: int a = 2;
 // NON_EXIST_VAR-NEXT: int b = 3;
@@ -37,7 +40,6 @@ int func() {
 // NON_EXIST_VAR-NEXT:  return b - a;
 // NON_EXIST_VAR-NEXT: }
 
-//--- rename_non_existent_var.cpp
 int func() {
   int a = 2;
   int b = 3;
@@ -53,6 +55,8 @@ int func() {
 // RUN: -plugin-arg-rename new-name=new_func %t/rename_func.cpp
 // RUN: FileCheck %s < %t/rename_func.cpp --check-prefix=FUNC
 
+//--- rename_func.cpp
+
 // FUNC: int new_func(int param) {
 // FUNC-NEXT: int a;
 // FUNC-NEXT: a = 2;
@@ -64,7 +68,6 @@ int func() {
 // FUNC-NEXT: return a;
 // FUNC-NEXT: }
 
-//--- rename_func.cpp
 int function(int param) {
     int a;
     a = 2;
@@ -83,6 +86,8 @@ int other_func(){
 // RUN: -plugin-arg-rename new-name=f %t/rename_non_existent_func.cpp
 // RUN: FileCheck %s < %t/rename_non_existent_func.cpp --check-prefix=NON_EXIST_FUNC
 
+//--- rename_non_existent_func.cpp
+
 // NON_EXIST_FUNC: int func(int a) {
 // NON_EXIST_FUNC-NEXT: int b = 2;
 // NON_EXIST_FUNC-NEXT: return a + b;
@@ -92,7 +97,6 @@ int other_func(){
 // NON_EXIST_FUNC-NEXT: int b = func(c) + func(3);
 // NON_EXIST_FUNC-NEXT: }
 
-//--- rename_non_existent_func.cpp
 int func(int a) {
   int b = 2;
   return a + b;
@@ -110,6 +114,8 @@ void func2() {
 // RUN: -plugin-arg-rename new-name=SimpleClass %t/rename_class.cpp
 // RUN: FileCheck %s < %t/rename_class.cpp --check-prefix=CLASS
 
+//--- rename_class.cpp
+
 // CLASS: class SimpleClass{
 // CLASS-NEXT: private:
 // CLASS-NEXT: int a;
@@ -125,7 +131,6 @@ void func2() {
 // CLASS-NEXT: delete var;
 // CLASS-NEXT: }
 
-//--- rename_class.cpp
 class Base{
  private:
   int a;
@@ -149,6 +154,8 @@ void func() {
 // RUN: -plugin-arg-rename new-name=C %t/rename_non_existent_class.cpp
 // RUN: FileCheck %s < %t/rename_non_existent_class.cpp --check-prefix=NON_EXIST_CLASS
 
+//--- rename_non_existent_class.cpp
+
 // NON_EXIST_CLASS: class A{
 // NON_EXIST_CLASS-NEXT: private:
 // NON_EXIST_CLASS-NEXT: int var1;
@@ -163,7 +170,6 @@ void func() {
 // NON_EXIST_CLASS-NEXT: delete var2;
 // NON_EXIST_CLASS-NEXT: }
 
-//--- rename_non_existent_class.cpp
 class A{
  private:
   int var1;
