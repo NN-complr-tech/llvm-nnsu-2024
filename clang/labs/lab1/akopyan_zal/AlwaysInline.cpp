@@ -31,9 +31,9 @@ private:
 
 class AlwaysInlineConsumer : public ASTConsumer {
 public:
-  AlwaysInlineConsumer(ASTContext * Context) : Visitor(Context) {}
+  AlwaysInlineConsumer(ASTContext *Context) : Visitor(Context) {}
 
-  void HandleTranslationUnit(ASTContext & Context) override {
+  void HandleTranslationUnit(ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 
@@ -44,8 +44,7 @@ private:
 class AlwaysInlinePlugin : public PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(CompilerInstance &Compiler,
-                    llvm::StringRef) override {
+  CreateASTConsumer(CompilerInstance &Compiler,llvm::StringRef) override {
     return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
   }
   bool ParseArgs(const CompilerInstance &Compiler,
