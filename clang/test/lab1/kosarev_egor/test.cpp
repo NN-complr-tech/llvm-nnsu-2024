@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
+// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 2>&1 | FileCheck %s --check-prefix=SUM
 // SUM: __attribute__((always_inline)) int sum(int A, int B) {
 // SUM-NEXT:   return A + B;
 // SUM-NEXT: }
@@ -131,5 +131,6 @@ void __attribute__((always_inline)) someFoo(){}
 // RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --help %s 2>&1 | FileCheck %s --check-prefix=HELP
 // HELP: This plugin adds the always_inline attribute to functions if they do not have conditions!
 
+// HELP-NOT: __attribute__((always_inline))
 // RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --awdawdawd %s 2>&1 | FileCheck %s --check-prefix=WRONG-HELP
 // WRONG-HELP: Use the --help argument to understand the plugin's purpose!
