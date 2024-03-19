@@ -15,26 +15,16 @@ public:
       : Context(Context), HasConditional(false) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *Func) {
-    if (Func->hasBody() && Func->isThisDeclarationADefinition()) {
-      HasConditional = false;
-      TraverseStmt(Func->getBody());
+    HasConditional = false;
+    TraverseStmt(Func->getBody());
 
+    if (!Func->hasAttr<clang::AlwaysInlineAttr>()) {
       if (!HasConditional) {
-        if (!Func->hasAttr<clang::AlwaysInlineAttr>()) {
-          clang::SourceRange Range = Func->getSourceRange();
-          Func->addAttr(
-              clang::AlwaysInlineAttr::CreateImplicit(*Context, Range));
-          llvm::outs() << "Add always_inline to function: "
-                       << Func->getNameAsString() << "\n";
-        } else {
-          llvm::outs() << "Skip (always_inline already exists): "
-                       << Func->getNameAsString() << "\n";
-        }
-      } else {
-        llvm::outs() << "Skip (condition found): " << Func->getNameAsString()
-                     << "\n";
+        clang::SourceRange Range = Func->getSourceRange();
+        Func->addAttr(clang::AlwaysInlineAttr::CreateImplicit(*Context, Range));
       }
     }
+    Func->dump();
     return true;
   }
 
@@ -80,6 +70,12 @@ public:
   }
   bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
+    for (const std::string &Arg : Args) {
+      if (Arg == "--help") {
+        llvm::outs() << "This plugin adds an __attribute__((always_inline)) to "
+                        "functions without any conditions\n";
+      }
+    }
     return true;
   }
 };
