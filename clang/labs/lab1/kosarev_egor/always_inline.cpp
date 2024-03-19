@@ -48,7 +48,7 @@ public:
         } 
     } 
     return true; 
-  }
+}
 };
 
 class AddAlwaysInlineAction : public clang::PluginASTAction {
