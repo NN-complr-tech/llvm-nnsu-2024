@@ -150,6 +150,7 @@ int func() {
   a++;
   return a;
 }
+
 //--- rename_non_existent_var.cpp
 int func() {
   int a = 2;
@@ -158,6 +159,7 @@ int func() {
   a++;
   return b - a;
 }
+
 //--- rename_func.cpp
 int function(int param) {
     int a;
@@ -169,6 +171,7 @@ int other_func(){
   int a = function(2) + 3;
   return a;
 }
+
 //--- rename_non_existent_func.cpp
 int func(int a) {
   int b = 2;
@@ -179,6 +182,7 @@ void func2() {
   int c = func(2);
   int b = func(c) + func(3);
 }
+
 //--- rename_class.cpp
 class Base{
  private:
@@ -195,6 +199,7 @@ void func() {
   Base* var = new Base(1, 2);
   delete var;
 }
+
 //--- rename_non_existent_class.cpp
 class A{
  private:
