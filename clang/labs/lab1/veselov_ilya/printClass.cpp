@@ -32,7 +32,7 @@ public:
   std::unique_ptr<clang::ASTConsumer> CreateASTConsumer (
     clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
       return std::make_unique<PrintClassConsumer>();
-    }
+  }
 
 protected:
   bool ParseArgs(const clang::CompilerInstance &Compiler, 
