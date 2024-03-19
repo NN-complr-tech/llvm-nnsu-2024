@@ -14,6 +14,14 @@
 // VAR-NEXT:  return new_var;
 // VAR-NEXT: }
 
+//--- rename_var.cpp
+int func() {
+  int a = 2, b = 2;
+  a = b + a;
+  a++;
+  return a;
+}
+
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=var\
@@ -28,6 +36,15 @@
 // NON_EXIST_VAR-NEXT: a++;
 // NON_EXIST_VAR-NEXT:  return b - a;
 // NON_EXIST_VAR-NEXT: }
+
+//--- rename_non_existent_var.cpp
+int func() {
+  int a = 2;
+  int b = 3;
+  b += a;
+  a++;
+  return b - a;
+}
 
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
@@ -47,6 +64,18 @@
 // FUNC-NEXT: return a;
 // FUNC-NEXT: }
 
+//--- rename_func.cpp
+int function(int param) {
+    int a;
+    a = 2;
+    return param + a;
+}
+int other_func(){
+  function(3);
+  int a = function(2) + 3;
+  return a;
+}
+
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=func\
@@ -62,6 +91,17 @@
 // NON_EXIST_FUNC-NEXT: int c = func(2);
 // NON_EXIST_FUNC-NEXT: int b = func(c) + func(3);
 // NON_EXIST_FUNC-NEXT: }
+
+//--- rename_non_existent_func.cpp
+int func(int a) {
+  int b = 2;
+  return a + b;
+}
+
+void func2() {
+  int c = func(2);
+  int b = func(c) + func(3);
+}
 
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
@@ -85,6 +125,23 @@
 // CLASS-NEXT: delete var;
 // CLASS-NEXT: }
 
+//--- rename_class.cpp
+class Base{
+ private:
+  int a;
+  int b;
+ public:
+  Base() {}
+  Base(int a, int b): a(a), b(b) {}
+  ~Base();
+};
+
+void func() {
+  Base a;
+  Base* var = new Base(1, 2);
+  delete var;
+}
+
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=class\
@@ -105,6 +162,22 @@
 // NON_EXIST_CLASS-NEXT: A* var2 = new A;
 // NON_EXIST_CLASS-NEXT: delete var2;
 // NON_EXIST_CLASS-NEXT: }
+
+//--- rename_non_existent_class.cpp
+class A{
+ private:
+  int var1;
+  double var2;
+ public:
+ A() {};
+ ~A() {};
+};
+
+void func() {
+  A var1;
+  A* var2 = new A;
+  delete var2;
+}
 
 // RUN: %clang_cc1 -load %llvmshlibdir/VeselRenamePlugin%pluginext\
 // RUN: -add-plugin rename\
@@ -142,76 +215,3 @@
 
 //ERROR: Invalid arguments
 //ERROR-NEXT: Specify "-plugin-arg-rename help" for usage
-
-//--- rename_var.cpp
-int func() {
-  int a = 2, b = 2;
-  a = b + a;
-  a++;
-  return a;
-}
-
-//--- rename_non_existent_var.cpp
-int func() {
-  int a = 2;
-  int b = 3;
-  b += a;
-  a++;
-  return b - a;
-}
-
-//--- rename_func.cpp
-int function(int param) {
-    int a;
-    a = 2;
-    return param + a;
-}
-int other_func(){
-  function(3);
-  int a = function(2) + 3;
-  return a;
-}
-
-//--- rename_non_existent_func.cpp
-int func(int a) {
-  int b = 2;
-  return a + b;
-}
-
-void func2() {
-  int c = func(2);
-  int b = func(c) + func(3);
-}
-
-//--- rename_class.cpp
-class Base{
- private:
-  int a;
-  int b;
- public:
-  Base() {}
-  Base(int a, int b): a(a), b(b) {}
-  ~Base();
-};
-
-void func() {
-  Base a;
-  Base* var = new Base(1, 2);
-  delete var;
-}
-
-//--- rename_non_existent_class.cpp
-class A{
- private:
-  int var1;
-  double var2;
- public:
- A() {};
- ~A() {};
-};
-
-void func() {
-  A var1;
-  A* var2 = new A;
-  delete var2;
-}
