@@ -40,7 +40,6 @@ template<typename T> class TemplateClass {
 class StaticClass {
     // CHECK-NEXT: |_staticField
     static int staticField;
+    // CHECK-NEXT: |_instantiationInt
+    TemplateClass<int> instantiationInt;
 };
-
-// CHECK: TemplateClass
-TemplateClass<int> instantiationInt;

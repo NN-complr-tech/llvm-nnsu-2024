@@ -21,15 +21,14 @@ public:
     return true;
   }
 
-  private:
-    clang::ASTContext *Context;
+private:
+  clang::ASTContext *Context;
 };
 
 class PrintClassConsumer : public clang::ASTConsumer {
 public:
-  explicit PrintClassConsumer(clang::ASTContext *Context)
-          : Visitor(Context) {}
-  
+  explicit PrintClassConsumer(clang::ASTContext *Context) : Visitor(Context) {}
+
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
