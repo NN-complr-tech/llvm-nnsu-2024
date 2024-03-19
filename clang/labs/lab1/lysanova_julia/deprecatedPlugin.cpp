@@ -38,14 +38,14 @@ protected:
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<DeprecatedConsumer>(Compiler);
+    return std::make_unique<DeprecatedConsumer>();
   }
 
   bool ParseArgs(const CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
     if (!Args.empty() && Args[0] == "-help") {
       llvm::errs()
-	      << "This plugin throws warning if func name contains 'deprecated'";
+          << "This plugin throws warning if func name contains 'deprecated'";
     }
     return true;
   }
