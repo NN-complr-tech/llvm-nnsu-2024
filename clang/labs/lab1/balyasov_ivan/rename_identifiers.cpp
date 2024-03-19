@@ -40,13 +40,10 @@ public:
       rewriter.ReplaceText(var->getLocation(), oldName.size(), newName);
     }
     if (type == Types::Class &&
-        var->getType().getAsString() == oldName + " *") {
+        (var->getType().getAsString() == oldName + " *" ||
+         var->getType().getAsString() == oldName)) {
       rewriter.ReplaceText(var->getTypeSourceInfo()->getTypeLoc().getBeginLoc(),
                            oldName.size(), newName);
-    }
-    if (type == Types::Class && var->getType().getAsString() == oldName) {
-      rewriter.ReplaceText(
-          var->getTypeSourceInfo()->getTypeLoc().getSourceRange(), newName);
     }
     return true;
   }
