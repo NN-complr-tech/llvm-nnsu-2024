@@ -43,11 +43,14 @@ protected:
 
   bool ParseArgs(const CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
-    if (!Args.empty() && Args[0] == "-help") {
-      llvm::errs()
-          << "This plugin throws warning if func name contains 'deprecated'";
+    if (!Args.empty() && Args[0] == "help") {
+      Help(llvm::errs());
     }
     return true;
+  }
+
+  void Help(llvm::raw_ostream &ros) {
+    ros << "This plugin throws warning if func name contains 'deprecated'\n";
   }
 };
 

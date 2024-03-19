@@ -12,6 +12,6 @@ void abcdf();
 // CHECK-NOT: warning: Function have deprecated in its name!
 void eprecated();
 
-// RUN: %clang_cc1 -load %llvmshlibdir/LysanovaDepWarnPlugin%pluginext -plugin depWarning -plugin-arg-depWarning -help %s 2>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/LysanovaDepWarnPlugin%pluginext -plugin depWarning %s -plugin-arg-depWarning help 2>&1 | FileCheck %s --check-prefix=HELP
 
-//CHECK: This plugin throws warning if func name contains 'deprecated'
+// HELP: This plugin throws warning if func name contains 'deprecated'
