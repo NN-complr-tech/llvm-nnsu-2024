@@ -43,18 +43,20 @@ public:
   }
 
   bool ParseArgs(const clang::CompilerInstance &ci,
-                 const std::vector<std::string> &Args) override {
-    for (const auto &arg : Args) {
-      if (arg == "--help") {
-        llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
-                        "of a codebase and prints the name and fields of each "
-                        "class it encounters\n";
-        return true;
-      }
+               const std::vector<std::string> &Args) override {
+  for (const auto &arg : Args) {
+    if (arg == "--help") {
+      llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
+                      "of a codebase and prints the name and fields of each "
+                      "class it encounters\n";
     }
-    return true;
   }
+  return true;
+}
+
 };
+
+
 
 static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction>
     X("classprinter", "Prints all members of the class");
