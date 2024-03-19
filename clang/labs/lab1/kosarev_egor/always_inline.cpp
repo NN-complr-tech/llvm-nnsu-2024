@@ -25,30 +25,30 @@ public:
     return false;
   }
 
-  bool HandleTopLevelDecl(clang::DeclGroupRef D) override { 
-    clang::FunctionDecl *FD = nullptr; 
- 
-    for (clang::Decl *Decl : D) { 
-        FD = clang::dyn_cast<clang::FunctionDecl>(Decl); 
-        if (FD) { 
-            if (!FD->hasAttr<clang::AlwaysInlineAttr>() && 
-                !hasCondition(FD->getBody())) { 
-                FD->addAttr( 
-                    clang::AlwaysInlineAttr::CreateImplicit(FD->getASTContext())); 
-                FD->print(llvm::outs() << "__attribute__((always_inline)) "); 
-            } else { 
-                FD->print(llvm::outs()); 
-            }
+  bool HandleTopLevelDecl(clang::DeclGroupRef D) override {
+    clang::FunctionDecl *FD = nullptr;
 
-            if (FD->hasAttr<clang::AlwaysInlineAttr>()) {
-                llvm::outs() << "Attribute 'always_inline' is present in the AST after addition.\n"; 
-            } else {
-                llvm::outs() << "Attribute 'always_inline' is not present in the AST after addition.\n"; 
-            }
-        } 
-    } 
-    return true; 
-}
+    for (clang::Decl *Decl : D) {
+      FD = clang::dyn_cast<clang::FunctionDecl>(Decl);
+      if (FD) {
+        if (!FD->hasAttr<clang::AlwaysInlineAttr>() &&
+            !hasCondition(FD->getBody())) {
+          FD->addAttr(
+              clang::AlwaysInlineAttr::CreateImplicit(FD->getASTContext()));
+          FD->print(llvm::outs() << "__attribute__((always_inline)) ");
+        } else {
+          FD->print(llvm::outs());
+        }
+
+        if (FD->hasAttr<clang::AlwaysInlineAttr>()) {
+          llvm::outs() << "Attribute 'always_inline' is present in the AST after addition.\n";
+        } else {
+          llvm::outs() << "Attribute 'always_inline' is not present in the AST after addition.\n";
+        }
+      }
+    }
+    return true;
+  }
 };
 
 class AddAlwaysInlineAction : public clang::PluginASTAction {
