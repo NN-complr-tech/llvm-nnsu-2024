@@ -43,4 +43,3 @@ protected:
 
 static clang::FrontendPluginRegistry::Add<PrintClassPlugin>
   X("print-class", "Prints description of class.");
-  
