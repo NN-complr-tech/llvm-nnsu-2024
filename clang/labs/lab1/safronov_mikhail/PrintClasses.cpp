@@ -3,7 +3,8 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
-class PrintClassesVisitor : public clang::RecursiveASTVisitor<PrintClassesVisitor> {
+class PrintClassesVisitor
+    : public clang::RecursiveASTVisitor<PrintClassesVisitor> {
 public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *decl) {
     if (decl->isStruct() || decl->isClass()) {
@@ -29,17 +30,18 @@ private:
 
 class PrintClassesPlugin : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer (
-    clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
-      return std::make_unique<PrintClassesConsumer>();
-    }
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &Compiler,
+                    llvm::StringRef InFile) override {
+    return std::make_unique<PrintClassesConsumer>();
+  }
 
 protected:
-  bool ParseArgs(const clang::CompilerInstance &Compiler, 
+  bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &args) override {
     return true;
   }
 };
 
 static clang::FrontendPluginRegistry::Add<PrintClassesPlugin>
-  X("print-classes", "Prints description of class.");
+    X("print-classes", "Prints description of class.");
