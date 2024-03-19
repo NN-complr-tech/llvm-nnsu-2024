@@ -20,3 +20,7 @@ void deprecate();
 
 // CHECK-NOT: warning: Function contains 'deprecated' in its name
 void deprecatedFunc();
+
+// RUN: %clang_cc1 -load %llvmshlibdir/LysanovaDepWarnPlugin%pluginext -plugin depWarning -plugin-arg-depWarning -help %s 2>&1 | FileCheck %s
+
+//CHECK: This plugin throws warning if func name contains 'deprecated'
