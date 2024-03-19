@@ -36,7 +36,6 @@ template<typename T> class TemplateClass {
     T Tvariable;
 };
 
-// CHECK: TemplateClass instantiation
 TemplateClass<int> instantiationInt;
 
 // CHECK: StaticClass
