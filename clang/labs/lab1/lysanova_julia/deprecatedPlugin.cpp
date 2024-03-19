@@ -45,7 +45,7 @@ protected:
                  const std::vector<std::string> &Args) override {
     if (!args.empty() && args[0] == "-help") {
       llvm::errs << "This plugin throws warning if func name contains 'deprecated'";
-	}
+    }
     return true;
   }
 };
