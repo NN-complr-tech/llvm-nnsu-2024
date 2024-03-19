@@ -54,7 +54,7 @@ protected:
     for (const std::string &arg : Args) {
       if (arg == "--help") {
         llvm::outs()
-            << "This plugin displays the name of the class and it's fields.";
+            << "This plugin displays the name of the class and it's fields.\n";
         return false;
       }
     }
