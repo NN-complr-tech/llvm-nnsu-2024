@@ -29,13 +29,14 @@ private:
 
 class PrintClassPlugin : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer (
-    clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
-      return std::make_unique<PrintClassConsumer>();
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &Compiler,
+                    llvm::StringRef InFile) override {
+    return std::make_unique<PrintClassConsumer>();
   }
 
 protected:
-  bool ParseArgs(const clang::CompilerInstance &Compiler, 
+  bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &args) override {
     return true;
   }
