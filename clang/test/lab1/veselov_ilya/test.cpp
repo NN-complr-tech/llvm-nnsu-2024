@@ -43,5 +43,3 @@ class StaticClass {
     // CHECK-NEXT: |_staticField
     static int staticField;
 };
-
-int StaticClass::staticField = 0;
