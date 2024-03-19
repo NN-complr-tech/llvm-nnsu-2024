@@ -55,7 +55,6 @@ protected:
       if (arg == "--help") {
         llvm::outs()
             << "This plugin displays the name of the class and it's fields.\n";
-        return false;
       }
     }
     return true;

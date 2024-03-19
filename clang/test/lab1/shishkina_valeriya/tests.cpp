@@ -1,5 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesNamePlugin%pluginext -plugin print-classes %s 1>&1 | FileCheck %s
-
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesNamePlugin%pluginext -plugin print-classes %s 2>&1 | FileCheck %s
 // CHECK: Test1
 struct Test1
 {
@@ -31,5 +30,6 @@ public:
 // CHECK: Test4
 struct Test4{};
 
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesNamePlugin%pluginext -plugin print-classes -plugin-arg-print-classes --help %s 2>&1 | FileCheck %s --check-prefix=HELP
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesNamePlugin%pluginext -plugin print-classes -plugin-arg-print-classes --help 1>&1 | FileCheck %s --check-prefix=HELP
+
 // HELP: This plugin displays the name of the class and it's fields.
