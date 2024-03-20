@@ -57,6 +57,5 @@ public:
 };
 
 
-
 static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction>
     X("classprinter", "Prints all members of the class");
