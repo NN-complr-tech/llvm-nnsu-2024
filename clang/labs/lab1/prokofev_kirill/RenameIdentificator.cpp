@@ -134,7 +134,7 @@ protected:
 
     if (!args.empty() && args[0] == "help") {
       PrintHelp(llvm::errs());
-      return true;
+      return false;
     }
 
     if (args.size() < 3) {
