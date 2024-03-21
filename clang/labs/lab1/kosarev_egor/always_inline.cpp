@@ -35,9 +35,7 @@ public:
             !hasCondition(FD->getBody())) {
           FD->addAttr(
               clang::AlwaysInlineAttr::CreateImplicit(FD->getASTContext()));
-          FD->print(llvm::outs() << "__attribute__((always_inline)) ");
-        } else
-          FD->print(llvm::outs());
+        }
       }
     }
     return true;
