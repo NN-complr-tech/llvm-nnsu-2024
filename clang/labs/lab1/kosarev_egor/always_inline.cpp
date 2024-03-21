@@ -52,19 +52,18 @@ protected:
     return std::make_unique<AddAlwaysInlineConsumer>();
   }
 
-  bool ParseArgs(const clang::CompilerInstance &CI,
+  bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
-    for (const std::string &arg : Args) {
-      if (arg == "--help") {
-        llvm::outs() << "This plugin adds the always_inline attribute to "
-                        "functions if they do not have conditions!\n";
-      } else
-        llvm::outs()
-            << "Use the --help argument to understand the plugin's purpose!\n";
+    for (const std::string &Arg : Args) {
+      if (Arg == "--help") {
+        llvm::outs() << "This plugin adds an __attribute__((always_inline)) to "
+                        "functions without any conditions\n";
+      }
     }
     return true;
   }
 };
 
 static clang::FrontendPluginRegistry::Add<AddAlwaysInlineAction>
-    X("AddAlwaysInline", "Adds always_inline to functions without conditions");
+X("add-always-inline", "Automatically adds attribute((always_inline)) "
+"to functions without conditional statements.");

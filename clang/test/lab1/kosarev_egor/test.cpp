@@ -1,135 +1,61 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 2>&1 | FileCheck %s --check-prefix=SUM
-// SUM: __attribute__((always_inline)) int sum(int A, int B) {
-// SUM-NEXT:   return A + B;
-// SUM-NEXT: }
-int sum(int A, int B) { return A + B; }
+// RUN: %clang_cc1 -ast-dump -ast-dump-filter test -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -add-plugin add-always-inline %s | FileCheck %s
 
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=EMPTY
-// EMPTY: __attribute__((always_inline)) void checkEmpty() {
-// EMPTY-NEXT: }
-void checkEmpty() {}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) test 'void \(\)'}}
+void test();
 
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=MIN-NESTED
-// MIN-NESTED: int minNested(int A, int B) {
-// MIN-NESTED-NEXT:     {
-// MIN-NESTED-NEXT:         if (A < B) {
-// MIN-NESTED-NEXT:             return A;
-// MIN-NESTED-NEXT:         }
-// MIN-NESTED-NEXT:         return B;
-// MIN-NESTED-NEXT:     }
-// MIN-NESTED-NEXT: }
-int minNested(int A, int B) {
-  {
-    if (A < B) {
-      return A;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testEmpty 'void \(\)'}}
+void testEmpty() {}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testReturn 'int \(int\)'}}
+int testReturn(int a) {
+    return a;
+}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testSum 'int \(int, int\)'}}
+int testSum(int a, int b) {
+    {
+        return a + b;
     }
-    return B;
-  }
 }
 
-
-// CHECK: int min(int A, int B) {
-// CHECK-NEXT:     if (A < b) {
-// CHECK-NEXT:         return A;
-// CHECK-NEXT:     }
-// CHECK-NEXT:     return B;
-// CHECK-NEXT: }
-int min(int A, int B) {
-  if (A < B) {
-    return A;
-  }
-  return B;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testAssign 'void \(int, int\)'}}
+// CHECK: AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:23:16> always_inline}}
+__attribute__((always_inline)) void testAssign(int a, int b) {
+    {
+        {
+            a = b;
+        }
+    }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
 
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=FOR-LOOP
-// FOR-LOOP: int forLoop() {
-// FOR-LOOP-NEXT:     int Counter = 0;
-// FOR-LOOP-NEXT:     for (int I = 0; I < 2; I++) {
-// FOR-LOOP-NEXT:         Counter += I;
-// FOR-LOOP-NEXT:     }
-// FOR-LOOP-NEXT:     return Counter;
-// FOR-LOOP-NEXT: }
-int forLoop() {
-  int Counter = 0;
-  for (int I = 0; I < 2; I++) {
-    Counter += I;
-  }
-  return Counter;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testWhile 'void \(int, int\)'}}
+void testWhile(int a, int b) {
+    while (a < b) {
+        a += b;
+    }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
 
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=WHILE-LOOP
-// WHILE-LOOP: int whileLoop() {
-// WHILE-LOOP-NEXT:     int I = 0;
-// WHILE-LOOP-NEXT:     while (I < 5)
-// WHILE-LOOP-NEXT:         {
-// WHILE-LOOP-NEXT:             I++;
-// WHILE-LOOP-NEXT:         }
-// WHILE-LOOP-NEXT:     return I;
-// WHILE-LOOP-NEXT: }
-int whileLoop() {
-  int I = 0;
-  while (I < 5) {
-    I++;
-  }
-  return I;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testFor 'void \(int\)'}}
+void testFor(int a) {
+    for (int i = 0; i < a; ++i) {
+        a += i;
+    }
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
 
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=DO-WHILE-LOOP
-// DO-WHILE-LOOP: int doWhileLoop() {
-// DO-WHILE-LOOP-NEXT:     int I = 0;
-// DO-WHILE-LOOP-NEXT:     do {
-// DO-WHILE-LOOP-NEXT:         I++;
-// DO-WHILE-LOOP-NEXT:     } while (I < 5);
-// DO-WHILE-LOOP-NEXT:     return I;
-// DO-WHILE-LOOP-NEXT: }
-int doWhileLoop() {
-  int I = 0;
-  do {
-    I++;
-  } while (I < 5);
-  return I;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) testSwitch 'int \(int, int\)'}}
+int testSwitch(int a, int b) {
+    switch(a) {
+        case 1:
+            return a;
+        case 2:
+            return b;
+    }
+    return 0;
 }
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
 
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SWITCH-CASE
-// SWITCH-CASE: int switchCondition() {
-// SWITCH-CASE-NEXT:     int I = 0;
-// SWITCH-CASE-NEXT:     int Result = 0;
-// SWITCH-CASE-NEXT:     switch (I) {
-// SWITCH-CASE-NEXT:       case 0:
-// SWITCH-CASE-NEXT:         Result = 10;
-// SWITCH-CASE-NEXT:         break;
-// SWITCH-CASE-NEXT:       default:
-// SWITCH-CASE-NEXT:         Result = 100;
-// SWITCH-CASE-NEXT:         break;
-// SWITCH-CASE-NEXT:     }
-// SWITCH-CASE-NEXT:     return Result;
-// SWITCH-CASE-NEXT: }
-int switchCondition() {
-  int I = 0;
-  int Result = 0;
-  switch (I) {
-  case 0:
-    Result = 10;
-    break;
-  default:
-  Result = 100;
-    break;
-  }
-  return Result;
-}
-
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=ALREADY-HAVE
-// ALREADY-HAVE: void someFoo() __attribute__((always_inline)) {
-// ALREADY-HAVE-NEXT: }
-void __attribute__((always_inline)) someFoo(){}
-
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --help %s 2>&1 | FileCheck %s --check-prefix=HELP
-// HELP: This plugin adds the always_inline attribute to functions if they do not have conditions!
-
-// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --awdawdawd %s 2>&1 | FileCheck %s --check-prefix=WRONG-HELP
-// WRONG-HELP: Use the --help argument to understand the plugin's purpose!
+// RUN: %clang_cc1 -load %llvmshlibdir/KosarevAlwaysInlinePlugin%pluginext -plugin add-always-inline -plugin-arg-add-always-inline --help 2>&1 | FileCheck %s --check-prefix=CHECK-HELP
+// CHECK-HELP: This plugin adds an __attribute__((always_inline)) to functions without any conditions
