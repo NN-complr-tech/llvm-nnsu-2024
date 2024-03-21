@@ -42,6 +42,7 @@ public:
   }
 };
 
+
 class AddAlwaysInlineAction : public clang::PluginASTAction {
 protected:
   std::unique_ptr<clang::ASTConsumer>
