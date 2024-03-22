@@ -49,6 +49,7 @@ public:
         llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
                         "of a codebase and prints the name and fields of each "
                         "class it encounters\n";
+        return false;
       }
     }
     return true;
