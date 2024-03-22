@@ -22,32 +22,29 @@ public:
     if (Name == OldName) {
       Rewriter.ReplaceText(Func->getNameInfo().getSourceRange(), NewName);
     }
-    if (Func->getReturnType().getAsString() == OldName || 
+    if (Func->getReturnType().getAsString() == OldName ||
         Func->getReturnType().getAsString() == OldName + " *" ||
         Func->getReturnType().getAsString() == OldName + " &") {
       Rewriter.ReplaceText(Func->getFunctionTypeLoc().getBeginLoc(),
                            OldName.size(), NewName);
     }
 
-    if (!Func->param_empty()){
-      for (auto IVar = Func->param_begin();IVar != Func->param_end(); IVar++){
-      auto Var = static_cast<clang::VarDecl*>(*IVar);
-      Name = Var->getNameAsString();
-      auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
+    if (!Func->param_empty()) {
+      for (auto IVar = Func->param_begin(); IVar != Func->param_end(); IVar++) {
+        auto Var = static_cast<clang::VarDecl *>(*IVar);
+        Name = Var->getNameAsString();
+        auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
 
-      if (Name == OldName) {
-        Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
-      }
+        if (Name == OldName) {
+          Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
+        }
 
-      
-      if  (
-           (TypeLoc.getType().getAsString() == OldName || 
-           TypeLoc.getType().getAsString() == OldName + " *" ||
-           TypeLoc.getType().getAsString() == OldName + " &")) {
-        Rewriter.ReplaceText(TypeLoc.getBeginLoc(),
-                             OldName.size(), NewName);
+        if ((TypeLoc.getType().getAsString() == OldName ||
+             TypeLoc.getType().getAsString() == OldName + " *" ||
+             TypeLoc.getType().getAsString() == OldName + " &")) {
+          Rewriter.ReplaceText(TypeLoc.getBeginLoc(), OldName.size(), NewName);
+        }
       }
-      }    
     }
     return true;
   }
@@ -62,9 +59,9 @@ public:
     return true;
   }
 
-  bool VisitDeclStmt(clang::DeclStmt *Stmt){
+  bool VisitDeclStmt(clang::DeclStmt *Stmt) {
     auto IVar = Stmt->decl_begin();
-    auto Var = static_cast<clang::VarDecl*>(*IVar);
+    auto Var = static_cast<clang::VarDecl *>(*IVar);
     std::string Name = Var->getNameAsString();
     auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
 
@@ -72,24 +69,20 @@ public:
       Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
     }
 
-      
-    if  (
-         (TypeLoc.getType().getAsString() == OldName || 
+    if ((TypeLoc.getType().getAsString() == OldName ||
          TypeLoc.getType().getAsString() == OldName + " *" ||
          TypeLoc.getType().getAsString() == OldName + " &")) {
-      Rewriter.ReplaceText(TypeLoc.getBeginLoc(),
-                           OldName.size(), NewName);
+      Rewriter.ReplaceText(TypeLoc.getBeginLoc(), OldName.size(), NewName);
     }
 
-    for (IVar++;IVar != Stmt->decl_end(); IVar++){
-      
-      Var = static_cast<clang::VarDecl*>(*IVar);
+    for (IVar++; IVar != Stmt->decl_end(); IVar++) {
+
+      Var = static_cast<clang::VarDecl *>(*IVar);
       Name = Var->getNameAsString();
       if (Name == OldName) {
         Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
       }
     }
-
 
     return true;
   }
@@ -120,9 +113,7 @@ public:
     return true;
   }
 
-  bool OverwriteChangedFiles(){
-    return Rewriter.overwriteChangedFiles();
-  }
+  bool OverwriteChangedFiles() { return Rewriter.overwriteChangedFiles(); }
 };
 
 class RenameIDConsumer : public clang::ASTConsumer {
@@ -130,8 +121,7 @@ protected:
   RenameVisitor visitor;
 
 public:
-  explicit RenameIDConsumer(clang::CompilerInstance &CI, 
-                            std::string OldName,
+  explicit RenameIDConsumer(clang::CompilerInstance &CI, std::string OldName,
                             std::string NewName)
       : visitor(clang::Rewriter(CI.getSourceManager(), CI.getLangOpts()),
                 OldName, NewName) {}
@@ -150,8 +140,7 @@ private:
 protected:
   bool ParseArgs(const clang::CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
-    if (args[0].find("OldName=") != 0 ||
-        args[1].find("NewName=") != 0){
+    if (args[0].find("OldName=") != 0 || args[1].find("NewName=") != 0) {
       llvm::errs() << "Error in parameters input.\n"
                       "Format of input:\n"
                       "OldName='MyOldName'\n"
