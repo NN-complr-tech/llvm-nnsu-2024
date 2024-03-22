@@ -21,7 +21,33 @@ public:
 
     if (Name == OldName) {
       Rewriter.ReplaceText(Func->getNameInfo().getSourceRange(), NewName);
-      Rewriter.overwriteChangedFiles();
+    }
+    if (Func->getReturnType().getAsString() == OldName || 
+        Func->getReturnType().getAsString() == OldName + " *" ||
+        Func->getReturnType().getAsString() == OldName + " &") {
+      Rewriter.ReplaceText(Func->getFunctionTypeLoc().getBeginLoc(),
+                           OldName.size(), NewName);
+    }
+
+    if (!Func->param_empty()){
+      for (auto IVar = Func->param_begin();IVar != Func->param_end(); IVar++){
+      auto Var = static_cast<clang::VarDecl*>(*IVar);
+      Name = Var->getNameAsString();
+      auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
+
+      if (Name == OldName) {
+        Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
+      }
+
+      
+      if  (
+           (TypeLoc.getType().getAsString() == OldName || 
+           TypeLoc.getType().getAsString() == OldName + " *" ||
+           TypeLoc.getType().getAsString() == OldName + " &")) {
+        Rewriter.ReplaceText(TypeLoc.getBeginLoc(),
+                             OldName.size(), NewName);
+      }
+      }    
     }
     return true;
   }
@@ -31,26 +57,39 @@ public:
 
     if (Name == OldName) {
       Rewriter.ReplaceText(Expr->getNameInfo().getSourceRange(), NewName);
-      Rewriter.overwriteChangedFiles();
     }
+
     return true;
   }
 
-  bool VisitVarDecl(clang::VarDecl *Var) {
+  bool VisitDeclStmt(clang::DeclStmt *Stmt){
+    auto IVar = Stmt->decl_begin();
+    auto Var = static_cast<clang::VarDecl*>(*IVar);
     std::string Name = Var->getNameAsString();
+    auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
 
     if (Name == OldName) {
       Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
-      Rewriter.overwriteChangedFiles();
     }
 
-    if (Var->getType().getAsString() == OldName || 
-        Var->getType().getAsString() == OldName + " *" ||
-        Var->getType().getAsString() == OldName + " &") {
-      Rewriter.ReplaceText(Var->getTypeSourceInfo()->getTypeLoc().getBeginLoc(),
+      
+    if  (
+         (TypeLoc.getType().getAsString() == OldName || 
+         TypeLoc.getType().getAsString() == OldName + " *" ||
+         TypeLoc.getType().getAsString() == OldName + " &")) {
+      Rewriter.ReplaceText(TypeLoc.getBeginLoc(),
                            OldName.size(), NewName);
-      Rewriter.overwriteChangedFiles();
     }
+
+    for (IVar++;IVar != Stmt->decl_end(); IVar++){
+      
+      Var = static_cast<clang::VarDecl*>(*IVar);
+      Name = Var->getNameAsString();
+      if (Name == OldName) {
+        Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
+      }
+    }
+
 
     return true;
   }
@@ -65,9 +104,8 @@ public:
       if (RecordDestr)
         Rewriter.ReplaceText(RecordDestr->getLocation(), Name.size() + 1,
                              "~" + NewName);
-
-      Rewriter.overwriteChangedFiles();
     }
+
     return true;
   }
 
@@ -77,9 +115,13 @@ public:
     if (Name == OldName) {
       Rewriter.ReplaceText(NewExpr->getExprLoc(), Name.size() + 4,
                            "new " + NewName);
-      Rewriter.overwriteChangedFiles();
     }
+
     return true;
+  }
+
+  bool OverwriteChangedFiles(){
+    return Rewriter.overwriteChangedFiles();
   }
 };
 
@@ -96,6 +138,7 @@ public:
 
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     visitor.TraverseDecl(Context.getTranslationUnitDecl());
+    visitor.OverwriteChangedFiles();
   }
 };
 
@@ -107,12 +150,13 @@ private:
 protected:
   bool ParseArgs(const clang::CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
-    if (args[0].find("OldName=") == std::string::npos || args[1].find("NewName=") == std::string::npos){
+    if (args[0].find("OldName=") != 0 ||
+        args[1].find("NewName=") != 0){
       llvm::errs() << "Error in parameters input.\n"
                       "Format of input:\n"
                       "OldName='MyOldName'\n"
                       "NewName='MyNewName'\n";
-      return true;
+      return false;
     }
 
     OldName = args[0].substr(args[0].find("=") + 1);

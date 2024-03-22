@@ -16,6 +16,21 @@
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenameIDPlugin%pluginext\
 // RUN: -add-plugin RenameID\
+// RUN: -plugin-arg-RenameID OldName=int\
+// RUN: -plugin-arg-RenameID NewName=long %t/rename_type.cpp
+// RUN: FileCheck %s < %t/rename_type.cpp --check-prefix=TYPE
+
+// TYPE: long* func(long x, long y) {
+// TYPE-NEXT: long *a, *c;
+// TYPE-NEXT: long b = 2, d, e;
+// TYPE-NEXT: a = &b;
+// TYPE-NEXT: a = b + a;
+// TYPE-NEXT: a++;
+// TYPE-NEXT: return a;
+// TYPE-NEXT: }
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenameIDPlugin%pluginext\
+// RUN: -add-plugin RenameID\
 // RUN: -plugin-arg-RenameID OldName=func\
 // RUN: -plugin-arg-RenameID NewName=new_func %t/rename_func.cpp
 // RUN: FileCheck %s < %t/rename_func.cpp --check-prefix=FUNC
@@ -52,6 +67,7 @@
 // CLASS-NEXT: NewClass() {}
 // CLASS-NEXT: NewClass(int a, int b): a(a), b(b) {}
 // CLASS-NEXT: NewClass(NewClass &b) {}
+// CLASS-NEXT: NewClass func(NewClass c){ return c; };
 // CLASS-NEXT: ~NewClass();
 // CLASS-NEXT: };
 // CLASS: void func(NewClass c) {
@@ -62,7 +78,7 @@
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenameIDPlugin%pluginext\
 // RUN: -add-plugin RenameID\
-// RUN: -plugin-arg-RenameID OldClass\
+// RUN: -plugin-arg-RenameID SomeOldName=SomeOldName\
 // RUN: -plugin-arg-RenameID NewName=NewClass \
 // RUN: 2>&1 | FileCheck %s --check-prefix=ERROR
 
@@ -79,6 +95,15 @@ int func() {
   a = b + a;
   a++;
   return *a;
+}
+//--- rename_type.cpp
+int* func(int x, int y) {
+  int *a, *c;
+  int b = 2, d, e;
+  a = &b;
+  a = b + a;
+  a++;
+  return a;
 }
 //--- rename_func.cpp
 int func(int b) {
@@ -101,6 +126,7 @@ class OldClass{
   OldClass() {}
   OldClass(int a, int b): a(a), b(b) {}
   OldClass(OldClass &b) {}
+  OldClass func(OldClass c){ return c; };
   ~OldClass();
 };
 void func(OldClass c) {
