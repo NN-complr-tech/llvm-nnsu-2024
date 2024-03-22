@@ -54,4 +54,4 @@ public:
 };
 
 static FrontendPluginRegistry::Add<AlwaysInlinePlugin>
-    X("always-inline", "Plugin that adds the inline attribute");
+    X("always_inline", "Plugin that adds the inline attribute");
