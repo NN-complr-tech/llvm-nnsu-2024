@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintNamesPlugin%pluginext -plugin classprinter %s 1>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintNamesPlugin%pluginext -plugin classprinter %s 2>&1 | FileCheck %s
 
 
 class Test1 {
@@ -32,6 +32,6 @@ class Test4 {
 // CHECK: Nested
 // CHECK-NEXT: |_z
 
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintNamesPlugin%pluginext -plugin classprinter -plugin-arg-classprinter --help %s 2>&1 | FileCheck %s --check-prefix=HELP
+// RUN: not %clang_cc1 -load %llvmshlibdir/PrintNamesPlugin%pluginext -plugin classprinter -plugin-arg-classprinter --help %s 2>&1 | FileCheck %s --check-prefix=HELP
 // HELP: This plugin traverses the Abstract Syntax Tree (AST) of a codebase and prints the name and fields of each class it encounters
 // HELP-NOT: |_
