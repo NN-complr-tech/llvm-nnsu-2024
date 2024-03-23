@@ -1,24 +1,23 @@
 
 #include "clang/AST/AST.h"
-#include "clang/AST/Decl.h"
 #include "clang/AST/ASTConsumer.h"
-#include "clang/Frontend/FrontendPluginRegistry.h"
-#include "llvm/ADT/StringRef.h"
+#include "clang/AST/Decl.h"
 #include "clang/AST/DeclGroup.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/AST/Stmt.h"
 #include "clang/Basic/SourceLocation.h"
 #include "clang/Frontend/CompilerInstance.h"
-#include "clang/AST/Stmt.h"
+#include "clang/Frontend/FrontendPluginRegistry.h"
+#include "llvm/ADT/StringRef.h"
 
 namespace {
 
-class AlwaysInlineVisitor : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
+class AlwaysInlineVisitor
+    : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
 public:
   bool VisitStmt(clang::Stmt *St) {
-    if (clang::isa<clang::IfStmt>(St) ||
-        clang::isa<clang::WhileStmt>(St) ||
-        clang::isa<clang::ForStmt>(St) ||
-        clang::isa<clang::DoStmt>(St) ||
+    if (clang::isa<clang::IfStmt>(St) || clang::isa<clang::WhileStmt>(St) ||
+        clang::isa<clang::ForStmt>(St) || clang::isa<clang::DoStmt>(St) ||
         clang::isa<clang::SwitchStmt>(St)) {
       hasCondition = true;
     }
@@ -41,10 +40,11 @@ public:
           AlwaysInlineVisitor Visitor;
           Visitor.TraverseStmt(Body);
           if (!Visitor.hasCondition) {
-            clang::SourceLocation Location(FuncDecl->getSourceRange().getBegin());
+            clang::SourceLocation Location(
+                FuncDecl->getSourceRange().getBegin());
             clang::SourceRange Range(Location);
-            FuncDecl->addAttr(
-                clang::AlwaysInlineAttr::Create(FuncDecl->getASTContext(), Range));
+            FuncDecl->addAttr(clang::AlwaysInlineAttr::Create(
+                FuncDecl->getASTContext(), Range));
           }
         }
       }
@@ -76,4 +76,3 @@ protected:
 
 static clang::FrontendPluginRegistry::Add<AlwaysInlinePlugin>
     X("always-inline", "adds always_inline if function has no conditions");
-    
