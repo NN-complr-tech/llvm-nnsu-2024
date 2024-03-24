@@ -11,9 +11,10 @@ private:
   std::string OldName;
   std::string NewName;
 
-  void renameNameAndType(std::string &OldName, std::string &NewName,
-                         std::string TypeName, clang::DeclaratorDecl *Decl,
-                         clang::TypeLoc TypeLoc) {
+  void inline renameNameAndType(std::string &OldName, std::string &NewName,
+                                std::string TypeName,
+                                clang::DeclaratorDecl *Decl,
+                                const clang::TypeLoc &TypeLoc) {
     std::string Name = Decl->getNameAsString();
     if (Name == OldName) {
       Rewriter.ReplaceText(Decl->getLocation(), Name.size(), NewName);
