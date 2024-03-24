@@ -131,13 +131,15 @@ protected:
                  const std::vector<std::string> &args) override {
     std::vector<std::pair<std::string, std::string>> params = {
         {"type=", ""}, {"oldName=", ""}, {"newName=", ""}};
-
-    if (!args.empty() && args[0] == "help") {
-      PrintHelp(llvm::errs());
-      return false;
+    if (!args.empty()) {
+      for (int i = 0; i < args.size(); i++) {
+        if (args[i] == "help") {
+          PrintHelp(llvm::errs());
+          return false;
+        }
+      }
     }
-
-    if (args.size() < 3) {
+    if (args.size() != 3) {
       PrintParamsError(CI);
       return false;
     }
