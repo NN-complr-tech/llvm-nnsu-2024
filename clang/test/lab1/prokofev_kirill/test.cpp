@@ -8,15 +8,35 @@
 // CLASS: class Beta {
 // CLASS-NEXT: public:
 // CLASS-NEXT:  Beta(){};
+// CLASS-NEXT:  Beta(int a, int b): var1(a), var2(b) {}
 // CLASS-NEXT:  ~Beta();
-// CLASS-NEXT:};
+// CLASS-NEXT:protected:
+// CLASS-NEXT:  int var1;
+// CLASS-NEXT:  int var2;
+// CLASS-NEXT: };
+// CLASS-NEXT: void SomeFunc(){
+// CLASS-NEXT:  Beta obj1;
+// CLASS-NEXT:  Beta *obj2 = new Beta(5,6);
+// CLASS-NEXT:  Beta AplphaVar;
+// CLASS-NEXT:  delete obj2;
+// CLASS-NEXT: }
 
 //--- class_test.cpp
 class Alpha {
 public:
   Alpha(){};
+  Alpha(int a, int b): var1(a), var2(b) {}
   ~Alpha();
+protected:
+  int var1;
+  int var2;
 };
+void SomeFunc(){
+  Alpha obj1;
+  Alpha *obj2 = new Alpha(5,6);
+  Alpha AplphaVar;
+  delete obj2;
+}
 
 // RUN: %clang_cc1 -load %llvmshlibdir/ProkofevRenamePlugin%pluginext -add-plugin rename\
 // RUN: -plugin-arg-rename type=func\
@@ -69,3 +89,4 @@ int Foo(int oldVar) { return oldVar * 2; }
 
 //ERROR: Invalid arguments
 //ERROR-NEXT: Specify "-plugin-arg-rename help" for usage
+
