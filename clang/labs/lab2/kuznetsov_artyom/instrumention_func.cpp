@@ -22,13 +22,13 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
     builder.SetInsertPoint(&func.getEntryBlock().front());
     builder.CreateCall(instrStartFunc);
 
-    for (llvm::BasicBlock &block : func) {
+    for (auto &block : func) {
       if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
         builder.SetInsertPoint(block.getTerminator());
         builder.CreateCall(instEndFunc);
       }
     }
-
+    
     return llvm::PreservedAnalyses::all();
   }
 
