@@ -119,9 +119,13 @@ protected:
     std::vector<std::pair<std::string, std::string>> params = {
         {"type=", ""}, {"cur-name=", ""}, {"new-name=", ""}};
 
-    if (!args.empty() && args[0] == "help") {
-      PrintHelp(llvm::errs());
-      return true;
+    if (!args.empty()) {
+      for (int i = 0; i < args.size(); i++) {
+        if (args[i] == "help") {
+          PrintHelp(llvm::errs());
+          return false;
+        }
+      }
     }
 
     if (args.size() < 3) {
