@@ -11,39 +11,35 @@ private:
   std::string OldName;
   std::string NewName;
 
+  void inline renameNameAndType(std::string &OldName, std::string &NewName,
+                                std::string TypeName,
+                                clang::DeclaratorDecl *Decl,
+                                const clang::TypeLoc &TypeLoc) {
+    std::string Name = Decl->getNameAsString();
+    if (Name == OldName) {
+      Rewriter.ReplaceText(Decl->getLocation(), Name.size(), NewName);
+    }
+    if (TypeName == OldName || TypeName == OldName + " *" ||
+        TypeName == OldName + " &") {
+      Rewriter.ReplaceText(TypeLoc.getBeginLoc(), OldName.size(), NewName);
+    }
+  }
+
 public:
   explicit RenameVisitor(clang::Rewriter Rewriter, std::string OldName,
                          std::string NewName)
       : Rewriter(Rewriter), OldName(OldName), NewName(NewName){};
 
   bool VisitFunctionDecl(clang::FunctionDecl *Func) {
-    std::string Name = Func->getNameAsString();
-
-    if (Name == OldName) {
-      Rewriter.ReplaceText(Func->getNameInfo().getSourceRange(), NewName);
-    }
-    if (Func->getReturnType().getAsString() == OldName ||
-        Func->getReturnType().getAsString() == OldName + " *" ||
-        Func->getReturnType().getAsString() == OldName + " &") {
-      Rewriter.ReplaceText(Func->getFunctionTypeLoc().getBeginLoc(),
-                           OldName.size(), NewName);
-    }
+    renameNameAndType(OldName, NewName, Func->getReturnType().getAsString(),
+                      Func, Func->getFunctionTypeLoc().getAs<clang::TypeLoc>());
 
     if (!Func->param_empty()) {
       for (auto IVar = Func->param_begin(); IVar != Func->param_end(); IVar++) {
         auto Var = static_cast<clang::VarDecl *>(*IVar);
-        Name = Var->getNameAsString();
         auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
-
-        if (Name == OldName) {
-          Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
-        }
-
-        if ((TypeLoc.getType().getAsString() == OldName ||
-             TypeLoc.getType().getAsString() == OldName + " *" ||
-             TypeLoc.getType().getAsString() == OldName + " &")) {
-          Rewriter.ReplaceText(TypeLoc.getBeginLoc(), OldName.size(), NewName);
-        }
+        renameNameAndType(OldName, NewName, Var->getType().getAsString(), Var,
+                          TypeLoc);
       }
     }
     return true;
@@ -62,18 +58,10 @@ public:
   bool VisitDeclStmt(clang::DeclStmt *Stmt) {
     auto IVar = Stmt->decl_begin();
     auto Var = static_cast<clang::VarDecl *>(*IVar);
-    std::string Name = Var->getNameAsString();
     auto TypeLoc = Var->getTypeSourceInfo()->getTypeLoc();
-
-    if (Name == OldName) {
-      Rewriter.ReplaceText(Var->getLocation(), Name.size(), NewName);
-    }
-
-    if ((TypeLoc.getType().getAsString() == OldName ||
-         TypeLoc.getType().getAsString() == OldName + " *" ||
-         TypeLoc.getType().getAsString() == OldName + " &")) {
-      Rewriter.ReplaceText(TypeLoc.getBeginLoc(), OldName.size(), NewName);
-    }
+    std::string Name;
+    renameNameAndType(OldName, NewName, Var->getType().getAsString(), Var,
+                      TypeLoc);
 
     for (IVar++; IVar != Stmt->decl_end(); IVar++) {
 
