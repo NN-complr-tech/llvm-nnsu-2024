@@ -1,13 +1,34 @@
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Instructions.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/raw_ostream.h"
 
 namespace {
 struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
-  llvm::PreservedAnalyses run(llvm::Function &F,
+  llvm::PreservedAnalyses run(llvm::Function &func,
                               llvm::FunctionAnalysisManager &) {
-    llvm::errs() << "Function name: " << F.getName() << '\n';
-    llvm::errs() << "Arg size: " << F.arg_size() << '\n';
+    llvm::LLVMContext &context = func.getContext();
+    llvm::IRBuilder<> builder(context);
+    auto module = func.getParent();
+
+    llvm::FunctionType *funcType =
+        llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
+    llvm::FunctionCallee instrStartFunc =
+        module->getOrInsertFunction("instrument_start", funcType);
+    llvm::FunctionCallee instEndFunc =
+        module->getOrInsertFunction("instrument_end", funcType);
+
+    builder.SetInsertPoint(&func.getEntryBlock().front());
+    builder.CreateCall(instrStartFunc);
+
+    for (llvm::BasicBlock &block : func) {
+      if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
+        builder.SetInsertPoint(block.getTerminator());
+        builder.CreateCall(instEndFunc);
+      }
+    }
+
     return llvm::PreservedAnalyses::all();
   }
 

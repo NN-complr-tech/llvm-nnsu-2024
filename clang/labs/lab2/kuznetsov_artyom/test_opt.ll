@@ -1,4 +1,4 @@
-; ModuleID = 'test.cpp'
+; ModuleID = 'test.ll'
 source_filename = "test.cpp"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
@@ -6,6 +6,7 @@ target triple = "x86_64-unknown-linux-gnu"
 ; Function Attrs: mustprogress noinline optnone uwtable
 define dso_local noundef i32 @_Z4facti(i32 noundef %value) #0 {
 entry:
+  call void @instrument_start()
   %value.addr = alloca i32, align 4
   store i32 %value, ptr %value.addr, align 4
   %0 = load i32, ptr %value.addr, align 4
@@ -25,8 +26,13 @@ cond.false:                                       ; preds = %entry
 
 cond.end:                                         ; preds = %cond.false, %cond.true
   %cond = phi i32 [ 1, %cond.true ], [ %mul, %cond.false ]
+  call void @instrument_end()
   ret i32 %cond
 }
+
+declare void @instrument_start()
+
+declare void @instrument_end()
 
 attributes #0 = { mustprogress noinline optnone uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 
