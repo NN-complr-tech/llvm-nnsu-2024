@@ -1,0 +1,561 @@
+The system is: Windows - 10.0.19045 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+CMakeCCompilerId.c
+Microsoft (R) Incremental Linker Version 14.29.30133.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCCompilerId.exe 
+CMakeCCompilerId.obj 
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+
+The C compiler identification is MSVC, found in "D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/3.20.21032501-MSVC_2/CompilerIdC/CMakeCCompilerId.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+CMakeCXXCompilerId.cpp
+Microsoft (R) Incremental Linker Version 14.29.30133.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCXXCompilerId.exe 
+CMakeCXXCompilerId.obj 
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+
+The CXX compiler identification is MSVC, found in "D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/3.20.21032501-MSVC_2/CompilerIdCXX/CMakeCXXCompilerId.exe"
+
+Checking whether the ASM compiler is MSVC using "-?" matched "Microsoft":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+                         ПАРАМЕТРЫ КОМПИЛЯТОРА C/C++
+
+
+                              -ОПТИМИЗАЦИЯ-
+
+Максимальная оптимизация /O1 (приоритет места)
+Максимальная оптимизация /O2 (приоритет скорости)
+/Ob<n> подстановка кода (по умолчанию n=0)
+/Od отключить оптимизации (по умолчанию)/Og включить глобальную оптимизацию
+/Oi[-] включить подставляемые функции   /Os предпочтительное пространство кода
+/Ot предпочтительная скорость кода      Оптимизация /Ox (приоритет скорости)
+/favor:<blend|AMD64|INTEL64|ATOM> - выбрать процессор, для которого оптимизировать; один из вариантов:
+    blend - сочетание оптимизаций для нескольких разных процессоров x64
+    AMD64 - 64-разрядные процессоры AMD                                 
+    INTEL64 - процессоры с архитектурой Intel(R)64                  
+    ATOM - процессоры Intel(R) Atom(TM)                           
+
+                             -ФОРМИРОВАНИЕ КОДА-
+
+/Gu[-] гарантирует, что у разных функций будут разные адреса
+/Gw[-] разделять глобальные переменные для компоновщика
+/GF включить объединение строк только для чтения
+/Gm[-] включить режим минимизации при построении
+/Gy[-] разделять функции для компоновщика
+/GS[-] включить проверку системы безопасности
+/GR[-] включить C++ RTTI                
+/GX[-] включить C++ EH (то же, что и /EHsc)
+/guard:cf[-] включает CFG (защита потока управления)
+/guard:ehcont[-]: включение метаданных продолжения EH (CET)
+/EHs включить C++ EH (без исключений SEH)
+/EHa включить C++ EH (с исключениями SEH)
+/EHc внешний C получает значение по умолчанию nothrow
+/EHr всегда создавать проверки завершения времени выполнения noexcept
+/fp:<except[-]|fast|precise|strict> выбор модели с плавающей запятой:
+    except[-] — возможность использования исключений с плавающей запятой при создании кода
+    fast — "быстрая" (fast) модель с плавающей запятой; результаты менее предсказуемы
+    precise — "точная" (precise) модель с плавающей запятой; результаты предсказуемы
+    strict — "строгая" (strict) модель с плавающей запятой (выражает /fp:except)
+/Qfast_transcendentals создание встроенных макроопределений FP даже с /fp:except
+/ Qspectre[-] — включить исправления CVE 2017-5753
+/Qpar[-] — включение параллельного создания кода
+/Qpar-report:1 — диагностика автоматического параллелизатора; указание параллелизованных циклов
+/Qpar-report:2 — диагностика автоматического параллелизатора; указание непараллелизованных циклов
+/Qvec-report:1 — диагностика автоматического векторизатора; указание векторизированных циклов
+/Qvec-report:2 — диагностика автоматического векторизатора; указание невекторизованных циклов
+/GL[-] — включение создания кода во время компоновки
+/volatile:<iso|ms> — выбор непостоянной модели:
+    iso — семантика получения и освобождения не гарантируется при непостоянном обращении
+    ms — семантика получения и освобождения гарантируется при непостоянном обращении
+/GA оптимизировать для приложения Windows
+/Ge проверять стек для всех функций     
+/Gs[число] контролировать вызовы проверки стека
+/Gh включить вызов функции _penter      /GH включить вызов функции _pexit
+/GT создать безопасные относительно волокон доступы к локальному хранилищу потока (TLS)
+/RTC1 включить быструю проверку (/RTCsu)
+/RTCc преобразовать к сокращенной проверке типов
+/RTCs проверка кадров стека во время выполнения
+/RTCu неинициализированная проверка локального использования
+/clr[:параметр] компилировать для общеязыковой среды выполнения; здесь параметр - это:
+    pure: создать выходной файл только IL (без исполняемого машинного кода)
+    safe: создать проверяемый выходной файл только IL
+    netcore: создавать сборки, предназначенные для среды выполнения .NET Core
+    noAssembly: не создавать сборку     
+    nostdlib: игнорировать системный каталог .NET Framework при поиске сборок
+    nostdimport: не импортировать необходимые сборки неявным образом
+    initialAppDomain: включить исходное поведение AppDomain из Visual C++ 2002
+    implicitKeepAlive-: отключить неявный вывод System::GC::KeepAlive(this)
+/fsanitize=address Включить codegen для санитайзера адресов
+/homeparams обеспечить запись параметров, передаваемых в регистрах, в стек
+/GZ включить проверку стека (/RTCs)     
+/Gv использовать соглашение о вызовах __vectorcall
+/arch:<AVX|AVX2|AVX512> минимальные требования к архитектуре ЦП; один из вариантов:
+   AVX — включить использование инструкций, доступных для процессоров, поддерживающих AVX
+   AVX2 — включить использование инструкций, доступных для процессоров, поддерживающих AVX2
+   AVX512 — включить использование инструкций, доступных для процессоров, поддерживающих AVX-512
+/QIntel-jcc-erratum — включить устранение рисков Intel JCC Erratum
+/Qspectre-load Включить устранение рисков Spectre для всех инструкций, которые загружают память
+/Qspectre-load-cf Включить устранение рисков Spectre для всех инструкций управления потоком, которые загружают память
+/fpcvt:<IA|BC> совместимость преобразования числа с плавающей точкой в беззнаковое целое
+   IA — результаты совместимы с инструкцией VCVTTSD2USI
+   BC — результаты, совместимые с компилятором VS2017 и более ранних версий
+
+                              -ВЫХОДНЫЕ ФАЙЛЫ-
+
+/Fa[файл] — задать имя файла листинга сборки
+/FA[scu] настроить список сборок        /Fd[файл] задать имя PDB-файла
+/Fe<файл> задать имя исполняемого файла /Fm[файл] задать имя файла соответствий
+/Fo<файл> задать имя объектного файла   
+/Fp<файл> задать имя файла предкомпилированного заголовка
+/Fr[файл] задать имя исходного файла браузера
+/FR[файл] задать имя расширенного SBR-файла
+/Fi[файл] имя файла препроцессора       /Fd: <файл> задание имени PDB-файла
+/Fe: <файл> задание имени исполняемого файла
+/Fm: <файл> задание имени файла сопоставления
+/Fo: <файл> задание имени объектного файла
+/Fp: <файл> задание имени PCH-файла     
+/FR: <файл> задание имени расширенного SBR-файла
+/Fi: <файл> задание имени файла препроцессора
+/Ft<dir> расположение файлов заголовков, созданных для директивы #import
+/doc[файл] обработать комментарии к XML-документации и дать имя (необязательно) XDC-файлу
+
+                              -ПРЕПРОЦЕССОР-
+
+/AI<каталог> добавить к пути поиска сборок
+/FU<файл> обязательное использование сборки или модуля 
+/C не удалять комментарии               
+/D<имя>{=|#}<текст> задать макроопределение
+/E вывод сообщений в stdout             /EP вывод сообщений в stdout, без #line
+/P вывод сообщений в файл               /Fx добавить внесенный код в файл
+/FI<файл> задать имя обязательно включаемого файла
+/U<имя> удалить встроенное макроопределение
+/u удалить все встроенные макроопределения
+/I<каталог> добавить в путь поиска включаемых файлов
+/X пропустить "standard places"         
+/PH создает #pragma file_hash во время предварительной обработки
+/PD выводить все определения макросов   
+
+                                -ЯЗЫК-
+
+/std:<c++14|c++17|c++latest> — стандартная версия C++
+    c++14 — ISO/IEC 14882:2014 (по умолчанию)
+    c++17 — ISO/IEC 14882:2017
+    c++latest — последний проект стандарта (набор возможностей может измениться).
+/permissive[-] включить компиляцию определенного несоответствующего кода (набор возможностей может быть изменен) (включено по умолчанию)
+/Ze включить расширения (по умолчанию)  /Za отключить расширения
+/ZW включение языковых расширений WinRT /Zs только проверка синтаксиса
+/Zc:arg1[,arg2] соответствие языку C++, где аргументы могут быть:
+  forScope[-]           применять стандарт C++ для правил определения областей
+  wchar_t[-]            wchar_t — встроенный тип, а не typedef
+  auto[-]               использовать новый смысл стандартного C++ для auto
+  trigraphs[-]          включить триграфы (отключено по умолчанию)
+  rvalueCast[-]         применять правила явного преобразования типов из стандарта C++
+  strictStrings[-]      отключение преобразования строкового литерала
+                        в [char|wchar_t]* (отключено по умолчанию)
+  implicitNoexcept[-]   включить неявный noexcept для требуемых функций
+  threadSafeInit[-]     включить потокобезопасную локальную статическую инициализацию
+  inline[-]             Удаление функций или данных, на которые нет ссылок, если они
+                        относятся к COMDAT или используют только внутреннее связывание (отключено по умолчанию)
+  sizedDealloc[-]       включить глобальные функции освобождения
+                        памяти по размеру из C++14 (включено по умолчанию)
+  throwingNew[-]        предполагать исключение оператора new при сбое (отключено по умолчанию)
+  referenceBinding[-]   временное значение не будет привязываться к неконстантной
+                        ссылке lvalue (отключено по умолчанию)
+  twoPhase-             отключить двухэтапный поиск имен
+  ternary[-]            применять правила из C++11 для условного оператора (отключено по умолчанию)
+  noexceptTypes[-]      применять правила noexcept C++17 (включено по умолчанию в C++17 и более поздних версиях)
+  alignedNew[-]         включить выравнивание C++17 для динамически выделяемых объектов (по умолчанию включено)
+  hiddenFriend[-]       применить стандартные скрытые дружественные правила C++ (на что указывает /permissive-)
+  externC[-]            применить стандартные правила C++ для функций "extern "C"" (на что указывает /permissive-)
+  lambda[-]             Улучшенная поддержка лямбда-выражений за счет более нового обработчика (по умолчанию отключено).
+  tlsGuards[-]          — создание проверок инициализации TLS-переменных во время выполнения (по умолчанию включено)
+  zeroSizeArrayNew[-]   вызов элемента new/delete для массивов объектов нулевого размера (по умолчанию включено)
+/await разрешает расширение возобновляемых функций
+/await:strict разрешает стандартную поддержку сопрограмм C++20 с более ранними версиями языка
+/constexpr:depth<N>     предельная глубина рекурсии при вычислении constexpr (по умолчанию 512)
+/constexpr:backtrace<N> выводить N вычислений constexpr в диагностике (по умолчанию 10)
+/constexpr:steps<N>     завершать вычисление constexpr через N шагов (по умолчанию 100000)
+/Zi включить отладочную информацию      
+/Z7 включить отладочную информацию старого типа
+/Zo[-] расширить отладочную информацию для оптимизированного кода (включено по умолчанию)
+/ZH:[MD5|SHA1|SHA_256] — хэш-алгоритм для вычисления контрольной суммы файла в сведениях отладки (по умолчанию: MD5)
+/Zp[n] паковать структуры по n-байтной границе
+/Zl опускать имя библиотеки по умолчанию в OBJ-файле
+/vd{0|1|2} отключить или включить vtordisp
+/vm<x> тип указателей на члены          
+/std:<c11|c17> стандартная версия C
+    c11 — ISO/IEC 9899:2011
+    c17 — ISO/IEC 9899:2018
+/ZI включить отладочные данные в режиме "Изменить и продолжить"
+/openmp включить языковые расширения OpenMP 2.0
+/openmp:experimental: включить расширения языка OpenMP 2.0, а также выбрать расширения языка OpenMP 3.0 и более поздних версий
+/openmp:llvm расширения языка OpenMP, использующие среду выполнения LLVM
+
+                              -ПРОЧЕЕ-
+
+@<файл> параметры файла ответов         
+/?, /help вывести это справочное сообщение
+/bigobj создать расширенный формат объекта
+/c только компилировать, без компоновки 
+/errorReport: нерекомендуемый параметр. Сообщение о внутренних ошибках компилятора в Майкрософт.
+    none - не отправлять отчет          
+    prompt - предложить немедленную отправку отчета
+    queue - при следующем входе в систему в качестве администратора предложить отправку отчета (параметр по умолчанию)
+    send - автоматически отправлять отчет
+/FC использовать полные пути в диагностических сообщениях
+/H<число> максимальная длина внешнего имени
+/J использовать по умолчанию unsigned для типа char
+/MP[n] использовать до n процессов для компиляции
+/nologo не выводить уведомление об авторских правах
+/showIncludes показать имена включаемых файлов
+/Tc<исходный_файл> компилировать файл как .c
+/Tp<исходный_файл> компилировать файл как .cpp
+/TC компилировать все файлы как .c      /TP компилировать все файлы как .cpp
+/V<строка> задать строку с номером версии
+/Yc[файл] создать PCH-файл              
+/Yd выводить отладочные данные в каждый OBJ-файл
+/Yl[символ] ввести ссылку PCH-файла для отладочной библиотеки
+/Yu[файл] использовать PCH-файл         /Y- отключить все параметры PCH
+/Zm<n> задать максимальное выделение памяти (% от значения по умолчанию)
+/FS принудительно использовать MSPDBSRV.EXE
+/source-charset:<iana-name>|.nnnn: задание исходной кодировки
+/execution-charset:<iana-name>|.nnnn задание кодировки выполнения
+/utf-8 задание UTF-8 в качестве исходной кодировки и кодировки выполнения
+/validate-charset[-] проверка файлов UTF-8 на наличие только допустимых знаков
+/fastfail[-] включение режима fast-fail 
+/JMC[-] включение отладки только собственного кода с помощью функции Just My Code
+/presetPadding[-] инициализация заполнения нулевым значением для типов классов на основе стека
+/volatileMetadata[-] создает метаданные при доступах к энергозависимой памяти
+
+                                -КОМПОНОВКА-
+
+/LD создать библиотеку .DLL             
+/LDd создать отладочную библиотеку (.DLL)
+/LN создать .netmodule                  /F<число> задать размер стека
+/link [параметры компоновщика и библиотеки]
+/MD компоновать с MSVCRT.LIB            /MT компоновать с LIBCMT.LIB
+/MDd компоновать с отладочной библиотекой MSVCRTD.LIB
+/MTd компоновать с отладочной библиотекой LIBCMTD.LIB
+
+                              -АНАЛИЗ КОДА-
+
+/analyze[-] Включить анализ машинного кода
+/analyze:quiet[-] Не выводить предупреждения на консоль
+/analyze:log<имя> Вывод предупреждений в файл
+/analyze:autolog Запись журнала в *.pftlog
+/analyze:autolog:ext<расширение> Запись журнала в *.<расширение>
+/analyze:autolog- Не записывать файл журнала
+/analyze:WX- Предупреждения не являются критическими
+/analyze:stacksize<число> Максимальный размер кадра стека
+/analyze:max_paths<число> Максимальное число путей
+/analyze: только анализ, без создания кода
+
+                              -ДИАГНОСТИКА-
+
+/diagnostics:<args,...> — определяет формат сообщений диагностики:
+             classic — сохранение предыдущего формата
+             column[-] — печать сведений столбца
+             caret[-] — печать столбца и указанной исходной строки
+/Wall включить все предупреждения       /w   отключить все предупреждения
+/W<n> установить уровень предупреждений (по умолчанию n=1)
+/Wv:xx[.yy[.zzzzz]] отключить предупреждения, появившиеся после версии xx.yy.zzzzz
+/WX обрабатывать предупреждения как ошибки
+/WL включить однострочные диагностические сообщения
+/wd<n> отключить предупреждение уровня n
+/we<n> обрабатывать предупреждение уровня n как ошибку
+/wo<n> выдавать предупреждение уровня n один раз
+/w<l><n> установить для n уровень предупреждений 1-4
+/external:I <путь>      — расположение внешних заголовков
+/external:env:<var> — переменная среды с расположениями внешних заголовков
+/external:anglebrackets — считать все заголовки в <> внешними
+/external:W<n> — порог предупреждений для внешних заголовков
+/external:templates[-]  — оценка порога предупреждений по всей цепочке создания экземпляров шаблонов
+/sdl - включить дополнительные уведомления и функции безопасности
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d39af && [1/2] Building C object CMakeFiles\cmTC_d39af.dir\CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_d39af.exe
+
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_71ce8 && [1/2] Building CXX object CMakeFiles\cmTC_71ce8.dir\CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_71ce8.exe
+
+
+
+Determining if the include file errno.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_eb23f && [1/2] Building C object CMakeFiles\cmTC_eb23f.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_eb23f.exe
+
+
+
+Determining if the include file fcntl.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4e4f4 && [1/2] Building C object CMakeFiles\cmTC_4e4f4.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_4e4f4.exe
+
+
+
+Determining if the include file signal.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_52bb2 && [1/2] Building C object CMakeFiles\cmTC_52bb2.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_52bb2.exe
+
+
+
+Determining if the include file sys/stat.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_29b62 && [1/2] Building C object CMakeFiles\cmTC_29b62.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_29b62.exe
+
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_2db05 && [1/2] Building C object CMakeFiles\cmTC_2db05.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_2db05.exe
+
+
+
+Determining if the include file fenv.h exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d753d && [1/2] Building C object CMakeFiles\cmTC_d753d.dir\CheckIncludeFile.c.obj
+[2/2] Linking C executable cmTC_d753d.exe
+
+
+
+Determining if the FE_ALL_EXCEPT exist passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_2d07d && [1/2] Building C object CMakeFiles\cmTC_2d07d.dir\CheckSymbolExists.c.obj
+[2/2] Linking C executable cmTC_2d07d.exe
+
+
+File D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <fenv.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef FE_ALL_EXCEPT
+  return ((int*)(&FE_ALL_EXCEPT))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the FE_INEXACT exist passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_24827 && [1/2] Building C object CMakeFiles\cmTC_24827.dir\CheckSymbolExists.c.obj
+[2/2] Linking C executable cmTC_24827.exe
+
+
+File D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <fenv.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef FE_INEXACT
+  return ((int*)(&FE_INEXACT))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the strerror_s exist passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_859d8 && [1/2] Building C object CMakeFiles\cmTC_859d8.dir\CheckSymbolExists.c.obj
+[2/2] Linking C executable cmTC_859d8.exe
+
+
+File D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <string.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef strerror_s
+  return ((int*)(&strerror_s))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the _chsize_s exist passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_bcb2b && [1/2] Building C object CMakeFiles\cmTC_bcb2b.dir\CheckSymbolExists.c.obj
+[2/2] Linking C executable cmTC_bcb2b.exe
+
+
+File D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <io.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef _chsize_s
+  return ((int*)(&_chsize_s))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the function __chkstk exists passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_3595b && [1/2] Building C object CMakeFiles\cmTC_3595b.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_3595b.exe
+
+
+
+Performing C++ SOURCE FILE Test LLVM_HAS_ATOMICS succeeded with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1f96f && [1/2] Building CXX object CMakeFiles\cmTC_1f96f.dir\src.cxx.obj
+[2/2] Linking CXX executable cmTC_1f96f.exe
+
+
+Source file was:
+
+#ifdef _MSC_VER
+#include <windows.h>
+#endif
+int main() {
+#ifdef _MSC_VER
+        volatile LONG val = 1;
+        MemoryBarrier();
+        InterlockedCompareExchange(&val, 0, 1);
+        InterlockedIncrement(&val);
+        InterlockedDecrement(&val);
+#else
+        volatile unsigned long val = 1;
+        __sync_synchronize();
+        __sync_val_compare_and_swap(&val, 1, 0);
+        __sync_add_and_fetch(&val, 1);
+        __sync_sub_and_fetch(&val, 1);
+#endif
+        return 0;
+      }
+
+Determining if the _M_X64 exist passed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_b31d2 && [1/2] Building C object CMakeFiles\cmTC_b31d2.dir\CheckSymbolExists.c.obj
+[2/2] Linking C executable cmTC_b31d2.exe
+
+
+File D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef _M_X64
+  return ((int*)(&_M_X64))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Checking whether the ASM_MASM compiler is MSVC using "-?" matched "Microsoft":
+Microsoft (R) Macro Assembler (x64) Version 14.29.30133.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+        ML64 [ /options ] filelist [ /link linkoptions ]
+
+/Bl<linker> Use alternate linker          /Sf Generate first pass listing
+/c Assemble without linking               /Sl<width> Set line width
+/Cp Preserve case of user identifiers     /Sn Suppress symbol-table listing
+/Cx Preserve case in publics, externs     /Sp<length> Set page length
+/D<name>[=text] Define text macro         /Ss<string> Set subtitle
+/EP Output preprocessed listing to stdout /St<string> Set title
+/F <hex> Set stack size (bytes)           /Sx List false conditionals
+/Fe<file> Name executable                 /Ta<file> Assemble non-.ASM file
+/Fl[file] Generate listing                /w Same as /W0 /WX
+/Fm[file] Generate map                    /WX Treat warnings as errors
+/Fo<file> Name object file                /W<number> Set warning level
+/Fr[file] Generate limited browser info   /X Ignore INCLUDE environment path
+/FR[file] Generate full browser info      /Zd Add line number debug info
+/I<name> Add include path                 /Zf Make all symbols public
+/link <linker options and libraries>      /Zi Add symbolic debug info
+/nologo Suppress copyright message        /Zp[n] Set structure alignment
+/Sa Maximize source listing               /Zs Perform syntax check only
+/ZH:SHA_256 Use SHA256 for checksum
+    in debug info (experimental)
+/Gy[-] separate functions for linker
+/errorReport:<option> Deprecated. Report internal assembler errors to Microsoft
+    none - do not send report
+    prompt - prompt to immediately send report
+    queue - at next admin logon, prompt to send report
+    send - send report automatically
+Performing C++ SOURCE FILE Test HAVE_CXX_FLAG_EHS_ succeeded with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f8c89 && [1/2] Building CXX object CMakeFiles\cmTC_f8c89.dir\src.cxx.obj
+[2/2] Linking CXX executable cmTC_f8c89.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test HAVE_CXX_FLAG_EHA_ succeeded with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/llvm/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_bc3c0 && [1/2] Building CXX object CMakeFiles\cmTC_bc3c0.dir\src.cxx.obj
+[2/2] Linking CXX executable cmTC_bc3c0.exe
+
+
+Source file was:
+int main() { return 0; }

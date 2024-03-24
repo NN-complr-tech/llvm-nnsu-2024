@@ -1,0 +1,107 @@
+{
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_llvm_install_targets",
+			"add_mlir_library_install",
+			"add_mlir_library",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Tools/mlir-translate/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 592,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 766,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 784,
+				"parent" : 3
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "MLIRTranslateLib::@e90d05642290b33ea0ea"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Component Install Targets"
+	},
+	"id" : "install-MLIRTranslateLib::@e90d05642290b33ea0ea",
+	"name" : "install-MLIRTranslateLib",
+	"paths" : 
+	{
+		"build" : "lib/Tools/mlir-translate",
+		"source" : "lib/Tools/mlir-translate"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Tools/mlir-translate/CMakeFiles/install-MLIRTranslateLib",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Tools/mlir-translate/CMakeFiles/install-MLIRTranslateLib.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

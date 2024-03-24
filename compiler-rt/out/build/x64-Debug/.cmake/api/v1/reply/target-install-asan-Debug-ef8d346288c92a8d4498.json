@@ -1,0 +1,235 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_compiler_rt_install_targets",
+			"add_compiler_rt_runtime",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"cmake/Modules/CompilerRTUtils.cmake",
+			"cmake/Modules/AddCompilerRT.cmake",
+			"lib/asan/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 222,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 527,
+				"parent" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 293,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 249,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 8
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 9
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 232,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 11
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 12
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 241,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 14
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 15
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 357,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 17
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 18
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 332,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 425,
+				"parent" : 20
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 563,
+				"parent" : 21
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "asan::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "install-clang_rt.asan-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "install-clang_rt.asan-dynamic-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "install-clang_rt.asan-preinit-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "install-clang_rt.asan_cxx-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 16,
+			"id" : "install-clang_rt.asan_static-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 19,
+			"id" : "install-clang_rt.asan_dynamic_runtime_thunk-x86_64::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 22,
+			"id" : "install-clang_rt.asan_dll_thunk-x86_64::@9e16ccd2674f918a5a03"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Compiler-RT Misc"
+	},
+	"id" : "install-asan::@9e16ccd2674f918a5a03",
+	"name" : "install-asan",
+	"paths" : 
+	{
+		"build" : "lib/asan",
+		"source" : "lib/asan"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/asan/CMakeFiles/install-asan",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/asan/CMakeFiles/install-asan.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

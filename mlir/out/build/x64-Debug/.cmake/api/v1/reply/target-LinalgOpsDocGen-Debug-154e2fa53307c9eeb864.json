@@ -1,0 +1,130 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_mlir_doc",
+			"add_custom_command",
+			"tablegen",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"cmake/modules/AddMLIR.cmake",
+			"include/mlir/Dialect/Linalg/IR/CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/TableGen.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 200,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 192,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 101,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 60,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "mlir-linalg-ods-yaml-gen::@717ac0d5f340327a7427"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "mlir-tblgen::@82750c186bbc37674834"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "LinalgOdsGen::@b3fcf9f4d469208d57a9"
+		}
+	],
+	"id" : "LinalgOpsDocGen::@b3fcf9f4d469208d57a9",
+	"name" : "LinalgOpsDocGen",
+	"paths" : 
+	{
+		"build" : "include/mlir/Dialect/Linalg/IR",
+		"source" : "include/mlir/Dialect/Linalg/IR"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0,
+				4
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Linalg/IR/CMakeFiles/LinalgOpsDocGen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Linalg/IR/CMakeFiles/LinalgOpsDocGen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/docs/Dialects/LinalgOps.md.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Linalg/IR/LinalgOps.md.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"path" : "include/mlir/Dialect/Linalg/IR/LinalgNamedStructuredOps.yaml",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "UTILITY"
+}

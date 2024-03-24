@@ -1,0 +1,627 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./AtomicOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./CastOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./ControlFlowOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./CooperativeMatrixOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./GroupOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./IntegerDotProductOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./JointMatrixOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./MemoryOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVAttributes.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVCanonicalization.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVGLCanonicalization.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVDialect.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVEnums.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVOpAvailability.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVOpDefinition.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVOps.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVParsingUtils.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./SPIRVTypes.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/SPIRV/IR/CMakeFiles/obj.MLIRSPIRVDialect.dir/./TargetAndABI.cpp.obj"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_dialect_library",
+			"add_dependencies",
+			"set_property",
+			"llvm_update_compile_flags",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Dialect/SPIRV/IR/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 626,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 519,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 538,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 522,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 12
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 106,
+				"parent" : 14
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 115,
+				"parent" : 14
+			},
+			{
+				"command" : 9,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 14
+			},
+			{
+				"file" : 4,
+				"parent" : 17
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 487,
+				"parent" : 18
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 476,
+				"parent" : 18
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1016,
+				"parent" : 18
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1017,
+				"parent" : 18
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1018,
+				"parent" : 18
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 27,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 161,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 162,
+				"parent" : 14
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238 /Zi /Ob0 /Od /RTC1 -MDd"
+				},
+				{
+					"fragment" : " /EHs-c- /GR-"
+				},
+				{
+					"fragment" : "-std:c++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 13,
+					"define" : "GTEST_HAS_RTTI=0"
+				},
+				{
+					"backtrace" : 15,
+					"define" : "MLIR_CUDA_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 16,
+					"define" : "MLIR_ROCM_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 19,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_CRT_NONSTDC_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_CRT_NONSTDC_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_CRT_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "_HAS_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_SCL_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "_SCL_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 19,
+					"define" : "_UNICODE"
+				},
+				{
+					"backtrace" : 21,
+					"define" : "__STDC_CONSTANT_MACROS"
+				},
+				{
+					"backtrace" : 22,
+					"define" : "__STDC_FORMAT_MACROS"
+				},
+				{
+					"backtrace" : 23,
+					"define" : "__STDC_LIMIT_MACROS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/lib/Dialect/SPIRV/IR"
+				},
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/lib/Dialect/SPIRV/IR"
+				},
+				{
+					"backtrace" : 24,
+					"path" : "C:/Program Files (x86)/LLVM/include"
+				},
+				{
+					"backtrace" : 25,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/include"
+				},
+				{
+					"backtrace" : 26,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					4
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "mlir-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVAttributeIncGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVAttrUtilsGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVAvailabilityIncGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVEnumAvailabilityIncGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVOpsIncGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVEnumsIncGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRSPIRVCanonicalizationIncGen::@ccb5bd029c0c2a6db3a7"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"backtrace" : 11,
+			"id" : "MLIRTransforms::@a94c6babf0d7671c720f"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Object Libraries"
+	},
+	"id" : "obj.MLIRSPIRVDialect::@ccb5bd029c0c2a6db3a7",
+	"name" : "obj.MLIRSPIRVDialect",
+	"paths" : 
+	{
+		"build" : "lib/Dialect/SPIRV/IR",
+		"source" : "lib/Dialect/SPIRV/IR"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		},
+		{
+			"name" : "TableGen descriptions",
+			"sourceIndexes" : 
+			[
+				19
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				20,
+				21
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/AtomicOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/CastOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/ControlFlowOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/CooperativeMatrixOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/GroupOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/IntegerDotProductOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/JointMatrixOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/MemoryOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVAttributes.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVCanonicalization.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVGLCanonicalization.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVDialect.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVEnums.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVOpAvailability.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVOpDefinition.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVOps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVParsingUtils.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVTypes.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/SPIRV/IR/TargetAndABI.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVCanonicalization.td",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVOpUtils.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "lib/Dialect/SPIRV/IR/SPIRVParsingUtils.h",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

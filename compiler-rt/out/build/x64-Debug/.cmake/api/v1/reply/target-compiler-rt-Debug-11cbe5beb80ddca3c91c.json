@@ -1,0 +1,205 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"include",
+			"add_dependencies",
+			"add_compiler_rt_component"
+		],
+		"files" : 
+		[
+			"cmake/base-config-ix.cmake",
+			"CMakeLists.txt",
+			"include/CMakeLists.txt",
+			"lib/builtins/CMakeLists.txt",
+			"cmake/Modules/AddCompilerRT.cmake",
+			"lib/ubsan/CMakeLists.txt",
+			"lib/asan/CMakeLists.txt",
+			"lib/cfi/CMakeLists.txt",
+			"lib/profile/CMakeLists.txt",
+			"lib/fuzzer/CMakeLists.txt",
+			"lib/orc/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"file" : 0,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 2
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 73,
+				"parent" : 4
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 855,
+				"parent" : 6
+			},
+			{
+				"file" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 5,
+				"line" : 75,
+				"parent" : 8
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 9
+			},
+			{
+				"file" : 6
+			},
+			{
+				"command" : 3,
+				"file" : 6,
+				"line" : 177,
+				"parent" : 11
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 12
+			},
+			{
+				"file" : 7
+			},
+			{
+				"command" : 3,
+				"file" : 7,
+				"line" : 1,
+				"parent" : 14
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 15
+			},
+			{
+				"file" : 8
+			},
+			{
+				"command" : 3,
+				"file" : 8,
+				"line" : 49,
+				"parent" : 17
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 18
+			},
+			{
+				"file" : 9
+			},
+			{
+				"command" : 3,
+				"file" : 9,
+				"line" : 90,
+				"parent" : 20
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 21
+			},
+			{
+				"file" : 10
+			},
+			{
+				"command" : 3,
+				"file" : 10,
+				"line" : 78,
+				"parent" : 23
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 123,
+				"parent" : 24
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "compiler-rt-headers::@14b3099d61bfdbeae804"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "builtins::@45bfbb4ef90931961baa"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "ubsan::@e17466177a8542cbb834"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "asan::@9e16ccd2674f918a5a03"
+		},
+		{
+			"backtrace" : 16,
+			"id" : "cfi::@86d44c3704b4e6a133be"
+		},
+		{
+			"backtrace" : 19,
+			"id" : "profile::@ac34d890ca9dc330d814"
+		},
+		{
+			"backtrace" : 22,
+			"id" : "fuzzer::@fc35b86670fecb6a72e9"
+		},
+		{
+			"backtrace" : 25,
+			"id" : "orc::@99ae2e081afe23c9a2a8"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Compiler-RT Misc"
+	},
+	"id" : "compiler-rt::@6890427a1f51a3e7e1df",
+	"name" : "compiler-rt",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

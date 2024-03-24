@@ -1,0 +1,404 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/CAPI/Dialect/MLIRCAPISCF.lib"
+		}
+	],
+	"backtrace" : 5,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_public_c_api_library",
+			"add_mlir_upstream_c_api_library",
+			"install",
+			"add_mlir_library_install",
+			"add_dependencies",
+			"set_target_properties",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/CAPI/CMakeLists.txt",
+			"lib/CAPI/Dialect/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 3,
+				"line" : 99,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 6,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 603,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 579,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 721,
+				"parent" : 4
+			},
+			{
+				"command" : 8,
+				"file" : 1,
+				"line" : 380,
+				"parent" : 3
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 106,
+				"parent" : 10
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 115,
+				"parent" : 10
+			},
+			{
+				"command" : 11,
+				"file" : 4,
+				"line" : 23,
+				"parent" : 10
+			},
+			{
+				"file" : 5,
+				"parent" : 13
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 487,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 476,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1016,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1017,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1018,
+				"parent" : 14
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 27,
+				"parent" : 10
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 161,
+				"parent" : 10
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 162,
+				"parent" : 10
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 8,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRAnalysis::@a8ea8fd451b56fad3c5d"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRAsmParser::@bfe21dd4a58a6f8872f3"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRPresburger::@1ad907dca1972690f511"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRBytecodeOpInterface::@d6bdf9ed0a744a747954"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRBytecodeReader::@b49c05bd0d56ff77d270"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRBytecodeWriter::@39990c27b7f776a835db"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRDialect::@06785b855b8defa0afbe"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRAffineDialect::@ac5d7a426e1258981133"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRBufferizationDialect::@496c84fe7f41d4e90b6f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRArithDialect::@20ef1d552c1d8ecc4889"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRArithUtils::@89a4d99dc1a86ee4983a"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRComplexDialect::@9dc032d3ec1fb3993f9f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRControlFlowDialect::@10b0565a28653af3458e"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRFuncDialect::@994aa11a16047b79cde0"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRMemRefDialect::@19131105c4d5b3944feb"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRSCFDialect::@4d2e123830e02e81a9d4"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRSparseTensorDialect::@789557d0cf90ba0d8bcb"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRTensorDialect::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRDialectUtils::@c8c07581195c7f9ba7e7"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRCallInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRCastInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRParallelCombiningOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRLoopLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRInferIntRangeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRInferTypeOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRShapedOpInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRDestinationStyleOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRDataLayoutInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRMemorySlotInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRViewLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRInferIntRangeCommon::@02ea22b42cc5588f847c"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRValueBoundsOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRPass::@16d6e97b94a3c1cbe2a3"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"id" : "obj.MLIRCAPISCF::@5150296781fac11fddd5"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRCAPIIR::@9fef7b8a47e3de461fd7"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "MLIR libraries"
+	},
+	"id" : "MLIRCAPISCF::@5150296781fac11fddd5",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 7,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/install/x64-Debug"
+		}
+	},
+	"name" : "MLIRCAPISCF",
+	"nameOnDisk" : "MLIRCAPISCF.lib",
+	"paths" : 
+	{
+		"build" : "lib/CAPI/Dialect",
+		"source" : "lib/CAPI/Dialect"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 5,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/CAPI/Dialect/CMakeFiles/obj.MLIRCAPISCF.dir/SCF.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"path" : "include/mlir/Dialect/SparseTensor/IR/Enums.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

@@ -1,0 +1,146 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_public_tablegen_target",
+			"add_custom_command",
+			"tablegen",
+			"mlir_tablegen",
+			"add_dependencies"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/TableGen.cmake",
+			"include/mlir/Dialect/AMDGPU/IR/CMakeLists.txt",
+			"cmake/modules/AddMLIR.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 131,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 11,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 9,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 101,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 134,
+				"parent" : 1
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "mlir-tblgen::@82750c186bbc37674834"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "MLIRAMDGPUEnumsGen::@dfabb549eec927c987f8"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Tablegenning"
+	},
+	"id" : "MLIRAMDGPUAttributesIncGen::@dfabb549eec927c987f8",
+	"name" : "MLIRAMDGPUAttributesIncGen",
+	"paths" : 
+	{
+		"build" : "include/mlir/Dialect/AMDGPU/IR",
+		"source" : "include/mlir/Dialect/AMDGPU/IR"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/CMakeFiles/MLIRAMDGPUAttributesIncGen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/CMakeFiles/MLIRAMDGPUAttributesIncGen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/AMDGPUAttributes.cpp.inc.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/AMDGPUAttributes.h.inc.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/AMDGPUEnums.cpp.inc.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/AMDGPU/IR/AMDGPUEnums.h.inc.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

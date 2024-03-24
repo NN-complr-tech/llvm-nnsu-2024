@@ -1,0 +1,240 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/CAPI/Debug/MLIRCAPIDebug.lib"
+		}
+	],
+	"backtrace" : 5,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_public_c_api_library",
+			"add_mlir_upstream_c_api_library",
+			"install",
+			"add_mlir_library_install",
+			"add_dependencies",
+			"set_target_properties",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/CAPI/CMakeLists.txt",
+			"lib/CAPI/Debug/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 3,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 6,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 603,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 4
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 579,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 721,
+				"parent" : 4
+			},
+			{
+				"command" : 8,
+				"file" : 1,
+				"line" : 380,
+				"parent" : 3
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 106,
+				"parent" : 10
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 115,
+				"parent" : 10
+			},
+			{
+				"command" : 11,
+				"file" : 4,
+				"line" : 23,
+				"parent" : 10
+			},
+			{
+				"file" : 5,
+				"parent" : 13
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 487,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 476,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1016,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1017,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1018,
+				"parent" : 14
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 27,
+				"parent" : 10
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 161,
+				"parent" : 10
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 162,
+				"parent" : 10
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 8,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"id" : "obj.MLIRCAPIDebug::@9752896f34c289255c0e"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "MLIR libraries"
+	},
+	"id" : "MLIRCAPIDebug::@9752896f34c289255c0e",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 7,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/install/x64-Debug"
+		}
+	},
+	"name" : "MLIRCAPIDebug",
+	"nameOnDisk" : "MLIRCAPIDebug.lib",
+	"paths" : 
+	{
+		"build" : "lib/CAPI/Debug",
+		"source" : "lib/CAPI/Debug"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 5,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/CAPI/Debug/CMakeFiles/obj.MLIRCAPIDebug.dir/Debug.cpp.obj",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

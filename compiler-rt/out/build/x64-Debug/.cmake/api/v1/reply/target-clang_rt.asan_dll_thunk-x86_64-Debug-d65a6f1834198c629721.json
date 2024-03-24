@@ -1,0 +1,191 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64 /IGNORE:4221",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/windows/clang_rt.asan_dll_thunk-x86_64.lib"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_compiler_rt_runtime",
+			"install",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"cmake/Modules/AddCompilerRT.cmake",
+			"lib/asan/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 332,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 357,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 363,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 86,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "SanitizerCommonDllThunk.x86_64::@a37263b2aa050e3263d2"
+		},
+		{
+			"id" : "SancovDllThunk.x86_64::@a37263b2aa050e3263d2"
+		},
+		{
+			"id" : "RTInterception.x86_64::@bb643548cdd239df21ec"
+		},
+		{
+			"id" : "UbsanDllThunk.x86_64::@e17466177a8542cbb834"
+		},
+		{
+			"id" : "AsanDllThunk.x86_64::@9e16ccd2674f918a5a03"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Compiler-RT Runtime"
+	},
+	"id" : "clang_rt.asan_dll_thunk-x86_64::@9e16ccd2674f918a5a03",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "lib/windows"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/compiler-rt/out/install/x64-Debug"
+		}
+	},
+	"name" : "clang_rt.asan_dll_thunk-x86_64",
+	"nameOnDisk" : "clang_rt.asan_dll_thunk-x86_64.lib",
+	"paths" : 
+	{
+		"build" : "lib/asan",
+		"source" : "lib/asan"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/interception/CMakeFiles/RTInterception.x86_64.dir/interception_linux.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/interception/CMakeFiles/RTInterception.x86_64.dir/interception_mac.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/interception/CMakeFiles/RTInterception.x86_64.dir/interception_win.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/interception/CMakeFiles/RTInterception.x86_64.dir/interception_type_test.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/asan/CMakeFiles/AsanDllThunk.x86_64.dir/asan_globals_win.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/asan/CMakeFiles/AsanDllThunk.x86_64.dir/asan_win_dll_thunk.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/ubsan/CMakeFiles/UbsanDllThunk.x86_64.dir/ubsan_win_dll_thunk.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/sanitizer_common/CMakeFiles/SancovDllThunk.x86_64.dir/sanitizer_coverage_win_dll_thunk.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/sanitizer_common/CMakeFiles/SancovDllThunk.x86_64.dir/sanitizer_coverage_win_sections.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/sanitizer_common/CMakeFiles/SanitizerCommonDllThunk.x86_64.dir/sanitizer_win_dll_thunk.cpp.obj",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

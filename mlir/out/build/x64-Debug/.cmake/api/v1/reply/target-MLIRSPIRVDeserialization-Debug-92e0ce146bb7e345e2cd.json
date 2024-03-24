@@ -1,0 +1,362 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/Target/SPIRV/Deserialization/MLIRSPIRVDeserialization.lib"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_translation_library",
+			"install",
+			"add_mlir_library_install",
+			"add_dependencies",
+			"target_link_libraries",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Target/SPIRV/Deserialization/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 644,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 579,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 721,
+				"parent" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 714,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 8,
+				"file" : 3,
+				"line" : 106,
+				"parent" : 9
+			},
+			{
+				"command" : 8,
+				"file" : 3,
+				"line" : 115,
+				"parent" : 9
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 9
+			},
+			{
+				"file" : 4,
+				"parent" : 12
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 487,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 476,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1016,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1017,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1018,
+				"parent" : 13
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 27,
+				"parent" : 9
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 161,
+				"parent" : 9
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 162,
+				"parent" : 9
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "mlir-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRSPIRVSerializationGen::@dc118725fd5cb11d2a43"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAnalysis::@a8ea8fd451b56fad3c5d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsmParser::@bfe21dd4a58a6f8872f3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPresburger::@1ad907dca1972690f511"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBytecodeReader::@b49c05bd0d56ff77d270"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLToPDLInterp::@3a0f2ccf744f743af3f0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLDialect::@fb0114e215db3c320437"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLInterpDialect::@beda4f0083cd2a95cfe1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVDialect::@ccb5bd029c0c2a6db3a7"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCallInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCopyOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLoopLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferIntRangeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferTypeOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDataLayoutInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemorySlotInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRuntimeVerifiableOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRViewLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPass::@16d6e97b94a3c1cbe2a3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRewrite::@c10d844429d8679b31f2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVBinaryUtils::@011e0c550fe71a7facd0"
+		},
+		{
+			"id" : "obj.MLIRSPIRVDeserialization::@968ce3837d08a0952035"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTranslateLib::@e90d05642290b33ea0ea"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformUtils::@485472be269d97170281"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransforms::@a94c6babf0d7671c720f"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "MLIR libraries"
+	},
+	"id" : "MLIRSPIRVDeserialization::@968ce3837d08a0952035",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 6,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/install/x64-Debug"
+		}
+	},
+	"name" : "MLIRSPIRVDeserialization",
+	"nameOnDisk" : "MLIRSPIRVDeserialization.lib",
+	"paths" : 
+	{
+		"build" : "lib/Target/SPIRV/Deserialization",
+		"source" : "lib/Target/SPIRV/Deserialization"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Target/SPIRV/Deserialization/CMakeFiles/obj.MLIRSPIRVDeserialization.dir/DeserializeOps.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Target/SPIRV/Deserialization/CMakeFiles/obj.MLIRSPIRVDeserialization.dir/Deserializer.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Target/SPIRV/Deserialization/CMakeFiles/obj.MLIRSPIRVDeserialization.dir/Deserialization.cpp.obj",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

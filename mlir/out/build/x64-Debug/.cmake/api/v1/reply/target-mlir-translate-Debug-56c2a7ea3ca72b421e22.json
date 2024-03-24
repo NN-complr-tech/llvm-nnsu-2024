@@ -1,0 +1,2570 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "bin/mlir-translate.exe"
+		},
+		{
+			"path" : "bin/mlir-translate.pdb"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"add_llvm_executable",
+			"llvm_add_tool",
+			"add_mlir_tool",
+			"target_link_libraries",
+			"explicit_llvm_config",
+			"llvm_config",
+			"set_property",
+			"llvm_update_compile_flags",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"tools/mlir-translate/CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/LLVM-Config.cmake",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 399,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 1350,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 965,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 1014,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 98,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 3,
+				"line" : 110,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 2,
+				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 0,
+				"line" : 989,
+				"parent" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 9
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 106,
+				"parent" : 11
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 115,
+				"parent" : 11
+			},
+			{
+				"command" : 11,
+				"file" : 4,
+				"line" : 23,
+				"parent" : 11
+			},
+			{
+				"file" : 5,
+				"parent" : 14
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 487,
+				"parent" : 15
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 476,
+				"parent" : 15
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1016,
+				"parent" : 15
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1017,
+				"parent" : 15
+			},
+			{
+				"command" : 10,
+				"file" : 5,
+				"line" : 1018,
+				"parent" : 15
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 27,
+				"parent" : 11
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 161,
+				"parent" : 11
+			},
+			{
+				"command" : 12,
+				"file" : 4,
+				"line" : 162,
+				"parent" : 11
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238 /Zi /Ob0 /Od /RTC1 -MDd"
+				},
+				{
+					"fragment" : " /EHs-c- /GR- /EHs-c- /GR-"
+				},
+				{
+					"fragment" : "-std:c++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "GTEST_HAS_RTTI=0"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "MLIR_CUDA_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "MLIR_ROCM_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 16,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_CRT_NONSTDC_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_CRT_NONSTDC_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_CRT_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "_HAS_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_SCL_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 17,
+					"define" : "_SCL_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 16,
+					"define" : "_UNICODE"
+				},
+				{
+					"backtrace" : 18,
+					"define" : "__STDC_CONSTANT_MACROS"
+				},
+				{
+					"backtrace" : 19,
+					"define" : "__STDC_FORMAT_MACROS"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "__STDC_LIMIT_MACROS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/tools/mlir-translate"
+				},
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/tools/mlir-translate"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "C:/Program Files (x86)/LLVM/include"
+				},
+				{
+					"backtrace" : 22,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/include"
+				},
+				{
+					"backtrace" : 23,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					4
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 8,
+			"id" : "MLIRComplexToLLVM::@4bfbab44d029fd4947ef"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRComplexToLibm::@b892c2e25aeb8f0eaece"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRComplexToStandard::@86c9534aff6a9bf471ff"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowToLLVM::@1e1c0fe39c6a84a4661b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRFuncToLLVM::@57c87fb688b3e0eb5b09"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAnalysis::@a8ea8fd451b56fad3c5d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsmParser::@bfe21dd4a58a6f8872f3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPresburger::@1ad907dca1972690f511"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBytecodeReader::@b49c05bd0d56ff77d270"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineToStandard::@19ac51dd6b310cf684b4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithToLLVM::@b5d057fa615cff585b56"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithAttrToLLVMConversion::@5c9a94b79e7d0daa908c"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsyncToLLVM::@43938d5f3a38824d43c8"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUToGPURuntimeTransforms::@4d09c8c73d7bf2c2ef7a"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUToNVVMTransforms::@06511894d788655640f9"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMCommonConversion::@45db5fe32c5736656ca4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMathToLLVM::@662d3324f1d2ac10c9b3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMathToLibm::@53cb3a00674aa6e05548"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefToLLVM::@9a56d32aa30f375a9bc1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLToPDLInterp::@3a0f2ccf744f743af3f0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFToControlFlow::@4b0357e9e53f2e17f328"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRReconcileUnrealizedCasts::@8eb333b76723f9b75ec9"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorToArmSME::@a7df9c7fd7fc1db42d8f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorToLLVM::@c3e0652391e69c3c6d3a"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorToSCF::@cba17b62b704e662e769"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDialect::@06785b855b8defa0afbe"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineAnalysis::@7d597deaf1cbc3db2cef"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineTransforms::@e0fc75b32d8f50d7926f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineDialect::@ac5d7a426e1258981133"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSVETransforms::@cb1aaae81e2594a6fe26"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSVEDialect::@6c2d4ed55d3aca890058"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsyncTransforms::@0ad5ad7fb249f3fa8dd2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationDialect::@496c84fe7f41d4e90b6f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsyncDialect::@11fc92b42e6193c0e10d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationTransformOps::@e0cf3883e7a3a93d0733"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineTransformOps::@dd1079a0f8d8196ebaa6"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMDGPUDialect::@2d635cc1d1074c62622c"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineUtils::@e1c082af3011cdb17db2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMXDialect::@f44b1e52abd50cbfa7db"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMDGPUUtils::@b562ad3852c7f3ba1e48"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMDGPUTransforms::@abce40718a93ada22001"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMXTransforms::@970c5a3f362a5950f8e5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithValueBoundsOpInterfaceImpl::@20ef1d552c1d8ecc4889"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithDialect::@20ef1d552c1d8ecc4889"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithTransforms::@2b9e48fc2d1647c594aa"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithUtils::@89a4d99dc1a86ee4983a"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmNeonDialect::@1f099d65ccc7b7b91b48"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSMEUtils::@3ff0a28fefd732dccdf1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSMEDialect::@d1eb4c2f3c68a047fe75"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSMETransforms::@ad9e93af8a9d08d61858"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRComplexDialect::@9dc032d3ec1fb3993f9f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationTransforms::@5f4ebd6da2f5503be39b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowDialect::@10b0565a28653af3458e"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDLTIDialect::@d888aed44c4ecf3b089b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIREmitCDialect::@507a9dc8483561988f69"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRFuncDialect::@994aa11a16047b79cde0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRFuncTransforms::@d9d713ae41c8462d364d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUTransforms::@7756379fa96a0a119040"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUDialect::@7756379fa96a0a119040"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUTransformOps::@8e5919438cae6739e873"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRIRDL::@d9d9286ec13326364c36"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRIndexDialect::@e6675bf41a03d966757f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLinalgDialect::@913a393301544c1d1081"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLinalgTransforms::@110239c728e1e3eb44ec"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLinalgTransformOps::@6b08917c3c764f1a2ee1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLinalgUtils::@22126a6a5e90912e3f70"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVVMDialect::@106e67513cbda15e12a5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMIRTransforms::@fe549e58419d19ebeea2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMDialect::@106e67513cbda15e12a5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRROCDLDialect::@106e67513cbda15e12a5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMathTransforms::@682534eb41a7f442869b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMathDialect::@f80c457751b5f2f0811e"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefDialect::@19131105c4d5b3944feb"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefTransformOps::@1d2f4b1bd9430bc0eb04"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefUtils::@e30e79952a86a42c9ae6"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefTransforms::@cd80a39dbba80f48385f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMLProgramDialect::@7486b8551d639b63ca59"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUTransformOps::@ff28955adc6904543469"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUDialect::@60bca3b03d106edbd2b2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUUtils::@03fdbcafe73600aa2467"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIROpenACCDialect::@03365f3cd87245e9e45f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUTransforms::@5aefed1c08b822d19aa9"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIROpenMPDialect::@c403eb4e7eac8b200933"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLDialect::@fb0114e215db3c320437"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRQuantDialect::@8c5ad116b239dbb6e6c0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLInterpDialect::@beda4f0083cd2a95cfe1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRQuantUtils::@f41ca2c2e77189aa77ae"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFTransforms::@e8852bed383ec50830f7"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFDialect::@4d2e123830e02e81a9d4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFTransformOps::@5e3e3174f531788fe68e"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorTransformOps::@77461a926b8863a845cc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorUtils::@47919d5fd5f9e9708998"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorTransforms::@7dfd8ba98d3feb064634"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTosaDialect::@522241d7ca535fdf0223"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTosaTransforms::@f16d70fb1a5fb167c201"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformDialect::@2b969de70a92b9093280"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformPDLExtension::@967decfe0162c1ea6e48"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRShapeDialect::@09650bf37858d4afd9ae"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRShapeOpsTransforms::@fc14b27d6e07461384e0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFUtils::@1844550295659d6fc471"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSparseTensorDialect::@789557d0cf90ba0d8bcb"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSparseTensorTransforms::@cfa78c0c6ccc04fa0fea"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSparseTensorUtils::@83a784bbc74ab99aefaa"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVModuleCombiner::@5be61693fc78616a7a6f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVDialect::@ccb5bd029c0c2a6db3a7"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSparseTensorPipelines::@7c53dff720dfd9f80016"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVUtils::@b86f57f5b0887116d879"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVTransforms::@9294ab31020bc77becaf"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVConversion::@9294ab31020bc77becaf"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorDialect::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorInferTypeOpInterfaceImpl::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorTilingInterfaceImpl::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformDialectUtils::@b60b8f53bb24de0e862b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformDialectTransforms::@48ac436aa7470cae750d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDialectUtils::@c8c07581195c7f9ba7e7"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRUBDialect::@190e4ed4b93ce53f67c4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorDialect::@c4c3c24cb71ae34e668f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorTransformOps::@be8f4b124bb78383fadf"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMaskableOpInterface::@0eb8637ddc0d972af3dc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorTransforms::@cb47c04778af6a875be3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMaskingOpInterface::@0eb8637ddc0d972af3dc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorUtils::@73e0a54b785843c2cb69"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRX86VectorDialect::@f8dc7febb0a6e4223058"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRX86VectorTransforms::@bddcc1adf2f72ed1cd05"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCallInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCopyOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCastInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRParallelCombiningOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLoopLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferIntRangeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferTypeOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRShapedOpInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDestinationStyleOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDataLayoutInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemorySlotInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRuntimeVerifiableOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTilingInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRViewLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferIntRangeCommon::@02ea22b42cc5588f847c"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRValueBoundsOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPass::@16d6e97b94a3c1cbe2a3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRewrite::@c10d844429d8679b31f2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVDeserialization::@968ce3837d08a0952035"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVSerialization::@e90823cbe9cc9ea5178b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVTranslateRegistration::@011e0c550fe71a7facd0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSPIRVBinaryUtils::@011e0c550fe71a7facd0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTargetCpp::@63b772e102c172de7458"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTargetLLVMIRExport::@9a2127ae45881a0a5416"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRToLLVMIRTranslationRegistration::@9a2127ae45881a0a5416"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRFromLLVMIRTranslationRegistration::@9a2127ae45881a0a5416"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTargetLLVMIRImport::@9a2127ae45881a0a5416"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSMEToLLVMIRTranslation::@c063e42263cb4b74f7fb"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmSVEToLLVMIRTranslation::@552a1f323790dfadf26f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArmNeonToLLVMIRTranslation::@0568f9d23d6581b90b41"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBuiltinToLLVMIRTranslation::@8b3e08b7f87fb46cbfe6"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAMXToLLVMIRTranslation::@1dae55b20ebe521d91b1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUToLLVMIRTranslation::@efcc91f7b85a05308868"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMIRToLLVMTranslation::@21608f780906bf9eec9d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMToLLVMIRTranslation::@21608f780906bf9eec9d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIROpenACCToLLVMIRTranslation::@c6686e04539c17b9f8bc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVVMToLLVMIRTranslation::@f7dfbd7e66bd1083b9cc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIROpenMPToLLVMIRTranslation::@2086064c668b08574e64"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRX86VectorToLLVMIRTranslation::@a048fd22a897653863b2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRROCDLToLLVMIRTranslation::@5d9ade4bd7a691f2437f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTranslateLib::@e90d05642290b33ea0ea"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformUtils::@485472be269d97170281"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransforms::@a94c6babf0d7671c720f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRExecutionEngineUtils::@35b7e69336794e150a02"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Tools"
+	},
+	"id" : "mlir-translate::@ed98491267bfed356111",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238 /Zi /Ob0 /Od /RTC1 -MDd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /STACK:10000000 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 7,
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMSupport.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Analysis\\MLIRAffineAnalysis.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\IR\\MLIRAffineDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Transforms\\MLIRAffineTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\TransformOps\\MLIRAffineTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Utils\\MLIRAffineUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMDGPU\\IR\\MLIRAMDGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMDGPU\\Transforms\\MLIRAMDGPUTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMDGPU\\Utils\\MLIRAMDGPUUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMX\\IR\\MLIRAMXDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMX\\Transforms\\MLIRAMXTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\IR\\MLIRArithDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\IR\\MLIRArithValueBoundsOpInterfaceImpl.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\Transforms\\MLIRArithTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\Utils\\MLIRArithUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmNeon\\MLIRArmNeonDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\IR\\MLIRArmSMEDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\Transforms\\MLIRArmSMETransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\Utils\\MLIRArmSMEUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSVE\\IR\\MLIRArmSVEDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSVE\\Transforms\\MLIRArmSVETransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Async\\IR\\MLIRAsyncDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Async\\Transforms\\MLIRAsyncTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Bufferization\\IR\\MLIRBufferizationDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Bufferization\\TransformOps\\MLIRBufferizationTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Bufferization\\Transforms\\MLIRBufferizationTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Complex\\IR\\MLIRComplexDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ControlFlow\\IR\\MLIRControlFlowDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\DLTI\\MLIRDLTIDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\EmitC\\IR\\MLIREmitCDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Func\\IR\\MLIRFuncDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Func\\Transforms\\MLIRFuncTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\GPU\\MLIRGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\GPU\\MLIRGPUTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\GPU\\TransformOps\\MLIRGPUTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Index\\IR\\MLIRIndexDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\IRDL\\MLIRIRDL.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\IR\\MLIRLinalgDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\TransformOps\\MLIRLinalgTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\Transforms\\MLIRLinalgTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\Utils\\MLIRLinalgUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\Transforms\\MLIRLLVMIRTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRLLVMDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRNVVMDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRROCDLDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Math\\IR\\MLIRMathDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Math\\Transforms\\MLIRMathTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\IR\\MLIRMemRefDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\TransformOps\\MLIRMemRefTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\Transforms\\MLIRMemRefTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\Utils\\MLIRMemRefUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MLProgram\\IR\\MLIRMLProgramDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\NVGPU\\IR\\MLIRNVGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\NVGPU\\Utils\\MLIRNVGPUUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\NVGPU\\TransformOps\\MLIRNVGPUTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\NVGPU\\Transforms\\MLIRNVGPUTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\OpenACC\\MLIROpenACCDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\OpenMP\\MLIROpenMPDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\PDL\\IR\\MLIRPDLDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\PDLInterp\\IR\\MLIRPDLInterpDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Quant\\IR\\MLIRQuantDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Quant\\Utils\\MLIRQuantUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\IR\\MLIRSCFDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\TransformOps\\MLIRSCFTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\Transforms\\MLIRSCFTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\Utils\\MLIRSCFUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Shape\\IR\\MLIRShapeDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Shape\\Transforms\\MLIRShapeOpsTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\IR\\MLIRSparseTensorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\Transforms\\MLIRSparseTensorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\Pipelines\\MLIRSparseTensorPipelines.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\Utils\\MLIRSparseTensorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\IR\\MLIRSPIRVDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\Linking\\ModuleCombiner\\MLIRSPIRVModuleCombiner.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\Transforms\\MLIRSPIRVConversion.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\Transforms\\MLIRSPIRVTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\Utils\\MLIRSPIRVUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\IR\\MLIRTensorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\IR\\MLIRTensorInferTypeOpInterfaceImpl.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\IR\\MLIRTensorTilingInterfaceImpl.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\Transforms\\MLIRTensorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\TransformOps\\MLIRTensorTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\Utils\\MLIRTensorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tosa\\MLIRTosaDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tosa\\Transforms\\MLIRTosaTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\IR\\MLIRTransformDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\PDLExtension\\MLIRTransformPDLExtension.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\Transforms\\MLIRTransformDialectTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\Utils\\MLIRTransformDialectUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\UB\\IR\\MLIRUBDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\IR\\MLIRVectorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Transforms\\MLIRVectorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\TransformOps\\MLIRVectorTransformOps.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Utils\\MLIRVectorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\X86Vector\\IR\\MLIRX86VectorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\X86Vector\\Transforms\\MLIRX86VectorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\Cpp\\MLIRTargetCpp.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\Deserialization\\MLIRSPIRVDeserialization.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\Serialization\\MLIRSPIRVSerialization.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\MLIRSPIRVBinaryUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\MLIRSPIRVTranslateRegistration.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmNeon\\MLIRArmNeonToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmSME\\MLIRArmSMEToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmSVE\\MLIRArmSVEToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\AMX\\MLIRAMXToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\Builtin\\MLIRBuiltinToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\GPU\\MLIRGPUToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\LLVMIR\\MLIRLLVMIRToLLVMTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\LLVMIR\\MLIRLLVMToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\NVVM\\MLIRNVVMToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\OpenACC\\MLIROpenACCToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\OpenMP\\MLIROpenMPToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ROCDL\\MLIRROCDLToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\X86Vector\\MLIRX86VectorToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRTargetLLVMIRExport.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRToLLVMIRTranslationRegistration.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRTargetLLVMIRImport.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRFromLLVMIRTranslationRegistration.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\IR\\MLIRIR.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Parser\\MLIRParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Pass\\MLIRPass.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\IR\\MLIRSPIRVDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Tools\\mlir-translate\\MLIRTranslateLib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Support\\MLIRSupport.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMDGPU\\IR\\MLIRAMDGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Shape\\IR\\MLIRShapeDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\Transforms\\MLIRSparseTensorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\Transforms\\MLIRLinalgTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\Transforms\\MLIRMemRefTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\Transforms\\MLIRArithTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\NVGPU\\IR\\MLIRNVGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\IR\\MLIRTensorTilingInterfaceImpl.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\Utils\\MLIRLinalgUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\Transforms\\MLIRSCFTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\Utils\\MLIRSparseTensorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\SCFToControlFlow\\MLIRSCFToControlFlow.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\AffineToStandard\\MLIRAffineToStandard.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ComplexToLLVM\\MLIRComplexToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ComplexToLibm\\MLIRComplexToLibm.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ComplexToStandard\\MLIRComplexToStandard.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\GPUToNVVM\\MLIRGPUToNVVMTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\GPUCommon\\MLIRGPUToGPURuntimeTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\GPU\\MLIRGPUTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Index\\IR\\MLIRIndexDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\ExecutionEngine\\MLIRExecutionEngineUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAMDGPUAsmParser.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMNVPTXCodeGen.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMNVPTXDesc.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMNVPTXInfo.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAMDGPUCodeGen.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMPasses.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMCoroutines.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMipo.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMLinker.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMVectorize.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMInstrumentation.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMIRPrinter.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAsmPrinter.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMGlobalISel.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMSelectionDAG.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMMIRParser.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMCodeGen.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMTarget.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMObjCARCOpts.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAMDGPUDesc.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAMDGPUUtils.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMCodeGenTypes.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAMDGPUInfo.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\AsyncToLLVM\\MLIRAsyncToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Async\\IR\\MLIRAsyncDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Func\\Transforms\\MLIRFuncTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\FuncToLLVM\\MLIRFuncToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ArithToLLVM\\MLIRArithToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ControlFlowToLLVM\\MLIRControlFlowToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\MathToLibm\\MLIRMathToLibm.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\MathToLLVM\\MLIRMathToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ArithCommon\\MLIRArithAttrToLLVMConversion.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\MemRefToLLVM\\MLIRMemRefToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\ReconcileUnrealizedCasts\\MLIRReconcileUnrealizedCasts.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\Transforms\\MLIRSPIRVConversion.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\Transforms\\MLIRTensorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Transforms\\MLIRAffineTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\Utils\\MLIRSCFUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\Utils\\MLIRTensorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tosa\\MLIRTosaDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Quant\\Utils\\MLIRQuantUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Quant\\IR\\MLIRQuantDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\IR\\MLIRTransformDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Transform\\Utils\\MLIRTransformDialectUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\VectorToSCF\\MLIRVectorToSCF.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\EmitC\\IR\\MLIREmitCDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\Deserialization\\MLIRSPIRVDeserialization.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\Serialization\\MLIRSPIRVSerialization.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\SPIRV\\MLIRSPIRVBinaryUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SPIRV\\IR\\MLIRSPIRVDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmNeon\\MLIRArmNeonToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmSME\\MLIRArmSMEToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ArmSVE\\MLIRArmSVEToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\AMX\\MLIRAMXToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\Builtin\\MLIRBuiltinToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\GPU\\MLIRGPUToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\LLVMIR\\MLIRLLVMToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\NVVM\\MLIRNVVMToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\OpenACC\\MLIROpenACCToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\OpenACC\\MLIROpenACCDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\OpenMP\\MLIROpenMPToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\OpenMP\\MLIROpenMPDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\ROCDL\\MLIRROCDLToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRROCDLDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\VectorToLLVM\\MLIRVectorToLLVM.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMX\\Transforms\\MLIRAMXTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\AMX\\IR\\MLIRAMXDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmNeon\\MLIRArmNeonDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\Transforms\\MLIRArmSMETransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSVE\\Transforms\\MLIRArmSVETransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSVE\\IR\\MLIRArmSVEDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Transforms\\MLIRVectorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Utils\\MLIRAffineUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Bufferization\\Transforms\\MLIRBufferizationTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\GPU\\MLIRGPUDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Linalg\\IR\\MLIRLinalgDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Math\\IR\\MLIRMathDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRTilingInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\Utils\\MLIRMemRefUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\X86Vector\\Transforms\\MLIRX86VectorTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Utils\\MLIRVectorUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\Analysis\\MLIRAffineAnalysis.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\VectorToArmSME\\MLIRVectorToArmSME.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\Utils\\MLIRArmSMEUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ArmSME\\IR\\MLIRArmSMEDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SCF\\IR\\MLIRSCFDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Bufferization\\IR\\MLIRBufferizationDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\SparseTensor\\IR\\MLIRSparseTensorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\ControlFlow\\IR\\MLIRControlFlowDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\IR\\MLIRVectorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Tensor\\IR\\MLIRTensorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Affine\\IR\\MLIRAffineDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\MemRef\\IR\\MLIRMemRefDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRShapedOpInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRValueBoundsOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRParallelCombiningOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Dialect\\Utils\\MLIRDialectUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\Utils\\MLIRArithUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Complex\\IR\\MLIRComplexDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Arith\\IR\\MLIRArithDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRCastInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\Utils\\MLIRInferIntRangeCommon.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRDestinationStyleOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRVectorInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Interfaces\\MLIRMaskableOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Dialect\\Vector\\Interfaces\\MLIRMaskingOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Dialect\\MLIRDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\LLVMCommon\\MLIRLLVMCommonConversion.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\X86Vector\\MLIRX86VectorToLLVMIRTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\X86Vector\\IR\\MLIRX86VectorDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRTargetLLVMIRExport.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\Transforms\\MLIRLLVMIRTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\Func\\IR\\MLIRFuncDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRNVVMDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Transforms\\MLIRTransforms.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Transforms\\Utils\\MLIRTransformUtils.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Rewrite\\MLIRRewrite.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Conversion\\PDLToPDLInterp\\MLIRPDLToPDLInterp.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\PDLInterp\\IR\\MLIRPDLInterpDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\PDL\\IR\\MLIRPDLDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Pass\\MLIRPass.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Analysis\\MLIRAnalysis.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Analysis\\Presburger\\MLIRPresburger.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRLoopLikeInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRViewLikeInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRInferIntRangeInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRCopyOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRRuntimeVerifiableOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMFrontendOpenMP.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMScalarOpts.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAggressiveInstCombine.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMInstCombine.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMTransformUtils.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\Dialect\\LLVMIR\\MLIRLLVMIRToLLVMTranslation.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Target\\LLVMIR\\MLIRTargetLLVMIRImport.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\DLTI\\MLIRDLTIDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Dialect\\LLVMIR\\MLIRLLVMDialect.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRCallInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRControlFlowInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRInferTypeOpInterface.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRSideEffectInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRDataLayoutInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Interfaces\\MLIRMemorySlotInterfaces.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMBitWriter.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAnalysis.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMProfileData.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMSymbolize.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDebugInfoDWARF.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDebugInfoPDB.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDebugInfoMSF.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDebugInfoBTF.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMObject.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMMCParser.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMMC.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDebugInfoCodeView.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMTextAPI.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Tools\\mlir-translate\\MLIRTranslateLib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Parser\\MLIRParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\Bytecode\\Reader\\MLIRBytecodeReader.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\lib\\AsmParser\\MLIRAsmParser.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMIRReader.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMAsmParser.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMBitReader.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\IR\\MLIRIR.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\..\\lib\\Support\\MLIRSupport.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMCore.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMBinaryFormat.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMTargetParser.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMRemarks.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMBitstreamReader.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 7,
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMSupport.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "psapi.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "shell32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "ole32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "uuid.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "advapi32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "delayimp.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-delayload:shell32.dll",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-delayload:ole32.dll",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "\"C:\\Program Files (x86)\\LLVM\\lib\\LLVMDemangle.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "mlir-translate",
+	"nameOnDisk" : "mlir-translate.exe",
+	"paths" : 
+	{
+		"build" : "tools/mlir-translate",
+		"source" : "tools/mlir-translate"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "tools/mlir-translate/mlir-translate.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"path" : "include/mlir/Dialect/SparseTensor/IR/Enums.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

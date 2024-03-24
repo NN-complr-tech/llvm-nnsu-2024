@@ -1,0 +1,1080 @@
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple LLVM version)":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is ARMClang using "--version" did not match "armclang":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is HP using "-V" did not match "HP C":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка error D8004: для "/V" требуется аргумент
+Checking whether the ASM compiler is Intel using "--version" did not match "(ICC)":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is IntelLLVM using "--version" did not match "(Intel[^
+]+oneAPI)":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "--version"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Checking whether the ASM compiler is SunPro using "-V" did not match "Sun C":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка error D8004: для "/V" требуется аргумент
+Checking whether the ASM compiler is XL using "-qversion" did not match "XL C":
+Оптимизирующий компилятор Microsoft (R) C/C++ версии 19.29.30133 для x64
+(C) Корпорация Майкрософт (Microsoft Corporation).  Все права защищены.
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "-qversion"
+cl: командная строка error D8003: отсутствие исходного имени файла
+Determining if the include file unwind.h exists failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_b9279 && [1/2] Building C object CMakeFiles\cmTC_b9279.dir\CheckIncludeFile.c.obj
+FAILED: CMakeFiles/cmTC_b9279.dir/CheckIncludeFile.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_b9279.dir\CheckIncludeFile.c.obj /FdCMakeFiles\cmTC_b9279.dir\ /FS -c CheckIncludeFile.c
+CheckIncludeFile.c(1): fatal error C1083: Не удается открыть файл включение: unwind.h: No such file or directory,
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the include file rpc/xdr.h exists failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_15b45 && [1/2] Building C object CMakeFiles\cmTC_15b45.dir\CheckIncludeFile.c.obj
+FAILED: CMakeFiles/cmTC_15b45.dir/CheckIncludeFile.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_15b45.dir\CheckIncludeFile.c.obj /FdCMakeFiles\cmTC_15b45.dir\ /FS -c CheckIncludeFile.c
+CheckIncludeFile.c(1): fatal error C1083: Не удается открыть файл включение: rpc/xdr.h: No such file or directory,
+ninja: build stopped: subcommand failed.
+
+
+
+Performing C SOURCE FILE Test CXX_SUPPORTS_UNWINDLIB_NONE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_a83c7 && [1/2] Building C object CMakeFiles\cmTC_a83c7.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "--unwindlib=none"
+[2/2] Linking C executable cmTC_a83c7.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Determining if the function fopen exists in the c failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1c637 && [1/2] Building C object CMakeFiles\cmTC_1c637.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_1c637.exe
+FAILED: cmTC_1c637.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_1c637.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_1c637.dir\CheckFunctionExists.c.obj  /out:cmTC_1c637.exe /implib:cmTC_1c637.lib /pdb:cmTC_1c637.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  c.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_1c637.dir\CheckFunctionExists.c.obj /out:cmTC_1c637.exe /implib:cmTC_1c637.lib /pdb:cmTC_1c637.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console c.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_1c637.dir/intermediate.manifest CMakeFiles\cmTC_1c637.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "c.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function __gcc_personality_v0 exists in the gcc_s failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0f839 && [1/2] Building C object CMakeFiles\cmTC_0f839.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_0f839.exe
+FAILED: cmTC_0f839.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_0f839.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_0f839.dir\CheckFunctionExists.c.obj  /out:cmTC_0f839.exe /implib:cmTC_0f839.lib /pdb:cmTC_0f839.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  gcc_s.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_0f839.dir\CheckFunctionExists.c.obj /out:cmTC_0f839.exe /implib:cmTC_0f839.lib /pdb:cmTC_0f839.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console gcc_s.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_0f839.dir/intermediate.manifest CMakeFiles\cmTC_0f839.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "gcc_s.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Performing C SOURCE FILE Test C_SUPPORTS_NODEFAULTLIBS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f003d && [1/2] Building C object CMakeFiles\cmTC_f003d.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nodefaultlibs"
+[2/2] Linking C executable cmTC_f003d.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_FFREESTANDING_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_83eae && [1/2] Building C object CMakeFiles\cmTC_83eae.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-ffreestanding"
+[2/2] Linking C executable cmTC_83eae.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_OMIT_FRAME_POINTER_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e40ac && [1/2] Building C object CMakeFiles\cmTC_e40ac.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fomit-frame-pointer"
+[2/2] Linking C executable cmTC_e40ac.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_STD_C11_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_366ee && [1/2] Building C object CMakeFiles\cmTC_366ee.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-std=c11"
+[2/2] Linking C executable cmTC_366ee.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_FCF_PROTECTION_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_b19f5 && [1/2] Building C object CMakeFiles\cmTC_b19f5.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fcf-protection=full"
+[2/2] Linking C executable cmTC_b19f5.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FPIC_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1daa1 && [1/2] Building CXX object CMakeFiles\cmTC_1daa1.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fPIC"
+[2/2] Linking CXX executable cmTC_1daa1.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FPIE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_34ba9 && [1/2] Building CXX object CMakeFiles\cmTC_34ba9.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fPIE"
+[2/2] Linking CXX executable cmTC_34ba9.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_BUILTIN_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ed2b5 && [1/2] Building CXX object CMakeFiles\cmTC_ed2b5.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-builtin"
+[2/2] Linking CXX executable cmTC_ed2b5.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_EXCEPTIONS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d11ae && [1/2] Building CXX object CMakeFiles\cmTC_d11ae.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-exceptions"
+[2/2] Linking CXX executable cmTC_d11ae.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FOMIT_FRAME_POINTER_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_97838 && [1/2] Building CXX object CMakeFiles\cmTC_97838.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fomit-frame-pointer"
+[2/2] Linking CXX executable cmTC_97838.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FUNWIND_TABLES_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_7b86a && [1/2] Building CXX object CMakeFiles\cmTC_7b86a.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-funwind-tables"
+[2/2] Linking CXX executable cmTC_7b86a.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_STACK_PROTECTOR_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_5e19e && [1/2] Building CXX object CMakeFiles\cmTC_5e19e.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-stack-protector"
+[2/2] Linking CXX executable cmTC_5e19e.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_SANITIZE_SAFE_STACK_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_18f5e && [1/2] Building CXX object CMakeFiles\cmTC_18f5e.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-sanitize=safe-stack"
+[2/2] Linking CXX executable cmTC_18f5e.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FVISIBILITY_HIDDEN_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4f122 && [1/2] Building CXX object CMakeFiles\cmTC_4f122.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fvisibility=hidden"
+[2/2] Linking CXX executable cmTC_4f122.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FRTTI_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f6818 && [1/2] Building CXX object CMakeFiles\cmTC_f6818.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-frtti"
+[2/2] Linking CXX executable cmTC_f6818.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_RTTI_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_77bf9 && [1/2] Building CXX object CMakeFiles\cmTC_77bf9.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-rtti"
+[2/2] Linking CXX executable cmTC_77bf9.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_FUNCTION_SECTIONS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ea41c && [1/2] Building CXX object CMakeFiles\cmTC_ea41c.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_ea41c.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_FNO_FUNCTION_SECTIONS_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -fno-function-sections -std:c++17 /showIncludes /FoCMakeFiles\cmTC_ea41c.dir\src.cxx.obj /FdCMakeFiles\cmTC_ea41c.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FTLS_MODEL_INITIAL_EXEC failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_78504 && [1/2] Building CXX object CMakeFiles\cmTC_78504.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-ftls-model=initial-exec"
+[2/2] Linking CXX executable cmTC_78504.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_LTO_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e4114 && [1/2] Building CXX object CMakeFiles\cmTC_e4114.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-lto"
+[2/2] Linking CXX executable cmTC_e4114.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_PROFILE_GENERATE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_bc074 && [1/2] Building CXX object CMakeFiles\cmTC_bc074.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-profile-generate"
+[2/2] Linking CXX executable cmTC_bc074.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_PROFILE_INSTR_GENERATE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_fc52d && [1/2] Building CXX object CMakeFiles\cmTC_fc52d.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-profile-instr-generate"
+[2/2] Linking CXX executable cmTC_fc52d.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_PROFILE_INSTR_USE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_227ae && [1/2] Building CXX object CMakeFiles\cmTC_227ae.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-profile-instr-use"
+[2/2] Linking CXX executable cmTC_227ae.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_COVERAGE_MAPPING_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4a36d && [1/2] Building CXX object CMakeFiles\cmTC_4a36d.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-coverage-mapping"
+[2/2] Linking CXX executable cmTC_4a36d.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_MCRC32_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0e089 && [1/2] Building CXX object CMakeFiles\cmTC_0e089.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_0e089.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_MCRC32_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -mcrc32 -std:c++17 /showIncludes /FoCMakeFiles\cmTC_0e089.dir\src.cxx.obj /FdCMakeFiles\cmTC_0e089.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_MSSE4_2_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1fc12 && [1/2] Building CXX object CMakeFiles\cmTC_1fc12.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_1fc12.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_MSSE4_2_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -msse4.2 -std:c++17 /showIncludes /FoCMakeFiles\cmTC_1fc12.dir\src.cxx.obj /FdCMakeFiles\cmTC_1fc12.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_SYSROOT_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ac0ad && [1/2] Building CXX object CMakeFiles\cmTC_ac0ad.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "--sysroot=."
+[2/2] Linking CXX executable cmTC_ac0ad.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_MCRC_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e0cf1 && [1/2] Building CXX object CMakeFiles\cmTC_e0cf1.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_e0cf1.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_MCRC_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -mcrc -std:c++17 /showIncludes /FoCMakeFiles\cmTC_e0cf1.dir\src.cxx.obj /FdCMakeFiles\cmTC_e0cf1.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_FNO_PARTIAL_INLINING_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e646f && [1/2] Building CXX object CMakeFiles\cmTC_e646f.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-partial-inlining"
+[2/2] Linking CXX executable cmTC_e646f.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -ftrivial-auto-var-init=pattern failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_92b6d && [1/2] Building CXX object CMakeFiles\cmTC_92b6d.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_92b6d.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-ftrivial-auto-var-init=pattern -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_92b6d.dir\src.cxx.obj /FdCMakeFiles\cmTC_92b6d.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_GLINE_TABLES_ONLY_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_9f85e && [1/2] Building CXX object CMakeFiles\cmTC_9f85e.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-gline-tables-only"
+[2/2] Linking CXX executable cmTC_9f85e.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_G_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_5342a && [1/2] Building CXX object CMakeFiles\cmTC_5342a.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-g"
+[2/2] Linking CXX executable cmTC_5342a.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WERROR_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f0251 && [1/2] Building CXX object CMakeFiles\cmTC_f0251.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_f0251.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WERROR_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_f0251.dir\src.cxx.obj /FdCMakeFiles\cmTC_f0251.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WFRAME_LARGER_THAN_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_3e26a && [1/2] Building CXX object CMakeFiles\cmTC_3e26a.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_3e26a.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WFRAME_LARGER_THAN_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wframe-larger-than=512 -std:c++17 /showIncludes /FoCMakeFiles\cmTC_3e26a.dir\src.cxx.obj /FdCMakeFiles\cmTC_3e26a.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WGLOBAL_CONSTRUCTORS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0eec3 && [1/2] Building CXX object CMakeFiles\cmTC_0eec3.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_0eec3.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WGLOBAL_CONSTRUCTORS_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wglobal-constructors -std:c++17 /showIncludes /FoCMakeFiles\cmTC_0eec3.dir\src.cxx.obj /FdCMakeFiles\cmTC_0eec3.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WC99_EXTENSIONS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_7aaa4 && [1/2] Building CXX object CMakeFiles\cmTC_7aaa4.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_7aaa4.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WC99_EXTENSIONS_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wc99-extensions -std:c++17 /showIncludes /FoCMakeFiles\cmTC_7aaa4.dir\src.cxx.obj /FdCMakeFiles\cmTC_7aaa4.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WGNU_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_3a5ac && [1/2] Building CXX object CMakeFiles\cmTC_3a5ac.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_3a5ac.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WGNU_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wgnu -std:c++17 /showIncludes /FoCMakeFiles\cmTC_3a5ac.dir\src.cxx.obj /FdCMakeFiles\cmTC_3a5ac.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WVARIADIC_MACROS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_3ecc9 && [1/2] Building CXX object CMakeFiles\cmTC_3ecc9.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_3ecc9.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WVARIADIC_MACROS_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wvariadic-macros -std:c++17 /showIncludes /FoCMakeFiles\cmTC_3ecc9.dir\src.cxx.obj /FdCMakeFiles\cmTC_3ecc9.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WUNUSED_PARAMETER_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1271d && [1/2] Building CXX object CMakeFiles\cmTC_1271d.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_1271d.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WUNUSED_PARAMETER_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wunused-parameter -std:c++17 /showIncludes /FoCMakeFiles\cmTC_1271d.dir\src.cxx.obj /FdCMakeFiles\cmTC_1271d.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WCOVERED_SWITCH_DEFAULT_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ef35b && [1/2] Building CXX object CMakeFiles\cmTC_ef35b.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_ef35b.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WCOVERED_SWITCH_DEFAULT_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wcovered-switch-default -std:c++17 /showIncludes /FoCMakeFiles\cmTC_ef35b.dir\src.cxx.obj /FdCMakeFiles\cmTC_ef35b.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WSUGGEST_OVERRIDE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_a4ef3 && [1/2] Building CXX object CMakeFiles\cmTC_a4ef3.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_a4ef3.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WSUGGEST_OVERRIDE_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wsuggest-override -std:c++17 /showIncludes /FoCMakeFiles\cmTC_a4ef3.dir\src.cxx.obj /FdCMakeFiles\cmTC_a4ef3.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WTHREAD_SAFETY_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0ccd4 && [1/2] Building CXX object CMakeFiles\cmTC_0ccd4.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_0ccd4.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WTHREAD_SAFETY_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wthread-safety -std:c++17 /showIncludes /FoCMakeFiles\cmTC_0ccd4.dir\src.cxx.obj /FdCMakeFiles\cmTC_0ccd4.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WTHREAD_SAFETY_REFERENCE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4648b && [1/2] Building CXX object CMakeFiles\cmTC_4648b.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_4648b.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WTHREAD_SAFETY_REFERENCE_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wthread-safety-reference -std:c++17 /showIncludes /FoCMakeFiles\cmTC_4648b.dir\src.cxx.obj /FdCMakeFiles\cmTC_4648b.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WTHREAD_SAFETY_BETA_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_dcdf0 && [1/2] Building CXX object CMakeFiles\cmTC_dcdf0.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_dcdf0.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WTHREAD_SAFETY_BETA_FLAG  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Wthread-safety-beta -std:c++17 /showIncludes /FoCMakeFiles\cmTC_dcdf0.dir\src.cxx.obj /FdCMakeFiles\cmTC_dcdf0.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WNO_PEDANTIC failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_5ee5d && [1/2] Building CXX object CMakeFiles\cmTC_5ee5d.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_5ee5d.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WNO_PEDANTIC  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Wno-pedantic -std:c++17 /showIncludes /FoCMakeFiles\cmTC_5ee5d.dir\src.cxx.obj /FdCMakeFiles\cmTC_5ee5d.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wno-pedantic"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WNO_FORMAT failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_2d95a && [1/2] Building CXX object CMakeFiles\cmTC_2d95a.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_2d95a.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WNO_FORMAT  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Wno-format -std:c++17 /showIncludes /FoCMakeFiles\cmTC_2d95a.dir\src.cxx.obj /FdCMakeFiles\cmTC_2d95a.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wno-format"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_WNO_FORMAT_PEDANTIC failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_22151 && [1/2] Building CXX object CMakeFiles\cmTC_22151.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_22151.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_HAS_WNO_FORMAT_PEDANTIC  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -Wno-format-pedantic -std:c++17 /showIncludes /FoCMakeFiles\cmTC_22151.dir\src.cxx.obj /FdCMakeFiles\cmTC_22151.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wno-format-pedantic"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Warray-bounds failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c58d2 && [1/2] Building CXX object CMakeFiles\cmTC_c58d2.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_c58d2.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Warray-bounds -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_c58d2.dir\src.cxx.obj /FdCMakeFiles\cmTC_c58d2.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wuninitialized failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_202e3 && [1/2] Building CXX object CMakeFiles\cmTC_202e3.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_202e3.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wuninitialized -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_202e3.dir\src.cxx.obj /FdCMakeFiles\cmTC_202e3.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wshadow failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_ddf4f && [1/2] Building CXX object CMakeFiles\cmTC_ddf4f.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_ddf4f.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wshadow -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_ddf4f.dir\src.cxx.obj /FdCMakeFiles\cmTC_ddf4f.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wempty-body failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_aa9e1 && [1/2] Building CXX object CMakeFiles\cmTC_aa9e1.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_aa9e1.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wempty-body -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_aa9e1.dir\src.cxx.obj /FdCMakeFiles\cmTC_aa9e1.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsizeof-pointer-memaccess failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_97763 && [1/2] Building CXX object CMakeFiles\cmTC_97763.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_97763.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsizeof-pointer-memaccess -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_97763.dir\src.cxx.obj /FdCMakeFiles\cmTC_97763.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsizeof-array-argument failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_625b5 && [1/2] Building CXX object CMakeFiles\cmTC_625b5.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_625b5.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsizeof-array-argument -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_625b5.dir\src.cxx.obj /FdCMakeFiles\cmTC_625b5.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsuspicious-memaccess failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c4f56 && [1/2] Building CXX object CMakeFiles\cmTC_c4f56.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_c4f56.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsuspicious-memaccess -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_c4f56.dir\src.cxx.obj /FdCMakeFiles\cmTC_c4f56.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wbuiltin-memcpy-chk-size failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4eeba && [1/2] Building CXX object CMakeFiles\cmTC_4eeba.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_4eeba.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wbuiltin-memcpy-chk-size -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_4eeba.dir\src.cxx.obj /FdCMakeFiles\cmTC_4eeba.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Warray-bounds-pointer-arithmetic failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d52f6 && [1/2] Building CXX object CMakeFiles\cmTC_d52f6.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_d52f6.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Warray-bounds-pointer-arithmetic -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_d52f6.dir\src.cxx.obj /FdCMakeFiles\cmTC_d52f6.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wreturn-stack-address failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f65d2 && [1/2] Building CXX object CMakeFiles\cmTC_f65d2.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_f65d2.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wreturn-stack-address -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_f65d2.dir\src.cxx.obj /FdCMakeFiles\cmTC_f65d2.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsizeof-array-decay failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0f31f && [1/2] Building CXX object CMakeFiles\cmTC_0f31f.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_0f31f.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsizeof-array-decay -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_0f31f.dir\src.cxx.obj /FdCMakeFiles\cmTC_0f31f.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wformat-insufficient-args failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d7437 && [1/2] Building CXX object CMakeFiles\cmTC_d7437.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_d7437.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wformat-insufficient-args -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_d7437.dir\src.cxx.obj /FdCMakeFiles\cmTC_d7437.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wformat-security failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_349a9 && [1/2] Building CXX object CMakeFiles\cmTC_349a9.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_349a9.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wformat-security -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_349a9.dir\src.cxx.obj /FdCMakeFiles\cmTC_349a9.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsizeof-array-div failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_6a9f8 && [1/2] Building CXX object CMakeFiles\cmTC_6a9f8.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_6a9f8.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsizeof-array-div -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_6a9f8.dir\src.cxx.obj /FdCMakeFiles\cmTC_6a9f8.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test -Wsizeof-pointer-div failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_bc8a2 && [1/2] Building CXX object CMakeFiles\cmTC_bc8a2.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_bc8a2.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd   -D-Wsizeof-pointer-div -Werror -std:c++17 /showIncludes /FoCMakeFiles\cmTC_bc8a2.dir\src.cxx.obj /FdCMakeFiles\cmTC_bc8a2.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_NOSTDINCXX_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_15d67 && [1/2] Building CXX object CMakeFiles\cmTC_15d67.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nostdinc++"
+[2/2] Linking CXX executable cmTC_15d67.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_RT_HAS_NOSTDLIBXX_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_396ed && [1/2] Building CXX object CMakeFiles\cmTC_396ed.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nostdlib++"
+[2/2] Linking CXX executable cmTC_396ed.exe
+
+
+Source file was:
+int main() { return 0; }
+Determining if files sys/auxv.h exist failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_dba00 && [1/2] Building C object CMakeFiles\cmTC_dba00.dir\COMPILER_RT_HAS_AUXV.c.obj
+FAILED: CMakeFiles/cmTC_dba00.dir/COMPILER_RT_HAS_AUXV.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_dba00.dir\COMPILER_RT_HAS_AUXV.c.obj /FdCMakeFiles\cmTC_dba00.dir\ /FS -c D:\llvm\llvm-nnsu-2024\compiler-rt\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\COMPILER_RT_HAS_AUXV.c
+D:\llvm\llvm-nnsu-2024\compiler-rt\out\build\x64-Debug\CMakeFiles\CheckIncludeFiles\COMPILER_RT_HAS_AUXV.c(2): fatal error C1083: Не удается открыть файл включение: sys/auxv.h: No such file or directory,
+ninja: build stopped: subcommand failed.
+
+
+Source:
+/* */
+#include <sys/auxv.h>
+
+
+int main(void){return 0;}
+
+Determining if the function dlopen exists in the dl failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c230f && [1/2] Building C object CMakeFiles\cmTC_c230f.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_c230f.exe
+FAILED: cmTC_c230f.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_c230f.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_c230f.dir\CheckFunctionExists.c.obj  /out:cmTC_c230f.exe /implib:cmTC_c230f.lib /pdb:cmTC_c230f.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  dl.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_c230f.dir\CheckFunctionExists.c.obj /out:cmTC_c230f.exe /implib:cmTC_c230f.lib /pdb:cmTC_c230f.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console dl.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_c230f.dir/intermediate.manifest CMakeFiles\cmTC_c230f.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "dl.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function shm_open exists in the rt failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_39478 && [1/2] Building C object CMakeFiles\cmTC_39478.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_39478.exe
+FAILED: cmTC_39478.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_39478.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_39478.dir\CheckFunctionExists.c.obj  /out:cmTC_39478.exe /implib:cmTC_39478.lib /pdb:cmTC_39478.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  rt.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_39478.dir\CheckFunctionExists.c.obj /out:cmTC_39478.exe /implib:cmTC_39478.lib /pdb:cmTC_39478.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console rt.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_39478.dir/intermediate.manifest CMakeFiles\cmTC_39478.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "rt.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function pow exists in the m failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_74d7e && [1/2] Building C object CMakeFiles\cmTC_74d7e.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_74d7e.exe
+FAILED: cmTC_74d7e.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_74d7e.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_74d7e.dir\CheckFunctionExists.c.obj  /out:cmTC_74d7e.exe /implib:cmTC_74d7e.lib /pdb:cmTC_74d7e.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  m.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_74d7e.dir\CheckFunctionExists.c.obj /out:cmTC_74d7e.exe /implib:cmTC_74d7e.lib /pdb:cmTC_74d7e.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console m.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_74d7e.dir/intermediate.manifest CMakeFiles\cmTC_74d7e.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "m.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function pthread_create exists in the pthread failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e5db8 && [1/2] Building C object CMakeFiles\cmTC_e5db8.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_e5db8.exe
+FAILED: cmTC_e5db8.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_e5db8.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_e5db8.dir\CheckFunctionExists.c.obj  /out:cmTC_e5db8.exe /implib:cmTC_e5db8.lib /pdb:cmTC_e5db8.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_e5db8.dir\CheckFunctionExists.c.obj /out:cmTC_e5db8.exe /implib:cmTC_e5db8.lib /pdb:cmTC_e5db8.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_e5db8.dir/intermediate.manifest CMakeFiles\cmTC_e5db8.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "pthread.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function backtrace exists in the execinfo failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_4f5c6 && [1/2] Building C object CMakeFiles\cmTC_4f5c6.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_4f5c6.exe
+FAILED: cmTC_4f5c6.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_4f5c6.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_4f5c6.dir\CheckFunctionExists.c.obj  /out:cmTC_4f5c6.exe /implib:cmTC_4f5c6.lib /pdb:cmTC_4f5c6.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  execinfo.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_4f5c6.dir\CheckFunctionExists.c.obj /out:cmTC_4f5c6.exe /implib:cmTC_4f5c6.lib /pdb:cmTC_4f5c6.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console execinfo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_4f5c6.dir/intermediate.manifest CMakeFiles\cmTC_4f5c6.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "execinfo.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function __cxa_throw exists in the c++ failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d1cf0 && [1/2] Building C object CMakeFiles\cmTC_d1cf0.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_d1cf0.exe
+FAILED: cmTC_d1cf0.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_d1cf0.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_d1cf0.dir\CheckFunctionExists.c.obj  /out:cmTC_d1cf0.exe /implib:cmTC_d1cf0.lib /pdb:cmTC_d1cf0.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  c++.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_d1cf0.dir\CheckFunctionExists.c.obj /out:cmTC_d1cf0.exe /implib:cmTC_d1cf0.lib /pdb:cmTC_d1cf0.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console c++.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_d1cf0.dir/intermediate.manifest CMakeFiles\cmTC_d1cf0.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "c++.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function __cxa_throw exists in the stdc++ failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_18d4e && [1/2] Building C object CMakeFiles\cmTC_18d4e.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_18d4e.exe
+FAILED: cmTC_18d4e.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_18d4e.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_18d4e.dir\CheckFunctionExists.c.obj  /out:cmTC_18d4e.exe /implib:cmTC_18d4e.lib /pdb:cmTC_18d4e.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  stdc++.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_18d4e.dir\CheckFunctionExists.c.obj /out:cmTC_18d4e.exe /implib:cmTC_18d4e.lib /pdb:cmTC_18d4e.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console stdc++.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_18d4e.dir/intermediate.manifest CMakeFiles\cmTC_18d4e.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "stdc++.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Performing C SOURCE FILE Test COMPILER_RT_HAS_Z_TEXT failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_6fe0d && [1/2] Building C object CMakeFiles\cmTC_6fe0d.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_6fe0d.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DCOMPILER_RT_HAS_Z_TEXT  /DWIN32 /D_WINDOWS  -Wl,-z,text /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_6fe0d.dir\src.c.obj /FdCMakeFiles\cmTC_6fe0d.dir\ /FS -c src.c
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wl,-z,text"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_FUSE_LD_LLD_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c5844 && [1/2] Building C object CMakeFiles\cmTC_c5844.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fuse-ld=lld"
+[2/2] Linking C executable cmTC_c5844.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_VERSION_SCRIPT failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c1099 && [1/2] Building C object CMakeFiles\cmTC_c1099.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_c1099.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DCOMPILER_RT_HAS_VERSION_SCRIPT  /DWIN32 /D_WINDOWS  -Wl,--version-script,D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp/dummy.vers /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_c1099.dir\src.c.obj /FdCMakeFiles\cmTC_c1099.dir\ /FS -c src.c
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wl,--version-script,D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp/dummy.vers"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main(void) { return 0; }
+Testing compiler for supporting FLAGS-fvisibility=hidden:
+Command: C:/Program;Files;(x86)/Microsoft;Visual;Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe;;/nologo;;;/DWIN32;/D_WINDOWS;/W4;-fvisibility=hidden;/FoD:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/test.o;/Fd;/FS;-c;D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c
+src.c
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fvisibility=hidden"
+
+0
+Testing compiler for supporting FLAGS-fxray-instrument:
+Command: C:/Program;Files;(x86)/Microsoft;Visual;Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe;;/nologo;;;/DWIN32;/D_WINDOWS;/W4;-fxray-instrument;/FoD:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/test.o;/Fd;/FS;-c;D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c
+src.c
+
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fxray-instrument"
+
+0
+Testing compiler for supporting SOURCE
+int foo(int x, int y) {
+ _Atomic int result = x * y
+ return result
+}
+:
+Command: C:/Program;Files;(x86)/Microsoft;Visual;Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe;;/nologo;;;/DWIN32;/D_WINDOWS;/W4;;/FoD:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/test.o;/Fd;/FS;-c;D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c
+src.c
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2065: _Atomic: необъявленный идентификатор
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2143: синтаксическая ошибка: отсутствие ";" перед "тип"
+
+
+2
+Testing compiler for supporting SOURCE
+asm(".arch armv8-a+lse")
+asm("cas w0, w1, [x2]")
+:
+Command: C:/Program;Files;(x86)/Microsoft;Visual;Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe;;/nologo;;;/DWIN32;/D_WINDOWS;/W4;;/FoD:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/test.o;/Fd;/FS;-c;D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c
+src.c
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(2): error C2143: синтаксическая ошибка: отсутствие ")" перед "строка"
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(2): error C2143: синтаксическая ошибка: отсутствие "{" перед "строка"
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(2): error C2059: синтаксическая ошибка: строка
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(2): error C2059: синтаксическая ошибка: )
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2143: синтаксическая ошибка: отсутствие ")" перед "строка"
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2143: синтаксическая ошибка: отсутствие "{" перед "строка"
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2059: синтаксическая ошибка: строка
+D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/src.c(3): error C2059: синтаксическая ошибка: )
+
+
+2
+Performing C SOURCE FILE Test COMPILER_RT_HAS_x86_64_FLOAT16 failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_05290 && [1/2] Building C object CMakeFiles\cmTC_05290.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_05290.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DCOMPILER_RT_HAS_x86_64_FLOAT16  /DWIN32 /D_WINDOWS /W4  /Zi /Ob0 /Od /RTC1 -MT /showIncludes /FoCMakeFiles\cmTC_05290.dir\src.c.obj /FdCMakeFiles\cmTC_05290.dir\ /FS -c src.c
+src.c(1): error C2061: синтаксическая ошибка: идентификатор "foo"
+src.c(1): error C2059: синтаксическая ошибка: ;
+src.c(1): error C2146: синтаксическая ошибка: отсутствие ")" перед идентификатором "x"
+src.c(1): error C2061: синтаксическая ошибка: идентификатор "x"
+src.c(1): error C2059: синтаксическая ошибка: )
+src.c(1): error C2449: имеется "{" в пределах области видимости файла (возможно, отсутствует заголовок функции)
+src.c(1): error C2059: синтаксическая ошибка: }
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+_Float16 foo(_Float16 x) { return x; }
+Performing C SOURCE FILE Test COMPILER_RT_HAS_x86_64_BFLOAT16 failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_25d8e && [1/2] Building C object CMakeFiles\cmTC_25d8e.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_25d8e.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DCOMPILER_RT_HAS_x86_64_BFLOAT16  /DWIN32 /D_WINDOWS /W4  /Zi /Ob0 /Od /RTC1 -MT /showIncludes /FoCMakeFiles\cmTC_25d8e.dir\src.c.obj /FdCMakeFiles\cmTC_25d8e.dir\ /FS -c src.c
+src.c(1): error C2061: синтаксическая ошибка: идентификатор "foo"
+src.c(1): error C2059: синтаксическая ошибка: ;
+src.c(1): error C2146: синтаксическая ошибка: отсутствие ")" перед идентификатором "x"
+src.c(1): error C2061: синтаксическая ошибка: идентификатор "x"
+src.c(1): error C2059: синтаксическая ошибка: )
+src.c(1): error C2449: имеется "{" в пределах области видимости файла (возможно, отсутствует заголовок функции)
+src.c(1): error C2059: синтаксическая ошибка: }
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+__bf16 foo(__bf16 x) { return x; }
+Performing C++ SOURCE FILE Test COMPILER_RT_TARGET_HAS_FCNTL_LCK failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_e57d3 && [1/2] Building CXX object CMakeFiles\cmTC_e57d3.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_e57d3.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_TARGET_HAS_FCNTL_LCK  /DWIN32 /D_WINDOWS /EHsc /W4   /Z7 /Ob0 /Od /RTC1 -MT -std:c++17 /showIncludes /FoCMakeFiles\cmTC_e57d3.dir\src.cxx.obj /FdCMakeFiles\cmTC_e57d3.dir\ /FS -c src.cxx
+src.cxx(8): error C2079: "s_flock" использует не имеющую определения структуру struct "main::flock"
+src.cxx(10): error C2065: F_WRLCK: необъявленный идентификатор
+src.cxx(11): error C2065: F_SETLKW: необъявленный идентификатор
+src.cxx(11): error C3861: fcntl: идентификатор не найден
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+
+#if defined(__linux__)
+#include <unistd.h>
+#endif
+#include <fcntl.h>
+int fd;
+int main() {
+ struct flock s_flock;
+
+ s_flock.l_type = F_WRLCK;
+ fcntl(fd, F_SETLKW, &s_flock);
+ return 0;
+}
+
+
+Performing C++ SOURCE FILE Test COMPILER_RT_TARGET_HAS_UNAME failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_59dde && [1/2] Building CXX object CMakeFiles\cmTC_59dde.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_59dde.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_RT_TARGET_HAS_UNAME  /DWIN32 /D_WINDOWS /EHsc /W4   /Z7 /Ob0 /Od /RTC1 -MT -std:c++17 /showIncludes /FoCMakeFiles\cmTC_59dde.dir\src.cxx.obj /FdCMakeFiles\cmTC_59dde.dir\ /FS -c src.cxx
+src.cxx(2): fatal error C1083: Не удается открыть файл включение: sys/utsname.h: No such file or directory,
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+
+#include <sys/utsname.h>
+int main() {
+ return 0;
+}
+
+

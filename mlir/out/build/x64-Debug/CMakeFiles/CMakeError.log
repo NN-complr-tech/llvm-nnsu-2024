@@ -1,0 +1,84 @@
+Determining if the os_signpost_interval_begin exist failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c10e1 && [1/2] Building C object CMakeFiles\cmTC_c10e1.dir\CheckSymbolExists.c.obj
+FAILED: CMakeFiles/cmTC_c10e1.dir/CheckSymbolExists.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS /Zc:inline /Zc:preprocessor /Oi /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\cmTC_c10e1.dir\CheckSymbolExists.c.obj /FdCMakeFiles\cmTC_c10e1.dir\ /FS -c CheckSymbolExists.c
+CheckSymbolExists.c(2): fatal error C1083: Не удается открыть файл включение: os/signpost.h: No such file or directory,
+ninja: build stopped: subcommand failed.
+
+
+File D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <os/signpost.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef os_signpost_interval_begin
+  return ((int*)(&os_signpost_interval_begin))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Performing C SOURCE FILE Test C_SUPPORTS_WERROR_IMPLICIT_FUNCTION_DECLARATION failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_915b2 && [1/2] Building C object CMakeFiles\cmTC_915b2.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_915b2.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DC_SUPPORTS_WERROR_IMPLICIT_FUNCTION_DECLARATION  /DWIN32 /D_WINDOWS /Zc:inline /Zc:preprocessor /Oi /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd   -Werror=implicit-function-declaration /showIncludes /FoCMakeFiles\cmTC_915b2.dir\src.c.obj /FdCMakeFiles\cmTC_915b2.dir\ /FS -c src.c
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror=implicit-function-declaration"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test C_SUPPORTS_WERROR_MISMATCHED_TAGS failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c0ab7 && [1/2] Building C object CMakeFiles\cmTC_c0ab7.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_c0ab7.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DC_SUPPORTS_WERROR_MISMATCHED_TAGS  /DWIN32 /D_WINDOWS /Zc:inline /Zc:preprocessor /Oi /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd   -Werror=mismatched-tags /showIncludes /FoCMakeFiles\cmTC_c0ab7.dir\src.c.obj /FdCMakeFiles\cmTC_c0ab7.dir\ /FS -c src.c
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror=mismatched-tags"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test C_SUPPORTS_WERROR_GLOBAL_CONSTRUCTOR failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c5ce6 && [1/2] Building C object CMakeFiles\cmTC_c5ce6.dir\src.c.obj
+FAILED: CMakeFiles/cmTC_c5ce6.dir/src.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo -DC_SUPPORTS_WERROR_GLOBAL_CONSTRUCTOR  /DWIN32 /D_WINDOWS /Zc:inline /Zc:preprocessor /Oi /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Werror=global-constructors /showIncludes /FoCMakeFiles\cmTC_c5ce6.dir\src.c.obj /FdCMakeFiles\cmTC_c5ce6.dir\ /FS -c src.c
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_WERROR_GLOBAL_CONSTRUCTOR failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_464d8 && [1/2] Building CXX object CMakeFiles\cmTC_464d8.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_464d8.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCXX_SUPPORTS_WERROR_GLOBAL_CONSTRUCTOR  /DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd   -Werror -Werror=global-constructors -std:c++17 /showIncludes /FoCMakeFiles\cmTC_464d8.dir\src.cxx.obj /FdCMakeFiles\cmTC_464d8.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_SUPPORTS_WARNING_WEAK_VTABLES failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_b7484 && [1/2] Building CXX object CMakeFiles\cmTC_b7484.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_b7484.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCOMPILER_SUPPORTS_WARNING_WEAK_VTABLES  /DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238  /Zi /Ob0 /Od /RTC1 -MDd   -Wweak-vtables -std:c++17 /showIncludes /FoCMakeFiles\cmTC_b7484.dir\src.cxx.obj /FdCMakeFiles\cmTC_b7484.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wweak-vtables"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }

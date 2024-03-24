@@ -1,0 +1,383 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						4,
+						6,
+						11,
+						20
+					]
+				},
+				{
+					"build" : "Common",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Common",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "tools/lld",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tools/lld",
+					"targetIndexes" : 
+					[
+						7,
+						10,
+						12
+					]
+				},
+				{
+					"build" : "docs",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "docs"
+				},
+				{
+					"build" : "COFF",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "COFF",
+					"targetIndexes" : 
+					[
+						0,
+						14
+					]
+				},
+				{
+					"build" : "ELF",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ELF",
+					"targetIndexes" : 
+					[
+						1,
+						16
+					]
+				},
+				{
+					"build" : "MachO",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MachO",
+					"targetIndexes" : 
+					[
+						2,
+						17
+					]
+				},
+				{
+					"build" : "MinGW",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MinGW",
+					"targetIndexes" : 
+					[
+						3,
+						18
+					]
+				},
+				{
+					"build" : "wasm",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "wasm",
+					"targetIndexes" : 
+					[
+						5,
+						19
+					]
+				},
+				{
+					"build" : "cmake/modules",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "cmake/modules",
+					"targetIndexes" : 
+					[
+						8,
+						9,
+						13
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"name" : "lld",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 4,
+					"id" : "COFFOptionsTableGen::@de9166d2c92805c7258d",
+					"jsonFile" : "target-COFFOptionsTableGen-Debug-936b69e6ea9c293581fa.json",
+					"name" : "COFFOptionsTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "ELFOptionsTableGen::@989d46508617d418f1e5",
+					"jsonFile" : "target-ELFOptionsTableGen-Debug-a353225f590b853c209b.json",
+					"name" : "ELFOptionsTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MachOOptionsTableGen::@e3df52373275453ab126",
+					"jsonFile" : "target-MachOOptionsTableGen-Debug-e23ac9bb7819c034ea13.json",
+					"name" : "MachOOptionsTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "MinGWOptionsTableGen::@3eca61e88b6fd9c0f9ff",
+					"jsonFile" : "target-MinGWOptionsTableGen-Debug-6e6eaccfed3d54fc78f3.json",
+					"name" : "MinGWOptionsTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "RISCVTargetParserTableGen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-RISCVTargetParserTableGen-Debug-2d64c79822923e4ac097.json",
+					"name" : "RISCVTargetParserTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "WasmOptionsTableGen::@a060a96d00d91701a629",
+					"jsonFile" : "target-WasmOptionsTableGen-Debug-14d3a771f2523eb7fa3b.json",
+					"name" : "WasmOptionsTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "acc_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-acc_gen-Debug-e2c2a3b1f07cc9aa5b27.json",
+					"name" : "acc_gen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "install-lld::@c1306acf53f41310bdf6",
+					"jsonFile" : "target-install-lld-Debug-d9fde58d1d0783aa1585.json",
+					"name" : "install-lld",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-lld-cmake-exports::@6790388e3ded12aa3919",
+					"jsonFile" : "target-install-lld-cmake-exports-Debug-d8f4774eaa26ea031a03.json",
+					"name" : "install-lld-cmake-exports",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-lld-cmake-exports-stripped::@6790388e3ded12aa3919",
+					"jsonFile" : "target-install-lld-cmake-exports-stripped-Debug-2b60efba63b1a2e77952.json",
+					"name" : "install-lld-cmake-exports-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "install-lld-stripped::@c1306acf53f41310bdf6",
+					"jsonFile" : "target-install-lld-stripped-Debug-7f927922732876a1cd8b.json",
+					"name" : "install-lld-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "intrinsics_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-intrinsics_gen-Debug-8d027f8adb3c3c7202b2.json",
+					"name" : "intrinsics_gen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "lld::@c1306acf53f41310bdf6",
+					"jsonFile" : "target-lld-Debug-b222f00d0ccddb33599a.json",
+					"name" : "lld",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "lld-cmake-exports::@6790388e3ded12aa3919",
+					"jsonFile" : "target-lld-cmake-exports-Debug-c945b8dbc290bc573a35.json",
+					"name" : "lld-cmake-exports",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "lldCOFF::@de9166d2c92805c7258d",
+					"jsonFile" : "target-lldCOFF-Debug-9ea57f81d35f85e36a6e.json",
+					"name" : "lldCOFF",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "lldCommon::@13b50f4fff9a3833e1fc",
+					"jsonFile" : "target-lldCommon-Debug-5ec3bc96a452c0549da0.json",
+					"name" : "lldCommon",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "lldELF::@989d46508617d418f1e5",
+					"jsonFile" : "target-lldELF-Debug-a5db71f99881993b90e4.json",
+					"name" : "lldELF",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "lldMachO::@e3df52373275453ab126",
+					"jsonFile" : "target-lldMachO-Debug-6da07ae2fabedb6168a8.json",
+					"name" : "lldMachO",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "lldMinGW::@3eca61e88b6fd9c0f9ff",
+					"jsonFile" : "target-lldMinGW-Debug-6ac6dd9dbfbf3450e72e.json",
+					"name" : "lldMinGW",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "lldWasm::@a060a96d00d91701a629",
+					"jsonFile" : "target-lldWasm-Debug-03c44384bb5b78f73c7c.json",
+					"name" : "lldWasm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omp_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omp_gen-Debug-2e3b38f32d2a5a2abd05.json",
+					"name" : "omp_gen",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/llvm/llvm-nnsu-2024/lld/out/build/x64-Debug",
+		"source" : "D:/llvm/llvm-nnsu-2024/lld"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

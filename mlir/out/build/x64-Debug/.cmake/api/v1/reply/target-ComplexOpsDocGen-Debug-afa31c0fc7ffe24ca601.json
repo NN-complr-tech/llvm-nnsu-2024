@@ -1,0 +1,110 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_mlir_doc",
+			"add_custom_command",
+			"tablegen"
+		],
+		"files" : 
+		[
+			"cmake/modules/AddMLIR.cmake",
+			"include/mlir/Dialect/Complex/IR/CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/TableGen.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 2,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 200,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 192,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 101,
+				"parent" : 3
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "mlir-tblgen::@82750c186bbc37674834"
+		}
+	],
+	"id" : "ComplexOpsDocGen::@8f79d28c6906a09940fe",
+	"name" : "ComplexOpsDocGen",
+	"paths" : 
+	{
+		"build" : "include/mlir/Dialect/Complex/IR",
+		"source" : "include/mlir/Dialect/Complex/IR"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Complex/IR/CMakeFiles/ComplexOpsDocGen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Complex/IR/CMakeFiles/ComplexOpsDocGen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/docs/Dialects/ComplexOps.md.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Complex/IR/ComplexOps.md.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,1462 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						18
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						5,
+						40,
+						62,
+						101,
+						104,
+						117,
+						118
+					]
+				},
+				{
+					"build" : "include",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "include",
+					"targetIndexes" : 
+					[
+						63,
+						102,
+						103
+					]
+				},
+				{
+					"build" : "lib",
+					"childIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						11,
+						12,
+						13,
+						14,
+						17
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "lib"
+				},
+				{
+					"build" : "lib/sanitizer_common",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/sanitizer_common",
+					"targetIndexes" : 
+					[
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36
+					]
+				},
+				{
+					"build" : "lib/builtins",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/builtins",
+					"targetIndexes" : 
+					[
+						43,
+						53,
+						67,
+						68,
+						83,
+						84
+					]
+				},
+				{
+					"build" : "lib/interception",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/interception",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "lib/stats",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/stats",
+					"targetIndexes" : 
+					[
+						58,
+						59,
+						93,
+						94,
+						95,
+						96,
+						113,
+						114,
+						122
+					]
+				},
+				{
+					"build" : "lib/lsan",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/lsan",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "lib/ubsan",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/ubsan",
+					"targetIndexes" : 
+					[
+						25,
+						26,
+						27,
+						37,
+						38,
+						39,
+						60,
+						61,
+						97,
+						98,
+						99,
+						100,
+						115,
+						116,
+						123
+					]
+				},
+				{
+					"build" : "lib/asan",
+					"childIndexes" : 
+					[
+						10
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/asan",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						41,
+						42,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						65,
+						66,
+						69,
+						70,
+						71,
+						72,
+						73,
+						74,
+						75,
+						76,
+						77,
+						78,
+						79,
+						80,
+						81,
+						82
+					]
+				},
+				{
+					"build" : "lib/asan/scripts",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 9,
+					"projectIndex" : 0,
+					"source" : "lib/asan/scripts"
+				},
+				{
+					"build" : "lib/cfi",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/cfi",
+					"targetIndexes" : 
+					[
+						44,
+						45
+					]
+				},
+				{
+					"build" : "lib/profile",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/profile",
+					"targetIndexes" : 
+					[
+						57,
+						91,
+						92,
+						111,
+						112,
+						121
+					]
+				},
+				{
+					"build" : "lib/fuzzer",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/fuzzer",
+					"targetIndexes" : 
+					[
+						28,
+						29,
+						30,
+						54,
+						55,
+						56,
+						64,
+						85,
+						86,
+						87,
+						88,
+						89,
+						90,
+						105,
+						106
+					]
+				},
+				{
+					"build" : "lib/orc",
+					"childIndexes" : 
+					[
+						15
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/orc",
+					"targetIndexes" : 
+					[
+						15,
+						107,
+						108,
+						109,
+						110,
+						119,
+						120
+					]
+				},
+				{
+					"build" : "lib/orc/tests",
+					"childIndexes" : 
+					[
+						16
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 14,
+					"projectIndex" : 0,
+					"source" : "lib/orc/tests",
+					"targetIndexes" : 
+					[
+						3,
+						4,
+						14
+					]
+				},
+				{
+					"build" : "lib/orc/tests/tools",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 15,
+					"projectIndex" : 0,
+					"source" : "lib/orc/tests/tools"
+				},
+				{
+					"build" : "lib/scudo/standalone/fuzz",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "lib/scudo/standalone/fuzz"
+				},
+				{
+					"build" : "tools",
+					"childIndexes" : 
+					[
+						19
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tools"
+				},
+				{
+					"build" : "tools/gwp_asan",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20.0"
+					},
+					"parentIndex" : 18,
+					"projectIndex" : 0,
+					"source" : "tools/gwp_asan"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19
+					],
+					"name" : "CompilerRT",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						73,
+						74,
+						75,
+						76,
+						77,
+						78,
+						79,
+						80,
+						81,
+						82,
+						83,
+						84,
+						85,
+						86,
+						87,
+						88,
+						89,
+						90,
+						91,
+						92,
+						93,
+						94,
+						95,
+						96,
+						97,
+						98,
+						99,
+						100,
+						101,
+						102,
+						103,
+						104,
+						105,
+						106,
+						107,
+						108,
+						109,
+						110,
+						111,
+						112,
+						113,
+						114,
+						115,
+						116,
+						117,
+						118,
+						119,
+						120,
+						121,
+						122,
+						123
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 9,
+					"id" : "AsanDllThunk.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-AsanDllThunk.x86_64-Debug-73aac6ed9d1f2d537821.json",
+					"name" : "AsanDllThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "AsanDynamicRuntimeThunk.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-AsanDynamicRuntimeThunk.x86_64-Debug-2fbbf7d81bafeb18081f.json",
+					"name" : "AsanDynamicRuntimeThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "AsanWeakInterception.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-AsanWeakInterception.x86_64-Debug-502772c3f63672d123d0.json",
+					"name" : "AsanWeakInterception.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "OrcRTTools::@2cbd9cf88777583260ab",
+					"jsonFile" : "target-OrcRTTools-Debug-8ca0cd328f8c284bf6a3.json",
+					"name" : "OrcRTTools",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "OrcRTUnitTests::@2cbd9cf88777583260ab",
+					"jsonFile" : "target-OrcRTUnitTests-Debug-beadb39443532a499664.json",
+					"name" : "OrcRTUnitTests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "RISCVTargetParserTableGen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-RISCVTargetParserTableGen-Debug-073bb277ec0518fe866c.json",
+					"name" : "RISCVTargetParserTableGen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan.x86_64-Debug-f21cf23cbd3cc975ec97.json",
+					"name" : "RTAsan.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan_cxx.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan_cxx.x86_64-Debug-63c1a47855fb60c19f8a.json",
+					"name" : "RTAsan_cxx.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan_dynamic.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan_dynamic.x86_64-Debug-43347afebfaf6c5da9d9.json",
+					"name" : "RTAsan_dynamic.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan_dynamic_version_script_dummy.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan_dynamic_version_script_dummy.x86_64-Debug-7a9bed7c4901dc296674.json",
+					"name" : "RTAsan_dynamic_version_script_dummy.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan_preinit.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan_preinit.x86_64-Debug-7f94087a38fc7e41efec.json",
+					"name" : "RTAsan_preinit.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "RTAsan_static.x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-RTAsan_static.x86_64-Debug-994bc5535a9004a9c401.json",
+					"name" : "RTAsan_static.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "RTInterception.x86_64::@bb643548cdd239df21ec",
+					"jsonFile" : "target-RTInterception.x86_64-Debug-be89e8302598f02267e9.json",
+					"name" : "RTInterception.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "RTLSanCommon.x86_64::@ffaf83cd0e47a0159977",
+					"jsonFile" : "target-RTLSanCommon.x86_64-Debug-40def62cab1352460c3c.json",
+					"name" : "RTLSanCommon.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "RTOrc.test.x86_64::@2cbd9cf88777583260ab",
+					"jsonFile" : "target-RTOrc.test.x86_64-Debug-94ca5a9f546570f06f43.json",
+					"name" : "RTOrc.test.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "RTOrc.x86_64::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-RTOrc.x86_64-Debug-df4146c04fa62406f624.json",
+					"name" : "RTOrc.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommon.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommon.x86_64-Debug-11ca7bca83c9c068a90a.json",
+					"name" : "RTSanitizerCommon.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonCoverage.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonCoverage.x86_64-Debug-e0ef9ec5a8e1dc9c35c1.json",
+					"name" : "RTSanitizerCommonCoverage.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonLibc.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonLibc.x86_64-Debug-3b8ff3ac3a5927e69063.json",
+					"name" : "RTSanitizerCommonLibc.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonLibcNoHooks.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonLibcNoHooks.x86_64-Debug-d3693ac1dfb03c1679f5.json",
+					"name" : "RTSanitizerCommonLibcNoHooks.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonNoHooks.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonNoHooks.x86_64-Debug-6c6bab9608c387b2d027.json",
+					"name" : "RTSanitizerCommonNoHooks.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonNoLibc.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonNoLibc.x86_64-Debug-347622662b3d8dfd3338.json",
+					"name" : "RTSanitizerCommonNoLibc.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonNoTermination.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonNoTermination.x86_64-Debug-7be0b028c9fd1a5e21a4.json",
+					"name" : "RTSanitizerCommonNoTermination.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonSymbolizer.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonSymbolizer.x86_64-Debug-c53d87242cbec8e796aa.json",
+					"name" : "RTSanitizerCommonSymbolizer.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "RTSanitizerCommonSymbolizerNoHooks.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-RTSanitizerCommonSymbolizerNoHooks.x86_64-Debug-31c918bdc279b785810e.json",
+					"name" : "RTSanitizerCommonSymbolizerNoHooks.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "RTUbsan.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-RTUbsan.x86_64-Debug-538e6f8dd5bb10f8c79b.json",
+					"name" : "RTUbsan.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "RTUbsan_cxx.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-RTUbsan_cxx.x86_64-Debug-f475cede857aa1ee419a.json",
+					"name" : "RTUbsan_cxx.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "RTUbsan_standalone.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-RTUbsan_standalone.x86_64-Debug-dac4c28abfc422c287c8.json",
+					"name" : "RTUbsan_standalone.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "RTfuzzer.x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-RTfuzzer.x86_64-Debug-236180bde0a9544cf1dc.json",
+					"name" : "RTfuzzer.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "RTfuzzer_interceptors.x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-RTfuzzer_interceptors.x86_64-Debug-4cfb683c938091c0787f.json",
+					"name" : "RTfuzzer_interceptors.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "RTfuzzer_main.x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-RTfuzzer_main.x86_64-Debug-f855d5e9beaceb0be3a6.json",
+					"name" : "RTfuzzer_main.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SancovDllThunk.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SancovDllThunk.x86_64-Debug-d9b8946b08115d69146b.json",
+					"name" : "SancovDllThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SancovDynamicRuntimeThunk.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SancovDynamicRuntimeThunk.x86_64-Debug-0137e09d79ee03878e4e.json",
+					"name" : "SancovDynamicRuntimeThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SancovWeakInterception.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SancovWeakInterception.x86_64-Debug-6a734716c90e8974bf3e.json",
+					"name" : "SancovWeakInterception.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SanitizerCommonDllThunk.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SanitizerCommonDllThunk.x86_64-Debug-6db75ee48bedec28dc68.json",
+					"name" : "SanitizerCommonDllThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SanitizerCommonDynamicRuntimeThunk.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SanitizerCommonDynamicRuntimeThunk.x86_64-Debug-59b39f714b9100b773d2.json",
+					"name" : "SanitizerCommonDynamicRuntimeThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "SanitizerCommonWeakInterception.x86_64::@a37263b2aa050e3263d2",
+					"jsonFile" : "target-SanitizerCommonWeakInterception.x86_64-Debug-3ff1221c4310846764c8.json",
+					"name" : "SanitizerCommonWeakInterception.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "UbsanDllThunk.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-UbsanDllThunk.x86_64-Debug-d0ae7a089e3cd0151f42.json",
+					"name" : "UbsanDllThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "UbsanDynamicRuntimeThunk.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-UbsanDynamicRuntimeThunk.x86_64-Debug-e6595524ca876de0753f.json",
+					"name" : "UbsanDynamicRuntimeThunk.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "UbsanWeakInterception.x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-UbsanWeakInterception.x86_64-Debug-6cbf82aee17402573d69.json",
+					"name" : "UbsanWeakInterception.x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "acc_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-acc_gen-Debug-d976267b5a31799da86d.json",
+					"name" : "acc_gen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "asan::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-asan-Debug-2531c9c7d164fd68cf10.json",
+					"name" : "asan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "asan_ignorelist::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-asan_ignorelist-Debug-455eaad92d0067ffae07.json",
+					"name" : "asan_ignorelist",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "builtins::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-builtins-Debug-6bc9d0a9fd4a0529ba6b.json",
+					"name" : "builtins",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "cfi::@86d44c3704b4e6a133be",
+					"jsonFile" : "target-cfi-Debug-4c4992e34d4fbc87a05a.json",
+					"name" : "cfi",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "cfi_ignorelist::@86d44c3704b4e6a133be",
+					"jsonFile" : "target-cfi_ignorelist-Debug-a37275de054fa2e7a914.json",
+					"name" : "cfi_ignorelist",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan-dynamic-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan-dynamic-x86_64-Debug-1e4145ca0d9ebbde18a4.json",
+					"name" : "clang_rt.asan-dynamic-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan-preinit-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan-preinit-x86_64-Debug-36a7f06ac2aa11995591.json",
+					"name" : "clang_rt.asan-preinit-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan-x86_64-Debug-208c8d723be4fd553d4b.json",
+					"name" : "clang_rt.asan-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan_cxx-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan_cxx-x86_64-Debug-6efa03d7f035758f0896.json",
+					"name" : "clang_rt.asan_cxx-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan_dll_thunk-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan_dll_thunk-x86_64-Debug-d65a6f1834198c629721.json",
+					"name" : "clang_rt.asan_dll_thunk-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan_dynamic_runtime_thunk-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan_dynamic_runtime_thunk-x86_64-Debug-270a2e5a191f99667522.json",
+					"name" : "clang_rt.asan_dynamic_runtime_thunk-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "clang_rt.asan_static-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-clang_rt.asan_static-x86_64-Debug-fa56d045ad5a0ceef943.json",
+					"name" : "clang_rt.asan_static-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "clang_rt.builtins-x86_64::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-clang_rt.builtins-x86_64-Debug-4d356d3937e309d15d80.json",
+					"name" : "clang_rt.builtins-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "clang_rt.fuzzer-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-clang_rt.fuzzer-x86_64-Debug-e01c03e19e97d4b69d9c.json",
+					"name" : "clang_rt.fuzzer-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "clang_rt.fuzzer_interceptors-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-clang_rt.fuzzer_interceptors-x86_64-Debug-7de06cfa0d9af58a8f69.json",
+					"name" : "clang_rt.fuzzer_interceptors-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "clang_rt.fuzzer_no_main-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-clang_rt.fuzzer_no_main-x86_64-Debug-3d1d307329f2a4e9dfd2.json",
+					"name" : "clang_rt.fuzzer_no_main-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "clang_rt.profile-x86_64::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-clang_rt.profile-x86_64-Debug-7f815cc87de601b733d8.json",
+					"name" : "clang_rt.profile-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "clang_rt.stats-x86_64::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-clang_rt.stats-x86_64-Debug-33fd1357f93b9755ea75.json",
+					"name" : "clang_rt.stats-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "clang_rt.stats_client-x86_64::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-clang_rt.stats_client-x86_64-Debug-6ad00a1c3dfb46f9bfc0.json",
+					"name" : "clang_rt.stats_client-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "clang_rt.ubsan_standalone-x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-clang_rt.ubsan_standalone-x86_64-Debug-6fc35bea1dac8a5a7a42.json",
+					"name" : "clang_rt.ubsan_standalone-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "clang_rt.ubsan_standalone_cxx-x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-clang_rt.ubsan_standalone_cxx-x86_64-Debug-1cb86e993aeb37ea15d4.json",
+					"name" : "clang_rt.ubsan_standalone_cxx-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "compiler-rt::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-compiler-rt-Debug-11cbe5beb80ddca3c91c.json",
+					"name" : "compiler-rt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "compiler-rt-headers::@14b3099d61bfdbeae804",
+					"jsonFile" : "target-compiler-rt-headers-Debug-85d3583046354f172185.json",
+					"name" : "compiler-rt-headers",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "fuzzer::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-fuzzer-Debug-f1fc63a28e0263c87854.json",
+					"name" : "fuzzer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-asan::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-asan-Debug-ef8d346288c92a8d4498.json",
+					"name" : "install-asan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-asan-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-asan-stripped-Debug-19e5212811209596da04.json",
+					"name" : "install-asan-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "install-builtins::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-install-builtins-Debug-e3a018b7b7352bd0a5ba.json",
+					"name" : "install-builtins",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "install-builtins-stripped::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-install-builtins-stripped-Debug-92b943ae866310675947.json",
+					"name" : "install-builtins-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-dynamic-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-dynamic-x86_64-Debug-db111b7667df40cf22a7.json",
+					"name" : "install-clang_rt.asan-dynamic-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-dynamic-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-dynamic-x86_64-stripped-Debug-cda27a3f95610b09c571.json",
+					"name" : "install-clang_rt.asan-dynamic-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-preinit-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-preinit-x86_64-Debug-5f2406cdb9297b060dd6.json",
+					"name" : "install-clang_rt.asan-preinit-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-preinit-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-preinit-x86_64-stripped-Debug-41338b7f22abb487b04c.json",
+					"name" : "install-clang_rt.asan-preinit-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-x86_64-Debug-ba0a5abb1e6f759cb81d.json",
+					"name" : "install-clang_rt.asan-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan-x86_64-stripped-Debug-888d1add0bd64ed48a56.json",
+					"name" : "install-clang_rt.asan-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_cxx-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_cxx-x86_64-Debug-3e30a87e9b1f33cffbe1.json",
+					"name" : "install-clang_rt.asan_cxx-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_cxx-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_cxx-x86_64-stripped-Debug-40853ba5d3183681add0.json",
+					"name" : "install-clang_rt.asan_cxx-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_dll_thunk-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_dll_thunk-x86_64-Debug-b9adfd32e012691f64de.json",
+					"name" : "install-clang_rt.asan_dll_thunk-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_dll_thunk-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_dll_thunk-x86_64-stripped-Debug-097b5ce10bc85c457378.json",
+					"name" : "install-clang_rt.asan_dll_thunk-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_dynamic_runtime_thunk-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_dynamic_runtime_thunk-x86_64-Debug-7598d575463f127da93e.json",
+					"name" : "install-clang_rt.asan_dynamic_runtime_thunk-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_dynamic_runtime_thunk-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_dynamic_runtime_thunk-x86_64-stripped-Debug-9f42f2af08dcd9238c97.json",
+					"name" : "install-clang_rt.asan_dynamic_runtime_thunk-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_static-x86_64::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_static-x86_64-Debug-49697e4e5ec14180bef9.json",
+					"name" : "install-clang_rt.asan_static-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "install-clang_rt.asan_static-x86_64-stripped::@9e16ccd2674f918a5a03",
+					"jsonFile" : "target-install-clang_rt.asan_static-x86_64-stripped-Debug-4d56561417b0d036a9cb.json",
+					"name" : "install-clang_rt.asan_static-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "install-clang_rt.builtins-x86_64::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-install-clang_rt.builtins-x86_64-Debug-a14eff2ce94ce8d97555.json",
+					"name" : "install-clang_rt.builtins-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "install-clang_rt.builtins-x86_64-stripped::@45bfbb4ef90931961baa",
+					"jsonFile" : "target-install-clang_rt.builtins-x86_64-stripped-Debug-739fb957861481932d3f.json",
+					"name" : "install-clang_rt.builtins-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer-x86_64-Debug-8b22ffff56a6e05253ab.json",
+					"name" : "install-clang_rt.fuzzer-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer-x86_64-stripped::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer-x86_64-stripped-Debug-c0b0f4b1addccf0b052a.json",
+					"name" : "install-clang_rt.fuzzer-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer_interceptors-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer_interceptors-x86_64-Debug-29c875fc0acf48ca7b93.json",
+					"name" : "install-clang_rt.fuzzer_interceptors-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer_interceptors-x86_64-stripped::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer_interceptors-x86_64-stripped-Debug-afd628fb740881506321.json",
+					"name" : "install-clang_rt.fuzzer_interceptors-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer_no_main-x86_64::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer_no_main-x86_64-Debug-139bd30531c29c4ac489.json",
+					"name" : "install-clang_rt.fuzzer_no_main-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-clang_rt.fuzzer_no_main-x86_64-stripped::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-clang_rt.fuzzer_no_main-x86_64-stripped-Debug-fc74d2c0a7ed1eb61691.json",
+					"name" : "install-clang_rt.fuzzer_no_main-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "install-clang_rt.profile-x86_64::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-install-clang_rt.profile-x86_64-Debug-436d4730db144b3a4730.json",
+					"name" : "install-clang_rt.profile-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "install-clang_rt.profile-x86_64-stripped::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-install-clang_rt.profile-x86_64-stripped-Debug-813438d5ac4af57afcca.json",
+					"name" : "install-clang_rt.profile-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-clang_rt.stats-x86_64::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-clang_rt.stats-x86_64-Debug-7ff98058bd7e5219cdc1.json",
+					"name" : "install-clang_rt.stats-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-clang_rt.stats-x86_64-stripped::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-clang_rt.stats-x86_64-stripped-Debug-b3f81a771a521b610e3c.json",
+					"name" : "install-clang_rt.stats-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-clang_rt.stats_client-x86_64::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-clang_rt.stats_client-x86_64-Debug-f19b6374698a94b2911e.json",
+					"name" : "install-clang_rt.stats_client-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-clang_rt.stats_client-x86_64-stripped::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-clang_rt.stats_client-x86_64-stripped-Debug-598bf0394096595c7a51.json",
+					"name" : "install-clang_rt.stats_client-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-clang_rt.ubsan_standalone-x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-clang_rt.ubsan_standalone-x86_64-Debug-d2228d34c30acd7a93ec.json",
+					"name" : "install-clang_rt.ubsan_standalone-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-clang_rt.ubsan_standalone-x86_64-stripped::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-clang_rt.ubsan_standalone-x86_64-stripped-Debug-a80ee0d9cc1e65f984c7.json",
+					"name" : "install-clang_rt.ubsan_standalone-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-clang_rt.ubsan_standalone_cxx-x86_64::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-clang_rt.ubsan_standalone_cxx-x86_64-Debug-78ea27294773a3f21bf9.json",
+					"name" : "install-clang_rt.ubsan_standalone_cxx-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-clang_rt.ubsan_standalone_cxx-x86_64-stripped::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-clang_rt.ubsan_standalone_cxx-x86_64-stripped-Debug-15cae4bb5569fc0e8c95.json",
+					"name" : "install-clang_rt.ubsan_standalone_cxx-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "install-compiler-rt::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-install-compiler-rt-Debug-a6908035ea49f9a7da50.json",
+					"name" : "install-compiler-rt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "install-compiler-rt-headers::@14b3099d61bfdbeae804",
+					"jsonFile" : "target-install-compiler-rt-headers-Debug-ea32ef27917df5389a7b.json",
+					"name" : "install-compiler-rt-headers",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "install-compiler-rt-headers-stripped::@14b3099d61bfdbeae804",
+					"jsonFile" : "target-install-compiler-rt-headers-stripped-Debug-7a0206163a3ccc505c72.json",
+					"name" : "install-compiler-rt-headers-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "install-compiler-rt-stripped::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-install-compiler-rt-stripped-Debug-09c1a2f7852b89162e92.json",
+					"name" : "install-compiler-rt-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-fuzzer::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-fuzzer-Debug-3764a7760d044529c407.json",
+					"name" : "install-fuzzer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "install-fuzzer-stripped::@fc35b86670fecb6a72e9",
+					"jsonFile" : "target-install-fuzzer-stripped-Debug-a1b9a9596273a3004da1.json",
+					"name" : "install-fuzzer-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "install-orc::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-install-orc-Debug-eeaa0dbb437bdcff42df.json",
+					"name" : "install-orc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "install-orc-stripped::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-install-orc-stripped-Debug-c0e8cadf49e8ace8b82d.json",
+					"name" : "install-orc-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "install-orc_rt-x86_64::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-install-orc_rt-x86_64-Debug-67d0714c80b143e78a06.json",
+					"name" : "install-orc_rt-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "install-orc_rt-x86_64-stripped::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-install-orc_rt-x86_64-stripped-Debug-9b99d2fbd7e714d63bf3.json",
+					"name" : "install-orc_rt-x86_64-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "install-profile::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-install-profile-Debug-b09fb4439b5db4b7b1ba.json",
+					"name" : "install-profile",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "install-profile-stripped::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-install-profile-stripped-Debug-e79a400dc68624c8b140.json",
+					"name" : "install-profile-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-stats::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-stats-Debug-c409025e053a8aa055fc.json",
+					"name" : "install-stats",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "install-stats-stripped::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-install-stats-stripped-Debug-2bf817d1532492116395.json",
+					"name" : "install-stats-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-ubsan::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-ubsan-Debug-15f6e72aa240a1fca778.json",
+					"name" : "install-ubsan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "install-ubsan-stripped::@e17466177a8542cbb834",
+					"jsonFile" : "target-install-ubsan-stripped-Debug-6c7f847d3aec5268e654.json",
+					"name" : "install-ubsan-stripped",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "intrinsics_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-intrinsics_gen-Debug-7a163378b5f285eda8c2.json",
+					"name" : "intrinsics_gen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omp_gen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omp_gen-Debug-1132ed2eda3540b1a48e.json",
+					"name" : "omp_gen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "orc::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-orc-Debug-f7357c4d23c9d6706861.json",
+					"name" : "orc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "orc_rt-x86_64::@99ae2e081afe23c9a2a8",
+					"jsonFile" : "target-orc_rt-x86_64-Debug-194c5cd6f270483f57c4.json",
+					"name" : "orc_rt-x86_64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "profile::@ac34d890ca9dc330d814",
+					"jsonFile" : "target-profile-Debug-a207b585c7a1b84a28c6.json",
+					"name" : "profile",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "stats::@5f72bbb980adc6b23d09",
+					"jsonFile" : "target-stats-Debug-7850e58d8260441fdacc.json",
+					"name" : "stats",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "ubsan::@e17466177a8542cbb834",
+					"jsonFile" : "target-ubsan-Debug-e06ee49d482c1fdc0c5a.json",
+					"name" : "ubsan",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/llvm/llvm-nnsu-2024/compiler-rt/out/build/x64-Debug",
+		"source" : "D:/llvm/llvm-nnsu-2024/compiler-rt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

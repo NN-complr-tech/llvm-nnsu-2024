@@ -1,0 +1,745 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./BufferizableOpInterfaceImpl.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./Bufferize.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorBroadcast.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorContract.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorGather.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorMask.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorMultiReduction.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorScan.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorShapeCast.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorTransfer.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./LowerVectorTranspose.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorDistribute.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorDropLeadUnitDim.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorEmulateNarrowType.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorInsertExtractStridedSliceRewritePatterns.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorTransferOpTransforms.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorTransferSplitRewritePatterns.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorTransforms.cpp.obj"
+		},
+		{
+			"path" : "lib/Dialect/Vector/Transforms/CMakeFiles/obj.MLIRVectorTransforms.dir/./VectorUnroll.cpp.obj"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_dialect_library",
+			"add_dependencies",
+			"set_property",
+			"llvm_update_compile_flags",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Dialect/Vector/Transforms/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 626,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 519,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 538,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 556,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 522,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 25
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 106,
+				"parent" : 27
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 115,
+				"parent" : 27
+			},
+			{
+				"command" : 9,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 27
+			},
+			{
+				"file" : 4,
+				"parent" : 30
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 487,
+				"parent" : 31
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 476,
+				"parent" : 31
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1016,
+				"parent" : 31
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1017,
+				"parent" : 31
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1018,
+				"parent" : 31
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 27,
+				"parent" : 27
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 161,
+				"parent" : 27
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 162,
+				"parent" : 27
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS   /Zc:inline /Zc:preprocessor /Zc:__cplusplus /Oi /bigobj /permissive- /W4 -wd4141 -wd4146 -wd4244 -wd4267 -wd4291 -wd4351 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4709 -wd5105 -wd4324 -w14062 -we4238 /Zi /Ob0 /Od /RTC1 -MDd"
+				},
+				{
+					"fragment" : " /EHs-c- /GR-"
+				},
+				{
+					"fragment" : "-std:c++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 26,
+					"define" : "GTEST_HAS_RTTI=0"
+				},
+				{
+					"backtrace" : 28,
+					"define" : "MLIR_CUDA_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 29,
+					"define" : "MLIR_ROCM_CONVERSIONS_ENABLED=1"
+				},
+				{
+					"backtrace" : 32,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_CRT_NONSTDC_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_CRT_NONSTDC_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_CRT_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_CRT_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 26,
+					"define" : "_HAS_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_SCL_SECURE_NO_DEPRECATE"
+				},
+				{
+					"backtrace" : 33,
+					"define" : "_SCL_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 32,
+					"define" : "_UNICODE"
+				},
+				{
+					"backtrace" : 34,
+					"define" : "__STDC_CONSTANT_MACROS"
+				},
+				{
+					"backtrace" : 35,
+					"define" : "__STDC_FORMAT_MACROS"
+				},
+				{
+					"backtrace" : 36,
+					"define" : "__STDC_LIMIT_MACROS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/lib/Dialect/Vector/Transforms"
+				},
+				{
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/lib/Dialect/Vector/Transforms"
+				},
+				{
+					"backtrace" : 37,
+					"path" : "C:/Program Files (x86)/LLVM/include"
+				},
+				{
+					"backtrace" : 38,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/include"
+				},
+				{
+					"backtrace" : 39,
+					"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/build/x64-Debug/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					4
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "mlir-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "MLIRVectorTransformsIncGen::@b7df696a5a0940ab3e0b"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "MLIRAffineAnalysis::@7d597deaf1cbc3db2cef"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRAffineDialect::@ac5d7a426e1258981133"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationDialect::@496c84fe7f41d4e90b6f"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "MLIRAffineUtils::@e1c082af3011cdb17db2"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "MLIRArithDialect::@20ef1d552c1d8ecc4889"
+		},
+		{
+			"backtrace" : 11,
+			"id" : "MLIRBufferizationTransforms::@5f4ebd6da2f5503be39b"
+		},
+		{
+			"backtrace" : 12,
+			"id" : "MLIRGPUDialect::@7756379fa96a0a119040"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "MLIRLinalgDialect::@913a393301544c1d1081"
+		},
+		{
+			"backtrace" : 14,
+			"id" : "MLIRMemRefDialect::@19131105c4d5b3944feb"
+		},
+		{
+			"backtrace" : 15,
+			"id" : "MLIRMemRefUtils::@e30e79952a86a42c9ae6"
+		},
+		{
+			"backtrace" : 16,
+			"id" : "MLIRSCFDialect::@4d2e123830e02e81a9d4"
+		},
+		{
+			"backtrace" : 17,
+			"id" : "MLIRTensorDialect::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 18,
+			"id" : "MLIRDialectUtils::@c8c07581195c7f9ba7e7"
+		},
+		{
+			"backtrace" : 19,
+			"id" : "MLIRVectorDialect::@c4c3c24cb71ae34e668f"
+		},
+		{
+			"backtrace" : 20,
+			"id" : "MLIRVectorUtils::@73e0a54b785843c2cb69"
+		},
+		{
+			"backtrace" : 21,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 22,
+			"id" : "MLIRVectorInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 23,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 24,
+			"id" : "MLIRTransforms::@a94c6babf0d7671c720f"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Object Libraries"
+	},
+	"id" : "obj.MLIRVectorTransforms::@cb47c04778af6a875be3",
+	"name" : "obj.MLIRVectorTransforms",
+	"paths" : 
+	{
+		"build" : "lib/Dialect/Vector/Transforms",
+		"source" : "lib/Dialect/Vector/Transforms"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				19,
+				20,
+				21,
+				22,
+				23,
+				24
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/BufferizableOpInterfaceImpl.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/Bufferize.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorBroadcast.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorContract.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorGather.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorMask.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorMultiReduction.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorScan.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorShapeCast.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorTransfer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/LowerVectorTranspose.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorDistribute.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorDropLeadUnitDim.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorEmulateNarrowType.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorInsertExtractStridedSliceRewritePatterns.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorTransferOpTransforms.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorTransferSplitRewritePatterns.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorTransforms.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Dialect/Vector/Transforms/VectorUnroll.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/BufferizableOpInterfaceImpl.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/LoweringPatterns.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/Passes.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/VectorDistribution.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/VectorRewritePatterns.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "include/mlir/Dialect/Vector/Transforms/VectorTransforms.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

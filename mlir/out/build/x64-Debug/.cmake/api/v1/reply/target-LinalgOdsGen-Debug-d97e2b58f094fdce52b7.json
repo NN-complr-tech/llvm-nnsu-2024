@@ -1,0 +1,72 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target"
+		],
+		"files" : 
+		[
+			"include/mlir/Dialect/Linalg/IR/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 39,
+				"parent" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "MLIRLinalgNamedStructuredOpsYamlIncGen::@b3fcf9f4d469208d57a9"
+		}
+	],
+	"id" : "LinalgOdsGen::@b3fcf9f4d469208d57a9",
+	"name" : "LinalgOdsGen",
+	"paths" : 
+	{
+		"build" : "include/mlir/Dialect/Linalg/IR",
+		"source" : "include/mlir/Dialect/Linalg/IR"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Linalg/IR/CMakeFiles/LinalgOdsGen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Linalg/IR/CMakeFiles/LinalgOdsGen.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

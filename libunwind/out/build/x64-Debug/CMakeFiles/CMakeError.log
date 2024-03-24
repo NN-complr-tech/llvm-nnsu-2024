@@ -1,0 +1,238 @@
+Performing C SOURCE FILE Test CXX_SUPPORTS_UNWINDLIB_EQ_NONE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_af544 && [1/2] Building C object CMakeFiles\cmTC_af544.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "--unwindlib=none"
+[2/2] Linking C executable cmTC_af544.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Determining if the function fopen exists in the c failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_23b41 && [1/2] Building C object CMakeFiles\cmTC_23b41.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_23b41.exe
+FAILED: cmTC_23b41.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_23b41.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_23b41.dir\CheckFunctionExists.c.obj  /out:cmTC_23b41.exe /implib:cmTC_23b41.lib /pdb:cmTC_23b41.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  c.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_23b41.dir\CheckFunctionExists.c.obj /out:cmTC_23b41.exe /implib:cmTC_23b41.lib /pdb:cmTC_23b41.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console c.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_23b41.dir/intermediate.manifest CMakeFiles\cmTC_23b41.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "c.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function __gcc_personality_v0 exists in the gcc_s failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_3a16d && [1/2] Building C object CMakeFiles\cmTC_3a16d.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_3a16d.exe
+FAILED: cmTC_3a16d.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_3a16d.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_3a16d.dir\CheckFunctionExists.c.obj  /out:cmTC_3a16d.exe /implib:cmTC_3a16d.lib /pdb:cmTC_3a16d.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  gcc_s.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_3a16d.dir\CheckFunctionExists.c.obj /out:cmTC_3a16d.exe /implib:cmTC_3a16d.lib /pdb:cmTC_3a16d.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console gcc_s.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_3a16d.dir/intermediate.manifest CMakeFiles\cmTC_3a16d.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "gcc_s.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function __absvdi2 exists in the gcc failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c7c39 && [1/2] Building C object CMakeFiles\cmTC_c7c39.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_c7c39.exe
+FAILED: cmTC_c7c39.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_c7c39.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_c7c39.dir\CheckFunctionExists.c.obj  /out:cmTC_c7c39.exe /implib:cmTC_c7c39.lib /pdb:cmTC_c7c39.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  gcc.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_c7c39.dir\CheckFunctionExists.c.obj /out:cmTC_c7c39.exe /implib:cmTC_c7c39.lib /pdb:cmTC_c7c39.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console gcc.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_c7c39.dir/intermediate.manifest CMakeFiles\cmTC_c7c39.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "gcc.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_NOSTDLIBXX_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_bad0d && [1/2] Building CXX object CMakeFiles\cmTC_bad0d.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nostdlib++"
+[2/2] Linking CXX executable cmTC_bad0d.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C SOURCE FILE Test C_SUPPORTS_NODEFAULTLIBS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1f22e && [1/2] Building C object CMakeFiles\cmTC_1f22e.dir\src.c.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nodefaultlibs"
+[2/2] Linking C executable cmTC_1f22e.exe
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_NOSTDINCXX_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c757f && [1/2] Building CXX object CMakeFiles\cmTC_c757f.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-nostdinc++"
+[2/2] Linking CXX executable cmTC_c757f.exe
+
+
+Source file was:
+int main() { return 0; }
+Determining if the __arm__ exist failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_50857 && [1/2] Building C object CMakeFiles\cmTC_50857.dir\CheckSymbolExists.c.obj
+FAILED: CMakeFiles/cmTC_50857.dir/CheckSymbolExists.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\cmTC_50857.dir\CheckSymbolExists.c.obj /FdCMakeFiles\cmTC_50857.dir\ /FS -c CheckSymbolExists.c
+CheckSymbolExists.c(7): error C2065: __arm__: необъявленный идентификатор
+ninja: build stopped: subcommand failed.
+
+
+File D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef __arm__
+  return ((int*)(&__arm__))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the __USING_SJLJ_EXCEPTIONS__ exist failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_38ede && [1/2] Building C object CMakeFiles\cmTC_38ede.dir\CheckSymbolExists.c.obj
+FAILED: CMakeFiles/cmTC_38ede.dir/CheckSymbolExists.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\cmTC_38ede.dir\CheckSymbolExists.c.obj /FdCMakeFiles\cmTC_38ede.dir\ /FS -c CheckSymbolExists.c
+CheckSymbolExists.c(7): error C2065: __USING_SJLJ_EXCEPTIONS__: необъявленный идентификатор
+ninja: build stopped: subcommand failed.
+
+
+File D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef __USING_SJLJ_EXCEPTIONS__
+  return ((int*)(&__USING_SJLJ_EXCEPTIONS__))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the __ARM_DWARF_EH__ exist failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_0b40a && [1/2] Building C object CMakeFiles\cmTC_0b40a.dir\CheckSymbolExists.c.obj
+FAILED: CMakeFiles/cmTC_0b40a.dir/CheckSymbolExists.c.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\cmTC_0b40a.dir\CheckSymbolExists.c.obj /FdCMakeFiles\cmTC_0b40a.dir\ /FS -c CheckSymbolExists.c
+CheckSymbolExists.c(7): error C2065: __ARM_DWARF_EH__: необъявленный идентификатор
+ninja: build stopped: subcommand failed.
+
+
+File D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef __ARM_DWARF_EH__
+  return ((int*)(&__ARM_DWARF_EH__))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the function dladdr exists in the dl failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_85159 && [1/2] Building C object CMakeFiles\cmTC_85159.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_85159.exe
+FAILED: cmTC_85159.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_85159.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_85159.dir\CheckFunctionExists.c.obj  /out:cmTC_85159.exe /implib:cmTC_85159.lib /pdb:cmTC_85159.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  dl.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_85159.dir\CheckFunctionExists.c.obj /out:cmTC_85159.exe /implib:cmTC_85159.lib /pdb:cmTC_85159.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console dl.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_85159.dir/intermediate.manifest CMakeFiles\cmTC_85159.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "dl.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Determining if the function pthread_once exists in the pthread failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_1ac60 && [1/2] Building C object CMakeFiles\cmTC_1ac60.dir\CheckFunctionExists.c.obj
+[2/2] Linking C executable cmTC_1ac60.exe
+FAILED: cmTC_1ac60.exe 
+cmd.exe /C "cd . && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_1ac60.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x64\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_1ac60.dir\CheckFunctionExists.c.obj  /out:cmTC_1ac60.exe /implib:cmTC_1ac60.lib /pdb:cmTC_1ac60.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+LINK Pass 1: command "C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_1ac60.dir\CheckFunctionExists.c.obj /out:cmTC_1ac60.exe /implib:cmTC_1ac60.lib /pdb:cmTC_1ac60.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_1ac60.dir/intermediate.manifest CMakeFiles\cmTC_1ac60.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: не удается открыть файл "pthread.lib"
+ninja: build stopped: subcommand failed.
+
+
+
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_WERROR_EQ_RETURN_TYPE_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_47fa3 && [1/2] Building CXX object CMakeFiles\cmTC_47fa3.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_47fa3.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCXX_SUPPORTS_WERROR_EQ_RETURN_TYPE_FLAG  /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1   -Werror=return-type /showIncludes /FoCMakeFiles\cmTC_47fa3.dir\src.cxx.obj /FdCMakeFiles\cmTC_47fa3.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Werror=return-type"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_WNO_DLL_ATTRIBUTE_ON_REDECLARATION_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_660b9 && [1/2] Building CXX object CMakeFiles\cmTC_660b9.dir\src.cxx.obj
+FAILED: CMakeFiles/cmTC_660b9.dir/src.cxx.obj 
+C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\cl.exe  /nologo /TP -DCXX_SUPPORTS_WNO_DLL_ATTRIBUTE_ON_REDECLARATION_FLAG  /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1   -Wno-dll-attribute-on-redeclaration /showIncludes /FoCMakeFiles\cmTC_660b9.dir\src.cxx.obj /FdCMakeFiles\cmTC_660b9.dir\ /FS -c src.cxx
+cl: командная строка error D8021: недопустимый числовой аргумент "/Wno-dll-attribute-on-redeclaration"
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_FSTRICT_ALIASING_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_c7680 && [1/2] Building CXX object CMakeFiles\cmTC_c7680.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fstrict-aliasing"
+[2/2] Linking CXX executable cmTC_c7680.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_FUNWIND_TABLES_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_64d27 && [1/2] Building CXX object CMakeFiles\cmTC_64d27.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-funwind-tables"
+[2/2] Linking CXX static library cmTC_64d27.lib
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_FNO_EXCEPTIONS_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_d142f && [1/2] Building CXX object CMakeFiles\cmTC_d142f.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-exceptions"
+[2/2] Linking CXX executable cmTC_d142f.exe
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_SUPPORTS_FNO_RTTI_FLAG failed with the following output:
+Change Dir: D:/llvm/llvm-nnsu-2024/libunwind/out/build/x64-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_14104 && [1/2] Building CXX object CMakeFiles\cmTC_14104.dir\src.cxx.obj
+cl: командная строка warning D9002: пропуск неизвестного параметра "-fno-rtti"
+[2/2] Linking CXX executable cmTC_14104.exe
+
+
+Source file was:
+int main() { return 0; }

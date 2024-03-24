@@ -1,0 +1,309 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/Tools/mlir-reduce/MLIRReduceLib.lib"
+		}
+	],
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"install",
+			"add_mlir_library_install",
+			"add_dependencies",
+			"target_link_libraries",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Tools/mlir-reduce/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 579,
+				"parent" : 4
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 721,
+				"parent" : 2
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 714,
+				"parent" : 2
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 106,
+				"parent" : 8
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 115,
+				"parent" : 8
+			},
+			{
+				"command" : 9,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 8
+			},
+			{
+				"file" : 4,
+				"parent" : 11
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 487,
+				"parent" : 12
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 476,
+				"parent" : 12
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1016,
+				"parent" : 12
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1017,
+				"parent" : 12
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 1018,
+				"parent" : 12
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 27,
+				"parent" : 8
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 161,
+				"parent" : 8
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 162,
+				"parent" : 8
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRAnalysis::@a8ea8fd451b56fad3c5d"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRAsmParser::@bfe21dd4a58a6f8872f3"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRPresburger::@1ad907dca1972690f511"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRBytecodeReader::@b49c05bd0d56ff77d270"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRPDLToPDLInterp::@3a0f2ccf744f743af3f0"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRPDLDialect::@fb0114e215db3c320437"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRPDLInterpDialect::@beda4f0083cd2a95cfe1"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRCallInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRLoopLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRInferIntRangeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRInferTypeOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRDataLayoutInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRViewLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRReduce::@d6729e5950c19bb01b3e"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRPass::@16d6e97b94a3c1cbe2a3"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRRewrite::@c10d844429d8679b31f2"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"id" : "obj.MLIRReduceLib::@347c909d4a11c6c83da1"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "MLIRTransformUtils::@485472be269d97170281"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "MLIR libraries"
+	},
+	"id" : "MLIRReduceLib::@347c909d4a11c6c83da1",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 5,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/install/x64-Debug"
+		}
+	},
+	"name" : "MLIRReduceLib",
+	"nameOnDisk" : "MLIRReduceLib.lib",
+	"paths" : 
+	{
+		"build" : "lib/Tools/mlir-reduce",
+		"source" : "lib/Tools/mlir-reduce"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Tools/mlir-reduce/CMakeFiles/obj.MLIRReduceLib.dir/MlirReduceMain.cpp.obj",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

@@ -1,0 +1,128 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_public_tablegen_target",
+			"add_mlir_interface",
+			"add_custom_command",
+			"tablegen",
+			"mlir_tablegen"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/TableGen.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"include/mlir/Dialect/Vector/Interfaces/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 184,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 131,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 183,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 9,
+				"parent" : 4
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 101,
+				"parent" : 5
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "mlir-tblgen::@82750c186bbc37674834"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "Tablegenning"
+	},
+	"id" : "MLIRMaskableOpInterfaceIncGen::@9b1d0deba1ea72ba2c9f",
+	"name" : "MLIRMaskableOpInterfaceIncGen",
+	"paths" : 
+	{
+		"build" : "include/mlir/Dialect/Vector/Interfaces",
+		"source" : "include/mlir/Dialect/Vector/Interfaces"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Vector/Interfaces/CMakeFiles/MLIRMaskableOpInterfaceIncGen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Vector/Interfaces/CMakeFiles/MLIRMaskableOpInterfaceIncGen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Vector/Interfaces/MaskableOpInterface.cpp.inc.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/include/mlir/Dialect/Vector/Interfaces/MaskableOpInterface.h.inc.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

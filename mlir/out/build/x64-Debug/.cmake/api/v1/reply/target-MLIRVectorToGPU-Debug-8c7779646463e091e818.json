@@ -1,0 +1,496 @@
+{
+	"archive" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64",
+				"role" : "flags"
+			}
+		]
+	},
+	"artifacts" : 
+	[
+		{
+			"path" : "lib/Conversion/VectorToGPU/MLIRVectorToGPU.lib"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"llvm_add_library",
+			"add_mlir_library",
+			"add_mlir_conversion_library",
+			"install",
+			"add_mlir_library_install",
+			"add_dependencies",
+			"target_link_libraries",
+			"add_definitions",
+			"add_compile_definitions",
+			"include",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/AddLLVM.cmake",
+			"cmake/modules/AddMLIR.cmake",
+			"lib/Conversion/VectorToGPU/CMakeLists.txt",
+			"CMakeLists.txt",
+			"C:/Program Files (x86)/LLVM/lib/cmake/llvm/HandleLLVMOptions.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 632,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 347,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 590,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 352,
+				"parent" : 2
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 579,
+				"parent" : 5
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 721,
+				"parent" : 3
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 714,
+				"parent" : 3
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 8,
+				"file" : 3,
+				"line" : 106,
+				"parent" : 9
+			},
+			{
+				"command" : 8,
+				"file" : 3,
+				"line" : 115,
+				"parent" : 9
+			},
+			{
+				"command" : 10,
+				"file" : 3,
+				"line" : 23,
+				"parent" : 9
+			},
+			{
+				"file" : 4,
+				"parent" : 12
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 487,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 476,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1016,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1017,
+				"parent" : 13
+			},
+			{
+				"command" : 9,
+				"file" : 4,
+				"line" : 1018,
+				"parent" : 13
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 27,
+				"parent" : 9
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 161,
+				"parent" : 9
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 162,
+				"parent" : 9
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 7,
+			"id" : "mlir-generic-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 7,
+			"id" : "mlir-headers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAnalysis::@a8ea8fd451b56fad3c5d"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAsmParser::@bfe21dd4a58a6f8872f3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPresburger::@1ad907dca1972690f511"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBytecodeReader::@b49c05bd0d56ff77d270"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLToPDLInterp::@3a0f2ccf744f743af3f0"
+		},
+		{
+			"id" : "obj.MLIRVectorToGPU::@c3807bf5f5cfe89d5891"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDialect::@06785b855b8defa0afbe"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineAnalysis::@7d597deaf1cbc3db2cef"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineDialect::@ac5d7a426e1258981133"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationDialect::@496c84fe7f41d4e90b6f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRAffineUtils::@e1c082af3011cdb17db2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithDialect::@20ef1d552c1d8ecc4889"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRArithUtils::@89a4d99dc1a86ee4983a"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRComplexDialect::@9dc032d3ec1fb3993f9f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRBufferizationTransforms::@5f4ebd6da2f5503be39b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowDialect::@10b0565a28653af3458e"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDLTIDialect::@d888aed44c4ecf3b089b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRFuncDialect::@994aa11a16047b79cde0"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRGPUDialect::@7756379fa96a0a119040"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLinalgDialect::@913a393301544c1d1081"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVVMDialect::@106e67513cbda15e12a5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLLVMDialect::@106e67513cbda15e12a5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMathDialect::@f80c457751b5f2f0811e"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefDialect::@19131105c4d5b3944feb"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemRefUtils::@e30e79952a86a42c9ae6"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUDialect::@60bca3b03d106edbd2b2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRNVGPUUtils::@03fdbcafe73600aa2467"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLDialect::@fb0114e215db3c320437"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPDLInterpDialect::@beda4f0083cd2a95cfe1"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSCFDialect::@4d2e123830e02e81a9d4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSparseTensorDialect::@789557d0cf90ba0d8bcb"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTensorDialect::@17ecf6fad82ca1de510b"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDialectUtils::@c8c07581195c7f9ba7e7"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorDialect::@c4c3c24cb71ae34e668f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMaskableOpInterface::@0eb8637ddc0d972af3dc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorTransforms::@cb47c04778af6a875be3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMaskingOpInterface::@0eb8637ddc0d972af3dc"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorUtils::@73e0a54b785843c2cb69"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRIR::@fbfd63cd06ffdf52319f"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCallInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCopyOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRCastInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRControlFlowInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRParallelCombiningOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRLoopLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferIntRangeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferTypeOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRShapedOpInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDestinationStyleOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRDataLayoutInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRMemorySlotInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRuntimeVerifiableOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRVectorInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTilingInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSideEffectInterfaces::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRViewLikeInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRInferIntRangeCommon::@02ea22b42cc5588f847c"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRValueBoundsOpInterface::@f365234adfcec244d791"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRParser::@72b88d9fff5e5e02bfc5"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRPass::@16d6e97b94a3c1cbe2a3"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRRewrite::@c10d844429d8679b31f2"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRSupport::@928d1708d80fe1f55e59"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransformUtils::@485472be269d97170281"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "MLIRTransforms::@a94c6babf0d7671c720f"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "MLIR libraries"
+	},
+	"id" : "MLIRVectorToGPU::@c3807bf5f5cfe89d5891",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 6,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/llvm/llvm-nnsu-2024/mlir/out/install/x64-Debug"
+		}
+	},
+	"name" : "MLIRVectorToGPU",
+	"nameOnDisk" : "MLIRVectorToGPU.lib",
+	"paths" : 
+	{
+		"build" : "lib/Conversion/VectorToGPU",
+		"source" : "lib/Conversion/VectorToGPU"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug/lib/Conversion/VectorToGPU/CMakeFiles/obj.MLIRVectorToGPU.dir/VectorToGPU.cpp.obj",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"path" : "include/mlir/Dialect/SparseTensor/IR/Enums.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
