@@ -1,0 +1,1 @@
+int fact(int value) { return value <= 1 ? 1 : value * fact(value - 1); }
