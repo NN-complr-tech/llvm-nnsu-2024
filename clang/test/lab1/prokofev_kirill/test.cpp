@@ -65,6 +65,14 @@ int Foo(int oldVar) { return oldVar * 2; }
 // RUN: -plugin-arg-rename help\
 // RUN: 2>&1 | FileCheck %s --check-prefix=HELP
 
+// RUN: %clang_cc1 -load %llvmshlibdir/ProkofevRenamePlugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=func\
+// RUN: -plugin-arg-rename oldName=Foo\
+// RUN: -plugin-arg-rename newName=Function\
+// RUN: -plugin-arg-rename help\
+// RUN: 2>&1 | FileCheck %s --check-prefix=HELP
+
 // HELP: Specify three required arguments:
 // HELP-NEXT: -plugin-arg-rename type=["var", "func", "class"]
 // HELP-NEXT: -plugin-arg-rename oldName="Current identifier name"
@@ -89,4 +97,5 @@ int Foo(int oldVar) { return oldVar * 2; }
 
 //ERROR: Invalid arguments
 //ERROR-NEXT: Specify "-plugin-arg-rename help" for usage
+
 
