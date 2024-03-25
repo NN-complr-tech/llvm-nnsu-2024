@@ -4,7 +4,7 @@ if(WIN32 OR CYGWIN)
   set(LLVM_LINK_COMPONENTS
     Support
   )
-  clang_target_link_libraries(InstrumentFunctionsPlugin PRIVATE
+  clang_target_link_libraries(InstrumentFunctionsPlugin PUBLIC
     LLVMSupport
     LLVMCore
     LLVMipo
