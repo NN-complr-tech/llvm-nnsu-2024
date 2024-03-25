@@ -37,7 +37,7 @@ struct ForWrapper : PassInfoMixin<ForWrapper> {
       if (!ExitBlock) {
         continue;
       }
-      Builder.SetInsertPoint(ExitBlock->getTerminator());
+      Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
       auto *LoopEndFunc = F.getParent()->getFunction("loop_end");
       if (!LoopEndFunc) {
         LoopEndFunc = Function::Create(
