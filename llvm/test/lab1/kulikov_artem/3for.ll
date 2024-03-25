@@ -68,19 +68,19 @@ entry:
   store i32 10, ptr %c, align 4
   br label %for.cond
 
-for.cond:                                         ; preds = %for.inc, %entry
+for.cond:
   %0 = load i32, ptr @j, align 4
   %1 = load i32, ptr %a.addr, align 4
   %cmp = icmp slt i32 %0, %1
   br i1 %cmp, label %for.body, label %for.end
 
-for.body:                                         ; preds = %for.cond
+for.body:
   %2 = load i32, ptr %c, align 4
   %inc = add nsw i32 %2, 1
   store i32 %inc, ptr %c, align 4
   br label %for.inc
 
-for.inc:                                          ; preds = %for.body
+for.inc:
   %3 = load i32, ptr @j, align 4
   %inc1 = add nsw i32 %3, 1
   store i32 %inc1, ptr @j, align 4
@@ -93,7 +93,7 @@ for.inc:                                          ; preds = %for.body
 ; CHECK-NEXT:    %5 = load i32, ptr %q, align 4
 ; CHECK-NEXT:    call void @loop_end()
 ; CHECK-NEXT:    ret i32 %5
-for.end:                                          ; preds = %for.cond
+for.end:
   %4 = load i32, ptr %c, align 4
   %add = add nsw i32 %4, 42
   store i32 %add, ptr %q, align 4
@@ -117,7 +117,7 @@ entry:
   call void @a()
   br label %for.cond
 
-for.cond:                                         ; preds = %for.inc, %entry
+for.cond:
   %0 = load i32, ptr @j, align 4
   %cmp = icmp sgt i32 %0, 5
   br i1 %cmp, label %if.then, label %if.end
@@ -125,19 +125,19 @@ for.cond:                                         ; preds = %for.inc, %entry
 ; CHECK:       if.then:
 ; CHECK-NEXT:    call void @loop_end()
 ; CHECK-NEXT:    br label %for.end
-if.then:                                          ; preds = %for.cond
+if.then:
   br label %for.end
 
-if.end:                                           ; preds = %for.cond
+if.end:
   br label %for.inc
 
-for.inc:                                          ; preds = %if.end
+for.inc:
   %1 = load i32, ptr @j, align 4
   %inc = add nsw i32 %1, 1
   store i32 %inc, ptr @j, align 4
   br label %for.cond
 
-for.end:                                          ; preds = %if.then
+for.end:
   %2 = load i32, ptr %c, align 4
   %call = call i32 @b(i32 noundef %2)
   %3 = load i32, ptr %c, align 4
