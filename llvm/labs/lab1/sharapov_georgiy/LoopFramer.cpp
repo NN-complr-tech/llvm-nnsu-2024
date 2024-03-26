@@ -1,12 +1,9 @@
-#include "llvm/Analysis/LoopInfo.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
-#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 
 struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
   llvm::PreservedAnalyses run(llvm::Function &F,
