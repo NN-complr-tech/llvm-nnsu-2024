@@ -1,0 +1,63 @@
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
+
+struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
+  llvm::PreservedAnalyses run(llvm::Function &F,
+                              llvm::FunctionAnalysisManager &FAM) {
+    llvm::LLVMContext &Context = F.getContext();
+    llvm::Module *ParentModule = F.getParent();
+
+    llvm::FunctionType *funcType =
+        llvm::FunctionType::get(llvm::Type::getVoidTy(Context), false);
+    llvm::FunctionCallee loopStart =
+        ParentModule->getOrInsertFunction("loop_start", funcType);
+    llvm::FunctionCallee loopEnd =
+        ParentModule->getOrInsertFunction("loop_end", funcType);
+
+    llvm::LoopAnalysis::Result &LI = FAM.getResult<llvm::LoopAnalysis>(F);
+    for (auto *L : LI) {
+      insertLoopStartEnd(L, loopStart, loopEnd);
+    }
+    return llvm::PreservedAnalyses::all();
+  }
+
+  void insertLoopStartEnd(llvm::Loop *L, llvm::FunctionCallee loopStart,
+                          llvm::FunctionCallee loopEnd) {
+    llvm::LLVMContext &Context = L->getHeader()->getContext();
+    llvm::IRBuilder<> Builder(Context);
+
+    llvm::BasicBlock *Preheader = L->getLoopPreheader();
+    if (Preheader) {
+      Builder.SetInsertPoint(Preheader->getTerminator());
+      Builder.CreateCall(loopStart);
+    }
+
+    llvm::BasicBlock *ExitBlock = L->getExitBlock();
+    if (ExitBlock) {
+      Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
+      Builder.CreateCall(loopEnd);
+    }
+  }
+};
+
+bool registerPipeline(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
+                      llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
+  if (Name == "LoopFramer") {
+    FPM.addPass(LoopFramer());
+    return true;
+  }
+  return false;
+}
+
+llvm::PassPluginLibraryInfo getLoopFramerPluginInfo() {
+  return {LLVM_PLUGIN_API_VERSION, "LoopFramer", LLVM_VERSION_STRING,
+          [](llvm::PassBuilder &PB) {
+            PB.registerPipelineParsingCallback(registerPipeline);
+          }};
+}
+
+extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
+  return getLoopFramerPluginInfo();
+}
