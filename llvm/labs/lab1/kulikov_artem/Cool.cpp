@@ -11,44 +11,36 @@
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/Compiler.h"
 
-using namespace llvm;
-
 namespace {
 
-struct ForWrapper : PassInfoMixin<ForWrapper> {
-  PreservedAnalyses run(Function &F, FunctionAnalysisManager &FAM) {
-    auto &LI = FAM.getResult<LoopAnalysis>(F);
+struct ForWrapper : llvm::PassInfoMixin<ForWrapper> {
+  llvm::PreservedAnalyses run(llvm::Function &F,
+                              llvm::FunctionAnalysisManager &FAM) {
+    auto *Ty =
+        llvm::FunctionType::get(llvm::Type::getVoidTy(F.getContext()), false);
+    auto *M = F.getParent();
+    auto LoopStartFunc = M->getOrInsertFunction("loop_start", Ty);
+    auto LoopEndFunc = M->getOrInsertFunction("loop_end", Ty);
+
+    auto &LI = FAM.getResult<llvm::LoopAnalysis>(F);
     for (auto &L : LI) {
       auto *Preheader = L->getLoopPreheader();
-      if (!Preheader) {
+      if (!Preheader)
         continue;
-      }
-      IRBuilder<> Builder(Preheader->getTerminator());
-      auto *LoopStartFunc = F.getParent()->getFunction("loop_start");
 
-      if (!LoopStartFunc) {
-        LoopStartFunc = Function::Create(
-            FunctionType::get(Type::getVoidTy(F.getContext()), false),
-            Function::ExternalLinkage, "loop_start", F.getParent());
-      }
+      llvm::IRBuilder<> Builder(Preheader->getTerminator());
       Builder.CreateCall(LoopStartFunc);
 
       auto *ExitBlock = L->getExitBlock();
-      if (!ExitBlock) {
+      if (!ExitBlock)
         continue;
-      }
+
       Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
-      auto *LoopEndFunc = F.getParent()->getFunction("loop_end");
-      if (!LoopEndFunc) {
-        LoopEndFunc = Function::Create(
-            FunctionType::get(Type::getVoidTy(F.getContext()), false),
-            Function::ExternalLinkage, "loop_end", F.getParent());
-      }
       Builder.CreateCall(LoopEndFunc);
     }
 
-    auto PA = PreservedAnalyses::all();
-    PA.abandon<LoopAnalysis>();
+    auto PA = llvm::PreservedAnalyses::all();
+    PA.abandon<llvm::LoopAnalysis>();
     return PA;
   }
 };
@@ -62,10 +54,10 @@ struct ForWrapper : PassInfoMixin<ForWrapper> {
 /* New PM Registration */
 llvm::PassPluginLibraryInfo getNAMEPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "ForWrapperPlugin", LLVM_VERSION_STRING,
-          [](PassBuilder &PB) {
+          [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
-                [](StringRef Name, llvm::FunctionPassManager &PM,
-                   ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                [](llvm::StringRef Name, llvm::FunctionPassManager &PM,
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
                   if (Name == "kulikov-wrap-plugin") {
                     PM.addPass(ForWrapper());
                     return true;

@@ -1,5 +1,37 @@
 ; RUN: opt -passes=kulikov-wrap-plugin -S %s | FileCheck %s
 
+; int j = 2;
+
+; void a() {
+;     int c = 10;
+;     for (int i = 0; i < 10; i++) {
+;         c++;
+;     }
+;     int q = c + 42;
+; }
+
+; int b(int a) {
+;     int c = 10;
+;     for (; j < a; j++) {
+;         c++;
+;     }
+;     int q = c + 42;
+;     return q;
+; }
+
+
+; int v() {
+;     int c = 10;
+;     a();
+;     for (; ; j++) {
+;         if (j > 5)
+;             break;
+;     }
+;     b(c);
+;     int q = c + 42;
+;     return q;
+; }
+
 @j = dso_local global i32 2, align 4
 
 define dso_local void @a() {
