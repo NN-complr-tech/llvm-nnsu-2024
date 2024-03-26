@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/InstrumentFunctionsPlugin%pluginext -passes=instr_func -S %s | FileCheck %s
+; RUN: opt -passes=instr_func -S %s | FileCheck %s
 
 ; CHECK-LABEL: @_Z9factoriali
 ; CHECK: call void @instrument_start()
@@ -70,3 +70,6 @@ define dso_local void @_Z8voidFuncv() {
 entry:
   ret void
 }
+
+; CHECK: declare void @instrument_start()
+; CHECK: declare void @instrument_end()

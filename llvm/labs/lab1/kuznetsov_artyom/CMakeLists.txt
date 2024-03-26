@@ -1,15 +1,30 @@
-add_llvm_library(InstrumentFunctionsPlugin MODULE instrumention_func.cpp PLUGIN_TOOL llvm)
+set(Title "Instrument_Functions")
+set(Student "Kuznetsov_Artyom")
+set(Group "FIIT3")
+set(PluginName "${Title}_${Student}_${Group}")
 
-if(WIN32 OR CYGWIN)
-  set(LLVM_LINK_COMPONENTS
-    Support
-  )
-  target_link_libraries(InstrumentFunctionsPlugin PRIVATE
+add_compile_definitions(NAME=${PluginName})
+
+string(TOUPPER ${PluginName} PluginNameUpper)
+set(LLVM_${PluginNameUpper}_LINK_INTO_TOOLS ON)
+
+if (NOT WIN32 AND NOT CYGWIN)
+  file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.hpp)
+  
+  add_llvm_pass_plugin(${PluginName} 
+    ${ALL_SOURCE_FILES}     
+    DEPENDS
+    intrinsics_gen
+    BUILDTREE_ONLY
+    )
+
+  target_link_libraries(${PluginName}
+    PUBLIC
     LLVMSupport
     LLVMCore
     LLVMipo
     LLVMPasses
     )
-endif()
 
-set(LLVM_TEST_DEPENDS "InstrumentFunctionsPlugin" ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
+  set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
+endif()
