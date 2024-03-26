@@ -46,3 +46,4 @@ int testFunSwitch(int A) {
   return A;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
+
