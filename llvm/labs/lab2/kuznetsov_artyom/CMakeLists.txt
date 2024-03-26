@@ -3,14 +3,14 @@ set(Student "Kuznetsov_Artyom")
 set(Group "FIIT3")
 set(PluginName "${Title}_${Student}_${Group}")
 
+string(TOUPPER ${PluginName} PluginNameUpper)
+set(LLVM_${PluginNameUpper}_LINK_INTO_TOOLS ON)
+
 if (NOT WIN32 AND NOT CYGWIN)
     message("-- ${PluginName} -- BUILD")
 
-    string(TOUPPER ${PluginName} PluginNameUpper)
-    set(LLVM_${PluginNameUpper}_LINK_INTO_TOOLS ON)
-
     file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.hpp)
-    add_llvm_pass_plugin(${PluginName} ${ALL_SOURCE_FILES} BUILDTREE_ONLY)
+    add_llvm_pass_plugin(${PluginName} ${ALL_SOURCE_FILES})
 
     set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
 else()
