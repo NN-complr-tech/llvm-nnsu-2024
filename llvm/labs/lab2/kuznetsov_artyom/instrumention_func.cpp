@@ -36,11 +36,8 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
 };
 } // namespace
 
-#define CONCATENATE_IMPL(A, B, C) A##B##C
-#define CONCATENATE(A, B, C) CONCATENATE_IMPL(A, B, C)
-#define GET_PLUGIN_INFO CONCATENATE(get, NAME, PluginInfo)
-
-llvm::PassPluginLibraryInfo GET_PLUGIN_INFO() {
+llvm::PassPluginLibraryInfo
+getInstrument_Functions_Kuznetsov_Artyom_FIIT3PluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "InstrumentFunctions", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
@@ -55,12 +52,9 @@ llvm::PassPluginLibraryInfo GET_PLUGIN_INFO() {
           }};
 }
 
-#define LLVM_PLUGIN_LINK_INTO_TOOLS_ON                                         \
-  CONCATENATE(LLVM_, NAME, _LINK_INTO_TOOLS)
-
-#ifdef LLVM_PLUGIN_LINK_INTO_TOOLS_ON
+#ifdef LLVM_INSTRUMENT_FUNCTIONS_KUZNETSOV_ARTYOM_FIIT3_LINK_INTO_TOOLS
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
-  return GET_PLUGIN_INFO();
+  return getInstrument_Functions_Kuznetsov_Artyom_FIIT3PluginInfo();
 }
-#endif // LLVM_PLUGIN_LINK_INTO_TOOLS_ON
+#endif // LLVM_INSTRUMENT_FUNCTIONS_KUZNETSOV_ARTYOM_FIIT3_LINK_INTO_TOOLS
