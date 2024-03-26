@@ -1146,6 +1146,8 @@ add_subdirectory(include)
 
 add_subdirectory(lib)
 
+add_subdirectory(labs)
+
 if( LLVM_INCLUDE_UTILS )
   add_subdirectory(utils/FileCheck)
   add_subdirectory(utils/PerfectShuffle)
