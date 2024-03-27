@@ -1,4 +1,5 @@
 #include "llvm/ADT/ArrayRef.h"
+#include "llvm/ADT/SmallVector.h"
 #include "llvm/Analysis/LoopInfo.h"
 #include "llvm/Config/llvm-config.h"
 #include "llvm/IR/DerivedTypes.h"
@@ -21,22 +22,26 @@ struct ForWrapper : llvm::PassInfoMixin<ForWrapper> {
     auto *M = F.getParent();
     auto LoopStartFunc = M->getOrInsertFunction("loop_start", Ty);
     auto LoopEndFunc = M->getOrInsertFunction("loop_end", Ty);
+    auto &ctx = F.getContext();
+    llvm::IRBuilder<> Builder(ctx);
 
     auto &LI = FAM.getResult<llvm::LoopAnalysis>(F);
     for (auto &L : LI) {
-      auto *Preheader = L->getLoopPreheader();
-      if (!Preheader)
-        continue;
+      auto *Header = L->getHeader();
+      for (const auto Pred :
+           llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
+        if (!L->contains(Pred)) {
+          Builder.SetInsertPoint(Pred->getTerminator());
+          Builder.CreateCall(LoopStartFunc);
+        }
+      }
 
-      llvm::IRBuilder<> Builder(Preheader->getTerminator());
-      Builder.CreateCall(LoopStartFunc);
-
-      auto *ExitBlock = L->getExitBlock();
-      if (!ExitBlock)
-        continue;
-
-      Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
-      Builder.CreateCall(LoopEndFunc);
+      llvm::SmallVector<llvm::BasicBlock *, 8> ExitBBs;
+      L->getExitBlocks(ExitBBs);
+      for (const auto bb : ExitBBs) {
+        Builder.SetInsertPoint(bb->getFirstNonPHI());
+        Builder.CreateCall(LoopEndFunc);
+      }
     }
 
     auto PA = llvm::PreservedAnalyses::all();
