@@ -19,13 +19,32 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
     llvm::FunctionCallee instEndFunc =
         module->getOrInsertFunction("instrument_end", funcType);
 
-    builder.SetInsertPoint(&func.getEntryBlock().front());
-    builder.CreateCall(instrStartFunc);
+    bool startInserted = false;
+    bool endInserted = false;
 
     for (auto &block : func) {
-      if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
-        builder.SetInsertPoint(block.getTerminator());
-        builder.CreateCall(instEndFunc);
+      for (auto &instruction : block) {
+        if (llvm::isa<llvm::CallInst>(&instruction)) {
+          llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
+          if (callInst->getCalledFunction() == instrStartFunc.getCallee()) {
+            startInserted = true;
+          } else if (callInst->getCalledFunction() == instEndFunc.getCallee()) {
+            endInserted = true;
+          }
+        }
+      }
+    }
+
+    if (!startInserted) {
+      builder.SetInsertPoint(&func.getEntryBlock().front());
+      builder.CreateCall(instrStartFunc);
+    }
+    if (!endInserted) {
+      for (auto &block : func) {
+        if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
+          builder.SetInsertPoint(block.getTerminator());
+          builder.CreateCall(instEndFunc);
+        }
       }
     }
 
@@ -36,25 +55,18 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
 };
 } // namespace
 
-llvm::PassPluginLibraryInfo
-getInstrument_Functions_Kuznetsov_Artyom_FIIT3PluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "InstrumentFunctions", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
-                [](llvm::StringRef Name, llvm::FunctionPassManager &PM,
-                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-                  if (Name == "instr_func") {
-                    PM.addPass(InstrumentFunctions());
+                [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
+                  if (name == "instr_func") {
+                    FPM.addPass(InstrumentFunctions{});
                     return true;
                   }
                   return false;
                 });
           }};
 }
-
-#ifdef LLVM_INSTRUMENT_FUNCTIONS_KUZNETSOV_ARTYOM_FIIT3_LINK_INTO_TOOLS
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
-llvmGetPassPluginInfo() {
-  return getInstrument_Functions_Kuznetsov_Artyom_FIIT3PluginInfo();
-}
-#endif // LLVM_INSTRUMENT_FUNCTIONS_KUZNETSOV_ARTYOM_FIIT3_LINK_INTO_TOOLS

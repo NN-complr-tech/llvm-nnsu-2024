@@ -3,8 +3,7 @@ set(Student "Kuznetsov_Artyom")
 set(Group "FIIT3")
 set(PluginName "${Title}_${Student}_${Group}")
 
-string(TOUPPER ${PluginName} PluginNameUpper)
-set(LLVM_${PluginNameUpper}_LINK_INTO_TOOLS ON)
+# Result plugin name: Instrument_Functions_Kuznetsov_Artyom_FIIT3
 
 if (NOT WIN32 AND NOT CYGWIN)
     message("-- ${PluginName} -- BUILD")

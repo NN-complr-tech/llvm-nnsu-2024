@@ -1,8 +1,11 @@
-; RUN: opt -passes=instr_func -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin %llvmshlibdir/Instrument_Functions_Kuznetsov_Artyom_FIIT3%pluginext\
+; RUN: -passes=instr_func -S %s | FileCheck %s
 
 ; CHECK-LABEL: @_Z9factoriali
 ; CHECK: call void @instrument_start()
+; CHECL-NEXT: %value.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
+; CHECK-NEXT: ret i32 %cond
 
 define dso_local noundef i32 @_Z9factoriali(i32 noundef %value) {
 entry:
@@ -30,7 +33,9 @@ cond.end:
 
 ; CHECK-LABEL: @_Z4funcb
 ; CHECK: call void @instrument_start()
+; CHECK-NEXT: %retval = alloca i32, align 4
 ; CHECK: call void @instrument_end()
+; CHECK-NEXT: ret i32 %3
 
 define dso_local noundef i32 @_Z4funcb(i1 noundef zeroext %pred) {
 entry:
@@ -64,12 +69,33 @@ return:
 
 ; CHECK-LABEL: @_Z8voidFuncv
 ; CHECK: call void @instrument_start()
-; CHECK: call void @instrument_end()
+; CHECK-NEXT: call void @instrument_end()
+; CHECK-NEXT: ret void
 
 define dso_local void @_Z8voidFuncv() {
 entry:
   ret void
 }
 
-; CHECK: declare void @instrument_start()
-; CHECK: declare void @instrument_end()
+; CHECK-LABEL:  @_Z3sumii
+; CHECK: call void @instrument_start()
+; CHECK-NEXT: %a.addr = alloca i32, align 4
+; CHECK: call void @instrument_end()
+; CHECK-NEXT: ret i32 %add
+
+define dso_local noundef i32 @_Z3sumii(i32 noundef %a, i32 noundef %b) {
+entry:
+  call void @instrument_start()
+  %a.addr = alloca i32, align 4
+  %b.addr = alloca i32, align 4
+  store i32 %a, ptr %a.addr, align 4
+  store i32 %b, ptr %b.addr, align 4
+  %0 = load i32, ptr %a.addr, align 4
+  %1 = load i32, ptr %b.addr, align 4
+  %add = add nsw i32 %0, %1
+  call void @instrument_end()
+  ret i32 %add
+}
+
+declare void @instrument_start()
+declare void @instrument_end()
