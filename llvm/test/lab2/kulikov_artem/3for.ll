@@ -1,4 +1,4 @@
-; RUN: opt -passes=kulikov-wrap-plugin -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/KulikovWrapPlugin%shlibext -passes=kulikov-wrap-plugin -S %s | FileCheck %s
 
 ; int j = 2;
 

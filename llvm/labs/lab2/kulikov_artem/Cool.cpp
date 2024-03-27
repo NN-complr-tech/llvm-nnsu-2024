@@ -47,12 +47,8 @@ struct ForWrapper : llvm::PassInfoMixin<ForWrapper> {
 
 } // namespace
 
-#define PPCAT_NX2(A, B, C) A##B##C
-#define PPCAT2(A, B, C) PPCAT_NX2(A, B, C)
-#define getNAMEPluginInfo PPCAT2(get, NAME, PluginInfo)
-
-/* New PM Registration */
-llvm::PassPluginLibraryInfo getNAMEPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "ForWrapperPlugin", LLVM_VERSION_STRING,
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
@@ -65,9 +61,4 @@ llvm::PassPluginLibraryInfo getNAMEPluginInfo() {
                   return false;
                 });
           }};
-}
-
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
-llvmGetPassPluginInfo() {
-  return getNAMEPluginInfo();
 }
