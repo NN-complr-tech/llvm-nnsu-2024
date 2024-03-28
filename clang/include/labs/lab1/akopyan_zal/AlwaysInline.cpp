@@ -54,5 +54,5 @@ public:
 };
 
 static clang::FrontendPluginRegistry::Add<AddAlwaysInlineAction>
-X("always_inline", "Automatically adds attribute((always_inline)) "
-"to functions without conditional statements.");
+    X("always_inline", "Automatically adds attribute((always_inline)) "
+                       "to functions without conditional statements.");
