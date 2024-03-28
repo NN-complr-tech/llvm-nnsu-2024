@@ -26,12 +26,7 @@ int testFun3() {}
 void testFun4(char A, char B) {
   {
     {
-      {
-        {
-          while (true) {
-          }
-          {}
-        }
+      while (true) {
       }
     }
   }
@@ -41,7 +36,6 @@ void testFun4(char A, char B) {
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testFun5 'int \(int\)'}}
 int testFun5(int A) {
   for (int i = 0; i < 0; i++){
-
   }
 
   return A;
@@ -50,13 +44,6 @@ int testFun5(int A) {
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testFun6 'int \(int\)'}}
 int testFun6(int A) {
-  {
-
-  }
-  {
-
-  }
-  {
     switch (A)
     {
     case 1:
@@ -65,10 +52,6 @@ int testFun6(int A) {
     default:
       break;
     }
-  }
-  {
-
-  }
   return A;
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
@@ -76,15 +59,10 @@ int testFun6(int A) {
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testFun7 'int \(\)'}}
 int testFun7() {
   {
-
-  }
-  {
-
-  }
-  {
-  }
-  {
-
+    {
+      {
+      }
+    }
   }
   return 0;
 }
