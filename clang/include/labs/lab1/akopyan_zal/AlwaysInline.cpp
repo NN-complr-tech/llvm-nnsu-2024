@@ -53,5 +53,6 @@ public:
   }
 };
 
-static FrontendPluginRegistry::Add<AlwaysInlinePlugin>
-    X("always_inline", "Plugin that adds the inline attribute");
+static clang::FrontendPluginRegistry::Add<AddAlwaysInlineAction>
+X("always_inline", "Automatically adds attribute((always_inline)) "
+"to functions without conditional statements.");
