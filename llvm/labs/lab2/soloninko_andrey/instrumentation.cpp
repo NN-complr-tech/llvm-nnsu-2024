@@ -50,7 +50,7 @@ struct InstrumentationPass : llvm::PassInfoMixin<InstrumentationPass> {
 
   static bool isRequired() { return true; }
 };
-} // namespace
+}
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
