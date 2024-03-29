@@ -58,9 +58,11 @@ protected:
       if (arg == "--help") {
         llvm::outs() << "This plugin adds the always_inline attribute to "
                         "functions if they do not have conditions!\n";
+        return false;
       } else
         llvm::outs()
             << "Use the --help argument to understand the plugin's purpose!\n";
+        return false;
     }
     return true;
   }
