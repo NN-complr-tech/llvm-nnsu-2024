@@ -55,7 +55,7 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     bool called = false;
 
     for (auto &inst : *BB) {
-      if (auto *instCall = llvm::cast<llvm::CallInst>(&inst)) {
+      if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
         if (instCall->getCalledFunction() == callee.getCallee()) {
           called = true;
           break;
