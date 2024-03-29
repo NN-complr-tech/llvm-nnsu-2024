@@ -23,7 +23,6 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
 
     auto PA = llvm::PreservedAnalyses::all();
     PA.abandon<llvm::LoopAnalysis>();
-    PA.abandon<llvm::DominatorTreeAnalysis>();
     return PA;
   }
 
