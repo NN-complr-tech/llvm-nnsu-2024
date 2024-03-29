@@ -1,4 +1,5 @@
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/Dominators.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 
@@ -19,7 +20,11 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     for (auto *L : LI) {
       insertLoopStartEnd(L, loopStart, loopEnd);
     }
-    return llvm::PreservedAnalyses::all();
+
+    auto PA = llvm::PreservedAnalyses::all();
+    PA.preserve<llvm::LoopAnalysis>();
+    PA.preserve<llvm::DominatorTreeAnalysis>();
+    return PA;
   }
 
   void insertLoopStartEnd(llvm::Loop *L, llvm::FunctionCallee loopStart,
