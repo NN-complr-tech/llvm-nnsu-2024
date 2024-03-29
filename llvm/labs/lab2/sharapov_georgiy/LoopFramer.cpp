@@ -1,5 +1,5 @@
-#include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/Dominators.h"
+#include "llvm/IR/IRBuilder.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 
@@ -33,7 +33,8 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     llvm::IRBuilder<> Builder(Context);
 
     llvm::BasicBlock *Header = L->getHeader();
-    for (auto *const Pre : llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
+    for (auto *const Pre :
+         llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
       if (!(L->contains(Pre))) {
         Builder.SetInsertPoint(Pre->getTerminator());
         Builder.CreateCall(loopStart);
