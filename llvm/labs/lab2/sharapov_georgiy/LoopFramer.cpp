@@ -27,15 +27,18 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     llvm::LLVMContext &Context = L->getHeader()->getContext();
     llvm::IRBuilder<> Builder(Context);
 
-    llvm::BasicBlock *Preheader = L->getLoopPreheader();
-    if (Preheader) {
-      Builder.SetInsertPoint(Preheader->getTerminator());
-      Builder.CreateCall(loopStart);
+    llvm::BasicBlock *Header = L->getHeader();
+    for (auto *const Pre : llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
+      if (!(L->contains(Pre))) {
+        Builder.SetInsertPoint(Pre->getTerminator());
+        Builder.CreateCall(loopStart);
+      }
     }
 
-    llvm::BasicBlock *ExitBlock = L->getExitBlock();
-    if (ExitBlock) {
-      Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
+    llvm::SmallVector<llvm::BasicBlock *, 4> ExitBlocks;
+    L->getExitBlocks(ExitBlocks);
+    for (auto *const BB : ExitBlocks) {
+      Builder.SetInsertPoint(BB->getFirstNonPHI());
       Builder.CreateCall(loopEnd);
     }
   }
