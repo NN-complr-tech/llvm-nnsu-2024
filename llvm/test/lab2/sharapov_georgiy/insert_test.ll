@@ -143,6 +143,30 @@ for.end:
   ret i32 %3
 }
 
+
+define dso_local i32 @if_else_func(i32 noundef %b) #0 {
+entry:
+  %retval = alloca i32, align 4
+  %b.addr = alloca i32, align 4
+  store i32 %b, ptr %b.addr, align 4
+  store i32 0, ptr %b.addr, align 4
+  ; CHECK: store i32 0, ptr %b.addr, align 4
+  ; CHECK-NEXT: br i1 false, label %if.then, label %if.else
+  br i1 false, label %if.then, label %if.else
+
+if.then:                                          
+  store i32 1, ptr %retval, align 4
+  br label %return
+
+if.else:                                          
+  store i32 0, ptr %retval, align 4
+  br label %return
+
+return:                                           
+  %0 = load i32, ptr %retval, align 4
+  ret i32 %0
+}
+
 ; source code
 ; 
 ; int while_func() {
@@ -186,5 +210,13 @@ for.end:
 ;         b = b + 1;
 ;     }
 ;     return b;
+; }
+; 
+; int if_else_func(int b) {
+;     if (b = 0) {
+;         return 1;
+;     } else {
+;         return 0;
+;     }
 ; }
 ; 

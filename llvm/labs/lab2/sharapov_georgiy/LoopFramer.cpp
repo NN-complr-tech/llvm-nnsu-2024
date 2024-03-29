@@ -43,6 +43,7 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
 
     llvm::SmallVector<llvm::BasicBlock *, 4> ExitBlocks;
     L->getExitBlocks(ExitBlocks);
+
     for (auto *const BB : ExitBlocks) {
       if (!alreadyCalled(BB, loopEnd)) {
         Builder.SetInsertPoint(BB->getFirstNonPHI());
