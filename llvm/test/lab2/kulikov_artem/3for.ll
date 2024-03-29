@@ -47,6 +47,17 @@
 ;     int j = 2;
 ; }
 
+; void bar() {
+;     int i;
+;     if (i == 0) {
+;         i++;
+;         return;
+;     } else {
+;         i--;
+;         return;
+;     }
+; }
+
 @j = dso_local global i32 2, align 4
 
 define dso_local void @a() {
@@ -217,4 +228,29 @@ while.end:
 return:
   ret void
 }
+; CHECK-LABEL:  @bar
+; CHECK-NOT:  call void @loop_start()
+; CHECK-NOT:    call void @loop_end()
+; CHECK:        ret void
+define dso_local void @bar() {
+entry:
+  %i = alloca i32, align 4
+  %0 = load i32, ptr %i, align 4
+  %cmp = icmp eq i32 %0, 0
+  br i1 %cmp, label %if.then, label %if.else
 
+if.then:
+  %1 = load i32, ptr %i, align 4
+  %inc = add nsw i32 %1, 1
+  store i32 %inc, ptr %i, align 4
+  br label %return
+
+if.else:
+  %2 = load i32, ptr %i, align 4
+  %dec = add nsw i32 %2, -1
+  store i32 %dec, ptr %i, align 4
+  br label %return
+
+return:
+  ret void
+}
