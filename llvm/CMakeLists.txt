@@ -1146,8 +1146,6 @@ add_subdirectory(include)
 
 add_subdirectory(lib)
 
-add_subdirectory(labs)
-
 if( LLVM_INCLUDE_UTILS )
   add_subdirectory(utils/FileCheck)
   add_subdirectory(utils/PerfectShuffle)
@@ -1190,6 +1188,8 @@ endif()
 if( LLVM_INCLUDE_EXAMPLES )
   add_subdirectory(examples)
 endif()
+
+add_subdirectory(labs)
 
 if( LLVM_INCLUDE_TESTS )
   if(EXISTS ${LLVM_MAIN_SRC_DIR}/projects/test-suite AND TARGET clang)
