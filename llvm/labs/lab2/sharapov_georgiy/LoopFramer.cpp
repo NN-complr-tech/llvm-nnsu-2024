@@ -35,7 +35,7 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     llvm::BasicBlock *Header = L->getHeader();
     for (auto *const Pre :
          llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
-      if (!(L->contains(Pre))) {
+      if (!(L->contains(Pre)) && !alreadyCalled(Pre, loopStart)) {
         Builder.SetInsertPoint(Pre->getTerminator());
         Builder.CreateCall(loopStart);
       }
@@ -44,9 +44,26 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     llvm::SmallVector<llvm::BasicBlock *, 4> ExitBlocks;
     L->getExitBlocks(ExitBlocks);
     for (auto *const BB : ExitBlocks) {
-      Builder.SetInsertPoint(BB->getFirstNonPHI());
-      Builder.CreateCall(loopEnd);
+      if (!alreadyCalled(BB, loopEnd)) {
+        Builder.SetInsertPoint(BB->getFirstNonPHI());
+        Builder.CreateCall(loopEnd);
+      }
     }
+  }
+
+  bool alreadyCalled(llvm::BasicBlock *const BB, llvm::FunctionCallee callee) {
+    bool called = false;
+
+    for (auto &inst : *BB) {
+      if (auto *instCall = llvm::cast<llvm::CallInst>(&inst)) {
+        if (instCall->getCalledFunction() == callee.getCallee()) {
+          called = true;
+          break;
+        }
+      }
+    }
+
+    return called;
   }
 };
 
