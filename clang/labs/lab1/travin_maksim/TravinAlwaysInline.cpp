@@ -4,8 +4,7 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
-class InlineVisitor
-    : public clang::RecursiveASTVisitor<InlineVisitor> {
+class InlineVisitor : public clang::RecursiveASTVisitor<InlineVisitor> {
 private:
   clang::ASTContext *Context;
   bool HasStatement;
@@ -18,7 +17,7 @@ public:
     HasStatement = false;
     clang::Stmt *BodyFunc = Func->getBody();
 
-    for (const clang::  Stmt *statements : BodyFunc->children()) {
+    for (const clang::Stmt *statements : BodyFunc->children()) {
       if (clang::isa<clang::IfStmt>(statements) ||
           clang::isa<clang::WhileStmt>(statements) ||
           clang::isa<clang::ForStmt>(statements) ||
@@ -28,10 +27,10 @@ public:
       }
     }
 
-      if (!HasStatement) {
-        clang::SourceRange place = Func->getSourceRange();
-        Func->addAttr(clang::AlwaysInlineAttr::CreateImplicit(*Context, place));
-      }
+    if (!HasStatement) {
+      clang::SourceRange place = Func->getSourceRange();
+      Func->addAttr(clang::AlwaysInlineAttr::CreateImplicit(*Context, place));
+    }
     return true;
   }
 };
@@ -62,4 +61,5 @@ public:
 };
 
 static clang::FrontendPluginRegistry::Add<InlinePlugin>
-    X("add-always-inline", "adds always_inline to functions without if statements.");
+    X("add-always-inline",
+      "adds always_inline to functions without if statements.");
