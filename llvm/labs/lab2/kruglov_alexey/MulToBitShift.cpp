@@ -35,10 +35,7 @@ public:
             llvm::Value *val;
             if (lg1 == 0)
               val = rhs;
-            // if (lg2 > -1) {
-            //   val = llvm::ConstantInt::get(op->getType(), 1 << (lg1 + lg2));
-            //}
-             else {
+            else {
               val = builder.CreateShl(
                   rhs, llvm::ConstantInt::get(op->getType(), lg1));
             }
