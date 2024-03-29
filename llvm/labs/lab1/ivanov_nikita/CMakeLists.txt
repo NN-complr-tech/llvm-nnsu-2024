@@ -1,12 +1,22 @@
-add_llvm_library(opCounter MODULE test.cpp PLUGIN_TOOL opt)
 
-# if(WIN32 OR CYGWIN)
-#   set(LLVM_LINK_COMPONENTS
-#       Support
-#       Core
-#   )
-# endif()
+set(PluginName AtikinLoopPass)
+add_compile_definitions(NAME=${PluginName})
 
-# add_library(test.cpp)
+string(TOUPPER ${PluginName} PluginNameUpper)
+set(LLVM_${PluginNameUpper}_LINK_INTO_TOOLS ON)
 
-# llvm_map_components_to_libnames(llvmLibs Passes Support Core)
+file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
+add_llvm_pass_plugin(${PluginName} 
+${ALL_SOURCE_FILES}     
+DEPENDS
+intrinsics_gen
+BUILDTREE_ONLY)
+
+target_link_libraries(${PluginName}
+  PUBLIC
+  LLVMSupport
+  LLVMCore
+  LLVMipo
+  LLVMPasses)
+
+set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
