@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -ast-dump -ast-dump-filter testFun -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -add-plugin always-inlines-plugin %s 2>&1 | FileCheck %s
+// RUN: %clang_cc1 -ast-dump -ast-dump-filter testFun -load %llvmshlibdir/SimonyanAlwaysInlinePlugin%pluginext -add-plugin always-inlines-plugin %s 2>&1 | FileCheck %s
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testFun1 'int \(int, int\)'}}
 int testFun1(int A, int B) {
