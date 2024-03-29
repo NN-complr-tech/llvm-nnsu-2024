@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin=%llvmshlibdir/LoopFramer%shlibext -passes=LoopFramer -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/LoopFramer%pluginext -passes=LoopFramer -S %s | FileCheck %s
 
 define dso_local i32 @while_func() {
 entry:
