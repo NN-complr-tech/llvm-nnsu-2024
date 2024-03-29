@@ -62,7 +62,7 @@ protected:
       } else
         llvm::outs()
             << "Use the --help argument to understand the plugin's purpose!\n";
-        return false;
+      return false;
     }
     return true;
   }

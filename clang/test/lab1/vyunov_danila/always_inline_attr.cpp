@@ -1,15 +1,15 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
 // SUM: __attribute__((always_inline)) int sum(int A, int B) {
 // SUM-NEXT:   return A + B;
 // SUM-NEXT: }
 int sum(int A, int B) { return A + B; }
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=EMPTY
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=EMPTY
 // EMPTY: __attribute__((always_inline)) void checkEmpty() {
 // EMPTY-NEXT: }
 void checkEmpty() {}
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=MIN-NESTED
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=MIN-NESTED
 // MIN-NESTED: int minNested(int A, int B) {
 // MIN-NESTED-NEXT:     {
 // MIN-NESTED-NEXT:         if (A < B) {
@@ -42,7 +42,7 @@ int min(int A, int B) {
 }
 
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=FOR-LOOP
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=FOR-LOOP
 // FOR-LOOP: int forLoop() {
 // FOR-LOOP-NEXT:     int Counter = 0;
 // FOR-LOOP-NEXT:     for (int I = 0; I < 2; I++) {
@@ -59,7 +59,7 @@ int forLoop() {
 }
 
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=WHILE-LOOP
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=WHILE-LOOP
 // WHILE-LOOP: int whileLoop() {
 // WHILE-LOOP-NEXT:     int I = 0;
 // WHILE-LOOP-NEXT:     while (I < 5)
@@ -76,7 +76,8 @@ int whileLoop() {
   return I;
 }
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=DO-WHILE-LOOP
+
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=DO-WHILE-LOOP
 // DO-WHILE-LOOP: int doWhileLoop() {
 // DO-WHILE-LOOP-NEXT:     int I = 0;
 // DO-WHILE-LOOP-NEXT:     do {
@@ -93,7 +94,7 @@ int doWhileLoop() {
 }
 
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SWITCH-CASE
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SWITCH-CASE
 // SWITCH-CASE: int switchCondition() {
 // SWITCH-CASE-NEXT:     int I = 0;
 // SWITCH-CASE-NEXT:     int Result = 0;
@@ -122,14 +123,14 @@ int switchCondition() {
 }
 
 
-// RUN: %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=ALREADY-HAVE
+// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=ALREADY-HAVE
 // ALREADY-HAVE: void someFoo() __attribute__((always_inline)) {
 // ALREADY-HAVE-NEXT: }
 void __attribute__((always_inline)) someFoo(){}
 
 
-// RUN: not %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --help %s 2>&1 | FileCheck %s --check-prefix=HELP
+// RUN: not %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --help %s 2>&1 | FileCheck %s --check-prefix=HELP
 // HELP: This plugin adds the always_inline attribute to functions if they do not have conditions!
 
-// RUN: not %clang_cc1 -load %llvmshlibdir/AlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --awdawdawd %s 2>&1 | FileCheck %s --check-prefix=WRONG-HELP
+// RUN: not %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --awdawdawd %s 2>&1 | FileCheck %s --check-prefix=WRONG-HELP
 // WRONG-HELP: Use the --help argument to understand the plugin's purpose!
