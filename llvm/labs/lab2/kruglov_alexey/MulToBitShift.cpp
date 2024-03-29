@@ -1,20 +1,9 @@
-#include "llvm/ADT/ArrayRef.h"
-#include "llvm/ADT/GraphTraits.h"
-#include "llvm/ADT/SmallVector.h"
-#include "llvm/Analysis/LoopInfo.h"
-#include "llvm/Config/llvm-config.h"
 #include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/InstrTypes.h"
-#include "llvm/IR/LegacyPassManager.h"
-#include "llvm/IR/PassManager.h"
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
-#include "llvm/Support/Compiler.h"
-#include "llvm/Support/raw_ostream.h"
 #include <stack>
 
 namespace {
