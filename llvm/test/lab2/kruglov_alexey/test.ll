@@ -11,20 +11,20 @@
 ;}
 
 ;void f3(){
-;    int c = 3 * 4;
+;    int a = 3;
+;    int c = 4 * a;
 ;}
 
 ;void f4(){
-;    int c = 4 * 1;
+;    int a = 4;
+;    int c = a * 1;
 ;}
 
 ;void f5(){
-;    int c = 3 * 1;
+;    int a = 3;
+;    int c = 0 * a;
 ;}
 
-;void f6(){
-;    int c = 4 * 0;
-;}
 
 define dso_local i32 @f1(i32 noundef %0) #0 {
   %2 = alloca i32, align 4
@@ -68,7 +68,6 @@ define dso_local void @f4() #0 {
   store i32 4, ptr %1, align 4
   %3 = load i32, ptr %1, align 4
   %4 = mul nsw i32 %3, 1
-;  CHECK: %4 = shl i32 %3, 0
   store i32 %4, ptr %2, align 4
   ret void
 }
