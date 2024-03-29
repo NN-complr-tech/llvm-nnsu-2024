@@ -1,4 +1,4 @@
-; RUN: opt -passes=LoopFramer -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/LoopFramer%shlibext -passes=LoopFramer -S %s | FileCheck %s
 
 @i = dso_local global i32 0, align 4
 

@@ -1,4 +1,4 @@
-set(LLVM_LOOPFRAMER_LINK_INTO_TOOLS ON)
+# set(LLVM_LOOPFRAMER_LINK_INTO_TOOLS ON)
 
 add_llvm_pass_plugin(LoopFramer LoopFramer.cpp)
 
