@@ -21,8 +21,9 @@ public:
         std::string name = FD->getNameInfo().getAsString();
         if (name.find("deprecated") != -1) {
           DiagnosticsEngine &diag = context->getDiagnostics();
-          unsigned diagID = diag.getCustomDiagID(
-              DiagnosticsEngine::Warning, "Deprecated is contain in function name");
+          unsigned diagID =
+              diag.getCustomDiagID(DiagnosticsEngine::Warning,
+                                   "Deprecated is contain in function name");
           SourceLocation location = FD->getLocation();
           diag.Report(location, diagID);
         }
@@ -31,14 +32,13 @@ public:
     } v(&Instance.getASTContext());
 
     v.TraverseDecl(context.getTranslationUnitDecl());
-   
   }
 };
 
 class AddWarningAction : public PluginASTAction {
 protected:
-  std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
-                                                 llvm::StringRef InFile) override {
+  std::unique_ptr<ASTConsumer>
+  CreateASTConsumer(CompilerInstance &CI, llvm::StringRef InFile) override {
     return std::make_unique<AddWarningConsumer>(CI);
   }
 
