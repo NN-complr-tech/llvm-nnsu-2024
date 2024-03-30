@@ -3,8 +3,6 @@ set(Student "Soloninko_Andrey")
 set(Group "FIIT2")
 set(PluginName "${Title}_${Student}_${Group}")
 
-# Result plugin name: Instrument_Functions_Kuznetsov_Artyom_FIIT3
-
 if (NOT WIN32 AND NOT CYGWIN)
     message("-- ${PluginName} -- BUILD")
 

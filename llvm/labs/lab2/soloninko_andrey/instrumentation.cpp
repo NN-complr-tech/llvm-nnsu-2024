@@ -39,10 +39,14 @@ struct InstrumentationPass : llvm::PassInfoMixin<InstrumentationPass> {
       builder.SetInsertPoint(&F.getEntryBlock().front());
       builder.CreateCall(func_f);
     }
-
+    llvm::ReturnInst *re;
     if (!foundInstrument_end) {
-      builder.SetInsertPoint(&F.getEntryBlock().back());
-      builder.CreateCall(func_l);
+      for (llvm::BasicBlock &BB : F) {
+                if ((re = llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) != NULL) {
+                  builder.SetInsertPoint(BB.getTerminator());
+                  builder.CreateCall(func_l);
+                }
+            }
     }
 
     return llvm::PreservedAnalyses::all();

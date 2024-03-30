@@ -65,6 +65,35 @@ entry:
   ret void
 }
 
-declare void @instrument_start() #2
+; CHECK-LABEL: @_Z3foo_ifii
+; CHECK: call void @instrument_start()
+; CHECL-NEXT: %a.addr = alloca i32, align 4
+; CHECK: call void @instrument_end()
+; CHECK-NEXT: ret i32 %4
+define dso_local noundef i32 @_Z3foo_ifii(i32 noundef %a, i32 noundef %b) {
+entry:
+  %a.addr = alloca i32, align 4
+  %b.addr = alloca i32, align 4
+  %c = alloca i32, align 4
+  store i32 %a, ptr %a.addr, align 4
+  store i32 %b, ptr %b.addr, align 4
+  %0 = load i32, ptr %a.addr, align 4
+  %1 = load i32, ptr %b.addr, align 4
+  %cmp = icmp slt i32 %0, %1
+  br i1 %cmp, label %if.then, label %if.end
 
-declare void @instrument_end() #2
+if.then:                                          ; preds = %entry
+  %2 = load i32, ptr %b.addr, align 4
+  %3 = load i32, ptr %a.addr, align 4
+  %sub = sub nsw i32 %2, %3
+  store i32 %sub, ptr %c, align 4
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %entry
+  %4 = load i32, ptr %c, align 4
+  ret i32 %4
+}
+
+declare void @instrument_start()
+
+declare void @instrument_end()
