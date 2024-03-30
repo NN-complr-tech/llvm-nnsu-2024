@@ -144,6 +144,57 @@ for.end:
 }
 
 
+define dso_local i32 @while_return_func(i32 noundef %x) #0 {
+entry:
+  %retval = alloca i32, align 4
+  %x.addr = alloca i32, align 4
+  store i32 %x, ptr %x.addr, align 4
+  ; CHECK: call void @loop_start()
+  ; CHECK-NEXT: br label %while.cond
+  br label %while.cond
+
+while.cond:                                       
+  %0 = load i32, ptr %x.addr, align 4
+  %cmp = icmp slt i32 %0, 10
+  br i1 %cmp, label %while.body, label %while.end
+
+while.body:                                       
+  %1 = load i32, ptr %x.addr, align 4
+  %cmp1 = icmp eq i32 %1, 5
+  br i1 %cmp1, label %if.then, label %if.end
+
+  ; CHECK: if.then:
+  ; CHECK-NEXT: call void @loop_end()
+if.then:                                          
+  store i32 1, ptr %retval, align 4
+  br label %return
+
+if.end:                                           
+  %2 = load i32, ptr %x.addr, align 4
+  %cmp2 = icmp eq i32 %2, 7
+  br i1 %cmp2, label %if.then3, label %if.end4
+
+if.then3:                                         
+  br label %while.end
+
+if.end4:                                          
+  %3 = load i32, ptr %x.addr, align 4
+  %inc = add nsw i32 %3, 1
+  store i32 %inc, ptr %x.addr, align 4
+  br label %while.cond
+
+  ; CHECK: while.end:
+  ; CHECK-NEXT: call void @loop_end()
+while.end:                                        
+  store i32 0, ptr %retval, align 4
+  br label %return
+
+return:                                           
+  %4 = load i32, ptr %retval, align 4
+  ret i32 %4
+}
+
+
 ; CHECK-LABEL: @if_else_func 
 ; CHECK-NOT: call void @loop_
 define dso_local i32 @if_else_func(i32 noundef %b) #0 {
@@ -210,6 +261,20 @@ return:
 ;         b = b + 1;
 ;     }
 ;     return b;
+; }
+; 
+; 
+; int while_return_func(int x) {
+;     while (x < 10) {
+;         if (x == 5) {
+;             return 1;
+;         }
+;         if (x == 7) {
+;             break;
+;         }
+;         x++;
+;     }
+;     return 0;
 ; }
 ; 
 ; int if_else_func(int b) {
