@@ -57,7 +57,7 @@ entry:
   store i32 10, ptr %i, align 4
   
   ; CHECK: call void @loop_start()
-  ; CHECK-NEXT: br label %while.body
+  ; CHECK-NEXT: br label %while.cond
   
   br label %while.cond
 

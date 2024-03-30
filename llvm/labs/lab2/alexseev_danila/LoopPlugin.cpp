@@ -17,12 +17,14 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
       if (Preheader) {
         Builder.SetInsertPoint(Preheader->getTerminator());
-        Builder.CreateCall(ParentModule->getOrInsertFunction("loop_start", funcType));
+        Builder.CreateCall(
+            ParentModule->getOrInsertFunction("loop_start", funcType));
       }
       llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
       if (ExitBlock) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
-        Builder.CreateCall(ParentModule->getOrInsertFunction("loop_end", funcType));
+        Builder.CreateCall(
+            ParentModule->getOrInsertFunction("loop_end", funcType));
       }
     }
     return llvm::PreservedAnalyses::all();
