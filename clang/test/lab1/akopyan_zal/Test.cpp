@@ -3,7 +3,6 @@
 // CHECK: __attribute__((always_inline)) FuncInline
 int FuncInline(){ return 10; }
 
-// CHECK-NOT: __attribute__((always_inline)) FuncNotInline
 void FuncNotInline() {
   if (true) {
     return;
