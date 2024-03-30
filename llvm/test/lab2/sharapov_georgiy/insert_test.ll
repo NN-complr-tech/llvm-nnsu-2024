@@ -144,14 +144,14 @@ for.end:
 }
 
 
+; CHECK-LABEL: @if_else_func 
+; CHECK-NOT: call void @loop_
 define dso_local i32 @if_else_func(i32 noundef %b) #0 {
 entry:
   %retval = alloca i32, align 4
   %b.addr = alloca i32, align 4
   store i32 %b, ptr %b.addr, align 4
   store i32 0, ptr %b.addr, align 4
-  ; CHECK: store i32 0, ptr %b.addr, align 4
-  ; CHECK-NEXT: br i1 false, label %if.then, label %if.else
   br i1 false, label %if.then, label %if.else
 
 if.then:                                          
