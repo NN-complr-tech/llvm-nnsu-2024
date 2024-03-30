@@ -66,9 +66,11 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
     return called;
   }
 
-  bool LastExitBlock(llvm::BasicBlock *const BB, const llvm::SmallVector<llvm::BasicBlock *, 4> &ExitBlocks) {
+  bool
+  LastExitBlock(llvm::BasicBlock *const BB,
+                const llvm::SmallVector<llvm::BasicBlock *, 4> &ExitBlocks) {
     bool includes = true;
-    
+
     llvm::Instruction *Terminator = BB->getTerminator();
     if (auto *Br = llvm::dyn_cast<llvm::BranchInst>(Terminator)) {
       if (Br->isUnconditional()) {
@@ -79,7 +81,7 @@ struct LoopFramer : public llvm::PassInfoMixin<LoopFramer> {
             includes = false;
             break;
           }
-        }      
+        }
       }
     }
 
