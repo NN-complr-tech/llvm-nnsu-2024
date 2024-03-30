@@ -42,11 +42,12 @@ struct InstrumentationPass : llvm::PassInfoMixin<InstrumentationPass> {
     llvm::ReturnInst *re;
     if (!foundInstrument_end) {
       for (llvm::BasicBlock &BB : F) {
-                if ((re = llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) != NULL) {
-                  builder.SetInsertPoint(BB.getTerminator());
-                  builder.CreateCall(func_l);
-                }
-            }
+        if ((re = llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) !=
+            NULL) {
+          builder.SetInsertPoint(BB.getTerminator());
+          builder.CreateCall(func_l);
+        }
+      }
     }
 
     return llvm::PreservedAnalyses::all();
