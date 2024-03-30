@@ -32,37 +32,33 @@ public:
                               llvm::FunctionAnalysisManager &) {
     std::vector<llvm::Instruction *> InstrDeleteList;
     llvm::LLVMContext &CTX = Func.getContext();
-    if (Func.getReturnType()->isVoidTy() &&
-        Func.getFunctionType()->getNumParams() == 0) {
-      EmptyFuncs.push_back(&Func);
-    }
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
         if (llvm::CallInst *CallInstruction =
                 llvm::dyn_cast<llvm::CallInst>(&Instr)) {
           llvm::Function *Called = CallInstruction->getCalledFunction();
-          Called = findEmptyFunction(Called);
-          if (!Called || Called == &Func) {
+          if (Called == &Func || !Called->getReturnType()->isVoidTy() ||
+              Called->getFunctionType()->getNumParams() > 0) {
             continue;
           }
           std::map<llvm::BasicBlock *, llvm::BasicBlock *> BlockMap;
           llvm::ValueToValueMapTy VMap;
           llvm::BasicBlock *SplittedBlock = splitBlockBefore(&Block, &Instr);
           llvm::BasicBlock *NextBlockPlace = SplittedBlock->getNextNode();
-          for (llvm::BasicBlock &EmptyBasicBlock : *Called) {
+          for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
             llvm::BasicBlock *TmpBlock =
                 llvm::BasicBlock::Create(CTX, "", &Func, NextBlockPlace);
-            BlockMap[&EmptyBasicBlock] = TmpBlock;
+            BlockMap[&ToInlineBasicBlock] = TmpBlock;
             NextBlockPlace = TmpBlock->getNextNode();
           }
-          for (llvm::BasicBlock &EmptyBasicBlock : *Called) {
-            for (llvm::Instruction &EmptyInstr : EmptyBasicBlock) {
-              llvm::BasicBlock *CurrentBlock = BlockMap[&EmptyBasicBlock];
-              if (llvm::isa<llvm::ReturnInst>(&EmptyInstr)) {
+          for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
+            for (llvm::Instruction &ToInlineInstr : ToInlineBasicBlock) {
+              llvm::BasicBlock *CurrentBlock = BlockMap[&ToInlineBasicBlock];
+              if (llvm::isa<llvm::ReturnInst>(&ToInlineInstr)) {
                 llvm::BranchInst::Create(&Block)->insertInto(
                     CurrentBlock, CurrentBlock->end());
               } else {
-                llvm::Instruction *NewInstr = EmptyInstr.clone();
+                llvm::Instruction *NewInstr = ToInlineInstr.clone();
                 if (llvm::isa<llvm::BranchInst>(*NewInstr)) {
                   unsigned OpNum = NewInstr->getNumOperands();
                   for (unsigned Ind = 0; Ind < OpNum; Ind++) {
@@ -79,7 +75,7 @@ public:
                 llvm::RemapInstruction(NewInstr, VMap,
                                        llvm::RF_NoModuleLevelChanges |
                                            llvm::RF_IgnoreMissingLocals);
-                VMap[&EmptyInstr] = NewInstr;
+                VMap[&ToInlineInstr] = NewInstr;
               }
             }
           }
@@ -94,17 +90,6 @@ public:
       Instr->eraseFromParent();
     }
     return llvm::PreservedAnalyses::all();
-  }
-
-private:
-  std::vector<llvm::Function *> EmptyFuncs;
-  llvm::Function *findEmptyFunction(const llvm::Function *Func) {
-    for (llvm::Function *F : EmptyFuncs) {
-      if (F == Func) {
-        return F;
-      }
-    }
-    return nullptr;
   }
 };
 } // namespace

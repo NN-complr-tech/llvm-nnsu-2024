@@ -876,9 +876,18 @@ define dso_local void @_Z3barv() {
 ; COM: The result is
 
 ;define dso_local void @_Z3foov() {
-;  %1 = alloca float, align 4
-;  store float 1.000000e+00, ptr %1, align 4
-;  call void @_Z3barv()
+;.split:
+;  %0 = alloca float, align 4
+;  store float 1.000000e+00, ptr %0, align 4
+;  br label %1
+;
+;1:                                                ; preds = %.split
+;  %2 = alloca float, align 4
+;  store float 2.000000e+00, ptr %2, align 4
+;  call void @_Z3foov()
+;  br label %3
+;
+;3:                                                ; preds = %1
 ;  ret void
 ;}
 ;
@@ -891,10 +900,18 @@ define dso_local void @_Z3barv() {
 ;1:                                                ; preds = %.split
 ;  %2 = alloca float, align 4
 ;  store float 1.000000e+00, ptr %2, align 4
-;  call void @_Z3barv()
 ;  br label %3
 ;
 ;3:                                                ; preds = %1
+;  %4 = alloca float, align 4
+;  store float 2.000000e+00, ptr %4, align 4
+;  call void @_Z3foov()
+;  br label %5
+;
+;5:                                                ; preds = %3
+;  br label %6
+;
+;6:                                                ; preds = %5
 ;  ret void
 ;}
 ;
@@ -907,38 +924,61 @@ define dso_local void @_Z3barv() {
 ;1:                                                ; preds = %.split
 ;  %2 = alloca float, align 4
 ;  store float 1.000000e+00, ptr %2, align 4
-;  call void @_Z3barv()
-;  br label %.split1
-;
-;.split1:                                          ; preds = %1
 ;  br label %3
 ;
-;3:                                                ; preds = %.split1
+;3:                                                ; preds = %1
 ;  %4 = alloca float, align 4
 ;  store float 2.000000e+00, ptr %4, align 4
+;  call void @_Z3foov()
 ;  br label %5
 ;
 ;5:                                                ; preds = %3
-;  %6 = alloca float, align 4
-;  store float 1.000000e+00, ptr %6, align 4
-;  call void @_Z3barv()
-;  br label %7
+;  br label %.split1
 ;
-;7:                                                ; preds = %5
+;.split1:                                          ; preds = %5
+;  br label %6
+;
+;6:                                                ; preds = %.split1
+;  %7 = alloca float, align 4
+;  store float 2.000000e+00, ptr %7, align 4
 ;  br label %8
 ;
-;8:                                                ; preds = %7
+;8:                                                ; preds = %6
+;  %9 = alloca float, align 4
+;  store float 1.000000e+00, ptr %9, align 4
+;  br label %10
+;
+;10:                                               ; preds = %8
+;  %11 = alloca float, align 4
+;  store float 2.000000e+00, ptr %11, align 4
+;  call void @_Z3foov()
+;  br label %12
+;
+;12:                                               ; preds = %10
+;  br label %13
+;
+;13:                                               ; preds = %12
+;  br label %14
+;
+;14:                                               ; preds = %13
 ;  ret void
 ;}
 
 ; COM: Begin checking
-; COM: foo() should be the same
+
+; COM: foo() has inline bar() that doesn't has inline foo()
 ; CHECK: define dso_local void @_Z3foov() {
-; CHECK-NEXT: %1 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %1, align 4
-; CHECK-NEXT: call void @_Z3barv()
-; CHECK-NEXT: ret void
-; COM: bar() should have inline foo() calling bar()
+; CHECK-NEXT: .split:
+; CHECK-NEXT: %0 = alloca float, align 4
+; CHECK-NEXT: store float 1.000000e+00, ptr %0, align 4
+; CHECK-NEXT: br label %1
+; CHECK-EMPTY:
+; CHECK-NEXT: 1:
+; CHECK-NEXT: %2 = alloca float, align 4
+; CHECK-NEXT: store float 2.000000e+00, ptr %2, align 4
+; CHECK-NEXT: call void @_Z3foov()
+; CHECK-NEXT: br label %3
+; COM: bar() has inline foo() that has inline bar that doesn't inline foo()
 ; CHECK: define dso_local void @_Z3barv() {
 ; CHECK-NEXT: .split:
 ; CHECK-NEXT: %0 = alloca float, align 4
@@ -947,45 +987,15 @@ define dso_local void @_Z3barv() {
 ; CHECK-EMPTY:
 ; CHECK-NEXT: 1:
 ; CHECK-NEXT: %2 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %2, align 4
-; CHECK-NEXT: call void @_Z3barv()
-; CHECK-NEXT: br label %3
-; CHECK-EMPTY:
-; CHECK-NEXT: 3:
-; CHECK-NEXT: ret void
-; COM: now let's run check() function
-; CHECK: define dso_local void @_Z7checkerv() {
-; COM: foo() call
-; CHECK: store i32 4, ptr %0, align 4
-; CHECK-NEXT: br label %1
-; CHECK-EMPTY:
-; CHECK-NEXT: 1:
-; CHECK-NEXT: %2 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %2, align 4
-; CHECK-NEXT: call void @_Z3barv()
-; CHECK-NEXT: br label %.split1
-; COM: now call bar()
-; CHECK: .split1:
+; CHECK-NEXT: store float 1.000000e+00, ptr %2, align
 ; CHECK-NEXT: br label %3
 ; CHECK-EMPTY:
 ; CHECK-NEXT: 3:
 ; CHECK-NEXT: %4 = alloca float, align 4
 ; CHECK-NEXT: store float 2.000000e+00, ptr %4, align 4
-; COM: inline foo() inside inline bar()
+; CHECK-NEXT: call void @_Z3foov()
 ; CHECK-NEXT: br label %5
-; CHECK-EMPTY:
-; CHECK-NEXT: 5:
-; CHECK-NEXT: %6 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %6, align 4
-; CHECK-NEXT: call void @_Z3barv()
-; COM: continue check()
-; CHECK-NEXT: br label %7
-; CHECK-EMPTY:
-; CHECK-NEXT: 7:
-; CHECK-NEXT: br label %8
-; CHECK-EMPTY:
-; CHECK-NEXT: 8:
-; CHECK-NEXT: ret void
+; COM: the check() function will obviously work as expected. Skipping...
 
 define dso_local void @_Z3foov() {
   %1 = alloca float, align 4
