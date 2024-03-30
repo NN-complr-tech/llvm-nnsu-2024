@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
+// RUN: %clang_cc1 -ast-dump -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
 // SUM: __attribute__((always_inline)) int sum(int A, int B) {
 // SUM-NEXT:   return A + B;
 // SUM-NEXT: }
@@ -134,3 +134,5 @@ void __attribute__((always_inline)) someFoo(){}
 
 // RUN: not %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline -plugin-arg-AddAlwaysInline --awdawdawd %s 2>&1 | FileCheck %s --check-prefix=WRONG-HELP
 // WRONG-HELP: Use the --help argument to understand the plugin's purpose!
+
+// RUN: %clang_cc1 -ast-dump -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | grep always_inline
