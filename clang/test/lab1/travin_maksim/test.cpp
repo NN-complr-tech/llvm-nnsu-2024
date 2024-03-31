@@ -1,7 +1,7 @@
 // RUN: %clang_cc1 -ast-dump -ast-dump-filter test -load %llvmshlibdir/TravinAlwaysInlinePlugin%pluginext -add-plugin add-always-inline %s | FileCheck %s
 
-// CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-// CHECK-NOT: `-AlwaysInlineAttr {{.* always_inline}}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]+), line:([0-9]+:[0-9]+)> line:([0-9]+:[0-9]+) test0 'void \(int, int\)'}}
+// CHECK: AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <line:5:21> always_inline}}
 void __attribute__((always_inline)) test0(int a, int b) {
     a = b;
 }
