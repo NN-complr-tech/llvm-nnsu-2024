@@ -8,24 +8,24 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/ADT/StringRef.h"
-#include <stack>
+#include <queue>
 
 class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
   bool HandleTopLevelDecl(clang::DeclGroupRef DeclGroup) override {
-    for (clang::Decl *Func : DeclGroup) {
-      if (clang::isa<clang::FunctionDecl>(Func)) {
-        if (Func->getAttr<clang::AlwaysInlineAttr>()) {
+    for (clang::Decl *Decl : DeclGroup) {
+      if (clang::isa<clang::FunctionDecl>(Decl)) {
+        if (Decl->getAttr<clang::AlwaysInlineAttr>()) {
           continue;
         }
-        clang::Stmt *Body = Func->getBody();
+        clang::Stmt *Body = Decl->getBody();
         if (Body != nullptr) {
           bool CondFound = false;
-          std::stack<clang::Stmt *> Stack;
-          Stack.push(Body);
-          while (!Stack.empty() && !CondFound) {
-            clang::Stmt *St = Stack.top();
-            Stack.pop();
+          std::queue<clang::Stmt *> StQueue;
+          StQueue.push(Body);
+          while (!StQueue.empty() && !CondFound) {
+            clang::Stmt *St = StQueue.front();
+            StQueue.pop();
             for (clang::Stmt *StCh : St->children()) {
               if (clang::isa<clang::IfStmt>(St) ||
                   clang::isa<clang::WhileStmt>(St) ||
@@ -35,14 +35,14 @@ public:
                 CondFound = true;
                 break;
               }
-              Stack.push(StCh);
+              StQueue.push(StCh);
             }
           }
           if (!CondFound) {
-            clang::SourceLocation Location(Func->getSourceRange().getBegin());
+            clang::SourceLocation Location(Decl->getSourceRange().getBegin());
             clang::SourceRange Range(Location);
-            Func->addAttr(
-                clang::AlwaysInlineAttr::Create(Func->getASTContext(), Range));
+            Decl->addAttr(
+                clang::AlwaysInlineAttr::Create(Decl->getASTContext(), Range));
           }
         }
       }
@@ -51,12 +51,13 @@ public:
   }
 };
 
+
 class AlwaysInlinePlugin : public clang::PluginASTAction {
-public:
+protected:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &Compiler,
-                    llvm::StringRef) override {
-    return std::make_unique<AlwaysInlineConsumer>(&Compiler.getASTContext());
+                    llvm::StringRef InFile) override {
+    return std::make_unique<AlwaysInlineConsumer>();
   }
   bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
