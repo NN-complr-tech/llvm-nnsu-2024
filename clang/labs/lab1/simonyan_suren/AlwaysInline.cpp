@@ -26,15 +26,15 @@ public:
           while (!StQueue.empty() && !CondFound) {
             clang::Stmt *St = StQueue.front();
             StQueue.pop();
+            if (clang::isa<clang::IfStmt>(St) ||
+                clang::isa<clang::WhileStmt>(St) ||
+                clang::isa<clang::ForStmt>(St) ||
+                clang::isa<clang::DoStmt>(St) ||
+                clang::isa<clang::SwitchStmt>(St)) {
+              CondFound = true;
+              break;
+            }
             for (clang::Stmt *StCh : St->children()) {
-              if (clang::isa<clang::IfStmt>(St) ||
-                  clang::isa<clang::WhileStmt>(St) ||
-                  clang::isa<clang::ForStmt>(St) ||
-                  clang::isa<clang::DoStmt>(St) ||
-                  clang::isa<clang::SwitchStmt>(St)) {
-                CondFound = true;
-                break;
-              }
               StQueue.push(StCh);
             }
           }
