@@ -40,7 +40,6 @@ public:
 };
 } // namespace
 
-/* New PM Registration */
 llvm::PassPluginLibraryInfo getInstrFuncVolodinEPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "InstrFuncVolodinE", LLVM_VERSION_STRING,
           [](llvm::PassBuilder &PB) {
