@@ -17,34 +17,14 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
       llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
 
-      bool loopStartCalled = false;
-      for (auto &inst : *Preheader) {
-        if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
-          if (auto *CalledFunction = instCall->getCalledFunction()) {
-            if (CalledFunction->getName() == "loop_start") {
-              loopStartCalled = true;
-              break;
-            }
-          }
-        }
-      }
+      bool loopStartCalled = isLoopCallPresent("loop_start", Preheader);
       if (Preheader && ExitBlock && !loopStartCalled) {
         Builder.SetInsertPoint(Preheader->getTerminator());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_start", funcType));
       }
 
-      bool loopEndCalled = false;
-      for (auto &inst : *ExitBlock) {
-        if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
-          if (auto *CalledFunction = instCall->getCalledFunction()) {
-            if (CalledFunction->getName() == "loop_end") {
-              loopEndCalled = true;
-              break;
-            }
-          }
-        }
-      }
+      bool loopEndCalled = isLoopCallPresent("loop_end", ExitBlock);
       if (Preheader && ExitBlock && !loopEndCalled) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
         Builder.CreateCall(
@@ -52,6 +32,21 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       }
     }
     return llvm::PreservedAnalyses::all();
+  }
+  
+  bool isLoopCallPresent(const std::string &loopFunctionName, llvm::BasicBlock *block) {
+    if (!block)
+      return false;
+    for (auto &inst : *block) {
+      if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
+        if (auto *CalledFunction = instCall->getCalledFunction()) {
+          if (CalledFunction->getName() == loopFunctionName) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 };
 
