@@ -127,7 +127,7 @@ if.end:
 while.end:
 
   ; CHECK: call void @loop_end()
-  : CHECK-NEXT: ret void
+  ; CHECK-NEXT: ret void
 
   ret void
 }
