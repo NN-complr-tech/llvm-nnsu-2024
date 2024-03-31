@@ -16,14 +16,36 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
       llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
       llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
-	  bool IsStartLoopNotFound = llvm::findFunction(*ParentModule, "loop_start") == nullptr;
-      bool IsEndLoopNotFound = llvm::findFunction(*ParentModule, "loop_end") == nullptr;
-      if (Preheader && ExitBlock && IsStartLoopNotFound) {
+
+      bool loopStartCalled = false;
+      for (auto &inst : *Preheader) {
+        if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
+          if (auto *CalledFunction = instCall->getCalledFunction()) {
+            if (CalledFunction->getName() == "loop_start") {
+              loopStartCalled = true;
+              break;
+            }
+          }
+        }
+      }
+      if (Preheader && ExitBlock && !loopStartCalled) {
         Builder.SetInsertPoint(Preheader->getTerminator());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_start", funcType));
       }
-      if (Preheader && ExitBlock && IsEndLoopNotFound) {
+
+      bool loopEndCalled = false;
+      for (auto &inst : *ExitBlock) {
+        if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
+          if (auto *CalledFunction = instCall->getCalledFunction()) {
+            if (CalledFunction->getName() == "loop_end") {
+              loopEndCalled = true;
+              break;
+            }
+          }
+        }
+      }
+      if (Preheader && ExitBlock && !loopEndCalled) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_end", funcType));
