@@ -33,8 +33,9 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
     }
     return llvm::PreservedAnalyses::all();
   }
-  
-  bool isLoopCallPresent(const std::string &loopFunctionName, llvm::BasicBlock *block) {
+
+  bool isLoopCallPresent(const std::string &loopFunctionName,
+                         llvm::BasicBlock *block) {
     if (!block)
       return false;
     for (auto &inst : *block) {
