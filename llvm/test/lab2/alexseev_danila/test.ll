@@ -23,16 +23,16 @@
 ;     }
 ; }
 
-; void foo() {
-;     if (1) {
-;         return;
-;     }
-; }
-
 ; void whileFooWLoopBorderingCall() {
 ;     int i = 10;
 ;     while (i > 0) {
 ;         i--;
+;     }
+; }
+
+; void foo() {
+;     if (1) {
+;         return;
 ;     }
 ; }
 
@@ -124,21 +124,11 @@ if.then:
 if.end:
   br label %while.cond
 
-  ; CHECK: while.end:
-  ; CHECK-NEXT: call void @loop_end()
-
 while.end:
-  ret void
-}
 
-; CHECK-NOT: call void @loop_start()
-; CHECK-NOT: call void @loop_end()
+  ; CHECK: call void @loop_end()
+  : CHECK-NEXT: ret void
 
-define dso_local void @foo() {
-entry:
-  br label %if.then
-
-if.then:
   ret void
 }
 
@@ -176,3 +166,14 @@ while.end:
 
 declare void @loop_start()
 declare void @loop_end()
+
+; CHECK-NOT: call void @loop_start()
+; CHECK-NOT: call void @loop_end()
+
+define dso_local void @foo() {
+entry:
+  br label %if.then
+
+if.then:
+  ret void
+}
