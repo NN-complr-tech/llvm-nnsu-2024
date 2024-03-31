@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/Instrumentation_of_Functions_Kostanyan_Arsen_FIIT2%pluginext\
+; RUN: opt -load-pass-plugin %llvmshlibdir/InstrumentFunc_Kostanyan_Arsen_FIIT2%pluginext\
 ; RUN: -passes=instr_func -S %s | FileCheck %s
 
 define dso_local void @instrument_start() #0 {
