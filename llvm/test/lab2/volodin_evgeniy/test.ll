@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/InstrFuncVolodinE%pluginext\ -passes=instr-func-volodin -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/InstrFuncVolodinE%shlibext -passes=instr-func-volodin -S %s | FileCheck %s
 
 ; int square(int x) {
 ;   return x * x;
