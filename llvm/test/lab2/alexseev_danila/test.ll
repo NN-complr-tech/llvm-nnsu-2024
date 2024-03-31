@@ -128,3 +128,6 @@ while.end:
   call void @loop_end()
   ret void
 }
+
+declare void @loop_start()
+declare void @loop_end()
