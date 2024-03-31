@@ -3,7 +3,7 @@
 
 ; CHECK-LABEL: @_Z3fooii
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: %a.addr = alloca i32, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %2
 
@@ -24,9 +24,7 @@ entry:
 
 ; CHECK-LABEL: @_Z5foo_vv
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: call void @instrument_end()
-; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret void
+; CHECK-NEXT: call void @instrument_end()
 define dso_local void @_Z5foo_vv() #1 {
 entry:
   call void @instrument_start()
@@ -35,7 +33,7 @@ entry:
 
 ; CHECK-LABEL: @_Z8func_endii
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: %a.addr = alloca i32, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 
@@ -54,9 +52,7 @@ entry:
 
 ; CHECK-LABEL: @_Z6func_fv
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: call void @instrument_end()
-; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret void
+; CHECK-NEXT: call void @instrument_end()
 
 define dso_local void @_Z6func_fv() #1 {
 entry:
@@ -67,7 +63,7 @@ entry:
 
 ; CHECK-LABEL: @_Z3foo_ifii
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: %a.addr = alloca i32, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %4
 define dso_local noundef i32 @_Z3foo_ifii(i32 noundef %a, i32 noundef %b) {
