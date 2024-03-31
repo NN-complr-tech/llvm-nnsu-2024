@@ -34,58 +34,57 @@ public:
     llvm::LLVMContext &CTX = Func.getContext();
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
-        auto *CallInstruction = llvm::dyn_cast<llvm::CallInst>(&Instr);
+        llvm::CallInst *CallInstruction =
+            llvm::dyn_cast<llvm::CallInst>(&Instr);
         if (!CallInstruction) {
           continue;
         }
-          llvm::Function *Called = CallInstruction->getCalledFunction();
-          if (Called == &Func || !Called->getReturnType()->isVoidTy() ||
-              Called->getFunctionType()->getNumParams() > 0) {
-            continue;
-          }
-          std::map<llvm::BasicBlock *, llvm::BasicBlock *> BlockMap;
-          llvm::ValueToValueMapTy VMap;
-          llvm::BasicBlock *SplittedBlock = splitBlockBefore(&Block, &Instr);
-          llvm::BasicBlock *NextBlockPlace = SplittedBlock->getNextNode();
-          for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
-            llvm::BasicBlock *TmpBlock =
-                llvm::BasicBlock::Create(CTX, "", &Func, NextBlockPlace);
-            BlockMap[&ToInlineBasicBlock] = TmpBlock;
-            NextBlockPlace = TmpBlock->getNextNode();
-          }
-          for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
-            for (llvm::Instruction &ToInlineInstr : ToInlineBasicBlock) {
-              llvm::BasicBlock *CurrentBlock = BlockMap[&ToInlineBasicBlock];
-              if (llvm::isa<llvm::ReturnInst>(&ToInlineInstr)) {
-                llvm::BranchInst::Create(&Block)->insertInto(
-                    CurrentBlock, CurrentBlock->end());
-              } else {
-                llvm::Instruction *NewInstr = ToInlineInstr.clone();
-                if (llvm::isa<llvm::BranchInst>(*NewInstr)) {
-                  unsigned OpNum = NewInstr->getNumOperands();
-                  for (unsigned Ind = 0; Ind < OpNum; Ind++) {
-                    llvm::Value *CurOperand = NewInstr->getOperand(Ind);
-                    if (llvm::isa<llvm::BasicBlock>(*CurOperand)) {
-                      NewInstr->setOperand(
-                          Ind, llvm::dyn_cast<llvm::Value>(
-                                   BlockMap[llvm::dyn_cast<llvm::BasicBlock>(
-                                       CurOperand)]));
-                    }
+        llvm::Function *Called = CallInstruction->getCalledFunction();
+        if (Called == &Func || !Called->getReturnType()->isVoidTy() ||
+            Called->getFunctionType()->getNumParams() > 0) {
+          continue;
+        }
+        std::map<llvm::BasicBlock *, llvm::BasicBlock *> BlockMap;
+        llvm::ValueToValueMapTy VMap;
+        llvm::BasicBlock *SplittedBlock = splitBlockBefore(&Block, &Instr);
+        llvm::BasicBlock *NextBlockPlace = SplittedBlock->getNextNode();
+        for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
+          llvm::BasicBlock *TmpBlock =
+              llvm::BasicBlock::Create(CTX, "", &Func, NextBlockPlace);
+          BlockMap[&ToInlineBasicBlock] = TmpBlock;
+          NextBlockPlace = TmpBlock->getNextNode();
+        }
+        for (llvm::BasicBlock &ToInlineBasicBlock : *Called) {
+          for (llvm::Instruction &ToInlineInstr : ToInlineBasicBlock) {
+            llvm::BasicBlock *CurrentBlock = BlockMap[&ToInlineBasicBlock];
+            if (llvm::isa<llvm::ReturnInst>(&ToInlineInstr)) {
+              llvm::BranchInst::Create(&Block)->insertInto(CurrentBlock,
+                                                           CurrentBlock->end());
+            } else {
+              llvm::Instruction *NewInstr = ToInlineInstr.clone();
+              if (llvm::isa<llvm::BranchInst>(*NewInstr)) {
+                unsigned OpNum = NewInstr->getNumOperands();
+                for (unsigned Ind = 0; Ind < OpNum; Ind++) {
+                  llvm::Value *CurOperand = NewInstr->getOperand(Ind);
+                  if (llvm::isa<llvm::BasicBlock>(*CurOperand)) {
+                    NewInstr->setOperand(
+                        Ind, llvm::dyn_cast<llvm::Value>(
+                                 BlockMap[llvm::dyn_cast<llvm::BasicBlock>(
+                                     CurOperand)]));
                   }
                 }
-                NewInstr->insertInto(CurrentBlock, CurrentBlock->end());
-                llvm::RemapInstruction(NewInstr, VMap,
-                                       llvm::RF_NoModuleLevelChanges |
-                                           llvm::RF_IgnoreMissingLocals);
-                VMap[&ToInlineInstr] = NewInstr;
               }
+              NewInstr->insertInto(CurrentBlock, CurrentBlock->end());
+              llvm::RemapInstruction(NewInstr, VMap,
+                                     llvm::RF_NoModuleLevelChanges |
+                                         llvm::RF_IgnoreMissingLocals);
+              VMap[&ToInlineInstr] = NewInstr;
             }
           }
-          SplittedBlock->getTerminator()->setOperand(
-              0,
-              llvm::dyn_cast<llvm::Value>(BlockMap[&Called->getEntryBlock()]));
-          InstrDeleteList.push_back(&Instr);
         }
+        SplittedBlock->getTerminator()->setOperand(
+            0, llvm::dyn_cast<llvm::Value>(BlockMap[&Called->getEntryBlock()]));
+        InstrDeleteList.push_back(&Instr);
       }
     }
     for (llvm::Instruction *Instr : InstrDeleteList) {
