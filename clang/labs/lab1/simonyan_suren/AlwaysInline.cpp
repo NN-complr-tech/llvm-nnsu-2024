@@ -1,63 +1,54 @@
+#include "clang/AST/AST.h"
 #include "clang/AST/ASTConsumer.h"
-#include "clang/AST/Attr.h"
+#include "clang/AST/Decl.h"
+#include "clang/AST/DeclGroup.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/AST/Stmt.h"
+#include "clang/Basic/SourceLocation.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
-#include <stack>
-
-class AlwaysInlineVisitor
-    : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
-public:
-  AlwaysInlineVisitor(clang::ASTContext *MyContext) : MyContext(MyContext) {}
-
-  bool VisitFunctionDecl(clang::FunctionDecl *Func) {
-    bool ContainsConditional = false;
-    std::stack<clang::Stmt *> stack;
-    stack.push(Func->getBody());
-
-    while (!stack.empty()) {
-      clang::Stmt *CurrentNode = stack.top();
-      stack.pop();
-
-      if (clang::isa<clang::IfStmt>(CurrentNode) ||
-          clang::isa<clang::SwitchStmt>(CurrentNode) ||
-          clang::isa<clang::ForStmt>(CurrentNode) ||
-          clang::isa<clang::WhileStmt>(CurrentNode) ||
-          clang::isa<clang::DoStmt>(CurrentNode)) {
-        ContainsConditional = true;
-        break;
-      }
-
-      if (auto parent = clang::dyn_cast<clang::CompoundStmt>(CurrentNode)) {
-        for (auto Child : parent->body()) {
-          stack.push(Child);
-        }
-      }
-    }
-
-    if (!ContainsConditional) {
-      clang::SourceRange FuncRange = Func->getSourceRange();
-      Func->addAttr(
-          clang::AlwaysInlineAttr::CreateImplicit(*MyContext, FuncRange));
-    }
-
-    return true;
-  }
-
-private:
-  clang::ASTContext *MyContext;
-};
+#include "llvm/ADT/StringRef.h"
+#include <queue>
 
 class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
-  AlwaysInlineConsumer(clang::ASTContext *MyContext) : MyVisitor(MyContext) {}
-
-  void HandleTranslationUnit(clang::ASTContext &MyContext) override {
-    MyVisitor.TraverseDecl(MyContext.getTranslationUnitDecl());
+  bool HandleTopLevelDecl(clang::DeclGroupRef DeclGroup) override {
+    for (clang::Decl *Func : DeclGroup) {
+      if (clang::isa<clang::FunctionDecl>(Func)) {
+        if (Func->getAttr<clang::AlwaysInlineAttr>()) {
+          continue;
+        }
+        clang::Stmt *Body = Func->getBody();
+        if (Body != nullptr) {
+          bool CondFound = false;
+          std::stack<clang::Stmt *> Stack;
+          Stack.push(Body);
+          while (!Stack.empty() && !CondFound) {
+            clang::Stmt *St = Stack.top();
+            Stack.pop();
+            for (clang::Stmt *StCh : St->children()) {
+              if (clang::isa<clang::IfStmt>(St) ||
+                  clang::isa<clang::WhileStmt>(St) ||
+                  clang::isa<clang::ForStmt>(St) ||
+                  clang::isa<clang::DoStmt>(St) ||
+                  clang::isa<clang::SwitchStmt>(St)) {
+                CondFound = true;
+                break;
+              }
+              Stack.push(StCh);
+            }
+          }
+          if (!CondFound) {
+            clang::SourceLocation Location(Func->getSourceRange().getBegin());
+            clang::SourceRange Range(Location);
+            Func->addAttr(
+                clang::AlwaysInlineAttr::Create(Func->getASTContext(), Range));
+          }
+        }
+      }
+    }
+    return true;
   }
-
-private:
-  AlwaysInlineVisitor MyVisitor;
 };
 
 class AlwaysInlinePlugin : public clang::PluginASTAction {
