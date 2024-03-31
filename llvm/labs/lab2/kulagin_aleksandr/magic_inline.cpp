@@ -34,8 +34,10 @@ public:
     llvm::LLVMContext &CTX = Func.getContext();
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
-        if (llvm::CallInst *CallInstruction =
-                llvm::dyn_cast<llvm::CallInst>(&Instr)) {
+        auto *CallInstruction = llvm::dyn_cast<llvm::CallInst>(&Instr);
+        if (!CallInstruction) {
+          continue;
+        }
           llvm::Function *Called = CallInstruction->getCalledFunction();
           if (Called == &Func || !Called->getReturnType()->isVoidTy() ||
               Called->getFunctionType()->getNumParams() > 0) {
