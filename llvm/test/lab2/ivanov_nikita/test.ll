@@ -1,4 +1,4 @@
-; RUN: opt -passes=ivanov-loop-pass -S %s 2>&1 | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/AtikinLoopPass%shlibext -passes=ivanov-loop-pass -S %s | FileCheck %s
 
 ; void foo(int n, int m) {
 ;  int c0;
