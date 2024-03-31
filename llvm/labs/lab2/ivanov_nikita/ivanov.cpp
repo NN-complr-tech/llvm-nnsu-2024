@@ -16,9 +16,9 @@ public:
     auto *M = F.getParent();
 
     auto LoopStartFunc =
-        M->getOrInsertFunction("loop_start", Ty); // create func start
+        M->getOrInsertFunction("_Z10loop_startv", Ty); // get or create func start
     auto LoopEndFunc =
-        M->getOrInsertFunction("loop_end", Ty); // create func end
+        M->getOrInsertFunction("_Z8loop_endv", Ty); // get or create func end
 
     auto &LI = FAM.getResult<LoopAnalysis>(F);
 
@@ -26,19 +26,40 @@ public:
       auto *Preheader =
           L->getLoopPreheader();           // get preheader block of the loop
       auto *ExitBlock = L->getExitBlock(); // end exit block of the loop
+
+      if (!Preheader || !ExitBlock)
+        continue;
+      
+      int loop_start_inside = 0;
+      int loop_end_inside = 0;
+
+      for ( Instruction &Instr: *Preheader) {
+        if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
+            if (CI->getCalledFunction() && CI->getCalledFunction()->getName() == "_Z10loop_startv") {
+              loop_start_inside = 1;
+              break;
+            }
+        }
+      }
+
+      for ( Instruction &Instr: *ExitBlock) {
+        if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
+            if (CI->getCalledFunction() && CI->getCalledFunction()->getName() == "_Z8loop_endv") {
+              loop_end_inside = 1;
+              break;
+            }
+        }
+      }
+
       IRBuilder<> Builder(Preheader->getTerminator()); // api for basic block
-
-      if (!Preheader)
-        continue;
-
-      Builder.CreateCall(LoopStartFunc); // paste loop_start
-
-      if (!ExitBlock)
-        continue;
+      if (!loop_start_inside)
+        Builder.CreateCall(LoopStartFunc); // paste loop_start
 
       Builder.SetInsertPoint(
           ExitBlock->getFirstNonPHI()); // set pointer to exit block
-      Builder.CreateCall(LoopEndFunc);  // paste loop_start
+      
+      if (!loop_end_inside)
+        Builder.CreateCall(LoopEndFunc);  // paste loop_start
     }
     return PreservedAnalyses::all();
   }

@@ -1,4 +1,3 @@
-
 set(PluginName AtikinLoopPass)
 add_compile_definitions(NAME=${PluginName})
 
