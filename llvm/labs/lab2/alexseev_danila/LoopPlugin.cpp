@@ -15,12 +15,12 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
     for (auto *Loop : LI) {
       llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
       llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
-      if (Preheader) {
+      llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
+      if (Preheader && ExitBlock) {
         Builder.SetInsertPoint(Preheader->getTerminator());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_start", funcType));
       }
-      llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
       if (ExitBlock) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
         Builder.CreateCall(
