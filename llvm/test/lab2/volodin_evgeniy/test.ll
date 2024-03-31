@@ -18,7 +18,7 @@
 
 ; CHECK-LABEL: @_Z6squarei
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: %x.addr = alloca i32, align 4
+; CHECK-NEXT: %x.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %mul
 
@@ -34,7 +34,7 @@ entry:
 
 ; CHECK-LABEL: @_Z3foov
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: call void @instrument_end()
+; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret void
 
 define dso_local void @_Z3foov() #0 {
@@ -44,9 +44,9 @@ entry:
 
 ; CHECK-LABEL: @_Z3maxdd
 ; CHECK: call void @instrument_start()
-; CHECL-NEXT: %retval = alloca double, align 8
+; CHECK-NEXT: %retval = alloca double, align 8
 ; CHECK: call void @instrument_end()
-; CHECL-NEXT: ret double %4
+; CHECK-NEXT: ret double %4
 
 define dso_local noundef double @_Z3maxdd(double noundef %a, double noundef %b) #0 {
 entry:
