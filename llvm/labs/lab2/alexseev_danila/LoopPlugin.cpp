@@ -16,12 +16,14 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
       llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
       llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
-      if (Preheader && ExitBlock) {
+	  bool IsStartLoopNotFound = llvm::findFunction(*ParentModule, "loop_start") == nullptr;
+      bool IsEndLoopNotFound = llvm::findFunction(*ParentModule, "loop_end") == nullptr;
+      if (Preheader && ExitBlock && IsStartLoopNotFound) {
         Builder.SetInsertPoint(Preheader->getTerminator());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_start", funcType));
       }
-      if (Preheader && ExitBlock) {
+      if (Preheader && ExitBlock && IsEndLoopNotFound) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_end", funcType));
