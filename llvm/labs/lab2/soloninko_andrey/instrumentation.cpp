@@ -19,20 +19,24 @@ struct InstrumentationPass : llvm::PassInfoMixin<InstrumentationPass> {
     bool foundInstrument_start = false;
     bool foundInstrument_end = false;
 
-    for (llvm::BasicBlock &BB : F) {
-      for (llvm::Instruction &I : BB) {
-        if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(&I)) {
-          if (callInst->getCalledFunction()->getName() ==
-              func_f.getCallee()->getName()) {
-            foundInstrument_start = true;
-          } else if (callInst->getCalledFunction()->getName() ==
-                     func_l.getCallee()->getName()) {
-            foundInstrument_end = true;
-          }
+    llvm::Function *func_f_f =
+        llvm::dyn_cast<llvm::Function>(func_f.getCallee());
+    llvm::Function *func_l_f =
+        llvm::dyn_cast<llvm::Function>(func_l.getCallee());
+
+    for (auto *U : func_f_f->users()) {
+      if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
+        if (callInst->getFunction() == &F) {
+          foundInstrument_start = true;
         }
       }
-      if (foundInstrument_start && foundInstrument_end)
-        break;
+    }
+    for (auto *U : func_l_f->users()) {
+      if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
+        if (callInst->getFunction() == &F) {
+          foundInstrument_end = true;
+        }
+      }
     }
 
     if (!foundInstrument_start) {
