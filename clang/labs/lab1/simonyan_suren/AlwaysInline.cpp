@@ -8,7 +8,7 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/ADT/StringRef.h"
-#include <queue>
+#include <stack>
 
 class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
