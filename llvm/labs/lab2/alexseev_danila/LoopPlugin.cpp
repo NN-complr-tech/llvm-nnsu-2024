@@ -21,7 +21,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_start", funcType));
       }
-      if (ExitBlock) {
+      if (Preheader && ExitBlock) {
         Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
         Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_end", funcType));
