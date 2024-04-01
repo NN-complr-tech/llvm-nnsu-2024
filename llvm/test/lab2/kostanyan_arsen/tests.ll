@@ -1,12 +1,12 @@
 ; RUN: opt -load-pass-plugin %llvmshlibdir/InstrumentFunc_Kostanyan_Arsen_FIIT2%pluginext\
 ; RUN: -passes=instr_func -S %s | FileCheck %s
 
-define dso_local void @instrument_start() #0 {
+define dso_local void @instrument_start() {
 entry:
   ret void
 }
 
-define dso_local void @instrument_end() #0 {
+define dso_local void @instrument_end() {
 entry:
   ret void
 }
@@ -108,4 +108,27 @@ entry:
   %6 = load ptr, ptr %b.addr, align 8
   store i32 %5, ptr %6, align 4
   ret void
+}
+
+; CHECK-LABEL:  @_Z4testii
+; CHECK: call void @instrument_start()
+; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
+; CHECK: call void @instrument_end()
+; CHECK-NEXT: %2 = load i32, ptr %result, align 4
+
+define dso_local noundef i32 @_Z4testii(i32 noundef %a, i32 noundef %b) {
+entry:
+  %a.addr = alloca i32, align 4
+  %b.addr = alloca i32, align 4
+  %result = alloca i32, align 4
+  store i32 %a, ptr %a.addr, align 4
+  store i32 %b, ptr %b.addr, align 4
+  call void @instrument_start()
+  %0 = load i32, ptr %a.addr, align 4
+  %1 = load i32, ptr %b.addr, align 4
+  %add = add nsw i32 %0, %1
+  store i32 %add, ptr %result, align 4
+  call void @instrument_end()
+  %2 = load i32, ptr %result, align 4
+  ret i32 %2
 }
