@@ -75,5 +75,5 @@ return:                                           ; preds = %if.else, %if.then
   ret double %4
 }
 
-CHECK: declare void @instrument_start()
-CHECK: declare void @instrument_end()
+; CHECK: declare void @instrument_start()
+; CHECK: declare void @instrument_end()
