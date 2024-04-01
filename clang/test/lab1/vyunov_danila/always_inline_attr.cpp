@@ -2,6 +2,7 @@
 // SUM: __attribute__((always_inline)) int sum(int A, int B) {
 // SUM-NEXT:   return A + B;
 // SUM-NEXT: }
+// SUM: `-AlwaysInlineAttr {{.* Implicit always_inline}}
 int sum(int A, int B) { return A + B; }
 
 // RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=EMPTY
