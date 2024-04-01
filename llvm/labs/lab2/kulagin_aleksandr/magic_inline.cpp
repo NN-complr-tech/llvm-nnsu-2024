@@ -30,6 +30,7 @@ class KulaginMagicInlinePass
 public:
   llvm::PreservedAnalyses run(llvm::Function &Func,
                               llvm::FunctionAnalysisManager &) {
+    bool IsTransformed = false;
     std::vector<llvm::Instruction *> InstrDeleteList;
     llvm::LLVMContext &CTX = Func.getContext();
     for (llvm::BasicBlock &Block : Func) {
@@ -44,6 +45,7 @@ public:
             Called->getFunctionType()->getNumParams() > 0) {
           continue;
         }
+        IsTransformed = true;
         std::map<llvm::BasicBlock *, llvm::BasicBlock *> BlockMap;
         llvm::ValueToValueMapTy VMap;
         llvm::BasicBlock *SplittedBlock = splitBlockBefore(&Block, &Instr);
@@ -89,6 +91,9 @@ public:
     }
     for (llvm::Instruction *Instr : InstrDeleteList) {
       Instr->eraseFromParent();
+    }
+    if (IsTransformed) {
+      return llvm::PreservedAnalyses::none();
     }
     return llvm::PreservedAnalyses::all();
   }
