@@ -28,6 +28,7 @@ public:
           clang::isa<clang::DoStmt>(statements) ||
           clang::isa<clang::SwitchStmt>(statements)) {
         HasStatement = true;
+        break;
       }
     }
 
