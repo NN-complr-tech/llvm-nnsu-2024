@@ -74,3 +74,6 @@ return:                                           ; preds = %if.else, %if.then
   %4 = load double, ptr %retval, align 8
   ret double %4
 }
+
+CHECK: declare void @instrument_start()
+CHECK: declare void @instrument_end()

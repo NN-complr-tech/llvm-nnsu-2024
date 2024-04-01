@@ -21,15 +21,37 @@ public:
     llvm::FunctionCallee instrEndFunction =
         module->getOrInsertFunction("instrument_end", instrFuncType);
 
-    llvm::Instruction *firstInstruction = &F.front().front();
-    llvm::IRBuilder<> builder(firstInstruction);
-
-    builder.CreateCall(instrStartFunction);
+    bool instrStartFunctionAdd = false;
+    bool instrEndFunctionAdd = false;
 
     for (auto &block : F) {
-      if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
-        builder.SetInsertPoint(block.getTerminator());
-        builder.CreateCall(instrEndFunction);
+      for (auto &instruction : block) {
+        if (llvm::isa<llvm::CallInst>(&instruction)) {
+          llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
+          if (callInst->getCalledFunction() == instrStartFunction.getCallee()) {
+            instrStartFunctionAdd = true;
+          } else if (callInst->getCalledFunction() ==
+                     instrEndFunction.getCallee()) {
+            instrEndFunctionAdd = true;
+          }
+        }
+      }
+    }
+
+    llvm::IRBuilder<> builder(context);
+
+    if (!instrStartFunctionAdd) {
+      llvm::Instruction *firstInstruction = &F.front().front();
+      builder.SetInsertPoint(firstInstruction);
+      builder.CreateCall(instrStartFunction);
+    }
+
+    if (!instrEndFunctionAdd) {
+      for (auto &block : F) {
+        if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
+          builder.SetInsertPoint(block.getTerminator());
+          builder.CreateCall(instrEndFunction);
+        }
       }
     }
 
