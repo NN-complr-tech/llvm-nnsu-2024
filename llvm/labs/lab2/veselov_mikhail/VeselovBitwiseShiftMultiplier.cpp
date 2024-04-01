@@ -11,12 +11,10 @@ struct MulToBitShiftUpdated : llvm::PassInfoMixin<MulToBitShiftUpdated> {
 public:
   llvm::PreservedAnalyses run(llvm::Function &Func,
                               llvm::FunctionAnalysisManager &FAM) {
-    
     std::vector<llvm::Instruction *> toRemove;
 
     for (llvm::BasicBlock &BB : Func) {
       for (llvm::Instruction &Inst : BB) {
-        
         if (!llvm::BinaryOperator::classof(&Inst)) {
           continue;
         }
@@ -46,7 +44,6 @@ public:
           toRemove.push_back(op);
         }
       }
-      
       for (auto *I : toRemove) {
         I->eraseFromParent();
       }
@@ -64,10 +61,10 @@ private:
     return -2;
   }
 };
-}
+} // namespace
 
 bool registerPlugin(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
-                      llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
   if (Name == "vesel-mult-shift") {
     FPM.addPass(MulToBitShiftUpdated());
     return true;
