@@ -8,7 +8,7 @@
 #include <string>
 
 namespace {
-struct MulToBitShift : llvm::PassInfoMixin<MulToBitShift> {
+struct mul_to_bit_shift : llvm::PassInfoMixin<mul_to_bit_shift> {
 public:
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &FAM) {
@@ -39,7 +39,7 @@ public:
             val = rhs;
           else {
             val = builder.CreateShl(rhs,
-                                    llvm::ConstantInt::get(op->getType(), lg1));
+            llvm::ConstantInt::get(op->getType(), lg1));
           }
           op->replaceAllUsesWith(val);
           worklist.push(&Inst);
@@ -60,15 +60,15 @@ public:
 
 bool registerPipeline(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
                       llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-  if (Name == "MulToBitShift") {
-    FPM.addPass(MulToBitShift());
+  if (Name == "mul_to_bit_shift") {
+    FPM.addPass(mul_to_bit_shift());
     return true;
   }
   return false;
 }
 
-llvm::PassPluginLibraryInfo getMulToBitShiftPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "MulToBitShift", LLVM_VERSION_STRING,
+llvm::PassPluginLibraryInfo getMul_To_Bit_ShiftPluginInfo() {
+  return {LLVM_PLUGIN_API_VERSION, "mul_to_bit_shift", LLVM_VERSION_STRING,
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeline);
           }};
@@ -76,5 +76,5 @@ llvm::PassPluginLibraryInfo getMulToBitShiftPluginInfo() {
 
 extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
-  return getMulToBitShiftPluginInfo();
+  return getMul_To_Bit_ShiftPluginInfo();
 }
