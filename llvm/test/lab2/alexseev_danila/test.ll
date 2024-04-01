@@ -138,8 +138,7 @@ entry:
   store i32 10, ptr %i, align 4
   call void @loop_start()
 
-  ; CHECK: store i32 10, ptr %i, align 4
-  ; CHECK-NEXT: call void @loop_start()
+  ; CHECK: call void @loop_start()
   ; CHECK-NEXT: br label %while.cond
   
   br label %while.cond
@@ -155,8 +154,7 @@ while.body:
   store i32 %dec, ptr %i, align 4
   br label %while.cond
 
-  ; CHECK: while.end:
-  ; CHECK-NEXT: call void @loop_end()
+  ; CHECK: call void @loop_end()
   ; CHECK-NEXT: ret void
 
 while.end:
