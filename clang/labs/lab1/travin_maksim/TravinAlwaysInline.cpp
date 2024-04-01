@@ -16,16 +16,17 @@ public:
   bool VisitFunc(clang::FunctionDecl *Func) {
     HasStatement = false;
     clang::Stmt *BodyFunc = Func->getBody();
-
-    if (!Func->hasAttr<clang::AlwaysInlineAttr>()) {
-      for (const clang::Stmt *statements : BodyFunc->children()) {
-        if (clang::isa<clang::IfStmt>(statements) ||
-            clang::isa<clang::WhileStmt>(statements) ||
-            clang::isa<clang::ForStmt>(statements) ||
-            clang::isa<clang::DoStmt>(statements) ||
-            clang::isa<clang::SwitchStmt>(statements)) {
-          HasStatement = true;
-        }
+    
+    if (Func->hasAttr<clang::AlwaysInlineAttr>()) {
+      return true;
+    }
+    for (const clang::Stmt *statements : BodyFunc->children()) {
+      if (clang::isa<clang::IfStmt>(statements) ||
+          clang::isa<clang::WhileStmt>(statements) ||
+          clang::isa<clang::ForStmt>(statements) ||
+          clang::isa<clang::DoStmt>(statements) ||
+          clang::isa<clang::SwitchStmt>(statements)) {
+        HasStatement = true;
       }
     }
 
