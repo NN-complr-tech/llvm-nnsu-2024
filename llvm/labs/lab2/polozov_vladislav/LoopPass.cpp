@@ -1,7 +1,7 @@
-#include "llvm/Passes/PassBuilder.h"
 #include "llvm/IR/Dominators.h"
-#include "llvm/Passes/PassPlugin.h"
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
 
 struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
   llvm::PreservedAnalyses run(llvm::Function &F,
@@ -23,7 +23,7 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
   }
 
   void insertIntoLoopFuncStartEnd(llvm::Loop *L, llvm::FunctionCallee loopStart,
-                          llvm::FunctionCallee loopEnd) {
+                                  llvm::FunctionCallee loopEnd) {
     llvm::IRBuilder<> Builder(L->getHeader()->getContext());
     llvm::SmallVector<llvm::BasicBlock *, 1> ExitBlocks;
     L->getExitBlocks(ExitBlocks);
@@ -34,8 +34,9 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
       }
     }
     llvm::BasicBlock *Header = L->getHeader();
-    for (auto it = llvm::pred_begin(Header), et = llvm::pred_end(Header); it != et; ++it) {
-      llvm::BasicBlock* Pred = *it;
+    for (auto it = llvm::pred_begin(Header), et = llvm::pred_end(Header);
+         it != et; ++it) {
+      llvm::BasicBlock *Pred = *it;
       if (L->contains(Pred) == false && isCalled(Pred, loopStart) == false) {
         Builder.SetInsertPoint(Pred->getTerminator());
         Builder.CreateCall(loopStart);
@@ -55,7 +56,6 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
     }
     return called;
   }
-
 };
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
