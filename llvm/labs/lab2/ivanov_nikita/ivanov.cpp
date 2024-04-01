@@ -1,10 +1,12 @@
 #include "llvm/ADT/ArrayRef.h"
+#include "llvm/ADT/SmallVector.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
+
 
 using namespace llvm;
 
@@ -24,10 +26,12 @@ public:
 
     for (auto &L : LI) { // for by loop
       auto *Preheader =
-          L->getLoopPreheader();           // get preheader block of the loop
-      auto *ExitBlock = L->getExitBlock(); // end exit block of the loop
+          L->getLoopPreheader(); // get preheader block of the loop
 
-      if (!Preheader || !ExitBlock)
+      SmallVector<BasicBlock *, 1> ExitBlocks;
+      L->getExitBlocks(ExitBlocks);
+
+      if (!Preheader || ExitBlocks.empty())
         continue;
 
       int loop_start_inside = 0;
@@ -43,25 +47,28 @@ public:
         }
       }
 
-      for (Instruction &Instr : *ExitBlock) {
-        if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
-          if (CI->getCalledFunction() &&
-              CI->getCalledFunction()->getName() == "_Z8loop_endv") {
-            loop_end_inside = 1;
-            break;
-          }
-        }
-      }
-
       IRBuilder<> Builder(Preheader->getTerminator()); // api for basic block
+
       if (!loop_start_inside)
         Builder.CreateCall(LoopStartFunc); // paste loop_start
 
-      Builder.SetInsertPoint(
-          ExitBlock->getFirstNonPHI()); // set pointer to exit block
+      for (auto &ExitBlock : ExitBlocks) {
+        loop_end_inside = 0;
+        for (Instruction &Instr : *ExitBlock) {
+          if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
+            if (CI->getCalledFunction() &&
+                CI->getCalledFunction()->getName() == "_Z8loop_endv") {
+              loop_end_inside = 1;
+              break;
+            }
+          }
+        }
+        Builder.SetInsertPoint(
+            ExitBlock->getFirstNonPHI()); // set pointer to exit block
 
-      if (!loop_end_inside)
-        Builder.CreateCall(LoopEndFunc); // paste loop_start
+        if (!loop_end_inside)
+          Builder.CreateCall(LoopEndFunc); // paste loop_start
+      }
     }
     return PreservedAnalyses::all();
   }
