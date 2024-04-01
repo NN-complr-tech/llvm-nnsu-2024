@@ -8,24 +8,6 @@
 #include "llvm/Support/raw_ostream.h"
 #include <stack>
 
-namespace addconst {
-/// An analysis that traverses a function and collects all the "add"
-/// instructions with constant operands.
-struct AddConstAnalysis : public llvm::AnalysisInfoMixin<AddConstAnalysis> {
-    /// Result of the analysis: a list of instructions of type
-    /// "BinaryOperator", opcode "add" and constant operands.
-    using Result = llvm::SmallVector<llvm::BinaryOperator *, 0>;
-    /// Traverses the function \p F, collecting all the "add" instructions
-    /// inside it.
-    ///
-    /// \returns a list of all the collected "add" instructions.
-    Result run(llvm::Function &F, llvm::FunctionAnalysisManager &FAM);
-    // A special type used by analysis passes to provide an address that
-    // identifies that particular analysis pass type.
-    static llvm::AnalysisKey Key;
-};
-}
-
 namespace {
 
 struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
