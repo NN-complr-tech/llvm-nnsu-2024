@@ -3,7 +3,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 namespace {
-struct InstrumentationStruct : llvm::PassInfoMixin<InstrumentationStruct> {
+struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &) {
     llvm::LLVMContext &context = F.getContext();
@@ -69,7 +69,7 @@ llvmGetPassPluginInfo() {
                 [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
                   if (name == "instrumentation_function") {
-                    FPM.addPass(InstrumentationStruct{});
+                    FPM.addPass(InstrumentationStrt{});
                     return true;
                   }
                   return false;
