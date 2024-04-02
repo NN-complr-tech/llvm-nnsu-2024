@@ -33,7 +33,8 @@ struct Bend : llvm::PassInfoMixin<Bend> {
     insert_instruction(
         F, "instrument_start",
         [&](llvm::Function &F, llvm::FunctionCallee instrument_start) {
-          auto *firstInsertionPt = &*F.getEntryBlock().getFirstNonPHIOrDbgOrAlloca();
+          auto *firstInsertionPt =
+              &*F.getEntryBlock().getFirstNonPHIOrDbgOrAlloca();
           Builder.SetInsertPoint(firstInsertionPt);
           Builder.CreateCall(instrument_start);
         });
