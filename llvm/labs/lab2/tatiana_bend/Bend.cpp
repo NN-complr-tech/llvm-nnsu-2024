@@ -17,13 +17,36 @@ struct Bend : PassInfoMixin<Bend> {
     FunctionCallee instrument_end = F.getParent()->getOrInsertFunction(
         "instrument_end", Type::getVoidTy(F.getContext()));
 
-    IRBuilder<> Builder(&F.getEntryBlock().front());
-    Builder.CreateCall(instrument_start);
+    bool startInserted = false;
+    bool endInserted = false;
 
     for (auto &Block : F) {
-      if (llvm::isa<llvm::ReturnInst>(Block.getTerminator())) {
-        Builder.SetInsertPoint(Block.getTerminator());
-        Builder.CreateCall(instrument_end);
+      for (auto &instruction : Block) {
+        if (llvm::isa<llvm::CallInst>(&instruction)) {
+          llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
+          if (callInst->getCalledFunction() == instrument_start.getCallee()) {
+            startInserted = true;
+          } else if (callInst->getCalledFunction() ==
+                     instrument_end.getCallee()) {
+            endInserted = true;
+          }
+        }
+      }
+    }
+    
+    llvm::LLVMContext &Context = F.getContext();
+    IRBuilder<> Builder(Context);
+    if (!startInserted) {
+      Builder.SetInsertPoint(&F.getEntryBlock().front());
+      Builder.CreateCall(instrument_start);
+    }
+
+    if (!endInserted) {
+      for (auto &Block : F) {
+        if (llvm::isa<llvm::ReturnInst>(Block.getTerminator())) {
+          Builder.SetInsertPoint(Block.getTerminator());
+          Builder.CreateCall(instrument_end);
+        }
       }
     }
     return PreservedAnalyses::all();

@@ -16,6 +16,14 @@
 ;     }
 ; }
 
+; int Mrrr(int x){
+;     instrument_start();
+;     x=x+5;
+;     x=x+10;
+;     instrument_end();
+;     return x;
+; }
+
 ; CHECK-LABEL: @foo
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: call void @instrument_end()
@@ -74,4 +82,26 @@ if.else:
 return:
   %3 = load i32, ptr %retval, align 4
   ret i32 %3
+}
+
+; CHECK-LABEL: @Mrrr
+; CHECK-NOT: call void @instrument_start()
+; CHECK: %2 = alloca i32, align 4
+; CHECK: %7 = load i32, ptr %2, align 4
+; CHECK-NOT: call void @instrument_end()
+; CHECK: ret i32 %7
+
+define dso_local noundef i32 @Mrrr(i32 noundef %0) {
+  %2 = alloca i32, align 4
+  store i32 %0, ptr %2, align 4
+  call void @instrument_start()
+  %3 = load i32, ptr %2, align 4
+  %4 = add nsw i32 %3, 5
+  store i32 %4, ptr %2, align 4
+  %5 = load i32, ptr %2, align 4
+  %6 = add nsw i32 %5, 10
+  store i32 %6, ptr %2, align 4
+  call void @instrument_end()
+  %7 = load i32, ptr %2, align 4
+  ret i32 %7
 }
