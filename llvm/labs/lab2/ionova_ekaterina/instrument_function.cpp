@@ -69,4 +69,4 @@ llvmGetPassPluginInfo() {
                   return false;
                 });
           }};
-}
+};
