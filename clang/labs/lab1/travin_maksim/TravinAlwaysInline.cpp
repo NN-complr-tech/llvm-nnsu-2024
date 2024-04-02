@@ -1,6 +1,7 @@
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Attr.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/AST/Stmt.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
@@ -27,7 +28,7 @@ public:
     return true;
   }
 
-  bool CheckFunc(clang::Stmt *stmt) {
+  bool VisitStmt(clang::Stmt *stmt) {
     if (clang::isa<clang::IfStmt>(stmt) || clang::isa<clang::WhileStmt>(stmt) ||
         clang::isa<clang::ForStmt>(stmt) || clang::isa<clang::DoStmt>(stmt) ||
         clang::isa<clang::SwitchStmt>(stmt)) {
