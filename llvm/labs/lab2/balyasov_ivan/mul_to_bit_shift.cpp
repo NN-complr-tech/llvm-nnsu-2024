@@ -39,7 +39,7 @@ public:
             val = rhs;
           else {
             val = builder.CreateShl(rhs,
-            llvm::ConstantInt::get(op->getType(), lg1));
+                                    llvm::ConstantInt::get(op->getType(), lg1));
           }
           op->replaceAllUsesWith(val);
           worklist.push(&Inst);
