@@ -22,11 +22,11 @@ struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
 
     for (auto &block : F) {
       for (auto &instruction : block) {
-        if (llvm::isa<llvm::CallInst>(&instruction)){
+        if (llvm::isa<llvm::CallInst>(&instruction)) {
           llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
-          if (callInst->getFunction() == func_f.getCallee()){
+          if (callInst->getFunction() == func_f.getCallee()) {
             foundInstrument_start = true;
-          } else if (callInst->getFunction() == func_l.getCallee()){
+          } else if (callInst->getFunction() == func_l.getCallee()) {
             foundInstrument_end = true;
           }
         }
