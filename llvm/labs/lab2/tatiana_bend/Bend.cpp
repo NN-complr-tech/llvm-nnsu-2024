@@ -2,14 +2,11 @@
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
-#include "llvm/Support/CommandLine.h"
-#include "llvm/Support/raw_ostream.h"
-
-using namespace llvm;
+#include <string>
 
 namespace {
 
-struct Bend : PassInfoMixin<Bend> {
+struct Bend : llvm::PassInfoMixin<Bend> {
 
   template <typename Func>
   void insert_instruction(llvm::Function &F, const std::string name,
@@ -37,7 +34,6 @@ struct Bend : PassInfoMixin<Bend> {
         F, "instrument_start",
         [&](llvm::Function &F, llvm::FunctionCallee instrument_start) {
           auto *firstInsertionPt = &*F.getEntryBlock().getFirstNonPHIOrDbgOrAlloca();
-          // F.getEntryBlock().getFirstNonPHIOrDbgOrAlloca()
           Builder.SetInsertPoint(firstInsertionPt);
           Builder.CreateCall(instrument_start);
         });
@@ -61,10 +57,10 @@ struct Bend : PassInfoMixin<Bend> {
 /* New PM Registration */
 llvm::PassPluginLibraryInfo getBendPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "Bend", LLVM_VERSION_STRING,
-          [](PassBuilder &PB) {
+          [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
-                [](StringRef Name, llvm::FunctionPassManager &PM,
-                   ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                [](llvm::StringRef Name, llvm::FunctionPassManager &PM,
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
                   if (Name == "MrrrBend") {
                     PM.addPass(Bend());
                     return true;
