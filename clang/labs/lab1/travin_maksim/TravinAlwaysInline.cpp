@@ -28,10 +28,8 @@ public:
   }
 
   bool CheckFunc(clang::Stmt *stmt) {
-    if (clang::isa<clang::IfStmt>(stmt) ||
-        clang::isa<clang::WhileStmt>(stmt) ||
-        clang::isa<clang::ForStmt>(stmt) ||
-        clang::isa<clang::DoStmt>(stmt) ||
+    if (clang::isa<clang::IfStmt>(stmt) || clang::isa<clang::WhileStmt>(stmt) ||
+        clang::isa<clang::ForStmt>(stmt) || clang::isa<clang::DoStmt>(stmt) ||
         clang::isa<clang::SwitchStmt>(stmt)) {
       HasStatement = true;
     }
