@@ -164,5 +164,5 @@ define dso_local void @f7() #0 {
 
 ; CHECK-LABEL: @f7
 ; CHECK: %3 = load i32, ptr %1, align 4
-; CHECK-NEXT: %4 = shl i32 3, 2
+; CHECK-NEXT: %4 = mul nsw i32 %3, 3
 ; CHECK-NEXT: store i32 %4, ptr %2, align 4
