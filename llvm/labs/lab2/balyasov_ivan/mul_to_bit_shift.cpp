@@ -72,7 +72,7 @@ llvm::PassPluginLibraryInfo getMul_To_Bit_ShiftPluginInfo() {
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeline);
           }};
-} 
+}
 
 extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
