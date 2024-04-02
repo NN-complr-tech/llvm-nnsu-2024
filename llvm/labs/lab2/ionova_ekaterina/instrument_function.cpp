@@ -10,6 +10,7 @@ struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
     llvm::LLVMContext &context = F.getContext();
     llvm::IRBuilder<> builder(context);
     llvm::Module *module = F.getParent();
+
     llvm::FunctionType *type =
         llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
     llvm::FunctionCallee func_f =
@@ -24,9 +25,9 @@ struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
       for (auto &instruction : block) {
         if (llvm::isa<llvm::CallInst>(&instruction)) {
           llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
-          if (callInst->getFunction() == func_f.getCallee()) {
+          if (callInst->getCalledFunction() == func_f.getCallee()) {
             foundInstrument_start = true;
-          } else if (callInst->getFunction() == func_l.getCallee()) {
+          } else if (callInst->getCalledFunction() == func_l.getCallee()) {
             foundInstrument_end = true;
           }
         }
@@ -37,11 +38,9 @@ struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
       builder.SetInsertPoint(&F.getEntryBlock().front());
       builder.CreateCall(func_f);
     }
-    llvm::ReturnInst *re;
     if (!foundInstrument_end) {
       for (llvm::BasicBlock &BB : F) {
-        if ((re = llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) !=
-            NULL) {
+        if (llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) {
           builder.SetInsertPoint(BB.getTerminator());
           builder.CreateCall(func_l);
         }
