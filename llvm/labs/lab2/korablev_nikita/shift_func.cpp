@@ -27,12 +27,11 @@ struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
                 llvm::dyn_cast<llvm::ConstantInt>(BO->getOperand(1));
 
             if (LOp || ROp) {
-              llvm::IRBuilder<> builder(BO);
-              if (LOp != nullptr && LOp->getValue().isPowerOf2()) {
+              if (LOp && LOp->getValue().isPowerOf2()) {
                 BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
                     llvm::Instruction::Shl, BO->getOperand(0),
                     BO->getOperand(1), "shiftInst", BO));
-              } else if (ROp != nullptr && ROp->getValue().isPowerOf2()) {
+              } else if (ROp && ROp->getValue().isPowerOf2()) {
                 BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
                     llvm::Instruction::Shl, BO->getOperand(1),
                     BO->getOperand(0), "shiftInst", BO));
