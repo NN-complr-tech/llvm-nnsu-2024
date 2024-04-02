@@ -78,22 +78,22 @@ return:                                           ; preds = %if.else, %if.then
 ; CHECK-LABEL: @_Z3bari
 ; CHECK-NOT: call void @instrument_start()
 ; CHECK: %2 = alloca i32, align 4
-; CHECK: %7 = load i32, i32* %2, align 4
+; CHECK: %7 = load i32, ptr %2, align 4
 ; CHECK-NOT: call void @instrument_end()
 ; CHECK: ret i32 %7
 
 define dso_local noundef i32 @_Z3bari(i32 noundef %0) #1 {
   %2 = alloca i32, align 4
-  store i32 %0, i32* %2, align 4
+  store i32 %0, ptr %2, align 4
   call void @instrument_start()
-  %3 = load i32, i32* %2, align 4
+  %3 = load i32, ptr %2, align 4
   %4 = add nsw i32 %3, 5
-  store i32 %4, i32* %2, align 4
-  %5 = load i32, i32* %2, align 4
+  store i32 %4, ptr %2, align 4
+  %5 = load i32, ptr %2, align 4
   %6 = add nsw i32 %5, 10
-  store i32 %6, i32* %2, align 4
+  store i32 %6, ptr %2, align 4
   call void @instrument_end()
-  %7 = load i32, i32* %2, align 4
+  %7 = load i32, ptr %2, align 4
   ret i32 %7
 }
 
