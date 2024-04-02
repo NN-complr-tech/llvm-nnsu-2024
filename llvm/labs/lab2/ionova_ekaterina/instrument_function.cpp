@@ -20,22 +20,15 @@ struct InstrumentationStrt : llvm::PassInfoMixin<InstrumentationStrt> {
     bool foundInstrument_start = false;
     bool foundInstrument_end = false;
 
-    llvm::Function *func_f_f =
-        llvm::dyn_cast<llvm::Function>(func_f.getCallee());
-    llvm::Function *func_l_f =
-        llvm::dyn_cast<llvm::Function>(func_l.getCallee());
-
-    for (auto *U : func_f_f->users()) {
-      if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
-        if (callInst->getFunction() == &F) {
-          foundInstrument_start = true;
-        }
-      }
-    }
-    for (auto *U : func_l_f->users()) {
-      if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
-        if (callInst->getFunction() == &F) {
-          foundInstrument_end = true;
+    for (auto &block : F) {
+      for (auto &instruction : block) {
+        if (llvm::isa<llvm::CallInst>(&instruction)){
+          llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
+          if (callInst->getFunction() == func_f.getCallee()){
+            foundInstrument_start = true;
+          } else if (callInst->getFunction() == func_l.getCallee()){
+            foundInstrument_end = true;
+          }
         }
       }
     }
