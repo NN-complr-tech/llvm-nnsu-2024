@@ -35,8 +35,8 @@ entry:
 }
 
 ; CHECK-LABEL: @bar
-; CHECK: call void @instrument_start()
-; CHECK-NEXT: %z.addr = alloca i32, align 4
+; CHECK: %z.addr = alloca i32, align 4
+; CHECK-NEXT: call void @instrument_start()
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %add
 
@@ -51,8 +51,9 @@ entry:
 }
 
 ; CHECK-LABEL: @baz
-; CHECK: call void @instrument_start()
-; CHECK-NEXT: %retval = alloca i32, align 4
+; CHECK: %retval = alloca i32, align 4
+; CHECK-NEXT: %k.addr = alloca i32, align 4
+; CHECK-NEXT: call void @instrument_start()
 ; CHECK: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %3
 
@@ -86,7 +87,7 @@ return:
 
 ; CHECK-LABEL: @Mrrr
 ; CHECK-NOT: call void @instrument_start()
-; CHECK: %2 = alloca i32, align 4
+; CHECK: store i32 %0, ptr %2, align 4
 ; CHECK: %7 = load i32, ptr %2, align 4
 ; CHECK-NOT: call void @instrument_end()
 ; CHECK: ret i32 %7
@@ -107,4 +108,5 @@ define dso_local noundef i32 @Mrrr(i32 noundef %0) {
 }
 
 declare void @instrument_start()
+
 declare void @instrument_end()
