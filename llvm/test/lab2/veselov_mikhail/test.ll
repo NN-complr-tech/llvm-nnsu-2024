@@ -1,5 +1,6 @@
 ; RUN: opt -load-pass-plugin=%llvmshlibdir/VeselovBitwiseShiftMultiplier%shlibext -passes=vesel-mult-shift -S %s | FileCheck %s
 
+
 ;int f1(int a){
 ;    int c = a + 4;
 ;    return c;
