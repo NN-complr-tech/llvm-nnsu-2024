@@ -11,7 +11,6 @@
 namespace {
 
 struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
-
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &FAM) {
     std::stack<llvm::Instruction *> inst_list;
