@@ -47,7 +47,7 @@ entry:
 }
 
 ; CHECK-LABEL: @_Z5test1v
-; CHECK: %shiftInst = shl i32 4, %0
+; CHECK: %shiftInst = shl i32 4, 2
 ; CHECK-NEXT: store i32 %shiftInst, ptr %res, align 4
 
 define dso_local noundef i32 @_Z5test2v() #0 {
@@ -63,7 +63,7 @@ entry:
 }
 
 ; CHECK-LABEL: @_Z5test2v
-; CHECK: %shiftInst = shl i32 4, %0
+; CHECK: %shiftInst = shl i32 4, 2
 ; CHECK-NEXT: store i32 %shiftInst, ptr %res, align 4
 
 define dso_local noundef i32 @_Z5test3i(i32 noundef %a) #0 {
@@ -79,7 +79,7 @@ entry:
 }
 
 ; CHECK-LABEL: @_Z5test3i
-; CHECK: %shiftInst = shl i32 4, %0
+; CHECK: %shiftInst = shl i32 4, 2
 ; CHECK-NEXT: store i32 %shiftInst, ptr %res, align 4
 
 define dso_local noundef i32 @_Z5test4v() #0 {
@@ -104,7 +104,7 @@ entry:
 }
 
 ; CHECK-LABEL: @_Z5test5v
-; CHECK: %shiftInst = shl i32 4, %0
+; CHECK: %shiftInst = shl i32 4, 2
 ; CHECK-NEXT: ret i32 %shiftInst
 
 define dso_local noundef i32 @_Z5test6v() #0 {
@@ -117,5 +117,5 @@ entry:
 }
 
 ; CHECK-LABEL: @_Z5test6v
-; CHECK: %shiftInst = shl i32 4, %0
+; CHECK: %shiftInst = shl i32 4, 2
 ; CHECK-NEXT: ret i32 %shiftInst

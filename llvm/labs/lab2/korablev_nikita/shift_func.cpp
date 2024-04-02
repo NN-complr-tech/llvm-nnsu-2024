@@ -27,13 +27,15 @@ struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
 
             if (LOp || ROp) {
               if (LOp && LOp->getValue().isPowerOf2()) {
+                llvm::Value *llvmValue = llvm::ConstantInt::get(llvm::IntegerType::get(F.getContext(), 32), llvm::APInt(32, LOp->getValue().exactLogBase2()));
                 BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
                     llvm::Instruction::Shl, BO->getOperand(0),
-                    BO->getOperand(1), "shiftInst", BO));
+                    llvmValue, "shiftInst", BO));
               } else if (ROp && ROp->getValue().isPowerOf2()) {
+                llvm::Value *llvmValue = llvm::ConstantInt::get(llvm::IntegerType::get(F.getContext(), 32), llvm::APInt(32, ROp->getValue().exactLogBase2()));
                 BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
                     llvm::Instruction::Shl, BO->getOperand(1),
-                    BO->getOperand(0), "shiftInst", BO));
+                    llvmValue, "shiftInst", BO));
               }
               inst_list.push(&I);
             }
