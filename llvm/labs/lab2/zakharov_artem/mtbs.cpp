@@ -13,7 +13,7 @@ PreservedAnalyses MTBSPass::run(llvm::Function &F,
         continue;
       }
 
-      BinaryOperator *Op = dyn_cast<BinaryOperator>(InstIt);
+      auto *Op = dyn_cast<BinaryOperator>(InstIt);
       Value *LVal = Op->getOperand(0);
       Value *RVal = Op->getOperand(1);
 
