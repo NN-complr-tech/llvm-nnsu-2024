@@ -28,7 +28,7 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
     llvm::SmallVector<llvm::BasicBlock *, 1> ExitBlocks;
     L->getExitBlocks(ExitBlocks);
     for (auto *const BB : ExitBlocks) {
-      if (isCalled(BB, loopEnd) == false) {
+      if (!isCalled(BB, loopEnd)) {
         Builder.SetInsertPoint(BB->getFirstNonPHI());
         Builder.CreateCall(loopEnd);
       }
@@ -37,7 +37,7 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
     for (auto it = llvm::pred_begin(Header), et = llvm::pred_end(Header);
          it != et; ++it) {
       llvm::BasicBlock *Pred = *it;
-      if (L->contains(Pred) == false && isCalled(Pred, loopStart) == false) {
+      if (!L->contains(Pred) && !isCalled(Pred, loopStart)) {
         Builder.SetInsertPoint(Pred->getTerminator());
         Builder.CreateCall(loopStart);
       }
@@ -45,22 +45,17 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
   }
 
   bool isCalled(llvm::BasicBlock *const BB, llvm::FunctionCallee &callee) {
-    bool called = false;
-    for (auto &inst : *BB) {
-      if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst)) {
-        if (instCall->getCalledFunction() == callee.getCallee()) {
-          called = true;
-          break;
-        }
-      }
-    }
-    return called;
+    for (auto &inst : *BB)
+      if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&inst))
+        if (instCall->getCalledFunction() == callee.getCallee())
+          return true;
+    return false;
   }
 };
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "LoopPass", LLVM_VERSION_STRING,
+  return {LLVM_PLUGIN_API_VERSION, "PolozovLoopPass", LLVM_VERSION_STRING,
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PM,

@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin=%llvmshlibdir/LoopPass%pluginext -passes=polozov-loop-plugin -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/PolozovLoopPass%pluginext -passes=polozov-loop-plugin -S %s | FileCheck %s
 
 ; CHECK-LABEL: @main
 ; CHECK-NOT: call void @loop_
@@ -91,6 +91,9 @@ for.inc:
 for.end:                                          
   ret i32 0
 }
+
+; CHECK: declare void @loop_start()
+; CHECK: declare void @loop_end() 
 
 
 ;int main(){
