@@ -1,5 +1,48 @@
 ; RUN: opt -load-pass-plugin=%llvmshlibdir/LoopLLVMPlugin_SadikovD%pluginext -passes=LoopLLVMPlugin_SadikovD -S %s | FileCheck %s
 
+; source code:
+
+; int func(int n) {
+; 	int a = 1;
+; 	for (int i = 0; i < n; i++) {
+; 		a++;
+; 	}
+; 	return a;
+; }
+
+; void while_runs_forever() {
+; 	int t = 42;
+; 	while (t == 42) {
+; 		t = t / 42 - 1 + 37 / 37 * 42;
+; 	}
+; }
+
+; int func_without_cycle(int a, int b) {
+; 	if (a > b)
+; 		return a + b;
+; 	else
+; 		return b + a;
+; }
+
+; int while_func() {
+; 	int a = 42, b = 42 * 2;
+; 	int t = 0;
+; 	while (a < b) {
+; 		a++;
+; 		t++;
+; 	}
+; 	return t;
+; }
+
+; void do_while_func() {
+; 	int a = 42, b = 42;
+; 	int t = 0;
+; 	do {
+; 		t++;
+; 		a++;
+; 	} while (a < b);
+; }
+
 define dso_local i32 @func(i32 noundef %n) #0 {
 entry:
   %n.addr = alloca i32, align 4

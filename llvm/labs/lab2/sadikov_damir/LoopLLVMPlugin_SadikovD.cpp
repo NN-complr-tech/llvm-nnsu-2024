@@ -27,19 +27,32 @@ struct LoopLLVMPlugin_SadikovD
       Loop->getExitBlocks(ExitBlocks);
 
       for (auto Pred : PredHeaders) {
-        if (!Loop->contains(Pred)) {
+        if (!Loop->contains(Pred) && !BBhaveFC(Pred, LoopStart)) {
           Builder.SetInsertPoint(Pred->getTerminator());
           Builder.CreateCall(LoopStart);
         }
       }
 
       for (auto *const EB : ExitBlocks) {
-        Builder.SetInsertPoint(EB->getFirstNonPHI());
-        Builder.CreateCall(LoopEnd);
+        if (!BBhaveFC(EB, LoopEnd)) {
+          Builder.SetInsertPoint(EB->getFirstNonPHI());
+          Builder.CreateCall(LoopEnd);
+        }
       }
     }
 
     return llvm::PreservedAnalyses::all();
+  }
+
+  bool BBhaveFC(llvm::BasicBlock *const BB, llvm::FunctionCallee &FC) {
+    for (auto &Instruction : *BB) {
+      if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(&Instruction)) {
+        if (instCall->getCalledFunction() == FC.getCallee()) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 };
 
