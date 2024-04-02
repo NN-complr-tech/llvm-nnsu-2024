@@ -36,6 +36,11 @@
 ;    return c;
 ;}
 
+;void f7(){
+;    int a = 4;
+;    int c = a * 3;
+;}
+
 define dso_local i32 @f0(i32 noundef %0) #0 {
   %2 = alloca i32, align 4
   %3 = alloca i32, align 4
@@ -145,3 +150,19 @@ define dso_local i32 @f6(i32 noundef %0) #0 {
 ; CHECK: %6 = load i32, ptr %3, align 4
 ; CHECK-NEXT: %7 = mul nsw i32 %5, %6
 ; CHECK-NEXT: store i32 %7, ptr %4, align 4
+
+
+define dso_local void @f7() #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  store i32 4, ptr %1, align 4
+  %3 = load i32, ptr %1, align 4
+  %4 = mul nsw i32 %3, 3
+  store i32 %4, ptr %2, align 4
+  ret void
+}
+
+; CHECK-LABEL: @f7
+; CHECK: %3 = load i32, ptr %1, align 4
+; CHECK-NEXT: %4 = shl i32 3, 2
+; CHECK-NEXT: store i32 %4, ptr %2, align 4
