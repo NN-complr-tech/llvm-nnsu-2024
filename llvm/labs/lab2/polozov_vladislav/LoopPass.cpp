@@ -17,9 +17,7 @@ struct LoopPass : public llvm::PassInfoMixin<LoopPass> {
     for (auto *L : LI) {
       insertIntoLoopFuncStartEnd(L, loopStartFunc, loopEndFunc);
     }
-    auto PA = llvm::PreservedAnalyses::all();
-    PA.abandon<llvm::LoopAnalysis>();
-    return PA;
+    return llvm::PreservedAnalyses::all();
   }
 
   void insertIntoLoopFuncStartEnd(llvm::Loop *L, llvm::FunctionCallee loopStart,
