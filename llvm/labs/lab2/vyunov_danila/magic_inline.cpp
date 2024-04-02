@@ -100,8 +100,7 @@ public:
 };
 } // namespace
 
-llvm::PassPluginLibraryInfo
-getInlineFunctionsVyunovDanilaFI2PluginInfo() {
+llvm::PassPluginLibraryInfo getInlineFunctionsVyunovDanilaFI2PluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "VyunovMagicInlinePass", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
