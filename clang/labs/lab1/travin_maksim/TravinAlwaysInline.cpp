@@ -16,6 +16,7 @@ public:
   bool VisitFunc(clang::FunctionDecl *Func) {
     HasStatement = false;
     clang::Stmt *BodyFunc = Func->getBody();
+    TraverseStmt(BodyFunc);
 
     if (Func->hasAttr<clang::AlwaysInlineAttr>()) {
       return true;
