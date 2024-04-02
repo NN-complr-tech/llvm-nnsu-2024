@@ -125,3 +125,24 @@ define dso_local void @f6() #0 {
 ; CHECK: %3 = load i32, ptr %1, align 4
 ; CHECK-NEXT: %4 = mul nsw i32 0, %3
 ; CHECK-NEXT: store i32 %4, ptr %2, align 4
+
+
+;void f7(){
+;    int a = 4;
+;    int c = a * 3;
+;}
+
+define dso_local void @f7() #0 {
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  store i32 4, ptr %1, align 4
+  %3 = load i32, ptr %1, align 4
+  %4 = mul nsw i32 %3, 3
+  store i32 %4, ptr %2, align 4
+  ret void
+}
+
+; CHECK-LABEL: @f7
+; CHECK: %3 = load i32, ptr %1, align 4
+; CHECK-NEXT: %4 = mul nsw i32 %3, 3
+; CHECK-NEXT: store i32 %4, ptr %2, align 4
