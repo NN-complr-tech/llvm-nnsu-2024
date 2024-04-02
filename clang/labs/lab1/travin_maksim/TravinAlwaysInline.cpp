@@ -14,7 +14,7 @@ public:
   explicit InlineVisitor(clang::ASTContext *Context)
       : Context(Context), HasStatement(false) {}
 
-  bool VisitFunc(clang::FunctionDecl *Func) {
+  bool VisitFunctionDecl(clang::FunctionDecl *Func) {
     HasStatement = false;
 
     if (Func->hasAttr<clang::AlwaysInlineAttr>()) {
