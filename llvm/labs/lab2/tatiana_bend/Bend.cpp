@@ -26,7 +26,8 @@ struct Bend : llvm::PassInfoMixin<Bend> {
     insert_instr(F, instrument_callee);
   }
 
-  llvm::PreservedAnalyses run(llvm::Function &F, llvm::FunctionAnalysisManager &FAM) {
+  llvm::PreservedAnalyses run(llvm::Function &F,
+                              llvm::FunctionAnalysisManager &FAM) {
     llvm::LLVMContext &Context = F.getContext();
     llvm::IRBuilder<> Builder(Context);
 
