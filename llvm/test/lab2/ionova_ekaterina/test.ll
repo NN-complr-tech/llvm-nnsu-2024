@@ -1,5 +1,5 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/Instrument_Function_Ionova_Ekaterina_FIIT2%pluginext\
-; RUN: -passes=instrumentation -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin %llvmshlibdir Instrument_Function_Ionova_Ekaterina_FIIT2%pluginext\
+; RUN: -passes=instrumentation_function -S %s | FileCheck %s
 
 ; CHECK-LABEL: @_Z3fooii
 ; CHECK: call void @instrument_start()
