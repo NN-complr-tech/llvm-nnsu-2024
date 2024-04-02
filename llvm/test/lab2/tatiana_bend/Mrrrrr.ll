@@ -105,3 +105,6 @@ define dso_local noundef i32 @Mrrr(i32 noundef %0) {
   %7 = load i32, ptr %2, align 4
   ret i32 %7
 }
+
+declare void @instrument_start()
+declare void @instrument_end()

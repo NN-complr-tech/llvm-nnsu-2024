@@ -33,7 +33,7 @@ struct Bend : PassInfoMixin<Bend> {
         }
       }
     }
-    
+
     llvm::LLVMContext &Context = F.getContext();
     IRBuilder<> Builder(Context);
     if (!startInserted) {
