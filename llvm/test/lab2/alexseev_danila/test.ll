@@ -11,6 +11,8 @@
 ;     int i = 10;
 ;     while (i > 0) {
 ;         i--;
+;         if (i == 3)
+;             break;
 ;     }
 ; }
 
@@ -77,10 +79,17 @@ while.body:
   %1 = load i32, ptr %i, align 4
   %dec = add nsw i32 %1, -1
   store i32 %dec, ptr %i, align 4
-  br label %while.cond
+  %2 = load i32, ptr %i, align 4
+  %cmp1 = icmp eq i32 %2, 3
+  br i1 %cmp1, label %if.then, label %if.end
 
-  ; CHECK: while.end:
+  ; CHECK: if.then:
   ; CHECK-NEXT: call void @loop_end()
+if.then:
+  br label %while.end
+
+if.end:
+  br label %while.cond
 
 while.end:
   ret void
