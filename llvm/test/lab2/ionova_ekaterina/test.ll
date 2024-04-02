@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir Instrument_Function_Ionova_Ekaterina_FIIT2%pluginext\
+; RUN: opt -load-pass-plugin %llvmshlibdir/Instrument_Function_Ionova_Ekaterina_FIIT2%pluginext\
 ; RUN: -passes=instrumentation_function -S %s | FileCheck %s
 
 ; CHECK-LABEL:  @_Z3gcdii
