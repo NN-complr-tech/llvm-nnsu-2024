@@ -11,28 +11,32 @@
 namespace {
 
 struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
-  
+
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &FAM) {
     std::stack<llvm::Instruction *> inst_list;
-    
+
     for (llvm::BasicBlock &BB : F) {
       for (llvm::Instruction &I : BB) {
-        
-        if (llvm::BinaryOperator *BO = llvm::dyn_cast<llvm::BinaryOperator>(&I)) {
+        if (llvm::BinaryOperator *BO =
+                llvm::dyn_cast<llvm::BinaryOperator>(&I)) {
           if (BO->getOpcode() == llvm::Instruction::BinaryOps::Mul) {
-            llvm::ConstantInt *LOp = llvm::dyn_cast<llvm::ConstantInt>(BO->getOperand(0));
-            llvm::ConstantInt *ROp = llvm::dyn_cast<llvm::ConstantInt>(BO->getOperand(1));
+            llvm::ConstantInt *LOp =
+                llvm::dyn_cast<llvm::ConstantInt>(BO->getOperand(0));
+            llvm::ConstantInt *ROp =
+                llvm::dyn_cast<llvm::ConstantInt>(BO->getOperand(1));
 
             if (LOp || ROp) {
               llvm::IRBuilder<> builder(BO);
               if (LOp != nullptr && LOp->getValue().isPowerOf2()) {
                 BO->replaceAllUsesWith(
-                  llvm::BinaryOperator::Create(llvm::Instruction::Shl, BO->getOperand(0), BO->getOperand(1), "shiftInst", BO)
+                  llvm::BinaryOperator::Create(llvm::Instruction::Shl,
+                  BO->getOperand(0), BO->getOperand(1), "shiftInst", BO)
                 );
               } else if (ROp != nullptr && ROp->getValue().isPowerOf2()) {
                 BO->replaceAllUsesWith(
-                  llvm::BinaryOperator::Create(llvm::Instruction::Shl, BO->getOperand(1), BO->getOperand(0), "shiftInst", BO)
+                  llvm::BinaryOperator::Create(llvm::Instruction::Shl,
+                  BO->getOperand(1), BO->getOperand(0), "shiftInst", BO)
                 );
               }
               inst_list.push(&I);
@@ -40,12 +44,12 @@ struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
           }
         }
       }
-      while(!inst_list.empty()) {
+      while (!inst_list.empty()) {
         inst_list.top()->eraseFromParent();
         inst_list.pop();
       }
     }
-    
+
     auto PA = llvm::PreservedAnalyses::all();
     PA.abandon<llvm::LoopAnalysis>();
     return PA;
@@ -54,18 +58,19 @@ struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
 
 } // namespace
 
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo llvmGetPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "Replace-Mult-Shift", LLVM_VERSION_STRING,
-    [](llvm::PassBuilder &PB) {
-      PB.registerPipelineParsingCallback(
-        [](llvm::StringRef Name, llvm::FunctionPassManager &FPM,
-           llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-          if (Name == "korablev-replace-mul-shift") {
-            FPM.addPass(ReplaceMultToShift());
-            return true;
+          [](llvm::PassBuilder &PB) {
+            PB.registerPipelineParsingCallback(
+              [](llvm::StringRef Name, llvm::FunctionPassManager &FPM,
+                llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                if (Name == "korablev-replace-mul-shift") {
+                  FPM.addPass(ReplaceMultToShift());
+                  return true;
+                }
+                return false;
+              });
           }
-          return false;
-        });
-    }
   };
 }
