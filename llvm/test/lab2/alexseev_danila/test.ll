@@ -53,8 +53,8 @@ for.body:
 for.inc:
   br label %for.cond
 
-  ; CHECK: call void @loop_end()
-  ; CHECK-NEXT: ret void
+  ; CHECK: for.end:
+  ; CHECK-NEXT: call void @loop_end()
 
 for.end:
   ret void
@@ -89,8 +89,8 @@ if.then:
 if.end:
   br label %while.cond
 
-  ; CHECK: call void @loop_end()
-  ; CHECK-NEXT: ret void
+  ; CHECK: while.end:
+  ; CHECK-NEXT: call void @loop_end()
 
 while.end:
   ret void
