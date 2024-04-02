@@ -29,15 +29,13 @@ struct ReplaceMultToShift : llvm::PassInfoMixin<ReplaceMultToShift> {
             if (LOp || ROp) {
               llvm::IRBuilder<> builder(BO);
               if (LOp != nullptr && LOp->getValue().isPowerOf2()) {
-                BO->replaceAllUsesWith(
-                  llvm::BinaryOperator::Create(llvm::Instruction::Shl,
-                  BO->getOperand(0), BO->getOperand(1), "shiftInst", BO)
-                );
+                BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
+                    llvm::Instruction::Shl, BO->getOperand(0),
+                    BO->getOperand(1), "shiftInst", BO));
               } else if (ROp != nullptr && ROp->getValue().isPowerOf2()) {
-                BO->replaceAllUsesWith(
-                  llvm::BinaryOperator::Create(llvm::Instruction::Shl,
-                  BO->getOperand(1), BO->getOperand(0), "shiftInst", BO)
-                );
+                BO->replaceAllUsesWith(llvm::BinaryOperator::Create(
+                    llvm::Instruction::Shl, BO->getOperand(1),
+                    BO->getOperand(0), "shiftInst", BO));
               }
               inst_list.push(&I);
             }
@@ -63,14 +61,13 @@ llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "Replace-Mult-Shift", LLVM_VERSION_STRING,
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
-              [](llvm::StringRef Name, llvm::FunctionPassManager &FPM,
-                llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-                if (Name == "korablev-replace-mul-shift") {
-                  FPM.addPass(ReplaceMultToShift());
-                  return true;
-                }
-                return false;
-              });
-          }
-  };
+                [](llvm::StringRef Name, llvm::FunctionPassManager &FPM,
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                  if (Name == "korablev-replace-mul-shift") {
+                    FPM.addPass(ReplaceMultToShift());
+                    return true;
+                  }
+                  return false;
+                });
+          }};
 }
