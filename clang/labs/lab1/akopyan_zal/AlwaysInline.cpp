@@ -17,8 +17,6 @@ public:
       for (Stmt *S : BodyCompound->body()) {
         if (!isa<IfStmt>(S)) {
           func->addAttr(AlwaysInlineAttr::CreateImplicit(*Context));
-          llvm::outs() << "__attribute__((always_inline)) "
-                       << func->getNameAsString() << "\n";
         }
       }
     }
