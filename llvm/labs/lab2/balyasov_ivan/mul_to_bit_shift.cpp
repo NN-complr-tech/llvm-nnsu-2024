@@ -1,3 +1,4 @@
+#include "llvm/IR/Attributes.inc"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
