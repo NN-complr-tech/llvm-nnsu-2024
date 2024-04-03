@@ -94,6 +94,10 @@ entry:
   ret i32 %1
 }
 
+; CHECK-LABEL: @_Z5test4v
+; CHECK: %add = add nsw i32 4, %0
+; CHECK-NEXT: store i32 %add, ptr %res, align 4
+
 define dso_local noundef i32 @_Z5test5v() #0 {
 entry:
   %a = alloca i32, align 4
