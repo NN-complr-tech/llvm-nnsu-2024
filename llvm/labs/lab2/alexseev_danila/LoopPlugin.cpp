@@ -20,12 +20,13 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
 
       llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
 
-	  llvm::BasicBlock *Header = Loop->getHeader();
+      llvm::BasicBlock *Header = Loop->getHeader();
       for (auto *const Preheader :
            llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
-        if (Loop->contains(Preheader) && !isLoopCallPresent("loop_start", Preheader)) {
+        if (Loop->contains(Preheader) &&
+            !isLoopCallPresent("loop_start", Preheader)) {
           Builder.SetInsertPoint(Preheader->getTerminator());
-		  Builder.CreateCall(
+          Builder.CreateCall(
               ParentModule->getOrInsertFunction("loop_start", funcType));
         }
       }
@@ -33,10 +34,11 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::SmallVector<llvm::BasicBlock *, 4> ExitBlocks;
       Loop->getExitBlocks(ExitBlocks);
       for (auto *const ExitBlock : ExitBlocks) {
-        if (!isLoopCallPresent("loop_end", ExitBlock) && LastExitBlock(ExitBlock, ExitBlocks)) {
+        if (!isLoopCallPresent("loop_end", ExitBlock) &&
+            LastExitBlock(ExitBlock, ExitBlocks)) {
           Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
-		  Builder.CreateCall(
-            ParentModule->getOrInsertFunction("loop_end", funcType));
+          Builder.CreateCall(
+              ParentModule->getOrInsertFunction("loop_end", funcType));
         }
       }
     }
@@ -59,13 +61,14 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
     return false;
   }
 
-  bool LastExitBlock(llvm::BasicBlock *const BB,
+  bool
+  LastExitBlock(llvm::BasicBlock *const BB,
                 const llvm::SmallVector<llvm::BasicBlock *, 4> &ExitBlocks) {
     bool flag = true;
     llvm::Instruction *Terminator = BB->getTerminator();
-    if (auto *Branch  = llvm::dyn_cast<llvm::BranchInst>(Terminator)) {
-      if (Branch ->isUnconditional()) {
-        llvm::BasicBlock *TargetBB = Branch ->getSuccessor(0);
+    if (auto *Branch = llvm::dyn_cast<llvm::BranchInst>(Terminator)) {
+      if (Branch->isUnconditional()) {
+        llvm::BasicBlock *TargetBB = Branch->getSuccessor(0);
 
         for (llvm::BasicBlock *Block : ExitBlocks) {
           if (Block == TargetBB) {
