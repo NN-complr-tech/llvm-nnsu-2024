@@ -58,15 +58,15 @@ bool registerPipeLine(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
   return false;
 }
 
-PassPluginLibraryInfo getMTBSPluginInfo() {
+PassPluginLibraryInfo getZakharovMTBSPluginPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "ZakharovMTBSPlugin", LLVM_VERSION_STRING,
           [](PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeLine);
           }};
 }
 
-#ifndef LLVM_ZakharovMTBSPlugin_LINK_INTO_TOOLS
+#ifndef LLVM_ZAKHAROVMTBSPLUGIN_LINK_INTO_TOOLS
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo llvmGetPassPluginInfo() {
-  return getMTBSPluginInfo();
+  return getZakharovMTBSPluginPluginInfo();
 }
 #endif
