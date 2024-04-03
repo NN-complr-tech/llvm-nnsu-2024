@@ -5,8 +5,7 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
-class InlineVisitor
-    : public clang::RecursiveASTVisitor<InlineVisitor> {
+class InlineVisitor : public clang::RecursiveASTVisitor<InlineVisitor> {
 private:
   clang::ASTContext *Context;
   bool HasStatement;
@@ -66,4 +65,4 @@ public:
 
 static clang::FrontendPluginRegistry::Add<InlinePlugin>
     X("add-always-inline",
-     "adds always_inline to functions without if statements.");
+      "adds always_inline to functions without if statements.");
