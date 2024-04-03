@@ -64,21 +64,14 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
   bool
   LastExitBlock(llvm::BasicBlock *const BB,
                 const llvm::SmallVector<llvm::BasicBlock *, 4> &ExitBlocks) {
-    bool flag = true;
-    llvm::Instruction *Terminator = BB->getTerminator();
-    if (auto *Branch = llvm::dyn_cast<llvm::BranchInst>(Terminator)) {
-      if (Branch->isUnconditional()) {
-        llvm::BasicBlock *TargetBB = Branch->getSuccessor(0);
-
-        for (llvm::BasicBlock *Block : ExitBlocks) {
-          if (Block == TargetBB) {
-            flag = false;
-            break;
-          }
-        }
-      }
-    }
-    return flag;
+    auto *Branch = llvm::dyn_cast<llvm::BranchInst>(BB->getTerminator());
+    if (!Branch || !Branch->isUnconditional())
+      return true;
+    llvm::BasicBlock *TargetBB = Branch->getSuccessor(0);
+    for (llvm::BasicBlock *Block : ExitBlocks)
+      if (Block == TargetBB)
+        return false;
+    return true;
   }
 };
 
