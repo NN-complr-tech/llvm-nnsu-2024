@@ -1,10 +1,13 @@
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
+#include "llvm/Support/Debug.h"
 
 struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &FAM) {
+    llvm::dbgs() << "Заход в run\n";
+
     llvm::LLVMContext &Context = F.getContext();
     llvm::Module *ParentModule = F.getParent();
 
@@ -13,22 +16,28 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
 
     llvm::LoopAnalysis::Result &LI = FAM.getResult<llvm::LoopAnalysis>(F);
     for (auto *Loop : LI) {
-      llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
-      llvm::BasicBlock *Preheader = Loop->getLoopPreheader();
-      llvm::BasicBlock *ExitBlock = Loop->getExitBlock();
+      llvm::dbgs() << "Заход в цикл\n";
 
-      bool loopStartCalled = isLoopCallPresent("loop_start", Preheader);
-      if (Preheader && ExitBlock && !loopStartCalled) {
-        Builder.SetInsertPoint(Preheader->getTerminator());
-        Builder.CreateCall(
-            ParentModule->getOrInsertFunction("loop_start", funcType));
+      llvm::IRBuilder<> Builder(Loop->getHeader()->getContext());
+
+	  llvm::BasicBlock *Header = Loop->getHeader();
+      for (auto *const Preheader :
+           llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
+        if (Loop->contains(Preheader) && !isLoopCallPresent("loop_start", Preheader)) {
+          Builder.SetInsertPoint(Preheader->getTerminator());
+		  Builder.CreateCall(
+              ParentModule->getOrInsertFunction("loop_start", funcType));
+        }
       }
 
-      bool loopEndCalled = isLoopCallPresent("loop_end", ExitBlock);
-      if (Preheader && ExitBlock && !loopEndCalled) {
-        Builder.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
-        Builder.CreateCall(
+      llvm::SmallVector<llvm::BasicBlock *, 4> ExitBlocks;
+      Loop->getExitBlocks(ExitBlocks);
+      for (auto *const ExitBlock : ExitBlocks) {
+        if (!isLoopCallPresent("loop_end", ExitBlock) && LastExitBlock(ExitBlock, ExitBlocks)) {
+          Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
+		  Builder.CreateCall(
             ParentModule->getOrInsertFunction("loop_end", funcType));
+        }
       }
     }
     return llvm::PreservedAnalyses::all();
@@ -48,6 +57,25 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       }
     }
     return false;
+  }
+
+  bool LastExitBlock(llvm::BasicBlock *const BB,
+                const llvm::SmallVector<llvm::BasicBlock *, 4> &ExitBlocks) {
+    bool flag = true;
+    llvm::Instruction *Terminator = BB->getTerminator();
+    if (auto *Branch  = llvm::dyn_cast<llvm::BranchInst>(Terminator)) {
+      if (Branch ->isUnconditional()) {
+        llvm::BasicBlock *TargetBB = Branch ->getSuccessor(0);
+
+        for (llvm::BasicBlock *Block : ExitBlocks) {
+          if (Block == TargetBB) {
+            flag = false;
+            break;
+          }
+        }
+      }
+    }
+    return flag;
   }
 };
 
