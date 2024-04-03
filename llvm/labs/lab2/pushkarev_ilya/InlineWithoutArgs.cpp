@@ -14,7 +14,7 @@ namespace {
 class InlineWithoutArgsVisitor
     : public clang::RecursiveASTVisitor<InlineWithoutArgsVisitor> {
 public:
-  bool VisitCallExpr(clang::CallExpr *Call) {
+  bool visitCallExpr(clang::CallExpr *Call) {
 
     // Check if function call: a) doesn't have arguments, b) is void c) isn't a
     // class method
