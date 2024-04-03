@@ -1,13 +1,19 @@
-#include "clang/AST/AST.h"
-#include "clang/AST/ASTConsumer.h"
-#include "clang/AST/Decl.h"
-#include "clang/AST/DeclGroup.h"
-#include "clang/AST/RecursiveASTVisitor.h"
-#include "clang/AST/Stmt.h"
-#include "clang/Basic/SourceLocation.h"
-#include "clang/Frontend/CompilerInstance.h"
-#include "clang/Frontend/FrontendPluginRegistry.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Instruction.h"
+#include "llvm/IR/Instructions.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Value.h"
+#include "llvm/Transforms/Utils/BasicBlockUtils.h"
+#include "llvm/Transforms/Utils/Cloning.h"
+#include "llvm/Transforms/Utils/ValueMapper.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
+#include "llvm/Support/Casting.h"
 #include "llvm/ADT/StringRef.h"
+
+#include <vector>
 
 namespace {
 
