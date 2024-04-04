@@ -8,7 +8,7 @@
 #include <string>
 
 namespace {
-struct MulToBitShift : llvm::PassInfoMixin<mulToBitShiftPlugin> {
+struct mulToBitShiftPlugin : llvm::PassInfoMixin<mulToBitShiftPlugin> {
 public:
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &FAM) {
