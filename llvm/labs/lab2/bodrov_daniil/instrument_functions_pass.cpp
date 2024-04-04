@@ -6,11 +6,14 @@
 
 namespace {
 struct InstrumentFunctionsPass : llvm::PassInfoMixin<InstrumentFunctionsPass> {
-  // Function to check if function call is instrumented
-  bool isInstrumentedCall(llvm::Instruction &inst, llvm::FunctionCallee &func) {
-    if (llvm::CallInst *callInst = llvm::dyn_cast<llvm::CallInst>(&inst)) {
-      if (callInst->getCalledFunction() == func.getCallee()) {
-        return true;
+
+  // Function to check for existing instrument calls in the function
+  bool checkForInstrumentCalls(llvm::Function &F, llvm::FunctionCallee &func) {
+    for (auto *user : func.getCallee()->users()) {
+      if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(user)) {
+        if (callInst->getParent()->getParent() == &F) {
+          return true;
+        }
       }
     }
     return false;
@@ -24,6 +27,18 @@ struct InstrumentFunctionsPass : llvm::PassInfoMixin<InstrumentFunctionsPass> {
       builder.CreateCall(func);
       inserted = true;
     }
+  }
+
+  // Function to find the last return instruction within a function
+  llvm::ReturnInst *findLastReturnInst(llvm::Function &F) {
+    llvm::ReturnInst *lastReturnInst = nullptr;
+    for (llvm::BasicBlock &BB : F) {
+      llvm::Instruction *terminator = BB.getTerminator();
+      if (llvm::isa<llvm::ReturnInst>(terminator)) {
+        lastReturnInst = llvm::cast<llvm::ReturnInst>(terminator);
+      }
+    }
+    return lastReturnInst;
   }
 
   llvm::PreservedAnalyses run(llvm::Function &F,
@@ -40,36 +55,18 @@ struct InstrumentFunctionsPass : llvm::PassInfoMixin<InstrumentFunctionsPass> {
     llvm::FunctionCallee endFunc =
         module->getOrInsertFunction("instrument_end", funcType);
 
-    // Check if instrument_start() or instrument_end() has been already inserted
-    bool startInserted = false;
-    bool endInserted = false;
-
-    // Check for existing instrument calls in the function
-    for (auto &block : F) {
-      for (auto &instruction : block) {
-        if (isInstrumentedCall(instruction, startFunc)) {
-          startInserted = true;
-        }
-        if (isInstrumentedCall(instruction, endFunc)) {
-          endInserted = true;
-        }
-      }
-    }
+    bool startInserted = checkForInstrumentCalls(F, startFunc);
+    bool endInserted = checkForInstrumentCalls(F, endFunc);
 
     // Insert instrument_start() if not already inserted
     insertInstrumentCall(F, startFunc, builder, startInserted);
 
+    // Insert instrument_end() if not already inserted
     if (!endInserted) {
-      // Insert instrument_end() if not already inserted
-      llvm::Instruction *terminator = nullptr;
-      for (auto &BB : F) {
-        if (llvm::isa<llvm::ReturnInst>(BB.getTerminator())) {
-          terminator = BB.getTerminator();
-          break;
-        }
-      }
-      if (terminator) {
-        builder.SetInsertPoint(terminator);
+      llvm::ReturnInst *lastReturnInst = findLastReturnInst(F);
+
+      if (lastReturnInst) {
+        builder.SetInsertPoint(lastReturnInst);
         builder.CreateCall(endFunc);
         endInserted = true;
       }
