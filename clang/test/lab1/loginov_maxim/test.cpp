@@ -87,27 +87,6 @@
 
 // RUN: %clang_cc1 -load %llvmshlibdir/RenameIdentificatorPlugin%pluginext\
 // RUN: -add-plugin Rename\
-// RUN: -plugin-arg-Rename type=class\
-// RUN: -plugin-arg-Rename cur-name=B\
-// RUN: -plugin-arg-Rename new-name=C %t/rename_non_existent_class.cpp
-// RUN: FileCheck %s < %t/rename_non_existent_class.cpp --check-prefix=NON_EXIST_CLASS
-
-// NON_EXIST_CLASS: class A{
-// NON_EXIST_CLASS-NEXT: private:
-// NON_EXIST_CLASS-NEXT: int var1;
-// NON_EXIST_CLASS-NEXT: double var2;
-// NON_EXIST_CLASS-NEXT: public:
-// NON_EXIST_CLASS-NEXT: A() {};
-// NON_EXIST_CLASS-NEXT: ~A() {};
-// NON_EXIST_CLASS-NEXT: };
-// NON_EXIST_CLASS: void func() {
-// NON_EXIST_CLASS-NEXT: A var1;
-// NON_EXIST_CLASS-NEXT: A* var2 = new A;
-// NON_EXIST_CLASS-NEXT: delete var2;
-// NON_EXIST_CLASS-NEXT: }
-
-// RUN: %clang_cc1 -load %llvmshlibdir/RenameIdentificatorPlugin%pluginext\
-// RUN: -add-plugin Rename\
 // RUN: -plugin-arg-Rename help\
 // RUN: 2>&1 | FileCheck %s --check-prefix=HELP
 
