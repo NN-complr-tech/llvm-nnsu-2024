@@ -145,15 +145,15 @@
 
 //--- rename_var.cpp
 int func() {
-  int a = 4, b = 4;
+  int a = 2, b = 2;
   a = b + a;
   a++;
   return a;
 }
 //--- rename_non_existent_var.cpp
 int func() {
-  int a = 3;
-  int b = 4;
+  int a = 2;
+  int b = 3;
   b += a;
   a++;
   return b - a;
