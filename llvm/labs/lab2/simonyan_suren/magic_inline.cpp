@@ -13,7 +13,7 @@ namespace {
 
 // Плагин для инлайнинга вызовов функций без аргументов и возвращаемых значений
 struct SimonyanInliningPass : public PassInfoMixin<SimonyanInliningPass> {
-  PreservedAnalyses run(Function &F) {
+  PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
     SmallPtrSet<Instruction *, 8> CallsToRemove;
 
     // Перебираем все базовые блоки в функции
@@ -57,7 +57,7 @@ extern "C" ::llvm::PassPluginLibraryInfo LLVM_ATTRIBUTE_WEAK llvmGetPassPluginIn
       PB.registerPipelineParsingCallback(
         [](StringRef Name, FunctionPassManager &FPM,
            ArrayRef<PassBuilder::PipelineElement>) {
-          if (Name == "custom-inlining") {
+          if (Name == "simonyan-inlining") {
             FPM.addPass(SimonyanInliningPass());
             return true;
           }
