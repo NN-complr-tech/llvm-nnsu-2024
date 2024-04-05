@@ -10,5 +10,3 @@ if (NOT WIN32 AND NOT CYGWIN)
 
   set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
 endif()
-
-add_library(SimonyanInliningPass SHARED magic_inline.cpp)
