@@ -1,8 +1,8 @@
 ; RUN: split-file %s %t
-; RUN: opt -passes="simonyan-inlining" -S %t/test1.ll | FileCheck %t/test1.ll
-; RUN: opt -passes="simonyan-inlining" -S %t/test2.ll | FileCheck %t/test2.ll
-; RUN: opt -passes="simonyan-inlining" -S %t/test3.ll | FileCheck %t/test3.ll
-; RUN: opt -passes="simonyan-inlining" -S %t/test4.ll | FileCheck %t/test4.ll
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test1.ll | FileCheck %t/test1.ll
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test2.ll | FileCheck %t/test2.ll
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test3.ll | FileCheck %t/test3.ll
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test4.ll | FileCheck %t/test4.ll
 
 ;--- test1.ll
 ; COM: Simple magic inline check. Expect inline
