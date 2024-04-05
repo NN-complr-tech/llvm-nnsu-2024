@@ -105,4 +105,3 @@ extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return getMulToBitShiftPluginInfoUpdated();
 }
-
