@@ -1,5 +1,5 @@
 if (NOT WIN32 AND NOT CYGWIN)
-  set(PluginName SimonyanInlining)
+  set(PluginName SimonyanInliningPass)
 
   file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
   add_llvm_pass_plugin(${PluginName} 
