@@ -11,4 +11,4 @@ if(WIN32 OR CYGWIN)
     )
 endif()
 
-set(CLANG_TEST_DEPS "SimonyanAlwaysInlinePlugin" ${CLANG_TEST_DEPS} PARENT_SCOPE)
+set(CLANG_TEST_DEPS "SimonyanAlwaysInlinePlugin" ${CLANG_TEST_DEPS} PARENT_SCOPE)git
