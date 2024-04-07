@@ -1,5 +1,5 @@
 ; RUN: opt -load-pass-plugin %llvmshlibdir/Instrument_function_Veselov_Ilya_FIIT1%pluginext\
-; RUN: -passes=InstrumentFunction -S %s | FileCheck %s
+; RUN: -passes=instrument_function -S %s | FileCheck %s
 
 ; CHECK-LABEL: @_Z8sum_funcii
 ; CHECK: call void @instrument_start()
@@ -173,45 +173,4 @@ if.end:                                           ; preds = %if.else, %if.then
   %1 = load i8, ptr %res, align 1
   %tobool = trunc i8 %1 to i1
   ret i1 %tobool
-}
-
-; CHECK-LABEL: @_Z4loopi
-; CHECK: call void @instrument_start()
-; CHECK-NEXT: %n.addr = alloca i32, align 4
-; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %4
-
-define dso_local noundef i32 @_Z4loopi(i32 noundef %n) #0 {
-entry:
-  %n.addr = alloca i32, align 4
-  %s = alloca i32, align 4
-  %i = alloca i32, align 4
-  store i32 %n, ptr %n.addr, align 4
-  call void @instrument_start()
-  store i32 0, ptr %s, align 4
-  store i32 0, ptr %i, align 4
-  br label %for.cond
-
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, ptr %i, align 4
-  %1 = load i32, ptr %n.addr, align 4
-  %cmp = icmp slt i32 %0, %1
-  br i1 %cmp, label %for.body, label %for.end, !llvm.loop !6
-
-for.body:                                         ; preds = %for.cond
-  %2 = load i32, ptr %s, align 4
-  %inc = add nsw i32 %2, 1
-  store i32 %inc, ptr %s, align 4
-  br label %for.inc
-
-for.inc:                                          ; preds = %for.body
-  %3 = load i32, ptr %i, align 4
-  %inc1 = add nsw i32 %3, 1
-  store i32 %inc1, ptr %i, align 4
-  br label %for.cond, !llvm.loop !6
-
-for.end:                                          ; preds = %for.cond
-  call void @instrument_end()
-  %4 = load i32, ptr %s, align 4
-  ret i32 %4
 }

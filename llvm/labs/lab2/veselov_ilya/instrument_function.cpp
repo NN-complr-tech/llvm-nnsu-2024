@@ -1,11 +1,13 @@
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Instructions.h"
 
 namespace {
 struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
   llvm::PreservedAnalyses run(llvm::Function &function,
-                              llvm::FunctionAnalysisManager &) {
+                              llvm::FunctionAnalysisManager &fam) {
     llvm::LLVMContext &con = function.getContext();
     llvm::IRBuilder<> build(con);
     llvm::Module *mod = function.getParent();
@@ -57,7 +59,7 @@ struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPuginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "instrument_function", "0.1",
+  return {LLVM_PLUGIN_API_VERSION, "InstrumentFunction", "0.1",
           [](llvm::PassBuilder &pb) {
             pb.registerPipelineParsingCallback(
                 [](llvm::StringRef name, llvm::FunctionPassManager &fpm,
