@@ -24,10 +24,6 @@ entry:
   ret i32 %2
 }
 
-declare void @instrument_start() #1
-
-declare void @instrument_end() #1
-
 ; CHECK-LABEL: @_Z7func_vvv
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: call void @instrument_end()
@@ -174,3 +170,6 @@ if.end:                                           ; preds = %if.else, %if.then
   %tobool = trunc i8 %1 to i1
   ret i1 %tobool
 }
+
+declare void @instrument_start()
+declare void @instrument_end()
