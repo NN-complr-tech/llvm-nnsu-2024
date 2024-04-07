@@ -10,60 +10,64 @@
 namespace {
 
 struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
-llvm::PreservedAnalyses run(llvm::Function &F, llvm::FunctionAnalysisManager &) {
-  llvm::SmallPtrSet<llvm::CallInst *, 8> CallsToRemove;
+  llvm::PreservedAnalyses run(llvm::Function &F,
+                              llvm::FunctionAnalysisManager &) {
+    llvm::SmallPtrSet<llvm::CallInst *, 8> CallsToRemove;
 
-  for (llvm::BasicBlock &BB : F) {
-    for (llvm::Instruction &Instr : BB) {
-      if (llvm::CallInst *CI = llvm::dyn_cast<llvm::CallInst>(&Instr)) {
-        llvm::Function *Callee = CI->getCalledFunction();
-        if (Callee && Callee->arg_empty() && Callee->getReturnType()->isVoidTy()) {
-          std::map<llvm::Value *, llvm::Value *> ValueMap;
+    for (llvm::BasicBlock &BB : F) {
+      for (llvm::Instruction &Instr : BB) {
+        if (llvm::CallInst *CI = llvm::dyn_cast<llvm::CallInst>(&Instr)) {
+          llvm::Function *Callee = CI->getCalledFunction();
+          if (Callee && Callee->arg_empty() &&
+              Callee->getReturnType()->isVoidTy()) {
+            std::map<llvm::Value *, llvm::Value *> ValueMap;
 
-          for (llvm::BasicBlock &CalleeBB : *Callee) {
-            for (llvm::Instruction &Inst : CalleeBB) {
-              if (Inst.isTerminator()) continue; // Пропустить терминаторные инструкции
-              llvm::Instruction *NewInst = Inst.clone();
-              if (!NewInst) {
-                llvm::errs() << "Error: Failed to clone instruction.\n";
-                return llvm::PreservedAnalyses::none();
-              }
-              NewInst->insertBefore(CI);
-              ValueMap[&Inst] = NewInst;
-            }
-          }
-
-          for (auto &InstMapping : ValueMap) {
-            llvm::Instruction *NewInst = llvm::dyn_cast<llvm::Instruction>(InstMapping.second);
-            for (llvm::Use &Op : NewInst->operands()) {
-              if (ValueMap.count(Op)) {
-                Op.set(ValueMap[Op]);
+            for (llvm::BasicBlock &CalleeBB : *Callee) {
+              for (llvm::Instruction &Inst : CalleeBB) {
+                if (Inst.isTerminator())
+                  continue; // Пропустить терминаторные инструкции
+                llvm::Instruction *NewInst = Inst.clone();
+                if (!NewInst) {
+                  llvm::errs() << "Error: Failed to clone instruction.\n";
+                  return llvm::PreservedAnalyses::none();
+                }
+                NewInst->insertBefore(CI);
+                ValueMap[&Inst] = NewInst;
               }
             }
-          }
 
-          // Обновляем операнды инструкций в CallInst
-          for (auto &Use : CI->uses()) {
-            llvm::User *User = Use.getUser();
-            for (unsigned i = 0; i < User->getNumOperands(); ++i) {
-              if (ValueMap.count(User->getOperand(i))) {
-                User->setOperand(i, ValueMap[User->getOperand(i)]);
+            for (auto &InstMapping : ValueMap) {
+              llvm::Instruction *NewInst =
+                  llvm::dyn_cast<llvm::Instruction>(InstMapping.second);
+              for (llvm::Use &Op : NewInst->operands()) {
+                if (ValueMap.count(Op)) {
+                  Op.set(ValueMap[Op]);
+                }
               }
             }
-          }
 
-          CallsToRemove.insert(CI);
+            // Обновляем операнды инструкций в CallInst
+            for (auto &Use : CI->uses()) {
+              llvm::User *User = Use.getUser();
+              for (unsigned i = 0; i < User->getNumOperands(); ++i) {
+                if (ValueMap.count(User->getOperand(i))) {
+                  User->setOperand(i, ValueMap[User->getOperand(i)]);
+                }
+              }
+            }
+
+            CallsToRemove.insert(CI);
+          }
         }
       }
     }
-  }
 
-  for (llvm::CallInst *CI : CallsToRemove) {
-    CI->eraseFromParent();
-  }
+    for (llvm::CallInst *CI : CallsToRemove) {
+      CI->eraseFromParent();
+    }
 
-  return llvm::PreservedAnalyses::all();
-}
+    return llvm::PreservedAnalyses::all();
+  }
 };
 
 } // end anonymous namespace
