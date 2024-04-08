@@ -1,10 +1,4 @@
-; RUN: split-file %s %t
-; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test1.ll | FileCheck %t/test1.ll
-; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test2.ll | FileCheck %t/test2.ll
-; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test3.ll | FileCheck %t/test3.ll
-; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes="simonyan-inlining" -S %t/test4.ll | FileCheck %t/test4.ll
-
-;--- test1.ll
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%shlibext -passes=simonyan-inlining -S %s | FileCheck %s
 
 ;void foo1() {
 ;  float a = 1.0f;
@@ -49,8 +43,6 @@ define dso_local void @_Z3bar1v() {
 ; CHECK-NEXT: store i32 %6, ptr %1, align 4
 ; CHECK-NEXT: ret void
 ; CHECK-NEXT: }
-
-;--- test2.ll
 
 ;void foo2(int) {
 ;  float a = 1.0f;
@@ -97,8 +89,6 @@ define dso_local void @_Z3bar2v() {
 ; CHECK-NEXT: ret void
 ; CHECK-NEXT:}
 
-;--- test3.ll
-
 ;float foo3() {
 ;  float a = 1.0f;
 ;  a += 1.0f;
@@ -140,8 +130,6 @@ define dso_local void @_Z3bar3v() {
 ; CHECK-NEXT: store i32 %4, ptr %1, align 4
 ; CHECK-NEXT: ret void
 ; CHECK-NEXT: }
-
-;--- test4.ll
 
 ;void foo4() {
 ;  float a = 1.0f;
