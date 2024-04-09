@@ -1,16 +1,10 @@
-set(Title "InlineFunc")
-set(Student "Pushkarev_Ilya")
-set(Group "FIIT1")
-set(PluginName "${Title}_${Student}_${Group}")
-
-
 if (NOT WIN32 AND NOT CYGWIN)
-    message("-- ${PluginName} -- BUILD")
+  set(PluginName PushkarevFunctionInliningPass)
 
-    file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.hpp)
-    add_llvm_pass_plugin(${PluginName} ${ALL_SOURCE_FILES})
+  file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
+  add_llvm_pass_plugin(${PluginName} 
+  ${ALL_SOURCE_FILES}     )
 
-    set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
-else()
-    message("-- ${PluginName} -- NOT BUILD")
+  set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
 endif()
+
