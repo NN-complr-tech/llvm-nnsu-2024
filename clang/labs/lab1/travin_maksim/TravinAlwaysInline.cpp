@@ -17,13 +17,14 @@ public:
   bool VisitFunctionDecl(clang::FunctionDecl *Func) {
     HasStatement = false;
     TraverseStmt(Func->getBody());
-
     if (Func->hasAttr<clang::AlwaysInlineAttr>()) {
+      Func->dump();
       return true;
     }
     if (!HasStatement) {
       clang::SourceRange Range = Func->getSourceRange();
-      Func->addAttr(clang::AlwaysInlineAttr::CreateImplicit(*Context, Range));
+      Func->addAttr(clang::AlwaysInlineAttr::Create(*Context, Range));
+      Func->dump();
     }
     return true;
   }
@@ -45,8 +46,11 @@ private:
 public:
   InlineConsumer(clang::ASTContext *Context) : Visitor(Context) {}
 
-  void HandleTranslationUnit(clang::ASTContext &Context) override {
-    Visitor.TraverseDecl(Context.getTranslationUnitDecl());
+  bool HandleTopLevelDecl(clang::DeclGroupRef Group) override {
+    for (clang::Decl *Decl : Group) {
+      Visitor.TraverseDecl(Decl);
+    }
+    return true;
   }
 };
 
