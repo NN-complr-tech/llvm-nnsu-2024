@@ -18,13 +18,11 @@ public:
     HasStatement = false;
     TraverseStmt(Func->getBody());
     if (Func->hasAttr<clang::AlwaysInlineAttr>()) {
-      Func->dump();
       return true;
     }
     if (!HasStatement) {
       clang::SourceRange Range = Func->getSourceRange();
       Func->addAttr(clang::AlwaysInlineAttr::Create(*Context, Range));
-      Func->dump();
     }
     return true;
   }
