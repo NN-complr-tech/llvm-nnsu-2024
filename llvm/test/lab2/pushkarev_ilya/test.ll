@@ -1,6 +1,7 @@
 ; RUN: split-file %s %t
+;
+; RUN: opt -load-pass-plugin %llvmshlibdir/PushkarevFunctionInliningPass%pluginext\
 ; RUN: opt -passes="pushkarev-function-inlining" -S %t/test1.ll | FileCheck %t/test1.ll
-
 ;--- test1.ll
 ; COM: Simple magic inline check. Expect inline
 
