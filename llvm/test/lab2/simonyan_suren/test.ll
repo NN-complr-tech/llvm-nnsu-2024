@@ -1,4 +1,4 @@
-; RUN: opt -passes=simonyan-inlining -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/SimonyanInliningPass%pluginext -passes=simonyan-inlining -S %s | FileCheck %s
 
 ;void foo1() {
 ;  float a = 1.0f;
