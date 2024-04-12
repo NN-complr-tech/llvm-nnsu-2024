@@ -13,6 +13,7 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
   llvm::PreservedAnalyses run(llvm::Function &F,
                               llvm::FunctionAnalysisManager &) {
     llvm::SmallPtrSet<llvm::CallInst *, 8> CallsToRemove;
+    llvm::ValueToValueMapTy ValueMap;
 
     for (llvm::BasicBlock &BB : F) {
       for (llvm::Instruction &Instr : BB) {
@@ -20,7 +21,7 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
           llvm::Function *Callee = CI->getCalledFunction();
           if (Callee && Callee->arg_empty() &&
               Callee->getReturnType()->isVoidTy()) {
-            std::map<llvm::Value *, llvm::Value *> ValueMap;
+            llvm::ValueToValueMapTy ValueMap;
 
             for (llvm::BasicBlock &CalleeBB : *Callee) {
               for (llvm::Instruction &Inst : CalleeBB) {
@@ -36,9 +37,9 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
               }
             }
 
-            for (auto &InstMapping : ValueMap) {
+            for (auto it = ValueMap.begin(); it != ValueMap.end(); ++it) {
               llvm::Instruction *NewInst =
-                  llvm::dyn_cast<llvm::Instruction>(InstMapping.second);
+                  llvm::dyn_cast<llvm::Instruction>(it->second);
               for (llvm::Use &Op : NewInst->operands()) {
                 if (ValueMap.count(Op)) {
                   Op.set(ValueMap[Op]);
@@ -51,7 +52,8 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
               llvm::User *User = Use.getUser();
               for (unsigned i = 0; i < User->getNumOperands(); ++i) {
                 if (ValueMap.count(User->getOperand(i))) {
-                  User->setOperand(i, ValueMap[User->getOperand(i)]);
+                  User->getOperand(i)->replaceAllUsesWith(
+                      ValueMap[User->getOperand(i)]);
                 }
               }
             }
@@ -66,7 +68,7 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
       CI->eraseFromParent();
     }
 
-    return llvm::PreservedAnalyses::all();
+    return llvm::PreservedAnalyses::none();
   }
 };
 

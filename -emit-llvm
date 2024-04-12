@@ -1,0 +1,65 @@
+	.text
+	.def	@feat.00;
+	.scl	3;
+	.type	0;
+	.endef
+	.globl	@feat.00
+.set @feat.00, 0
+	.file	"testfun.cpp"
+	.def	_Z4foo4v;
+	.scl	2;
+	.type	32;
+	.endef
+	.globl	_Z4foo4v                        # -- Begin function _Z4foo4v
+	.p2align	4, 0x90
+_Z4foo4v:                               # @_Z4foo4v
+.seh_proc _Z4foo4v
+# %bb.0:                                # %entry
+	pushq	%rax
+	.seh_stackalloc 8
+	.seh_endprologue
+	movl	$0, 4(%rsp)
+	movl	$0, (%rsp)
+.LBB0_1:                                # %for.cond
+                                        # =>This Inner Loop Header: Depth=1
+	cmpl	$5, (%rsp)
+	jge	.LBB0_4
+# %bb.2:                                # %for.body
+                                        #   in Loop: Header=BB0_1 Depth=1
+	movl	4(%rsp), %eax
+	addl	$1, %eax
+	movl	%eax, 4(%rsp)
+# %bb.3:                                # %for.inc
+                                        #   in Loop: Header=BB0_1 Depth=1
+	movl	(%rsp), %eax
+	addl	$1, %eax
+	movl	%eax, (%rsp)
+	jmp	.LBB0_1
+.LBB0_4:                                # %for.end
+	popq	%rax
+	retq
+	.seh_endproc
+                                        # -- End function
+	.def	_Z4bar4v;
+	.scl	2;
+	.type	32;
+	.endef
+	.globl	_Z4bar4v                        # -- Begin function _Z4bar4v
+	.p2align	4, 0x90
+_Z4bar4v:                               # @_Z4bar4v
+.seh_proc _Z4bar4v
+# %bb.0:                                # %entry
+	subq	$40, %rsp
+	.seh_stackalloc 40
+	.seh_endprologue
+	movl	$0, 36(%rsp)
+	callq	_Z4foo4v
+	movl	36(%rsp), %eax
+	addl	$1, %eax
+	movl	%eax, 36(%rsp)
+	addq	$40, %rsp
+	retq
+	.seh_endproc
+                                        # -- End function
+	.addrsig
+	.addrsig_sym _Z4foo4v
