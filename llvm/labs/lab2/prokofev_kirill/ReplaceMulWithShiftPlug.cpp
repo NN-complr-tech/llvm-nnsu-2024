@@ -6,10 +6,10 @@
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/CommandLine.h"
 
-
 static llvm::cl::opt<bool> MulShiftConstOnly(
     "mul-shift-const-only", llvm::cl::init(false),
-    llvm::cl::desc("Limit mul-to-shl replacement to constant pow_of_two operands"));
+    llvm::cl::desc(
+        "Limit mul-to-shl replacement to constant pow_of_two operands"));
 
 namespace {
 struct ReplaceMulWithShift : llvm::PassInfoMixin<ReplaceMulWithShift> {
@@ -31,7 +31,6 @@ public:
         llvm::Value *leftOper = op->getOperand(0);
         llvm::Value *rightOper = op->getOperand(1);
 
-      
         int logVal1 = getLogBase2(leftOper);
         int logVal2 = getLogBase2(rightOper);
         if (logVal1 < logVal2) {
@@ -40,7 +39,7 @@ public:
         }
 
         if (MulShiftConstOnly && !llvm::isa<llvm::ConstantInt>(leftOper)) {
-              continue;
+          continue;
         }
 
         if (logVal1 > -1) {
