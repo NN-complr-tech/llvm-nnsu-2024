@@ -51,7 +51,7 @@ entry:
 ; CHECK-NEXT:   %num.addr = alloca i32, align 4
 ; CHECK-NEXT:   store i32 %num, ptr %num.addr, align 4
 ; CHECK-NEXT:   br label %0
-; CHECK: entry.splited.0:                                  ; preds = %entry.inlined.0
+; CHECK: entry.splited.0:                                  ; preds = %entry.split
 ; CHECK-NEXT:   %1 = alloca i32, align 4
 ; CHECK-NEXT:   store i32 0, ptr %1, align 4
 ; CHECK-NEXT:   %2 = load i32, ptr %1, align 4
