@@ -47,18 +47,18 @@ entry:
 ; CHECK-NEXT: }
 
 ; CHECK: define dso_local noundef i32 @_Z3fooi(i32 noundef %num) {
-; CHECK: entry:
+; CHECK: entry.split:
 ; CHECK-NEXT:   %num.addr = alloca i32, align 4
 ; CHECK-NEXT:   store i32 %num, ptr %num.addr, align 4
 ; CHECK-NEXT:   br label %0
-; CHECK: entry.splited.0:                                  ; preds = %entry.split
+; CHECK: 0:                                  ; preds = %entry.split
 ; CHECK-NEXT:   %1 = alloca i32, align 4
 ; CHECK-NEXT:   store i32 0, ptr %1, align 4
 ; CHECK-NEXT:   %2 = load i32, ptr %1, align 4
 ; CHECK-NEXT:   %3 = add nsw i32 %2, 1
 ; CHECK-NEXT:   store i32 %3, ptr %1, align 4
 ; CHECK-NEXT:   br label %entry
-; CHECK: entry.inlined.0:                                  ; preds = %0
+; CHECK: entry:                                  ; preds = %0
 ; CHECK-NEXT:   %4 = load i32, ptr %num.addr, align 4
 ; CHECK-NEXT:   ret i32 %4
 ; CHECK-NEXT: }
