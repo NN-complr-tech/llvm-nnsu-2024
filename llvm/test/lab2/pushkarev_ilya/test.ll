@@ -1,81 +1,124 @@
-; RUN: split-file %s %t
-;
-; RUN: opt -load-pass-plugin %llvmshlibdir/PushkarevFunctionInliningPass%pluginext\ -passes="pushkarev-function-inlining" -S %t/test1.ll | FileCheck %t/test1.ll
-;--- test1.ll
-; COM: Simple magic inline check. Expect inline
 
-;void foo() {
-;  float a = 1.0f;
-;  a += 1.0f;
+; RUN: opt -load-pass-plugin %llvmshlibdir/PushkarevFunctionInliningPass%pluginext\
+; RUN: -passes=pushkarev-function-inlining -S %s | FileCheck %s
+
+
+; COM: Simple inline check. Expect inline
+
+;void func()
+;{
+;    int a = 0;
+;    a += 1;
 ;}
 ;
-;void bar() {
-;  int a = 0;
-;  foo();
-;  a++;
+;int foo(int num)
+;{
+;    func();
+;    return num;
 ;}
 
-; COM: The result is:
+define dso_local void @_Z4funcv() #0 {
+entry:
+  %a = alloca i32, align 4
+  store i32 0, ptr %a, align 4
+  %0 = load i32, ptr %a, align 4
+  %add = add nsw i32 %0, 1
+  store i32 %add, ptr %a, align 4
+  ret void
+}
 
-;define dso_local void @_Z3foov() {
-;  %1 = alloca float, align 4
-;  store float 1.000000e+00, ptr %1, align 4
-;  %2 = load float, ptr %1, align 4
-;  %3 = fadd float %2, 1.000000e+00
-;  store float %3, ptr %1, align 4
-;  ret void
-;}
-;
-;define dso_local void @_Z3barv() {
-;.split:
-;  %0 = alloca i32, align 4
-;  store i32 0, ptr %0, align 4
-;  br label %1
-;
-;1:                                                ; preds = %.split
-;  %2 = alloca float, align 4
-;  store float 1.000000e+00, ptr %2, align 4
-;  %3 = load float, ptr %2, align 4
-;  %4 = fadd float %3, 1.000000e+00
-;  store float %4, ptr %2, align 4
-;  br label %5
-;
-;5:                                                ; preds = %1
-;  %6 = load i32, ptr %0, align 4
-;  %7 = add nsw i32 %6, 1
-;  store i32 %7, ptr %0, align 4
-;  ret void
-;}
+define dso_local noundef i32 @_Z3fooi(i32 noundef %num) #0 {
+entry:
+  %num.addr = alloca i32, align 4
+  store i32 %num, ptr %num.addr, align 4
+  call void @_Z4funcv()
+  %0 = load i32, ptr %num.addr, align 4
+  ret i32 %0
+}
 
-; COM: Begin checking
+; CHECK: define dso_local void @_Z4funcv() {
+; CHECK: entry:
+; CHECK-NEXT:   %a = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %a, align 4
+; CHECK-NEXT:   %0 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %add = add nsw i32 %0, 1
+; CHECK-NEXT:   store i32 %add, ptr %a, align 4
+; CHECK-NEXT:   ret void
+; CHECK-NEXT: }
 
+; CHECK: define dso_local noundef i32 @_Z3fooi(i32 noundef %num) {
+; CHECK: entry:
+; CHECK-NEXT:   %num.addr = alloca i32, align 4
+; CHECK-NEXT:   store i32 %num, ptr %num.addr, align 4
+; CHECK-NEXT:   br label %entry.inlined.0
+; CHECK: entry.splited.0:                                  ; preds = %entry.inlined.0
+; CHECK-NEXT:   %0 = load i32, ptr %num.addr, align 4
+; CHECK-NEXT:   ret i32 %0
+; CHECK: entry.inlined.0:                                  ; preds = %entry
+; CHECK-NEXT:   %1 = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %1, align 4
+; CHECK-NEXT:   %2 = load i32, ptr %1, align 4
+; CHECK-NEXT:   %3 = add nsw i32 %2, 1
+; CHECK-NEXT:   store i32 %3, ptr %1, align 4
+; CHECK-NEXT:   br label %entry.splited.0
+; CHECK-NEXT: }
+
+; --------------------------------------------------------------------
+
+; COM: Expect not inline because of the non-void return
+
+; float foo() { 
+;   float a = 1.0f; 
+;   a += 1.0f; 
+;   return  a; 
+; } 
+;  
+; void bar() { 
+;   int a = 0; 
+;   foo(); 
+;   a++; 
+; }
+
+define dso_local noundef float @_Z3foov() #0 {
+entry:
+  %a = alloca float, align 4
+  store float 1.000000e+00, ptr %a, align 4
+  %0 = load float, ptr %a, align 4
+  %add = fadd float %0, 1.000000e+00
+  store float %add, ptr %a, align 4
+  %1 = load float, ptr %a, align 4
+  ret float %1
+}
+
+define dso_local void @_Z3barv() #0 {
+entry:
+  %a = alloca i32, align 4
+  store i32 0, ptr %a, align 4
+  %call = call noundef float @_Z3foov()
+  %0 = load i32, ptr %a, align 4
+  %inc = add nsw i32 %0, 1
+  store i32 %inc, ptr %a, align 4
+  ret void
+}
+
+; CHECK: define dso_local noundef float @_Z3foov() {
+; CHECK: entry:
+; CHECK-NEXT:   %a = alloca float, align 4
+; CHECK-NEXT:   store float 1.000000e+00, ptr %a, align 4
+; CHECK-NEXT:   %0 = load float, ptr %a, align 4
+; CHECK-NEXT:   %add = fadd float %0, 1.000000e+00
+; CHECK-NEXT:   store float %add, ptr %a, align 4
+; CHECK-NEXT:   %1 = load float, ptr %a, align 4
+; CHECK-NEXT:   ret float %1
+; CHECK-NEXT: }
 ; CHECK: define dso_local void @_Z3barv() {
-; CHECK: store i32 0, ptr %0, align 4
-; CHECK-NEXT: br label %1
-; CHECK: %2 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %2, align 4
-; CHECK-NEXT: %3 = load float, ptr %2, align 4
-; CHECK-NEXT: %4 = fadd float %3, 1.000000e+00
-; CHECK-NEXT: store float %4, ptr %2, align 4
-; CHECK-NEXT: br label %5
-; COM: After inline function...
-; CHECK: %6 = load i32, ptr %0, align 4
+; CHECK: entry:
+; CHECK-NEXT:   %a = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %a, align 4
+; CHECK-NEXT:   %call = call noundef float @_Z3foov()
+; CHECK-NEXT:   %0 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %0, 1
+; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
+; CHECK-NEXT:   ret void
+; CHECK-NEXT: }
 
-define dso_local void @_Z3foov() {
-  %1 = alloca float, align 4
-  store float 1.000000e+00, float* %1, align 4
-  %2 = load float, float* %1, align 4
-  %3 = fadd float %2, 1.000000e+00
-  store float %3, float* %1, align 4
-  ret void
-}
-
-define dso_local void @_Z3barv() {
-  %1 = alloca i32, align 4
-  store i32 0, i32* %1, align 4
-  call void @_Z3foov()
-  %2 = load i32, i32* %1, align 4
-  %3 = add nsw i32 %2, 1
-  store i32 %3, i32* %1, align 4
-  ret void
-}
