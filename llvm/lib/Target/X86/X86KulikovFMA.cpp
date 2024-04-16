@@ -29,7 +29,9 @@ private:
 
 char X86KulikovFMAPass::ID = 0;
 
-FunctionPass *llvm::createX86KulikovFMAPass() { return new X86KulikovFMAPass(); }
+FunctionPass *llvm::createX86KulikovFMAPass() {
+  return new X86KulikovFMAPass();
+}
 
 INITIALIZE_PASS(X86KulikovFMAPass, AVOIDCALL_NAME, AVOIDCALL_DESC, false, false)
 
@@ -77,7 +79,8 @@ bool X86KulikovFMAPass::runOnMachineFunction(MachineFunction &MF) {
         }
 
         MIMetadata MIMD(AddInstr);
-        BuildMI(MBB, AddInstr, MIMD, TII->get(X86::VFMADD213PDr)) // or X86::VFMADDPD4rr
+        BuildMI(MBB, AddInstr, MIMD,
+                TII->get(X86::VFMADD213PDr)) // or X86::VFMADDPD4rr
             .addReg(d, RegState::Define)
             .addReg(b)
             .addReg(c)
