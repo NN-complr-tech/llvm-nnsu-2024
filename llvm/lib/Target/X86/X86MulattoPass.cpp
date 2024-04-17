@@ -31,10 +31,11 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
   bool changed = false;
 
   const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-  std::vector<std::pair<MachineInstr *, std::vector<MachineInstr *>>> candidates;
 
   // обходим все блоки
   for (MachineBasicBlock &MBB : MF) {
+    // для каждого блока свои кандидаты
+    std::vector<std::pair<MachineInstr *, std::vector<MachineInstr *>>> candidates;
 
     // проходим все инструкции блока в поисках умножений
     for (auto MI = MBB.begin(); MI != MBB.end(); ++MI) {
@@ -106,7 +107,33 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
         }
       }
     }
+
+
+    // набросок изменения
+    for (auto &candidate : candidates) {
+      MachineInstr *mulInstr = candidate.first;
+      std::vector<MachineInstr *> &addInstrs = candidate.second;
+
+      for (MachineInstr *addInstr : addInstrs) {
+        // создаем новую инструкцию VFMADD213PDr
+        MachineBasicBlock &MBB = *mulInstr->getParent();
+        MachineBasicBlock::iterator insertPt = addInstr;  // Точка вставки новой инструкции
+
+        BuildMI(MBB, insertPt, mulInstr->getDebugLoc(), TII->get(X86::VFMADD213PDr))
+          .addReg(addInstr->getOperand(0).getReg())  // результат
+          .addReg(mulInstr->getOperand(1).getReg())  // первый операнд умножения
+          .addReg(mulInstr->getOperand(2).getReg())  // второй операнд умножения
+          .addReg(addInstr->getOperand(2).getReg()); // операнд сложения
+
+        // удаление оригинальных инструкций умножения и сложения
+        mulInstr->eraseFromParent();
+        addInstr->eraseFromParent();
+
+        changed = true;
+      }
+    }
   }
+
 
   // for (const auto &pair : candidates) {
 
