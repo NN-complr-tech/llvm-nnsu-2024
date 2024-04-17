@@ -23,6 +23,9 @@ tablegen(LLVM X86GenFoldTables.inc -gen-x86-fold-tables -asmwriternum=1)
 add_public_tablegen_target(X86CommonTableGen)
 
 set(sources
+# Lab pass
+  X86MulattoPass.cpp
+
   X86ArgumentStackSlotRebase.cpp
   X86AsmPrinter.cpp
   X86AvoidTrailingCall.cpp
