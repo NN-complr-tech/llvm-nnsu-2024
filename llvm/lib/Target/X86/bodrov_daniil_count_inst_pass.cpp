@@ -37,14 +37,11 @@ using llvm::PassRegistry;
 using llvm::PassInfo;
 using llvm::callDefaultCtor;
 
-namespace llvm {
-    void initializeCountInstructionsPass(llvm::PassRegistry &);
+void llvm::initializeCountInstructionsPass(llvm::PassRegistry &);
+
+INITIALIZE_PASS(CountInstructions, "count-instructions", "Count machine instructions executed during function execution", false, false);
+
+FunctionPass *llvm::createCountInstructions() {
+    return new CountInstructions();
 }
 
-INITIALIZE_PASS(CountInstructions, "count-instructions", "Count machine instructions executed during function execution", false, false)
-
-namespace llvm {
-    FunctionPass *createCountInstructions() {
-        return new CountInstructions();
-    }
-} // end of llvm namespace
