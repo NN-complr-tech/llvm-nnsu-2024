@@ -5,30 +5,27 @@
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 using namespace llvm;
 
-
 #define DESC "call pass atikin"
 #define NAME "call-pass-atikin"
 
 #define DEBUG_TYPE AVOIDCALL_NAME
 
 namespace {
-  class Atikin : public MachineFunctionPass {
-  public:
-    static char ID;
-    Atikin() : MachineFunctionPass(ID) {}
+class Atikin : public MachineFunctionPass {
+public:
+  static char ID;
+  Atikin() : MachineFunctionPass(ID) {}
 
-    bool runOnMachineFunction(MachineFunction &MF) override;
+  bool runOnMachineFunction(MachineFunction &MF) override;
 
-  private:
-    StringRef getPassName() const override { return DESC; }
-  };
-}
+private:
+  StringRef getPassName() const override { return DESC; }
+};
+} // namespace
 
 char Atikin::ID = 0;
 
-FunctionPass *llvm::createAtikinCallPass() {
-  return new Atikin();
-}
+FunctionPass *llvm::createAtikinCallPass() { return new Atikin(); }
 
 INITIALIZE_PASS(Atikin, NAME, DESC, false, false)
 
@@ -44,15 +41,15 @@ bool Atikin::runOnMachineFunction(MachineFunction &MF) {
   const X86Subtarget &STI = MF.getSubtarget<X86Subtarget>();
   const X86InstrInfo &TII = *STI.getInstrInfo();
 
-  std::vector<MachineInstr*> MIvector;
+  std::vector<MachineInstr *> MIvector;
 
   for (auto &MBB : MF) {
-    for (auto &MI : MBB){
+    for (auto &MI : MBB) {
       if (!(isMulInstr(MI)))
         continue;
-      
+
       auto &op = MI.getOperand(0);
-      for (auto &secondMI : MBB){
+      for (auto &secondMI : MBB) {
         int ind = secondMI.findRegisterUseOperandIdx(op.getReg());
         if (ind != -1 && isAddInstr(secondMI)) {
           if (ind == 0)
@@ -63,14 +60,14 @@ bool Atikin::runOnMachineFunction(MachineFunction &MF) {
           MachineInstr *Mul = &MI;
           MachineInstr *Add = &secondMI;
 
-          BuildMI(MBB, Mul, MIMD, TII.get(X86::VFMADD213PDr), Add->getOperand(0).getReg())
-          .addReg(Mul->getOperand(1).getReg())
-          .addReg(Mul->getOperand(2).getReg())
-          .addReg(Add->getOperand(second_ind).getReg());
+          BuildMI(MBB, Mul, MIMD, TII.get(X86::VFMADD213PDr),
+                  Add->getOperand(0).getReg())
+              .addReg(Mul->getOperand(1).getReg())
+              .addReg(Mul->getOperand(2).getReg())
+              .addReg(Add->getOperand(second_ind).getReg());
 
           MIvector.push_back(Mul);
           MIvector.push_back(Add);
-
         }
       }
     }
