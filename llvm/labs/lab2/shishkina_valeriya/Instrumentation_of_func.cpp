@@ -9,23 +9,41 @@ struct instrFunct : llvm::PassInfoMixin<instrFunct> {
   llvm::PreservedAnalyses run(llvm::Function &func,
                               llvm::FunctionAnalysisManager &) {
     llvm::LLVMContext &context = func.getContext();
-    llvm::IRBuilder<> builder(context);
-    auto module = func.getParent();
+    llvm::IRBuilder<> build(context);
+    llvm::Module *module = func.getParent();
+    bool start = false;
+    bool end = false;
 
-    llvm::FunctionType *funcType =
+    llvm::FunctionType *type =
         llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
     llvm::FunctionCallee instrStart =
-        module->getOrInsertFunction("instrument_start", funcType);
+        (*module).getOrInsertFunction("instrument_start", type);
     llvm::FunctionCallee instrEnd =
-        module->getOrInsertFunction("instrument_end", funcType);
-
-    builder.SetInsertPoint(&func.getEntryBlock().front());
-    builder.CreateCall(instrStart);
+        (*module).getOrInsertFunction("instrument_end", type);
 
     for (auto &block : func) {
-      if (llvm::isa<llvm::ReturnInst>(block.getTerminator())) {
-        builder.SetInsertPoint(block.getTerminator());
-        builder.CreateCall(instrEnd);
+      for (auto &instruction : block) {
+        if (llvm::isa<llvm::CallInst>(&instruction)) {
+          llvm::CallInst *callInst = llvm::cast<llvm::CallInst>(&instruction);
+          if (callInst->getCalledFunction() == instrStart.getCallee()) {
+            start = true;
+          } else if (callInst->getCalledFunction() == instrEnd.getCallee()) {
+            end = true;
+          }
+        }
+      }
+    }
+
+    if (!start) {
+      build.SetInsertPoint(&func.getEntryBlock().front());
+      build.CreateCall(instrStart);
+    }
+    if (!end) {
+      for (llvm::BasicBlock &BB : func) {
+        if (llvm::dyn_cast<llvm::ReturnInst>(BB.getTerminator())) {
+          build.SetInsertPoint(BB.getTerminator());
+          build.CreateCall(instrEnd);
+        }
       }
     }
 
