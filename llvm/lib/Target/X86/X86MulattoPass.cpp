@@ -53,9 +53,10 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
       MachineInstr *mulInstr = candidate.first;
       MachineInstr *addInstr = candidate.second;
 
+      MIMetadata MIMD(*mulInstr);
       MachineBasicBlock &MBB = *mulInstr->getParent();
 
-      BuildMI(MBB, mulInstr, mulInstr->getDebugLoc(),
+      BuildMI(MBB, mulInstr, MIMD,
               TII->get(X86::VFMADD213PDr))
           .addReg(addInstr->getOperand(0).getReg())
           .addReg(mulInstr->getOperand(1).getReg())
