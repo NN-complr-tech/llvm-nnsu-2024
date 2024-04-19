@@ -34,10 +34,13 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
     std::map<MachineInstr *, MachineInstr *> instCandidates;
     for (auto MI = MBB.begin(); MI != MBB.end(); ++MI) {
       MachineInstr *MULPD = &(*MI);
-      if (MULPD->getOpcode() == X86::MULPDrr || MULPD->getOpcode() == X86::MULPDrm) {
-        for (auto MIAfterMul = std::next(MI); MIAfterMul != MBB.end(); ++MIAfterMul) {
+      if (MULPD->getOpcode() == X86::MULPDrr ||
+          MULPD->getOpcode() == X86::MULPDrm) {
+        for (auto MIAfterMul = std::next(MI); MIAfterMul != MBB.end();
+             ++MIAfterMul) {
           if (MIAfterMul->readsRegister(MULPD->getOperand(0).getReg())) {
-            if (MIAfterMul->getOpcode() == X86::ADDPDrr || MIAfterMul->getOpcode() == X86::ADDPDrm) {
+            if (MIAfterMul->getOpcode() == X86::ADDPDrr ||
+                MIAfterMul->getOpcode() == X86::ADDPDrm) {
               instCandidates.insert({MULPD, &(*MIAfterMul)});
             }
             break;
@@ -52,11 +55,12 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
 
       MachineBasicBlock &MBB = *mulInstr->getParent();
 
-      BuildMI(MBB, mulInstr, mulInstr->getDebugLoc(), TII->get(X86::VFMADD213PDr))
-        .addReg(addInstr->getOperand(0).getReg())
-        .addReg(mulInstr->getOperand(1).getReg())
-        .addReg(mulInstr->getOperand(2).getReg())
-        .addReg(addInstr->getOperand(2).getReg());
+      BuildMI(MBB, mulInstr, mulInstr->getDebugLoc(),
+              TII->get(X86::VFMADD213PDr))
+          .addReg(addInstr->getOperand(0).getReg())
+          .addReg(mulInstr->getOperand(1).getReg())
+          .addReg(mulInstr->getOperand(2).getReg())
+          .addReg(addInstr->getOperand(2).getReg());
 
       mulInstr->eraseFromParent();
       addInstr->eraseFromParent();
