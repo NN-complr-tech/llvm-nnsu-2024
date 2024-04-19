@@ -6,9 +6,7 @@
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/Register.h"
 
-#include <iostream>
-#include <typeinfo>
-#include <vector>
+#include <map>
 
 using namespace llvm;
 
@@ -32,121 +30,40 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
 
   const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
 
-  // обходим все блоки
   for (MachineBasicBlock &MBB : MF) {
-    // для каждого блока свои кандидаты
-    std::vector<std::pair<MachineInstr *, std::vector<MachineInstr *>>> candidates;
-
-    // проходим все инструкции блока в поисках умножений
+    std::map<MachineInstr *, MachineInstr *> instCandidates;
     for (auto MI = MBB.begin(); MI != MBB.end(); ++MI) {
       MachineInstr *MULPD = &(*MI);
-
-      // является ли умножением рассматриваемя инструкция
       if (MULPD->getOpcode() == X86::MULPDrr || MULPD->getOpcode() == X86::MULPDrm) {
-        outs() << "found mul\n";
-        candidates.push_back({MULPD, std::vector<MachineInstr *>()});
-
-        // начинаем обход всех инструкции после умножения
-        outs() << "started find loop\n";
-        for (auto MIam = std::next(MI); MIam != MBB.end(); ++MIam) {
-          
-          // проверка на модификацию/чтение регистра результата умножения
-
-          // регистр изменили
-          if (MIam->modifiesRegister(MULPD->getOperand(0).getReg())) {
-            outs() << "reg mod by ";
-            if (MIam->getOpcode() == X86::ADDPDrr || MIam->getOpcode() == X86::ADDPDrm) {
-
-              // если изменило сложение, то сохраняем операцию и завершаем обход
-              outs() << "add\n";
-              candidates.back().second.push_back(&(*MIam));
-              break;
-            } else {
-              
-              // если поменяло что-то другое, просто завершаем обход
-              outs() << "smth but not add\n";
-              break;
+        for (auto MIAfterMul = std::next(MI); MIAfterMul != MBB.end(); ++MIAfterMul) {
+          if (MIAfterMul->readsRegister(MULPD->getOperand(0).getReg())) {
+            if (MIAfterMul->getOpcode() == X86::ADDPDrr || MIAfterMul->getOpcode() == X86::ADDPDrm) {
+              instCandidates.insert({MULPD, &(*MIAfterMul)});
             }
+            break;
           }
-
-          // регистр прочитали
-          if (MIam->readsRegister(MULPD->getOperand(0).getReg())) {
-            outs() << "reg read by ";
-            if (MIam->getOpcode() == X86::ADDPDrr || MIam->getOpcode() == X86::ADDPDrm) {
-              
-              // если прочитало сложение, то сохраняем операцию и продолжаем обход
-              outs() << "add\n";
-              candidates.back().second.push_back(&(*MIam));
-            } else {
-              
-              // если поменяло что-то другое, то просто идем дальше
-              outs() << "smth but not add\n";
-            }
-          }
-        }
-
-        // если в результате обхода не нашли сложений, то ликвидируем кандидата
-        if (candidates.back().second.size() == 0) {
-          
-          // печать
-          outs() << "didn't find pair for:\n";
-          outs() << *(candidates.back().first) << "\n";
-          outs() << "--------------------\n\n";
-
-          candidates.pop_back();
-
-          // печать
-        } else {
-          outs() << "\nMULL:\n";
-          outs() << *(candidates.back().first) << "\n";
-          outs() << "ADD(s):\n";
-          for (auto add : candidates.back().second) {
-            outs() << *add << "\n";      
-          }
-          outs() << "--------------------\n\n";
         }
       }
     }
 
-
-    // набросок изменения
-    for (auto &candidate : candidates) {
+    for (auto candidate : instCandidates) {
       MachineInstr *mulInstr = candidate.first;
-      std::vector<MachineInstr *> &addInstrs = candidate.second;
+      MachineInstr *addInstr = candidate.second;
 
-      for (MachineInstr *addInstr : addInstrs) {
-        // создаем новую инструкцию VFMADD213PDr
-        MachineBasicBlock &MBB = *mulInstr->getParent();
-        MachineBasicBlock::iterator insertPt = addInstr;  // Точка вставки новой инструкции
+      MachineBasicBlock &MBB = *mulInstr->getParent();
 
-        BuildMI(MBB, insertPt, mulInstr->getDebugLoc(), TII->get(X86::VFMADD213PDr))
-          .addReg(addInstr->getOperand(0).getReg())  // результат
-          .addReg(mulInstr->getOperand(1).getReg())  // первый операнд умножения
-          .addReg(mulInstr->getOperand(2).getReg())  // второй операнд умножения
-          .addReg(addInstr->getOperand(2).getReg()); // операнд сложения
+      BuildMI(MBB, mulInstr, mulInstr->getDebugLoc(), TII->get(X86::VFMADD213PDr))
+        .addReg(addInstr->getOperand(0).getReg())
+        .addReg(mulInstr->getOperand(1).getReg())
+        .addReg(mulInstr->getOperand(2).getReg())
+        .addReg(addInstr->getOperand(2).getReg());
 
-        // удаление оригинальных инструкций умножения и сложения
-        mulInstr->eraseFromParent();
-        addInstr->eraseFromParent();
+      mulInstr->eraseFromParent();
+      addInstr->eraseFromParent();
 
-        changed = true;
-      }
+      changed = true;
     }
   }
-
-
-  // for (const auto &pair : candidates) {
-
-  // }
-
-  // for (const auto &pair : candidates) {
-  //   outs() << "Умножение: " << TII->getName(pair.first->getOpcode()) << "\n";
-  //   outs() << "Сложение(я): "; 
-  //   for (auto add : pair.second) {
-  //     outs() << TII->getName(add->getOpcode()) << " | ";
-  //   }
-  //   outs() << "\n";
-  // }
 
   return changed;
 }
