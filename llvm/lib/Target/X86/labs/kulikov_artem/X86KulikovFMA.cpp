@@ -81,5 +81,5 @@ public:
 } // end of anonymous namespace
 
 char X86MachineInstrPrinter::ID = 0;
-static RegisterPass<X86MachineInstrPrinter>
-    X("x86-kulikov-fma", "X86 Kulikov FMA", false, false);
+static RegisterPass<X86MachineInstrPrinter> X("x86-kulikov-fma",
+                                              "X86 Kulikov FMA", false, false);
