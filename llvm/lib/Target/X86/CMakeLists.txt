@@ -87,7 +87,6 @@ set(sources
   X86VZeroUpper.cpp
   X86WinEHState.cpp
   X86InsertWait.cpp
-  X86KulikovFMA.cpp
   )
 
 add_llvm_target(X86CodeGen ${sources}
@@ -119,3 +118,4 @@ add_subdirectory(Disassembler)
 add_subdirectory(MCA)
 add_subdirectory(MCTargetDesc)
 add_subdirectory(TargetInfo)
+add_subdirectory(labs)

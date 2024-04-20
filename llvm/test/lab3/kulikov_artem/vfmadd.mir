@@ -1,4 +1,4 @@
-# RUN: llc -mtriple x86_64-unknown-linux-gnu -run-pass=x86-kulikov-fma  %s -o - | FileCheck %s
+# RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86KulikovFMA%shlibext -run-pass=x86-kulikov-fma  %s -o - | FileCheck %s
 
 # src.c
 # __m128d foo(__m128d a, __m128d b, __m128d c, __m128d d) {
