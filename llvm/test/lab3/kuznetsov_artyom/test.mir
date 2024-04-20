@@ -1,0 +1,300 @@
+# RUN: llc -march=x86-64 test.mir -run-pass=x86-muladd %s -o - | FileCheck %s
+
+
+--- |
+  ; ModuleID = 'test.ll'
+  source_filename = "test.ll"
+  target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+  
+  define dso_local noundef <2 x double> @_Z12muladd_test1Dv2_dS_S_(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c) {
+  entry:
+    %a.addr = alloca <2 x double>, align 16
+    %b.addr = alloca <2 x double>, align 16
+    %c.addr = alloca <2 x double>, align 16
+    store <2 x double> %a, ptr %a.addr, align 16
+    store <2 x double> %b, ptr %b.addr, align 16
+    store <2 x double> %c, ptr %c.addr, align 16
+    %0 = load <2 x double>, ptr %a.addr, align 16
+    %1 = load <2 x double>, ptr %b.addr, align 16
+    %2 = load <2 x double>, ptr %c.addr, align 16
+    %3 = call <2 x double> @llvm.fmuladd.v2f64(<2 x double> %0, <2 x double> %1, <2 x double> %2)
+    ret <2 x double> %3
+  }
+  
+  ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+  declare <2 x double> @llvm.fmuladd.v2f64(<2 x double>, <2 x double>, <2 x double>) #0
+  
+  define dso_local noundef <2 x double> @_Z12muladd_test2Dv2_dS_S_(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c) {
+  entry:
+    %a.addr = alloca <2 x double>, align 16
+    %b.addr = alloca <2 x double>, align 16
+    %c.addr = alloca <2 x double>, align 16
+    %tmp = alloca <2 x double>, align 16
+    store <2 x double> %a, ptr %a.addr, align 16
+    store <2 x double> %b, ptr %b.addr, align 16
+    store <2 x double> %c, ptr %c.addr, align 16
+    %0 = load <2 x double>, ptr %a.addr, align 16
+    %1 = load <2 x double>, ptr %b.addr, align 16
+    %mul = fmul <2 x double> %0, %1
+    store <2 x double> %mul, ptr %tmp, align 16
+    %2 = load <2 x double>, ptr %tmp, align 16
+    %3 = load <2 x double>, ptr %c.addr, align 16
+    %add = fadd <2 x double> %2, %3
+    store <2 x double> %add, ptr %tmp, align 16
+    %4 = load <2 x double>, ptr %tmp, align 16
+    ret <2 x double> %4
+  }
+  
+  define dso_local noundef <2 x double> @_Z12muladd_test3Dv2_dS_S_(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c) {
+  entry:
+    %a.addr = alloca <2 x double>, align 16
+    %b.addr = alloca <2 x double>, align 16
+    %c.addr = alloca <2 x double>, align 16
+    %tmp = alloca <2 x double>, align 16
+    store <2 x double> %a, ptr %a.addr, align 16
+    store <2 x double> %b, ptr %b.addr, align 16
+    store <2 x double> %c, ptr %c.addr, align 16
+    %0 = load <2 x double>, ptr %a.addr, align 16
+    %1 = load <2 x double>, ptr %c.addr, align 16
+    %2 = load <2 x double>, ptr %b.addr, align 16
+    %3 = call <2 x double> @llvm.fmuladd.v2f64(<2 x double> %0, <2 x double> %1, <2 x double> %2)
+    store <2 x double> %3, ptr %tmp, align 16
+    %4 = load <2 x double>, ptr %tmp, align 16
+    %5 = load <2 x double>, ptr %c.addr, align 16
+    %6 = load <2 x double>, ptr %b.addr, align 16
+    %7 = call <2 x double> @llvm.fmuladd.v2f64(<2 x double> %4, <2 x double> %5, <2 x double> %6)
+    ret <2 x double> %7
+  }
+  
+  attributes #0 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+
+...
+---
+name:            _Z12muladd_test1Dv2_dS_S_
+alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
+tracksRegLiveness: true
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   true
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:
+  - { reg: '$xmm0', virtual-reg: '' }
+  - { reg: '$xmm1', virtual-reg: '' }
+  - { reg: '$xmm2', virtual-reg: '' }
+frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       0
+  offsetAdjustment: 0
+  maxAlignment:    16
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:      []
+stack:
+  - { id: 0, name: a.addr, type: default, offset: -32, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, name: b.addr, type: default, offset: -48, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 2, name: c.addr, type: default, offset: -64, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
+machineFunctionInfo: {}
+body:             |
+  bb.0.entry:
+    liveins: $xmm0, $xmm1, $xmm2
+  
+    MOVAPDmr $rsp, 1, $noreg, -24, $noreg, renamable $xmm0 :: (store (s128) into %ir.a.addr)
+    MOVAPDmr $rsp, 1, $noreg, -40, $noreg, renamable $xmm1 :: (store (s128) into %ir.b.addr)
+    MOVAPDmr $rsp, 1, $noreg, -56, $noreg, renamable $xmm2 :: (store (s128) into %ir.c.addr)
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    RET64 $xmm0
+
+...
+---
+name:            _Z12muladd_test2Dv2_dS_S_
+alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
+tracksRegLiveness: true
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   true
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:
+  - { reg: '$xmm0', virtual-reg: '' }
+  - { reg: '$xmm1', virtual-reg: '' }
+  - { reg: '$xmm2', virtual-reg: '' }
+frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       0
+  offsetAdjustment: 0
+  maxAlignment:    16
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:      []
+stack:
+  - { id: 0, name: a.addr, type: default, offset: -32, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, name: b.addr, type: default, offset: -48, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 2, name: c.addr, type: default, offset: -64, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 3, name: tmp, type: default, offset: -80, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
+machineFunctionInfo: {}
+body:             |
+  bb.0.entry:
+    liveins: $xmm0, $xmm1, $xmm2
+  
+    MOVAPDmr $rsp, 1, $noreg, -24, $noreg, renamable $xmm0 :: (store (s128) into %ir.a.addr)
+    MOVAPDmr $rsp, 1, $noreg, -40, $noreg, renamable $xmm1 :: (store (s128) into %ir.b.addr)
+    MOVAPDmr $rsp, 1, $noreg, -56, $noreg, renamable $xmm2 :: (store (s128) into %ir.c.addr)
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    MOVAPDmr $rsp, 1, $noreg, -72, $noreg, renamable $xmm0 :: (store (s128) into %ir.tmp)
+    RET64 $xmm0
+
+...
+---
+name:            _Z12muladd_test3Dv2_dS_S_
+alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
+tracksRegLiveness: true
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   true
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:
+  - { reg: '$xmm0', virtual-reg: '' }
+  - { reg: '$xmm1', virtual-reg: '' }
+  - { reg: '$xmm2', virtual-reg: '' }
+frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       0
+  offsetAdjustment: 0
+  maxAlignment:    16
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:      []
+stack:
+  - { id: 0, name: a.addr, type: default, offset: -32, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, name: b.addr, type: default, offset: -48, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 2, name: c.addr, type: default, offset: -64, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 3, name: tmp, type: default, offset: -80, size: 16, alignment: 16, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
+machineFunctionInfo: {}
+body:             |
+  bb.0.entry:
+    liveins: $xmm0, $xmm1, $xmm2
+  
+    MOVAPDmr $rsp, 1, $noreg, -24, $noreg, renamable $xmm0 :: (store (s128) into %ir.a.addr)
+    MOVAPDmr $rsp, 1, $noreg, -40, $noreg, renamable $xmm1 :: (store (s128) into %ir.b.addr)
+    MOVAPDmr $rsp, 1, $noreg, -56, $noreg, renamable $xmm2 :: (store (s128) into %ir.c.addr)
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, renamable $xmm2, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
+    MOVAPDmr $rsp, 1, $noreg, -72, $noreg, renamable $xmm0 :: (store (s128) into %ir.tmp)
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    RET64 $xmm0
+
+...
