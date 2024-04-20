@@ -1,4 +1,5 @@
 #include "X86.h"
+#include "X86.h"
 #include "X86InstrInfo.h"
 #include "X86Subtarget.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
@@ -6,62 +7,62 @@
 
 using namespace llvm;
 
-#define X86_MULADD_PASS_NAME "My custom X86 muladd pass"
+#define X86_MULADD_PASS_DESC "X86 muladd pass"
+#define X86_MULADD_PASS_NAME "x86-muladd"
 
 namespace {
 class X86MulAddPass : public MachineFunctionPass {
 public:
-    static char ID;
+  static char ID;
 
-    X86MulAddPass() : MachineFunctionPass(ID) {
-        initializeX86MulAddPassPass(*PassRegistry::getPassRegistry());
-    }
+  X86MulAddPass() : MachineFunctionPass(ID) {
+    initializeX86MulAddPassPass(*PassRegistry::getPassRegistry());
+  }
 
-    bool runOnMachineFunction(MachineFunction &MF) override;
+  bool runOnMachineFunction(MachineFunction &MF) override;
 
-    StringRef getPassName() const override { return X86_MULADD_PASS_NAME; }
+  StringRef getPassName() const override { return X86_MULADD_PASS_DESC; }
 };
 
 char X86MulAddPass::ID = 0;
 
-bool X86MulAddPass::runOnMachineFunction(MachineFunction &MF) {
-    const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
+bool X86MulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
+  const TargetInstrInfo *instrInfo = machineFunc.getSubtarget().getInstrInfo();
+  bool changed = false;
 
-    for (auto &MBB : MF) {
-        for (auto I = MBB.begin(); I != MBB.end(); I++) {
-            // Found multiply operation
-            if (I->getOpcode() == X86::MULPDrr) {
-                auto MulInstr = I;
-                auto NextInstr = std::next(MulInstr);
-                // And next operation is add
-                if (NextInstr->getOpcode() == X86::ADDPDrr) {
-                    if (MulInstr->getOperand(0).getReg() == NextInstr->getOperand(1).getReg()) {
-                        I--;
-                        MachineInstr &MI = *MulInstr;
-                        MachineInstrBuilder MIB = BuildMI(MBB, MI, MI.getDebugLoc(), TII->get(X86::VFMADD213PDZ128r));
-                        MIB.addReg(NextInstr->getOperand(0).getReg(), RegState::Define);
-                        MIB.addReg(MulInstr->getOperand(1).getReg());
-                        MIB.addReg(MulInstr->getOperand(2).getReg());
-                        MIB.addReg(NextInstr->getOperand(2).getReg());
-                        MulInstr->eraseFromParent();
-                        NextInstr->eraseFromParent();
-                    }
-                }
-            }
+  for (auto &block : machineFunc) {
+    for (auto it = block.begin(); it != block.end(); ++it) {
+      if (it->getOpcode() == X86::MULPDrr) {
+        auto instrMul = it;
+        auto instrNext = std::next(instrMul);
+        if (instrNext->getOpcode() == X86::ADDPDrr) {
+          if (instrMul->getOperand(0).getReg() ==
+              instrNext->getOperand(1).getReg()) {
+            --it;
+            MachineInstr &MI = *instrMul;
+            MachineInstrBuilder MIB = BuildMI(block, MI, MI.getDebugLoc(),
+                                              instrInfo->get(X86::VFMADD213PDZ128r));
+            MIB.addReg(instrNext->getOperand(0).getReg(), RegState::Define);
+            MIB.addReg(instrMul->getOperand(1).getReg());
+            MIB.addReg(instrMul->getOperand(2).getReg());
+            MIB.addReg(instrNext->getOperand(2).getReg());
+            instrMul->eraseFromParent();
+            instrNext->eraseFromParent();
+            changed = true;
+          }
         }
+      }
     }
+  }
 
-    return false;
+  return changed;
 }
 
-} // end of anonymous namespace
+} // namespace
 
-INITIALIZE_PASS(X86MulAddPass, "x86-muladd",
-    X86_MULADD_PASS_NAME,
-    false, // is CFG only?
-    false  // is analysis?
-)
+INITIALIZE_PASS(X86MulAddPass, X86_MULADD_PASS_NAME, X86_MULADD_PASS_NAME,
+                false, false)
 
 namespace llvm {
-    FunctionPass *createX86MulAddPassPass() { return new X86MulAddPass(); }
-}
+FunctionPass *createX86MulAddPassPass() { return new X86MulAddPass(); }
+} // namespace llvm
