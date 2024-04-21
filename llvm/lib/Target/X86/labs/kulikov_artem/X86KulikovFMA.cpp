@@ -10,10 +10,10 @@ using namespace llvm;
 
 namespace {
 
-class X86MachineInstrPrinter : public MachineFunctionPass {
+class X86KulikovFMAPass : public MachineFunctionPass {
 public:
   static char ID;
-  X86MachineInstrPrinter() : MachineFunctionPass(ID) {}
+  X86KulikovFMAPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MF) override {
     bool Modified = false;
@@ -80,6 +80,6 @@ public:
 
 } // end of anonymous namespace
 
-char X86MachineInstrPrinter::ID = 0;
-static RegisterPass<X86MachineInstrPrinter> X("x86-kulikov-fma",
-                                              "X86 Kulikov FMA", false, false);
+char X86KulikovFMAPass::ID = 0;
+static RegisterPass<X86KulikovFMAPass> X("x86-kulikov-fma", "X86 Kulikov FMA",
+                                         false, false);
