@@ -39,8 +39,9 @@ bool X86MulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
               instrNext->getOperand(1).getReg()) {
             --it;
             MachineInstr &MI = *instrMul;
-            MachineInstrBuilder MIB = BuildMI(block, MI, MI.getDebugLoc(),
-                                              instrInfo->get(X86::VFMADD213PDZ128r));
+            MachineInstrBuilder MIB =
+                BuildMI(block, MI, MI.getDebugLoc(),
+                        instrInfo->get(X86::VFMADD213PDZ128r));
             MIB.addReg(instrNext->getOperand(0).getReg(), RegState::Define);
             MIB.addReg(instrMul->getOperand(1).getReg());
             MIB.addReg(instrMul->getOperand(2).getReg());
