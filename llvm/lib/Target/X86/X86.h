@@ -202,10 +202,6 @@ void initializeX86SpeculativeExecutionSideEffectSuppressionPass(PassRegistry &);
 void initializeX86SpeculativeLoadHardeningPassPass(PassRegistry &);
 void initializeX86TileConfigPass(PassRegistry &);
 
-// Lab pass
-FunctionPass *createX86MulattoPass();
-void initializeX86MulattoPassPass(PassRegistry &);
-
 namespace X86AS {
 enum : unsigned {
   GS = 256,

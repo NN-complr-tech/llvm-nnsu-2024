@@ -72,7 +72,6 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
   return changed;
 }
 
-INITIALIZE_PASS(X86MulattoPass, "x86-mulatto-pass", "X86 Mulatto Pass", false,
-                false)
-
-FunctionPass *llvm::createX86MulattoPass() { return new X86MulattoPass(); }
+static RegisterPass<X86MulattoPass> X("x86-mulatto-pass", "X86 Mulatto Pass",
+                                      false, false);
+                                      
