@@ -5,7 +5,6 @@
 #include "llvm/CodeGen/MachineInstr.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/Register.h"
-
 #include <map>
 
 using namespace llvm;
@@ -21,7 +20,7 @@ public:
 
   StringRef getPassName() const override { return "X86 Mulatto Pass"; }
 };
-} // namespac3
+} // namespace
 
 char X86MulattoPass::ID = 0;
 
