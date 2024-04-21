@@ -21,7 +21,7 @@ public:
 
   StringRef getPassName() const override { return "X86 Mulatto Pass"; }
 };
-} // namespace
+} // namespac3
 
 char X86MulattoPass::ID = 0;
 
