@@ -10,20 +10,60 @@
 using namespace llvm;
 
 namespace {
+
 class X86SimonyanMICounterPass : public MachineFunctionPass {
 public:
-  X86SimonyanMICounterPass() : MachineFunctionPass(ID) {}
-
-  bool runOnMachineFunction(MachineFunction &MF) override;
-
   static char ID;
 
-private:
+  X86SimonyanMICounterPass() : MachineFunctionPass(ID) {}
+
+  bool runOnMachineFunction(MachineFunction &MF) override {
+    const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
+    DebugLoc DL3 = MF.front().begin()->getDebugLoc();
+
+    // Создаем новый виртуальный регистр
+    unsigned icReg = MF.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
+
+    // Проверяем, существует ли глобальная переменная 'ic'
+    Module &M = *MF.getFunction().getParent();
+    GlobalVariable *gvar = M.getGlobalVariable("ic");
+
+    // Если 'ic' не существует, создаем ее
+    if (!gvar) {
+      LLVMContext &context = M.getContext();
+      gvar = new GlobalVariable(M, IntegerType::get(context, 64), false,
+                                GlobalValue::ExternalLinkage, nullptr, "ic");
+      gvar->setAlignment(Align(8));
+    }
+
+    for (auto &MBB : MF) {
+      unsigned count = 0;
+      for (auto &MI : MBB) {
+        if (!MI.isDebugInstr())
+          ++count;
+      }
+
+      // Обновляем счетчик
+      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri8),
+              icReg)
+          .addReg(icReg)
+          .addImm(count);
+    }
+
+    // Записываем в глобальную переменную ic
+    BuildMI(MF.back(), MF.back().begin(), DL3, TII->get(X86::MOV64mr))
+        .addReg(icReg)
+        .addExternalSymbol("ic");
+
+    return true;
+  }
+
   StringRef getPassName() const override { return MI_COUNTER_DESC; }
 };
-} // end anonymous namespace
 
 char X86SimonyanMICounterPass::ID = 0;
+
+} // end anonymous namespace
 
 FunctionPass *llvm::createX86SimonyanMICounterPass() {
   return new X86SimonyanMICounterPass();
@@ -31,43 +71,3 @@ FunctionPass *llvm::createX86SimonyanMICounterPass() {
 
 INITIALIZE_PASS(X86SimonyanMICounterPass, MI_COUNTER_NAME, MI_COUNTER_DESC,
                 false, false)
-
-bool X86SimonyanMICounterPass::runOnMachineFunction(MachineFunction &MF) {
-  const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-  DebugLoc DL3 = MF.front().begin()->getDebugLoc();
-
-  // Create a new virtual register
-  unsigned icReg = MF.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
-
-  // Check if global variable 'ic' exists
-  Module &M = *MF.getFunction().getParent();
-  GlobalVariable *gvar = M.getGlobalVariable("ic");
-
-  // If 'ic' does not exist, create it
-  if (!gvar) {
-    LLVMContext &context = M.getContext();
-    gvar = new GlobalVariable(M, IntegerType::get(context, 64), false,
-                              GlobalValue::ExternalLinkage, nullptr, "ic");
-    gvar->setAlignment(Align(8));
-  }
-
-  for (auto &MBB : MF) {
-    unsigned count = 0;
-    for (auto &MI : MBB) {
-      if (!MI.isDebugInstr())
-        ++count;
-    }
-
-    // Update the counter
-    BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri8), icReg)
-        .addReg(icReg)
-        .addImm(count);
-  }
-
-  // Write to global variable ic
-  BuildMI(MF.back(), MF.back().begin(), DL3, TII->get(X86::MOV64mr))
-      .addReg(icReg)
-      .addExternalSymbol("ic");
-
-  return true;
-}
