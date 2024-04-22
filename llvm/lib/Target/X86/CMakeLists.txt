@@ -87,7 +87,7 @@ set(sources
   X86VZeroUpper.cpp
   X86WinEHState.cpp
   X86InsertWait.cpp
-  bodrov_daniil_count_inst_pass.cpp
+  X86CountInstBD.cpp
   )
 
 add_llvm_target(X86CodeGen ${sources}
