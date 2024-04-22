@@ -37,7 +37,8 @@ static bool isMulInstr(MachineInstr &MI) {
   return MI.getOpcode() == X86::MULPDrr || MI.getOpcode() == X86::MULPDrm;
 }
 
-static bool existInvector(std::vector<MachineInstr *> *vector, MachineInstr *val){
+static bool existInvector(std::vector<MachineInstr *> *vector,
+                          MachineInstr *val) {
   return std::find(vector->begin(), vector->end(), val) == vector->end();
 }
 
