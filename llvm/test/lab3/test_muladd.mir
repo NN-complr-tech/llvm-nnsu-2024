@@ -146,14 +146,15 @@ body:             |
   bb.0 (%ir-block.4):
 	
     liveins: $xmm0, $xmm1, $xmm2
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    RET64 $xmm0
+	
 	; CHECK: liveins: $xmm0, $xmm1, $xmm2
 	; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
 	; CHECK-NOT: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
 	; CHECK: $xmm0 = VFMADD213PDr $xmm0, $xmm1, $xmm2, implicit $mxcsr
 	; CHECK-NEXT: RET64 $xmm0
-    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
-    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
-    RET64 $xmm0
 
 ...
 ---
@@ -214,6 +215,14 @@ body:             |
   bb.0 (%ir-block.5):
 	
     liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
+	 
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, renamable $xmm0, implicit $mxcsr
+    renamable $xmm3 = nofpexcept ADDPDrr killed renamable $xmm3, renamable $xmm0, implicit $mxcsr
+    renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, killed renamable $xmm2, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm4, implicit $mxcsr
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm3, implicit $mxcsr
+    RET64 $xmm0
 	
 	; CHECK: liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
 	; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
@@ -226,14 +235,6 @@ body:             |
 	; CHECK-NEXT: renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, killed renamable $xmm2, implicit $mxcsr
 	; CHECK-NEXT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm3, implicit $mxcsr
 	; CHECK-NEXT: RET64 $xmm0
-	 
-    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
-    renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, renamable $xmm0, implicit $mxcsr
-    renamable $xmm3 = nofpexcept ADDPDrr killed renamable $xmm3, renamable $xmm0, implicit $mxcsr
-    renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, killed renamable $xmm2, implicit $mxcsr
-    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm4, implicit $mxcsr
-    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm3, implicit $mxcsr
-    RET64 $xmm0
 
 ...
 ---
@@ -293,6 +294,16 @@ body:             |
     liveins: $xmm0, $xmm1, $xmm2
   
     $xmm3 = MOVAPDrr $xmm0
+	
+    renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
+    renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm1, implicit $mxcsr
+    renamable $xmm1 = nofpexcept ADDPDrr killed renamable $xmm1, killed renamable $xmm0, implicit $mxcsr
+    renamable $xmm3 = nofpexcept ADDPDrr killed renamable $xmm3, killed renamable $xmm2, implicit $mxcsr
+    renamable $xmm3 = nofpexcept DIVPDrr killed renamable $xmm3, killed renamable $xmm1, implicit $mxcsr
+    $xmm0 = MOVAPDrr killed $xmm3
+    RET64 $xmm0
+	
 	; CHECK: $xmm3 = VFMADD213PDr $xmm3, $xmm1, $xmm2, implicit $mxcsr
 	; CHECK-NOT: renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, renamable $xmm1, implicit $mxcsr
 	; CHECK: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
@@ -303,15 +314,6 @@ body:             |
 	; CHECK: renamable $xmm3 = nofpexcept DIVPDrr killed renamable $xmm3, killed renamable $xmm1, implicit $mxcsr
 	; CHECK-NEXT: $xmm0 = MOVAPDrr killed $xmm3
 	; CHECK-NEXT: $xmm0 = MOVAPDrr killed $xmm3
-	
-    renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, renamable $xmm1, implicit $mxcsr
-    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
-    renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm1, implicit $mxcsr
-    renamable $xmm1 = nofpexcept ADDPDrr killed renamable $xmm1, killed renamable $xmm0, implicit $mxcsr
-    renamable $xmm3 = nofpexcept ADDPDrr killed renamable $xmm3, killed renamable $xmm2, implicit $mxcsr
-    renamable $xmm3 = nofpexcept DIVPDrr killed renamable $xmm3, killed renamable $xmm1, implicit $mxcsr
-    $xmm0 = MOVAPDrr killed $xmm3
-    RET64 $xmm0
 
 ...
 ---
@@ -370,6 +372,12 @@ body:             |
   bb.0 (%ir-block.5):
     liveins: $xmm0, $xmm1, $xmm2
 	
+    renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm0, implicit $mxcsr
+    renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, killed renamable $xmm0, implicit $mxcsr
+    renamable $xmm1 = nofpexcept SUBPDrr killed renamable $xmm1, killed renamable $xmm2, implicit $mxcsr
+    $xmm0 = MOVAPDrr killed $xmm1
+    RET64 $xmm0
+	
 	; CHECK: liveins: $xmm0, $xmm1, $xmm2
 	; CHECK-NOT: VFMADD213PDr
 	; CHECK: renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm0, implicit $mxcsr
@@ -377,11 +385,5 @@ body:             |
     ; CHECK-NEXT: renamable $xmm1 = nofpexcept SUBPDrr killed renamable $xmm1, killed renamable $xmm2, implicit $mxcsr
     ; CHECK-NEXT: $xmm0 = MOVAPDrr killed $xmm1
     ; CHECK-NEXT: RET64 $xmm0
-	
-    renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm0, implicit $mxcsr
-    renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, killed renamable $xmm0, implicit $mxcsr
-    renamable $xmm1 = nofpexcept SUBPDrr killed renamable $xmm1, killed renamable $xmm2, implicit $mxcsr
-    $xmm0 = MOVAPDrr killed $xmm1
-    RET64 $xmm0
 
 ...
