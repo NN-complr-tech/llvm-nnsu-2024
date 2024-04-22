@@ -35,15 +35,22 @@ bool X86MulattoPass::runOnMachineFunction(MachineFunction &MF) {
       MachineInstr *MULPD = &(*MI);
       if (MULPD->getOpcode() == X86::MULPDrr ||
           MULPD->getOpcode() == X86::MULPDrm) {
+        instCandidates.insert({MULPD, nullptr});
         for (auto MIAfterMul = std::next(MI); MIAfterMul != MBB.end();
              ++MIAfterMul) {
           if (MIAfterMul->readsRegister(MULPD->getOperand(0).getReg())) {
-            if (MIAfterMul->getOpcode() == X86::ADDPDrr ||
-                MIAfterMul->getOpcode() == X86::ADDPDrm) {
-              instCandidates.insert({MULPD, &(*MIAfterMul)});
+            if ((MIAfterMul->getOpcode() == X86::ADDPDrr ||
+                 MIAfterMul->getOpcode() == X86::ADDPDrm) &&
+                !instCandidates[MULPD]) {
+              instCandidates[MULPD] = &(*MIAfterMul);
+            } else {
+              instCandidates[MULPD] = nullptr;
+              break;
             }
-            break;
           }
+        }
+        if (instCandidates[MULPD] == nullptr) {
+          instCandidates.erase(MULPD);
         }
       }
     }
