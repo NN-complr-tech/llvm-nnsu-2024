@@ -13,7 +13,7 @@ namespace {
 
 class X86SimonyanMICounterPass : public MachineFunctionPass {
 public:
-  static char ID;
+  static char ID = 0;
 
   X86SimonyanMICounterPass() : MachineFunctionPass(ID) {}
 
@@ -44,7 +44,7 @@ public:
       }
 
       // Обновляем счетчик
-      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri8),
+      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri32),
               icReg)
           .addReg(icReg)
           .addImm(count);
@@ -60,9 +60,6 @@ public:
 
   StringRef getPassName() const override { return MI_COUNTER_DESC; }
 };
-
-char X86SimonyanMICounterPass::ID = 0;
-
 } // end anonymous namespace
 
 FunctionPass *llvm::createX86SimonyanMICounterPass() {
