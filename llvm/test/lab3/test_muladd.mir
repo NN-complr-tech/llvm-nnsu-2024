@@ -1,7 +1,6 @@
 # RUN: llc -mtriple x86_64-unknown-linux-gnu -run-pass=x86-volodin-replace-mul-add  %s -o - | FileCheck %s
 
 # main.cpp
-# #include <immintrin.h>
 # 
 # __m128d simple_test(__m128d a, __m128d b, __m128d c, __m128d d) {
 # 	__m128d temp = a * b;
@@ -143,8 +142,7 @@ debugValueSubstitutions: []
 constants:       []
 machineFunctionInfo: {}
 body:             |
-  bb.0 (%ir-block.4):
-	
+  bb.0.entry:
     liveins: $xmm0, $xmm1, $xmm2
     renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
     renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
@@ -212,7 +210,7 @@ debugValueSubstitutions: []
 constants:       []
 machineFunctionInfo: {}
 body:             |
-  bb.0 (%ir-block.5):
+  bb.0.entry:
 	
     liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
 	 
@@ -290,7 +288,7 @@ debugValueSubstitutions: []
 constants:       []
 machineFunctionInfo: {}
 body:             |
-  bb.0 (%ir-block.4):
+  bb.0.entry:
     liveins: $xmm0, $xmm1, $xmm2
   
     $xmm3 = MOVAPDrr $xmm0
@@ -369,7 +367,7 @@ debugValueSubstitutions: []
 constants:       []
 machineFunctionInfo: {}
 body:             |
-  bb.0 (%ir-block.5):
+  bb.0.entry:
     liveins: $xmm0, $xmm1, $xmm2
 	
     renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm0, implicit $mxcsr
