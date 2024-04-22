@@ -144,8 +144,9 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0 (%ir-block.4):
-    liveins: $xmm0, $xmm1, $xmm2
 	
+    liveins: $xmm0, $xmm1, $xmm2
+	; CHECK: liveins: $xmm0, $xmm1, $xmm2
 	; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
 	; CHECK-NOT: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
 	; CHECK: $xmm0 = VFMADD213PDr $xmm0, $xmm1, $xmm2, implicit $mxcsr
@@ -211,8 +212,10 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0 (%ir-block.5):
+	
     liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
 	
+	; CHECK: liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
 	; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
 	; CHECK-NOT: renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, renamable $xmm0, implicit $mxcsr
 	; CHECK-NOT: renamable $xmm3 = nofpexcept ADDPDrr killed renamable $xmm3, renamable $xmm0, implicit $mxcsr
@@ -367,6 +370,7 @@ body:             |
   bb.0 (%ir-block.5):
     liveins: $xmm0, $xmm1, $xmm2
 	
+	; CHECK: liveins: $xmm0, $xmm1, $xmm2
 	; CHECK-NOT: VFMADD213PDr
 	; CHECK: renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm0, implicit $mxcsr
     ; CHECK-NEXT: renamable $xmm2 = nofpexcept ADDPDrr killed renamable $xmm2, killed renamable $xmm0, implicit $mxcsr
