@@ -39,10 +39,5 @@ public:
 } // namespace
 
 char X86ZakharovInstCounterPass::ID = 0;
-FunctionPass *llvm::createX86ZakharovInstCounterPass() {
-  return new X86ZakharovInstCounterPass();
-}
-
-INITIALIZE_PASS(X86ZakharovInstCounterPass, "X86ZakharovInstCounterPass",
-                "Counting the number of instructions in a function", false,
-                false)
+static RegisterPass<X86ZakharovInstCounterPass>
+    X("x86-zakharov-inst-cnt", "Instruction counter pass", false, false);

@@ -1,4 +1,4 @@
-#RUN: llc -march=x86-64 -run-pass=X86ZakharovInstCounterPass %s -o - | FileCheck %s
+#RUN: llc -march=x86-64 --load=%llvmshlibdir/X86ZakharovInstCounterPass%shlibext -run-pass=x86-zakharov-inst-cnt %s -o - | FileCheck %s
 
 # source.cpp
 #
