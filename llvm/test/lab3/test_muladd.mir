@@ -300,6 +300,7 @@ body:             |
 	; CHECK: renamable $xmm3 = nofpexcept DIVPDrr killed renamable $xmm3, killed renamable $xmm1, implicit $mxcsr
 	; CHECK-NEXT: $xmm0 = MOVAPDrr killed $xmm3
 	; CHECK-NEXT: $xmm0 = MOVAPDrr killed $xmm3
+	
     renamable $xmm3 = nofpexcept MULPDrr killed renamable $xmm3, renamable $xmm1, implicit $mxcsr
     renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
     renamable $xmm1 = nofpexcept MULPDrr killed renamable $xmm1, renamable $xmm1, implicit $mxcsr
