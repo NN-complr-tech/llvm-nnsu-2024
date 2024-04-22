@@ -53,7 +53,8 @@ bool X86BodrovCountInstructionsPass::runOnMachineFunction(MachineFunction &MF) {
       MF.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
 
   // Initialize instruction counter
-  BuildMI(MF.front(), MF.front().begin(), DebugLoc(), TII->get(X86::MOV64ri), vmregister)
+  BuildMI(MF.front(), MF.front().begin(), DebugLoc(), TII->get(X86::MOV64ri),
+          vmregister)
       .addImm(0);
 
   // Count number of machine instructions performed
