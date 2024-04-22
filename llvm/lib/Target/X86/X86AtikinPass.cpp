@@ -30,11 +30,15 @@ FunctionPass *llvm::createAtikinCallPass() { return new Atikin(); }
 INITIALIZE_PASS(Atikin, NAME, DESC, false, false)
 
 static bool isAddInstr(MachineInstr &MI) {
-  return MI.getOpcode() == X86::ADDPDrr;
+  return MI.getOpcode() == X86::ADDPDrr || MI.getOpcode() == X86::ADDPDrm;
 }
 
 static bool isMulInstr(MachineInstr &MI) {
-  return MI.getOpcode() == X86::MULPDrr;
+  return MI.getOpcode() == X86::MULPDrr || MI.getOpcode() == X86::MULPDrm;
+}
+
+static bool existInvector(std::vector<MachineInstr *> *vector, MachineInstr *val){
+  return std::find(vector->begin(), vector->end(), val) == vector->end();
 }
 
 bool Atikin::runOnMachineFunction(MachineFunction &MF) {
@@ -66,8 +70,10 @@ bool Atikin::runOnMachineFunction(MachineFunction &MF) {
               .addReg(Mul->getOperand(2).getReg())
               .addReg(Add->getOperand(second_ind).getReg());
 
-          MIvector.push_back(Mul);
-          MIvector.push_back(Add);
+          if (existInvector(&MIvector, Mul))
+            MIvector.push_back(Mul);
+          if (existInvector(&MIvector, Add))
+            MIvector.push_back(Add);
         }
       }
     }
