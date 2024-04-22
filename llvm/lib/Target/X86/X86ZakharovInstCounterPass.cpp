@@ -15,15 +15,24 @@ public:
     if (!GV) {
       return false;
     }
-    auto *TIF = MF.getSubtarget().getInstrInfo();
-    MachineInstrBuilder MIB = BuildMI(MF.back(), MF.back().back(), DebugLoc(),
-                                      TIF->get(X86::MOV64mi32));
-    MIB.addReg(0);
-    MIB.addImm(1);
-    MIB.addReg(0);
-    MIB.addGlobalAddress(GV);
-    MIB.addReg(0);
-    MIB.addImm(MF.getInstructionCount());
+
+    auto DL = MF.front().begin()->getDebugLoc();
+    auto *TII = MF.getSubtarget().getInstrInfo();
+
+    for (auto &MBB : MF) {
+      int Counter = std::distance(MBB.begin(), MBB.end());
+      auto Place = MBB.getFirstTerminator();
+      if (Place != MBB.begin()) {
+        --Place;
+      }
+      BuildMI(MBB, Place, DL, TII->get(X86::ADD64mi32))
+          .addReg(0)
+          .addImm(1)
+          .addReg(0)
+          .addGlobalAddress(GV)
+          .addReg(0)
+          .addImm(Counter);
+    }
     return true;
   }
 };
