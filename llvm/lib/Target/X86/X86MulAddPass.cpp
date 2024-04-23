@@ -33,8 +33,6 @@ bool X86MulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
 
   std::vector<std::pair<MachineInstr *, MachineInstr *>> deletedInstructions;
 
-  llvm::outs() << machineFunc.getName() << '\n';
-
   for (auto &block : machineFunc) {
     MachineInstr *mulInstr = nullptr;
     MachineInstr *addInstr = nullptr;
