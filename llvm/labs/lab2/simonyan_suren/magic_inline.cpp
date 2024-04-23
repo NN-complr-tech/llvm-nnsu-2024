@@ -37,8 +37,8 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
       llvm::BasicBlock *PrevBB = nullptr;
       llvm::BasicBlock *CurrentBB = nullptr;
       for (llvm::BasicBlock &CalleeBB : *Callee) {
-        CurrentBB =
-            llvm::BasicBlock::Create(F.getContext(), "", &F, InsertionBlock->getNextNode());
+        CurrentBB = llvm::BasicBlock::Create(F.getContext(), "", &F,
+                                             InsertionBlock->getNextNode());
         ValueMap[&CalleeBB] = CurrentBB;
 
         Builder.SetInsertPoint(CurrentBB);
