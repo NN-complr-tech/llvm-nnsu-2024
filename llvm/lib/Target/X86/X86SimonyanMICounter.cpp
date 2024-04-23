@@ -13,7 +13,7 @@ namespace {
 
 class X86SimonyanMICounterPass : public MachineFunctionPass {
 public:
-  static char ID = 0;
+  static char ID;
 
   X86SimonyanMICounterPass() : MachineFunctionPass(ID) {}
 
@@ -60,6 +60,9 @@ public:
 
   StringRef getPassName() const override { return MI_COUNTER_DESC; }
 };
+
+char X86SimonyanMICounterPass::ID = 0;
+
 } // end anonymous namespace
 
 FunctionPass *llvm::createX86SimonyanMICounterPass() {
