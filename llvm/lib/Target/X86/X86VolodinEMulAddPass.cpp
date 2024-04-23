@@ -88,7 +88,6 @@ bool X86VolodinEMulAddPass::runOnMachineFunction(MachineFunction &MF) {
       }
     }
   }
-  
   for (auto &MI : MIvector) {
     MI->eraseFromParent();
   }
