@@ -3,6 +3,8 @@
 #include "X86Subtarget.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
+#include <utility>
+#include <vector>
 
 using namespace llvm;
 
@@ -29,30 +31,47 @@ bool X86MulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
   const TargetInstrInfo *instrInfo = machineFunc.getSubtarget().getInstrInfo();
   bool changed = false;
 
+  std::vector<std::pair<MachineInstr *, MachineInstr *>> deletedInstructions;
+
+  llvm::outs() << machineFunc.getName() << '\n';
+
   for (auto &block : machineFunc) {
-    for (auto it = block.begin(); it != block.end(); ++it) {
-      if (it->getOpcode() == X86::MULPDrr) {
-        auto instrMul = it;
-        auto instrNext = std::next(instrMul);
-        if (instrNext->getOpcode() == X86::ADDPDrr) {
-          if (instrMul->getOperand(0).getReg() ==
-              instrNext->getOperand(1).getReg()) {
-            --it;
-            MachineInstr &MI = *instrMul;
-            MachineInstrBuilder MIB =
-                BuildMI(block, MI, MI.getDebugLoc(),
-                        instrInfo->get(X86::VFMADD213PDZ128r));
-            MIB.addReg(instrNext->getOperand(0).getReg(), RegState::Define);
-            MIB.addReg(instrMul->getOperand(1).getReg());
-            MIB.addReg(instrMul->getOperand(2).getReg());
-            MIB.addReg(instrNext->getOperand(2).getReg());
-            instrMul->eraseFromParent();
-            instrNext->eraseFromParent();
-            changed = true;
-          }
+    MachineInstr *mulInstr = nullptr;
+    MachineInstr *addInstr = nullptr;
+
+    for (auto op = block.begin(); op != block.end(); ++op) {
+      if (op->getOpcode() == X86::MULPDrr) {
+        mulInstr = &(*op);
+
+        for (auto opNext = std::next(op); opNext != block.end(); ++opNext) {
+          if (opNext->getOpcode() == X86::ADDPDrr) {
+            addInstr = &(*opNext);
+
+            if (mulInstr->getOperand(0).getReg() ==
+                addInstr->getOperand(1).getReg()) {
+              deletedInstructions.emplace_back(mulInstr, addInstr);
+              changed = true;
+              break;
+            }
+          } else if (opNext->definesRegister(mulInstr->getOperand(0).getReg()))
+            break;
         }
       }
     }
+  }
+
+  for (auto &[mulInstr, addInstr] : deletedInstructions) {
+    MachineInstrBuilder MIB =
+        BuildMI(*mulInstr->getParent(), *mulInstr, mulInstr->getDebugLoc(),
+                instrInfo->get(X86::VFMADD213PDZ128r));
+
+    MIB.addReg(addInstr->getOperand(0).getReg(), RegState::Define);
+    MIB.addReg(mulInstr->getOperand(1).getReg());
+    MIB.addReg(mulInstr->getOperand(2).getReg());
+    MIB.addReg(addInstr->getOperand(2).getReg());
+
+    mulInstr->eraseFromParent();
+    addInstr->eraseFromParent();
   }
 
   return changed;
