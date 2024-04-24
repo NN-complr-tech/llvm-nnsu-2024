@@ -1,5 +1,33 @@
+# RUN: llc -march=x86-64 --load=%llvmshlibdir/X86CountInstBD%shlibext -run-pass=x86-count-machine-instructions %s -o - | FileCheck %s
+
+# #include <iostream>
+
+# unsigned long ic;
+
+# int func(int a, int b, int c) {
+#     ic = 0;
+# 
+#     // Function body
+#     int d = 0;
+#     for (int i = 0; i < a; i++) {
+#         if (d < b)
+#             d += c;
+#     }
+#     return d;
+# }
+
+# void empty_func() {}
+
+# int main() {
+#     int a = 10, b = 100, c = 5;
+#     int res = func(a, b, c);
+#     std::cout << "Number of machine instructions executed for func("
+#               << a << ", " << b << ", " << c << ") - " << ic << std::endl;
+#     return 0;
+# }
+
 --- |
-  ; ModuleID = 'source_file_test.mir'
+  ; ModuleID = 'tested.ll'
   source_filename = "test.cpp"
   target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
   target triple = "x86_64-unknown-linux-gnu"
@@ -55,7 +83,7 @@
   for.body.epil.preheader:                          ; preds = %for.cond.cleanup.loopexit.unr-lcssa
     br label %for.body.epil
   
-  for.body.epil:                                    ; preds = %for.body.epil, %for.body.epil.preheader
+  for.body.epil:                                    ; preds = %for.body.epil.preheader, %for.body.epil
     %lsr.iv = phi i32 [ %xtraiter, %for.body.epil.preheader ], [ %lsr.iv.next, %for.body.epil ]
     %d.06.epil = phi i32 [ %spec.select.epil, %for.body.epil ], [ %d.06.unr, %for.body.epil.preheader ]
     %cmp1.epil = icmp slt i32 %d.06.epil, %b
@@ -269,41 +297,41 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
-    successors: %bb.1(0x50000000), %bb.6(0x30000000)
+    successors: %bb.2(0x50000000), %bb.1(0x30000000)
     liveins: $edi, $edx, $esi
   
     MOV64mi32 $rip, 1, $noreg, @ic, $noreg, 0 :: (store (s64) into @ic, !tbaa !5)
     TEST32rr renamable $edi, renamable $edi, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
-    JCC_1 %bb.6, 14, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    JCC_1 %bb.1, 14, implicit $eflags
   
-  bb.1.for.body.preheader:
-    successors: %bb.2(0x40000000), %bb.7(0x40000000)
+  bb.2.for.body.preheader:
+    successors: %bb.3(0x40000000), %bb.7(0x40000000)
     liveins: $edi, $edx, $esi
   
     $ecx = MOV32rr $edi
     renamable $ecx = AND32ri killed renamable $ecx, 3, implicit-def dead $eflags
     CMP32ri renamable $edi, 4, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
     JCC_1 %bb.7, 3, implicit $eflags
   
-  bb.2:
-    successors: %bb.3(0x80000000)
+  bb.3:
+    successors: %bb.4(0x80000000)
     liveins: $ecx, $edx, $esi
   
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
   
-  bb.3.for.cond.cleanup.loopexit.unr-lcssa:
-    successors: %bb.5(0x30000000), %bb.4(0x50000000)
+  bb.4.for.cond.cleanup.loopexit.unr-lcssa:
+    successors: %bb.6(0x30000000), %bb.5(0x50000000)
     liveins: $eax, $ecx, $edx, $esi
   
     TEST32rr renamable $ecx, renamable $ecx, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
-    JCC_1 %bb.5, 4, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    JCC_1 %bb.6, 4, implicit $eflags
   
-  bb.4.for.body.epil (align 16):
-    successors: %bb.5(0x04000000), %bb.4(0x7c000000)
+  bb.5.for.body.epil (align 16):
+    successors: %bb.6(0x04000000), %bb.5(0x7c000000)
     liveins: $eax, $ecx, $edx, $esi
   
     CMP32rr renamable $eax, renamable $esi, implicit-def $eflags
@@ -311,106 +339,106 @@ body:             |
     renamable $edi = CMOV32rr killed renamable $edi, renamable $edx, 12, implicit $eflags
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $edi, implicit-def dead $eflags
     renamable $ecx = DEC32r killed renamable $ecx, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
-    JCC_1 %bb.4, 5, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
+    JCC_1 %bb.5, 5, implicit $eflags
   
-  bb.5.for.cond.cleanup:
+  bb.6.for.cond.cleanup:
     liveins: $eax
   
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
     RET64 $eax
   
-  bb.6:
+  bb.1:
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
     RET64 $eax
   
   bb.7.for.body.preheader.new:
-    successors: %bb.9(0x80000000)
+    successors: %bb.8(0x80000000)
     liveins: $ecx, $edi, $edx, $esi
   
     renamable $edi = AND32ri killed renamable $edi, -4, implicit-def dead $eflags
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
-    JMP_1 %bb.9
+    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    JMP_1 %bb.8
   
-  bb.8.for.body (align 16):
-    successors: %bb.3(0x04000000), %bb.9(0x7c000000)
+  bb.16.for.body (align 16):
+    successors: %bb.4(0x04000000), %bb.8(0x7c000000)
     liveins: $eax, $ecx, $edi, $edx, $esi, $r8d
   
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $r8d, implicit-def dead $eflags
     renamable $edi = ADD32ri killed renamable $edi, -4, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
-    JCC_1 %bb.3, 4, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    JCC_1 %bb.4, 4, implicit $eflags
   
-  bb.9.for.body:
-    successors: %bb.10(0x40000000), %bb.11(0x40000000)
+  bb.8.for.body:
+    successors: %bb.9(0x40000000), %bb.10(0x40000000)
     liveins: $eax, $ecx, $edi, $edx, $esi
   
     $r8d = MOV32rr $edx
     CMP32rr renamable $eax, renamable $esi, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
-    JCC_1 %bb.11, 12, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    JCC_1 %bb.10, 12, implicit $eflags
   
-  bb.10.for.body:
-    successors: %bb.11(0x80000000)
+  bb.9.for.body:
+    successors: %bb.10(0x80000000)
     liveins: $eax, $ecx, $edi, $edx, $esi
   
     renamable $r8d = XOR32rr undef $r8d, undef $r8d, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
   
-  bb.11.for.body:
-    successors: %bb.12(0x40000000), %bb.13(0x40000000)
+  bb.10.for.body:
+    successors: %bb.11(0x40000000), %bb.12(0x40000000)
     liveins: $eax, $ecx, $edi, $edx, $esi, $r8d
   
     renamable $r8d = nsw ADD32rr killed renamable $r8d, killed renamable $eax, implicit-def dead $eflags
     $eax = MOV32rr $edx
     CMP32rr renamable $r8d, renamable $esi, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
-    JCC_1 %bb.13, 12, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    JCC_1 %bb.12, 12, implicit $eflags
   
-  bb.12.for.body:
-    successors: %bb.13(0x80000000)
+  bb.11.for.body:
+    successors: %bb.12(0x80000000)
     liveins: $ecx, $edi, $edx, $esi, $r8d
   
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
   
-  bb.13.for.body:
-    successors: %bb.14(0x40000000), %bb.15(0x40000000)
+  bb.12.for.body:
+    successors: %bb.13(0x40000000), %bb.14(0x40000000)
     liveins: $eax, $ecx, $edi, $edx, $esi, $r8d
   
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $r8d, implicit-def dead $eflags
     $r8d = MOV32rr $edx
     CMP32rr renamable $eax, renamable $esi, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
-    JCC_1 %bb.15, 12, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    JCC_1 %bb.14, 12, implicit $eflags
   
-  bb.14.for.body:
-    successors: %bb.15(0x80000000)
+  bb.13.for.body:
+    successors: %bb.14(0x80000000)
     liveins: $eax, $ecx, $edi, $edx, $esi
   
     renamable $r8d = XOR32rr undef $r8d, undef $r8d, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
   
-  bb.15.for.body:
-    successors: %bb.16(0x40000000), %bb.8(0x40000000)
+  bb.14.for.body:
+    successors: %bb.15(0x40000000), %bb.16(0x40000000)
     liveins: $eax, $ecx, $edi, $edx, $esi, $r8d
   
     renamable $r8d = nsw ADD32rr killed renamable $r8d, killed renamable $eax, implicit-def dead $eflags
     $eax = MOV32rr $edx
     CMP32rr renamable $r8d, renamable $esi, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
-    JCC_1 %bb.8, 12, implicit $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    JCC_1 %bb.16, 12, implicit $eflags
   
-  bb.16.for.body:
-    successors: %bb.8(0x80000000)
+  bb.15.for.body:
+    successors: %bb.16(0x80000000)
     liveins: $ecx, $edi, $edx, $esi, $r8d
   
-    MOV64mr $r10, &ic
+    ; CHECK: MOV64mr $r10, &ic
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
-    JMP_1 %bb.8
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    JMP_1 %bb.16
 
 ...
 ---
@@ -464,8 +492,6 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
-    MOV64mr $r10, &ic
-    $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
     RET64
 
 ...
@@ -497,7 +523,7 @@ frameInfo:
   hasPatchPoint:   false
   stackSize:       24
   offsetAdjustment: -24
-  maxAlignment:    16
+  maxAlignment:    1
   adjustsStack:    true
   hasCalls:        true
   stackProtector:  ''
@@ -512,11 +538,11 @@ frameInfo:
   savePoint:       ''
   restorePoint:    ''
 fixedStack:
-  - { id: 0, type: spill-slot, offset: -16, size: 8, alignment: 16, stack-id: default, 
-      callee-saved-register: '$r14', callee-saved-restored: true, debug-info-variable: '', 
-      debug-info-expression: '', debug-info-location: '' }
-  - { id: 1, type: spill-slot, offset: -24, size: 8, alignment: 8, stack-id: default, 
+  - { id: 0, type: spill-slot, offset: -24, size: 8, alignment: 8, stack-id: default, 
       callee-saved-register: '$rbx', callee-saved-restored: true, debug-info-variable: '', 
+      debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, type: spill-slot, offset: -16, size: 8, alignment: 16, stack-id: default, 
+      callee-saved-register: '$r14', callee-saved-restored: true, debug-info-variable: '', 
       debug-info-expression: '', debug-info-location: '' }
 stack:           []
 entry_values:    []
@@ -575,7 +601,7 @@ body:             |
     renamable $rax = MOV64rm killed renamable $rax, 1, $noreg, -24, $noreg :: (load (s64) from %ir.vbase.offset.ptr.i)
     renamable $r14 = MOV64rm renamable $rbx, 1, killed renamable $rax, 240, $noreg :: (load (s64) from %ir._M_ctype.i.i, !tbaa !15)
     TEST64rr renamable $r14, renamable $r14, implicit-def $eflags
-    $r10 = ADD64ri32 $r10, 36, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 36, implicit-def $eflags
     JCC_1 %bb.5, 4, implicit $eflags
   
   bb.1._ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i:
@@ -583,7 +609,7 @@ body:             |
     liveins: $rbx, $r14
   
     CMP8mi renamable $r14, 1, $noreg, 56, $noreg, 0, implicit-def $eflags :: (load (s8) from %ir._M_widen_ok.i.i.i, align 8, !tbaa !25)
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
     JCC_1 %bb.3, 4, implicit killed $eflags
   
   bb.2.if.then.i4.i.i:
@@ -591,7 +617,7 @@ body:             |
     liveins: $rbx, $r14
   
     $eax = MOVZX32rm8 killed renamable $r14, 1, $noreg, 67, $noreg :: (load (s8) from %ir.arrayidx.i.i.i, !tbaa !28)
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
     JMP_1 %bb.4
   
   bb.3.if.end.i.i.i:
@@ -604,8 +630,8 @@ body:             |
     $rdi = MOV64rr killed $r14
     $esi = MOV32ri 10
     CALL64m killed renamable $rax, 1, $noreg, 48, $noreg, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $al :: (load (s64) from %ir.vfn.i.i.i)
-    $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
-  
+    ; CHECK: $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
+
   bb.4._ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_.exit:
     liveins: $al, $rbx
   
@@ -621,14 +647,14 @@ body:             |
     frame-destroy CFI_INSTRUCTION def_cfa_offset 16
     $r14 = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     frame-destroy CFI_INSTRUCTION def_cfa_offset 8
-    $r10 = ADD64ri32 $r10, 13, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 13, implicit-def $eflags
     RET64 $eax
   
   bb.5.if.then.i.i.i:
-    MOV64mr $r10, &ic
+    ; CHECK: MOV64mr $r10, &ic
     CFI_INSTRUCTION def_cfa_offset 32
     CALL64pcrel32 target-flags(x86-plt) @_ZSt16__throw_bad_castv, csr_64, implicit $rsp, implicit $ssp, implicit-def $rsp, implicit-def $ssp
-    $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
 
 ...
 ---
@@ -682,7 +708,7 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
-    MOV64mr $r10, &ic
+  ; CHECK: MOV64mr $r10, &ic
     frame-setup PUSH64r undef $rax, implicit-def $rsp, implicit $rsp
     frame-setup CFI_INSTRUCTION def_cfa_offset 16
     $edi = MOV32ri @_ZStL8__ioinit, implicit-def $rdi
@@ -692,7 +718,7 @@ body:             |
     $edx = MOV32ri @__dso_handle, implicit-def $rdx
     $rax = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     frame-destroy CFI_INSTRUCTION def_cfa_offset 8
-    $r10 = ADD64ri32 $r10, 7, implicit-def $eflags
+    ; CHECK: $r10 = ADD64ri32 $r10, 7, implicit-def $eflags
     TAILJMPd64 target-flags(x86-plt) @__cxa_atexit, csr_64, implicit $rsp, implicit $ssp, implicit $rsp, implicit $ssp, implicit $rdi, implicit killed $rsi, implicit killed $rdx
 
 ...
