@@ -7,7 +7,7 @@
 using namespace llvm;
 
 class X86NoginCountInstsPass : public MachineFunctionPass {
- public:
+public:
   static inline char ID = 0;
 
   X86NoginCountInstsPass() : MachineFunctionPass(ID) {}
