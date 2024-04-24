@@ -14,6 +14,8 @@ int func(int a, int b, int c) {
     return d;
 }
 
+void empty_func() {}
+
 int main() {
     int a = 10, b = 100, c = 5;
     int res = func(a, b, c);
