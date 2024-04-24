@@ -1,4 +1,4 @@
-# RUN: llc -mtriple x86_64-unknown-linux-gnu -run-pass=x86-muladd  %s -o - | FileCheck %s
+# RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86MulAddPass%shlibext -run-pass=x86-muladd  %s -o - | FileCheck %s
 
 # test.cpp
 
