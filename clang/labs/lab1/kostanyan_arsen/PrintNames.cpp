@@ -4,7 +4,7 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 
-class ClassPrinter : public clang::RecursiveASTVisitor<ClassPrinter> {
+class classprinter : public clang::RecursiveASTVisitor<classprinter> {
 public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
@@ -29,7 +29,7 @@ private:
 
 class ClassPrinterASTConsumer : public clang::ASTConsumer {
 public:
-  ClassPrinter Visitor;
+  classprinter Visitor;
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
@@ -37,8 +37,8 @@ public:
 
 class ClassPrinterPluginAction : public clang::PluginASTAction {
 public:
-  std::unique_ptr<clang::ASTConsumer>
-  CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
+  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
+      clang::CompilerInstance &ci, llvm::StringRef) override {
     return std::make_unique<ClassPrinterASTConsumer>();
   }
 
@@ -49,12 +49,11 @@ public:
         llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
                         "of a codebase and prints the name and fields of each "
                         "class it encounters\n";
-        return false;
       }
     }
     return true;
   }
 };
 
-static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction>
-    X("classprinter", "Prints all members of the class");
+static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction> X(
+    "classprinter", "Prints all members of the class");
