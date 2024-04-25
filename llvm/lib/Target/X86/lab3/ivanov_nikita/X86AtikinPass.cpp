@@ -25,9 +25,7 @@ private:
 
 char Atikin::ID = 0;
 
-FunctionPass *llvm::createAtikinCallPass() { return new Atikin(); }
-
-INITIALIZE_PASS(Atikin, NAME, DESC, false, false)
+static RegisterPass<Atikin> X(NAME, DESC, false, false);
 
 static bool isAddInstr(MachineInstr &MI) {
   return MI.getOpcode() == X86::ADDPDrr || MI.getOpcode() == X86::ADDPDrm;

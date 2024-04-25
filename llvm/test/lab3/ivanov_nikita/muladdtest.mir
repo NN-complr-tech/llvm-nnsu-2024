@@ -1,4 +1,4 @@
-# RUN: llc -mtriple x86_64-unknown-linux-gnu -run-pass=call-pass-atikin  %s -o - | FileCheck %s
+# RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86AtikinPass%shlibext -run-pass=call-pass-atikin %s -o - | FileCheck %s
 
 # test.c
 # __m128d test_base(__m128d a, __m128d b, __m128d c, __m128d d) {
