@@ -5,7 +5,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 class classprinter : public clang::RecursiveASTVisitor<classprinter> {
-public:
+ public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
       printClassName(declaration);
@@ -15,7 +15,7 @@ public:
     return true;
   }
 
-private:
+ private:
   void printClassName(clang::CXXRecordDecl *declaration) {
     llvm::outs() << declaration->getNameAsString() << "\n";
   }
@@ -28,7 +28,7 @@ private:
 };
 
 class ClassPrinterASTConsumer : public clang::ASTConsumer {
-public:
+ public:
   classprinter Visitor;
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
@@ -36,9 +36,14 @@ public:
 };
 
 class ClassPrinterPluginAction : public clang::PluginASTAction {
-public:
+ public:
+  bool helpFlag = false;
+
   std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
       clang::CompilerInstance &ci, llvm::StringRef) override {
+    if (helpFlag) {
+      return nullptr;
+    }
     return std::make_unique<ClassPrinterASTConsumer>();
   }
 
@@ -49,6 +54,7 @@ public:
         llvm::outs() << "This plugin traverses the Abstract Syntax Tree (AST) "
                         "of a codebase and prints the name and fields of each "
                         "class it encounters\n";
+        helpFlag = true;
       }
     }
     return true;
