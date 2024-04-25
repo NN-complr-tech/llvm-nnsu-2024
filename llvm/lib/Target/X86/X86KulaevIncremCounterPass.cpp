@@ -1,8 +1,8 @@
 #include "X86.h"
 #include "X86InstrInfo.h"
+#include "X86Subtarget.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
-#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 
 using namespace llvm;
 
@@ -42,8 +42,8 @@ bool X86KulaevIncremCounterPass::runOnMachineFunction(
 void X86KulaevIncremCounterPass::updateCount(DebugLoc dl, MachineFunction &mf,
                                              const TargetInstrInfo *ti,
                                              unsigned registreIc) {
+  unsigned count = 0;
   for (auto &MBasicBlock : mf) {
-    unsigned count = 0;
     for (auto &MInstruction : MBasicBlock) {
       ++count;
     }
