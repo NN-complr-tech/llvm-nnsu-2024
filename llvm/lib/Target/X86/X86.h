@@ -158,8 +158,6 @@ FunctionPass *createX86InsertX87waitPass();
 /// ways.
 FunctionPass *createX86PartialReductionPass();
 
-FunctionPass *createX86VolodinEMulAddPass();
-
 InstructionSelector *createX86InstructionSelector(const X86TargetMachine &TM,
                                                   X86Subtarget &,
                                                   X86RegisterBankInfo &);
