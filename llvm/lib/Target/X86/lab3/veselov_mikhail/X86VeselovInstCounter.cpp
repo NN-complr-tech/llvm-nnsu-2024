@@ -17,16 +17,16 @@ public:
 char X86VeselovInstCounter::ID = 0;
 
 bool X86VeselovInstCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
-  // Получаем глобальную переменную 'ic'
+  // Get the global variable 'ic'
   auto *GV = MF.getFunction().getParent()->getNamedGlobal("ic");
   if (!GV) {
-    // Если 'ic' не существует, создаем ее
+    // If 'ic' does not exist, create it
     LLVMContext &context = MF.getFunction().getParent()->getContext();
     GV = new GlobalVariable(*MF.getFunction().getParent(),
                             IntegerType::get(context, 64), false,
                             GlobalValue::ExternalLinkage, nullptr, "ic");
     GV->setAlignment(Align(8));
-    // Если глобальная переменная 'ic' не может быть создана, возвращаем false
+    // If the global variable 'ic' cannot be created, return false
     if (!GV) {
       return false;
     }
@@ -36,15 +36,15 @@ bool X86VeselovInstCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
   auto *TII = MF.getSubtarget().getInstrInfo();
 
   for (auto &MBB : MF) {
-    // Подсчитываем количество инструкций в базовом блоке
+    // Count the number of instructions in the basic block
     int Counter = std::distance(MBB.begin(), MBB.end());
     auto Place = MBB.getFirstTerminator();
     if (Place != MBB.end() && Place != MBB.begin() &&
         Place->getOpcode() >= X86::JCC_1 && Place->getOpcode() <= X86::JCC_4) {
       --Place;
     }
-    // Создаем новую инструкцию, которая добавляет значение Counter к глобальной
-    // переменной 'ic'
+    // Create a new instruction that adds the Counter value to the global
+    // variable 'ic'
     BuildMI(MBB, Place, DL, TII->get(X86::ADD64mi32))
         .addReg(0)
         .addImm(1)
