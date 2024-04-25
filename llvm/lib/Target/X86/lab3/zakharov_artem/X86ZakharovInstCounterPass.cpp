@@ -22,7 +22,13 @@ public:
     for (auto &MBB : MF) {
       int Counter = std::distance(MBB.begin(), MBB.end());
       auto Place = MBB.getFirstTerminator();
-      if (Place != MBB.begin()) {
+
+      // If the terminator is a JCC instruction, increase the instruction
+      // counter before the CMP instruction to avoid changing the flags set by
+      // the CMP.
+      if (Place != MBB.end() && Place != MBB.begin() &&
+          Place->getOpcode() >= X86::JCC_1 &&
+          Place->getOpcode() <= X86::JCC_4) {
         --Place;
       }
       BuildMI(MBB, Place, DL, TII->get(X86::ADD64mi32))
