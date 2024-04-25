@@ -30,9 +30,9 @@ private:
   bool runOnMachineFunction(MachineFunction &MF) override {
     for (llvm::MachineBasicBlock &MachineBlock : MF) {
       for (llvm::MachineBasicBlock::iterator MBIter = MachineBlock.begin();
-           MBIter != MachineBlock.end();) {
+           MBIter != MachineBlock.end(); ++MBIter) {
         if (MBIter->getOpcode() != llvm::X86::MULPDrr) {
-          ++MBIter;
+          continue;
         } else {
           llvm::MachineBasicBlock::iterator MulInstr = MBIter;
           ++MBIter;
@@ -46,7 +46,7 @@ private:
             } else {
               break;
             }
-            ++MBIter;
+            continue;
           }
         }
       }
@@ -56,4 +56,4 @@ private:
 };
 
 INITIALIZE_PASS(X86SoloninkoOptsPass, "x86-soloninko-lab3",
-                "X86 Soloninko Mult Add Opts Pass", false, false)
+                "X86 Soloninko Pass", false, false)
