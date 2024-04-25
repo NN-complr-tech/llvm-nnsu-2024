@@ -22,7 +22,8 @@ bool X86VeselovInstCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
   if (!GV) {
     // Если 'ic' не существует, создаем ее
     LLVMContext &context = MF.getFunction().getParent()->getContext();
-    GV = new GlobalVariable(*MF.getFunction().getParent(), IntegerType::get(context, 64), false,
+    GV = new GlobalVariable(*MF.getFunction().getParent(),
+                            IntegerType::get(context, 64), false,
                             GlobalValue::ExternalLinkage, nullptr, "ic");
     GV->setAlignment(Align(8));
     // Если глобальная переменная 'ic' не может быть создана, возвращаем false
@@ -39,11 +40,11 @@ bool X86VeselovInstCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
     int Counter = std::distance(MBB.begin(), MBB.end());
     auto Place = MBB.getFirstTerminator();
     if (Place != MBB.end() && Place != MBB.begin() &&
-          Place->getOpcode() >= X86::JCC_1 &&
-          Place->getOpcode() <= X86::JCC_4) {
+        Place->getOpcode() >= X86::JCC_1 && Place->getOpcode() <= X86::JCC_4) {
       --Place;
     }
-    // Создаем новую инструкцию, которая добавляет значение Counter к глобальной переменной 'ic'
+    // Создаем новую инструкцию, которая добавляет значение Counter к глобальной
+    // переменной 'ic'
     BuildMI(MBB, Place, DL, TII->get(X86::ADD64mi32))
         .addReg(0)
         .addImm(1)
