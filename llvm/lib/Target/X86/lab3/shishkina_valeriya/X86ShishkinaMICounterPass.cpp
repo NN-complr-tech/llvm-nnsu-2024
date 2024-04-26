@@ -12,7 +12,7 @@ namespace {
 class X86ShishkinaMICounterPass : public MachineFunctionPass {
 public:
   static char ID;
-    
+
   X86ShishkinaMICounterPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &func) override {
@@ -25,7 +25,7 @@ public:
     if (!gVar) {
       LLVMContext &context = mod.getContext();
       gVar = new GlobalVariable(mod, IntegerType::get(context, 64), false,
-                                      GlobalValue::ExternalLinkage, nullptr, "ic");
+                                GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &basicBl : func) {
