@@ -17,10 +17,7 @@ public:
   bool runOnMachineFunction(MachineFunction &MachineFunctionRunning) override;
 
 private:
-  void addInReg(MachineFunction &mi, DebugLoc dl, const TargetInstrInfo *TII,
-                unsigned registreIc, MachineBasicBlock *Return);
-  void updateCount(DebugLoc dl, MachineFunction &mf, const TargetInstrInfo *ti,
-                   unsigned registreIc, MachineBasicBlock *Return);
+  void updateCount(DebugLoc dl, MachineFunction &mf, const TargetInstrInfo *ti);
 };
 } // namespace
 
@@ -30,52 +27,25 @@ bool X86KulaevIncremCounterPass::runOnMachineFunction(
       MachineFunctionRunning.getSubtarget().getInstrInfo();
   DebugLoc DL3 = MachineFunctionRunning.front().begin()->getDebugLoc();
 
-  unsigned icReg = MachineFunctionRunning.getRegInfo().createVirtualRegister(
-      &X86::GR64RegClass);
-
-  MachineBasicBlock *ReturnBlock = nullptr;
-
-  updateCount(DL3, MachineFunctionRunning, TargetInstructionInfo, icReg,
-              ReturnBlock);
-  addInReg(MachineFunctionRunning, DL3, TargetInstructionInfo, icReg,
-           ReturnBlock);
+  updateCount(DL3, MachineFunctionRunning, TargetInstructionInfo);
 
   return true;
 }
 
 void X86KulaevIncremCounterPass::updateCount(DebugLoc dl, MachineFunction &mf,
-                                             const TargetInstrInfo *ti,
-                                             unsigned registreIc,
-                                             MachineBasicBlock *Return) {
+                                             const TargetInstrInfo *ti) {
   for (auto &MBasicBlock : mf) {
     unsigned count = 0;
     for (auto &MInstruction : MBasicBlock) {
       ++count;
-      if (MInstruction.isReturn()) {
-        Return = &MBasicBlock;
-      }
     }
 
     // updating the counter
     BuildMI(MBasicBlock, MBasicBlock.getFirstTerminator(), dl,
-            ti->get(X86::ADD64ri32), registreIc)
-        .addReg(registreIc)
-        .addImm(count);
+            ti->get(X86::ADD64ri32))
+        .addImm(count)
+        .addExternalSymbol("ic");
   }
-}
-
-void X86KulaevIncremCounterPass::addInReg(MachineFunction &mi, DebugLoc dl,
-                                          const TargetInstrInfo *TII,
-                                          unsigned registreIc,
-                                          MachineBasicBlock *Return) {
-  if (!Return) {
-    Return = &mi.back();
-  }
-
-  // adding a register
-  BuildMI(*Return, Return->getFirstTerminator(), dl, TII->get(X86::MOV64mr))
-      .addReg(registreIc)
-      .addExternalSymbol("ic");
 }
 
 char X86KulaevIncremCounterPass::ID = 0;
