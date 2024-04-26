@@ -80,9 +80,9 @@ public:
                      ++i) {
                   llvm::Value *operand = newInstruction->getOperand(i);
                   if (llvm::BasicBlock *bb =
-                          llvm::dyn_cast<llvm::BasicBlock *>(operand)) {
+                          llvm::dyn_cast<llvm::BasicBlock *>(*operand)) {
                     newInstruction->setOperand(
-                        i, llvm::dyn_cast<llvm::Value>(blockMap[*bb]));
+                        i, llvm::dyn_cast<llvm::Value>(blockMap[bb]));
                   }
                 }
               }
