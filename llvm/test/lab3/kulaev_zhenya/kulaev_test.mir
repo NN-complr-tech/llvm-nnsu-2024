@@ -1,4 +1,4 @@
-# RUN: llc -march=x86-64 -simplify-mir -run-pass=x86-kulaev-increm-counter-pass %s -o - | FileCheck %s
+# RUN: llc -march=x86-64 -simplify-mir --load=%llvmshlibdir/X86KulaevIncremCounterPass%shlibext -run-pass=x86-kulaev-increm-counter-pass %s -o - | FileCheck %s
 
 #  unsigned long ic;
  
@@ -10,9 +10,7 @@
 #        {
 #           int a = i + j;
 #        }
-      
 #     }
-   
 #  }
 
 

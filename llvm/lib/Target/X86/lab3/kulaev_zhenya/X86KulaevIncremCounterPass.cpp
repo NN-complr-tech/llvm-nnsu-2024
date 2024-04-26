@@ -18,9 +18,9 @@ public:
 
 private:
   void addInReg(MachineFunction &mi, DebugLoc dl, const TargetInstrInfo *TII,
-                unsigned registreIc);
+                unsigned registreIc, MachineBasicBlock *Return);
   void updateCount(DebugLoc dl, MachineFunction &mf, const TargetInstrInfo *ti,
-                   unsigned registreIc);
+                   unsigned registreIc, MachineBasicBlock *Return);
 };
 } // namespace
 
@@ -33,19 +33,24 @@ bool X86KulaevIncremCounterPass::runOnMachineFunction(
   unsigned icReg = MachineFunctionRunning.getRegInfo().createVirtualRegister(
       &X86::GR64RegClass);
 
-  updateCount(DL3, MachineFunctionRunning, TargetInstructionInfo, icReg);
-  addInReg(MachineFunctionRunning, DL3, TargetInstructionInfo, icReg);
+  MachineBasicBlock *ReturnBlock = nullptr;
+
+  updateCount(DL3, MachineFunctionRunning, TargetInstructionInfo, icReg, ReturnBlock);
+  addInReg(MachineFunctionRunning, DL3, TargetInstructionInfo, icReg, ReturnBlock);
 
   return true;
 }
 
 void X86KulaevIncremCounterPass::updateCount(DebugLoc dl, MachineFunction &mf,
                                              const TargetInstrInfo *ti,
-                                             unsigned registreIc) {
+                                             unsigned registreIc, MachineBasicBlock *Return) {
   for (auto &MBasicBlock : mf) {
     unsigned count = 0;
     for (auto &MInstruction : MBasicBlock) {
       ++count;
+      if (MInstruction.isReturn()) {
+          Return = &MBasicBlock;
+      }
     }
 
     // updating the counter
@@ -58,7 +63,10 @@ void X86KulaevIncremCounterPass::updateCount(DebugLoc dl, MachineFunction &mf,
 
 void X86KulaevIncremCounterPass::addInReg(MachineFunction &mi, DebugLoc dl,
                                           const TargetInstrInfo *TII,
-                                          unsigned registreIc) {
+                                          unsigned registreIc, MachineBasicBlock *Return) {
+  if (!Return) {
+      Return = &mi.back();
+  }
   // adding a register
   BuildMI(mi.back(), mi.back().getFirstTerminator(), dl, TII->get(X86::MOV64mr))
       .addReg(registreIc)
@@ -67,6 +75,6 @@ void X86KulaevIncremCounterPass::addInReg(MachineFunction &mi, DebugLoc dl,
 
 char X86KulaevIncremCounterPass::ID = 0;
 
-INITIALIZE_PASS(X86KulaevIncremCounterPass, PASS_NAME,
-                "Сounts the number of executed instructions in our function",
-                false, false)
+static RegisterPass<X86KulaevIncremCounterPass>
+    X(PASS_NAME,
+      "Сounts the number of executed instructions in our function", false, false);
