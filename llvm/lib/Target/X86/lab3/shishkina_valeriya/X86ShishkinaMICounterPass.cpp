@@ -3,6 +3,8 @@
 #include "X86Subtarget.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
 
 using namespace llvm;
 
@@ -44,5 +46,6 @@ public:
 } // end anonymous namespace
 
 char X86ShishkinaMICounterPass::ID = 0;
-static RegisterPass<X86ShishkinaMICounterPass> X("x86-shishkina-mi-counter", "X86 Count number of machine instructions pass",
-                                         false, false);
+static RegisterPass<X86ShishkinaMICounterPass>
+    X("x86-shishkina-mi-counter",
+      "X86 Count number of machine instructions pass", false, false);
