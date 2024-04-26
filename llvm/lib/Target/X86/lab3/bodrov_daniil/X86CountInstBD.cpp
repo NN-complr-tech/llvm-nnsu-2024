@@ -34,38 +34,28 @@ bool X86BodrovCountInstructionsPass::runOnMachineFunction(MachineFunction &MF) {
 
   // Get the target instruction info
   const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-
-  // Get the register for storing the counter directly
   const TargetRegisterInfo *TRI = MF.getSubtarget().getRegisterInfo();
-  unsigned icReg = MF.getRegInfo().createVirtualRegister(
-      TRI->getRegClass(X86::GR32RegClassID));
 
-  DebugLoc DL3 = DebugLoc(); // Empty DebugLoc for simplicity
+  DebugLoc DL3 = MF.front().begin()->getDebugLoc();
 
   // Iterate over all basic blocks in the function
   for (auto &MBB : MF) {
     unsigned InstructionCount =
         0; // Counter to store the number of instructions
-    for (auto &MI : MBB) {
-      // Check if the instruction is not the one used for incrementing the
-      // counter
-      if (MI.getOpcode() != X86::ADD32ri && MI.getOpcode() != X86::ADD64ri32) {
-        ++InstructionCount;
-      }
-    }
+    auto InsertPt = MBB.getFirstTerminator();
 
-    // Write to the global variable "ic"
-    if (MBB.succ_empty()) {
-      BuildMI(MBB, MBB.begin(), DL3, TII->get(X86::MOV64mr))
-          .addReg(icReg)
-          .addExternalSymbol("ic");
+    for (auto &MI : MBB) {
+      ++InstructionCount;
     }
 
     // Update the counter
-    auto InsertPt = MBB.getFirstTerminator();
-    BuildMI(MBB, InsertPt, DL3, TII->get(X86::ADD64ri32), icReg)
-        .addReg(icReg)
-        .addImm(InstructionCount);
+    BuildMI(MBB, InsertPt, DL3, TII->get(X86::ADD64mi32))
+          .addReg(0)
+          .addImm(1)
+          .addReg(0)
+          .addGlobalAddress(CounterVar)
+          .addReg(0)
+          .addImm(InstructionCount);
   }
 
   return true;
