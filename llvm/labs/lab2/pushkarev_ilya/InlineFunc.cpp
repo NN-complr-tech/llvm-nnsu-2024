@@ -39,7 +39,7 @@ public:
     for (llvm::BasicBlock &block : function) {
       for (llvm::Instruction &instruction : block) {
 
-        llvm::CallInst *callInst = llvm::dyn_cast<llvm::CallInst>(&instruction);
+        auto *callInst = llvm::dyn_cast<llvm::CallInst>(&instruction);
         if (!callInst) {
           continue;
         }
@@ -67,8 +67,8 @@ public:
         }
 
         for (llvm::BasicBlock &inlinedBlock : *calledFunction) {
+          llvm::BasicBlock *currentBlock = blockMap[&inlinedBlock];
           for (llvm::Instruction &inlinedInstruction : inlinedBlock) {
-            llvm::BasicBlock *currentBlock = blockMap[&inlinedBlock];
             if (llvm::isa<llvm::ReturnInst>(&inlinedInstruction)) {
               llvm::BranchInst::Create(&block)->insertInto(currentBlock,
                                                            currentBlock->end());
@@ -79,11 +79,9 @@ public:
                 for (unsigned i = 0; i < newInstruction->getNumOperands();
                      ++i) {
                   llvm::Value *operand = newInstruction->getOperand(i);
-                  if (llvm::isa<llvm::BasicBlock>(*operand)) {
+                  if (auto *bb = llvm::dyn_cast<llvm::BasicBlock>(*operand)) {
                     newInstruction->setOperand(
-                        i, llvm::dyn_cast<llvm::Value>(
-                               blockMap[llvm::dyn_cast<llvm::BasicBlock>(
-                                   operand)]));
+                        i, llvm::dyn_cast<llvm::Value>(blockMap[bb]));
                   }
                 }
               }
