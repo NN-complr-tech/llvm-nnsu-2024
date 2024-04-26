@@ -1,4 +1,4 @@
-# RUN: llc -march=x86-64 -simplify-mir -run-pass=x86-nogin-count-insts %s -o - | FileCheck %s
+# RUN: llc -march=x86-64 -simplify-mir --load=%llvmshlibdir/X86NoginCountInstsPass%shlibext -run-pass=x86-nogin-count-insts %s -o - | FileCheck %s
 
 --- |
   ; ModuleID = 'test.ll'

@@ -18,13 +18,13 @@ public:
     size_t Count = 0;
 
     MachineBasicBlock *ReturnBlock = nullptr;
+    
     for (auto &BasicBlock : MachFunc) {
-      Count += countInstrBasBlock(BasicBlock);
       for (auto &Instr : BasicBlock) {
+        Count++;
         if (Instr.isReturn()) {
           ReturnBlock = &BasicBlock;
           DebugLocation = Instr.getDebugLoc();
-          break;
         }
       }
     }
@@ -34,24 +34,15 @@ public:
       DebugLocation = ReturnBlock->begin()->getDebugLoc();
     }
 
-    BuildMI(*ReturnBlock, ReturnBlock->getFirstTerminator(),
-            DebugLocation, InstrInfo->get(X86::MOV64mr))
+    BuildMI(*ReturnBlock, ReturnBlock->getFirstTerminator(), DebugLocation,
+            InstrInfo->get(X86::MOV64mr))
         .addImm(Count)
         .addExternalSymbol("ic");
 
     return true;
   }
-
-private:
-  size_t countInstrBasBlock(MachineBasicBlock &BasicBlock) {
-    size_t Count = 0;
-    for (auto &CurInstr : BasicBlock) {
-      Count++;
-    }
-    return Count;
-  }
 };
 
-INITIALIZE_PASS(X86NoginCountInstsPass, "x86-nogin-count-insts",
-                "A pass counting the number of X86 machine instructions", false,
-                false)
+static RegisterPass<X86NoginCountInstsPass>
+    X("x86-nogin-count-insts",
+      "A pass counting the number of X86 machine instructions", false, false);
