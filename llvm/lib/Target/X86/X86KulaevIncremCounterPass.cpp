@@ -42,8 +42,8 @@ bool X86KulaevIncremCounterPass::runOnMachineFunction(
 void X86KulaevIncremCounterPass::updateCount(DebugLoc dl, MachineFunction &mf,
                                              const TargetInstrInfo *ti,
                                              unsigned registreIc) {
-  unsigned count = 0;
   for (auto &MBasicBlock : mf) {
+    unsigned count = 0;
     for (auto &MInstruction : MBasicBlock) {
       ++count;
     }
