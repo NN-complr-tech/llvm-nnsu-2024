@@ -23,21 +23,22 @@ public:
     GlobalVariable *gVar = mod.getGlobalVariable("ic");
 
     if (!gVar) {
-        LLVMContext &context = mod.getContext();
-        gVar = new GlobalVariable(mod, IntegerType::get(context, 64), false,
+      LLVMContext &context = mod.getContext();
+      gVar = new GlobalVariable(mod, IntegerType::get(context, 64), false,
                                       GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &basicBl : func) {
-        unsigned count = 0;
-        for (auto &instr : basicBl) {
-            if (!instr.isDebugInstr())
-                ++count;
-        }
+      unsigned count = 0;
+      for (auto &instr : basicBl) {
+        if (!instr.isDebugInstr())
+          ++count;
+      }
 
-        BuildMI(basicBl, basicBl.getFirstTerminator(), debugLocation, targInstInf->get(X86::ADD64ri32))
-            .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
-            .addImm(count);
+      BuildMI(basicBl, basicBl.getFirstTerminator(), debugLocation,
+              targInstInf->get(X86::ADD64ri32))
+          .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
+          .addImm(count);
     }
 
     return true;
