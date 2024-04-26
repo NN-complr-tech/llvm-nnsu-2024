@@ -47,7 +47,7 @@ private:
             if (Mul->getOperand(0).getReg() == Add->getOperand(1).getReg()) {
               vecMI.emplace_back(Add);
               vecMI.emplace_back(Mul);
-  
+
               buildMI(MachineBlock, Mul, TII, Add);
 
               break;
@@ -64,4 +64,4 @@ private:
 };
 
 static RegisterPass<X86SoloninkoOptsPass> X("x86-soloninko-lab3",
-                "X86 Soloninko Pass", false, false);
+                                            "X86 Soloninko Pass", false, false);
