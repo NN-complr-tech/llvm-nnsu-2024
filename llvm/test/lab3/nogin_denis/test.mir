@@ -277,8 +277,7 @@ body:             |
 
     ; CHECK: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
-    ; CHECK-NEXT: %0:gr64 = ADD64ri32 %0, 29, implicit-def $eflags
-    ; CHECK-NEXT: MOV64mr %0, &ic
+    ; CHECK-NEXT: MOV64mr 29, &ic
     ; CHECK-NEXT: RET64 implicit $eax
 
 ...
@@ -376,8 +375,7 @@ body:             |
     ; CHECK: renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.retval)
     ; CHECK-NEXT: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
-    ; CHECK-NEXT: %0:gr64 = ADD64ri32 %0, 16, implicit-def $eflags
-    ; CHECK-NEXT: MOV64mr %0, &ic
+    ; CHECK-NEXT: MOV64mr 16, &ic
     ; CHECK-NEXT: RET64 implicit $eax
 
 ...
@@ -501,8 +499,7 @@ body:             |
     ; CHECK-NEXT: MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.a.addr)
     ; CHECK-NEXT: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
-    ; CHECK-NEXT: %0:gr64 = ADD64ri32 %0, 29, implicit-def $eflags
-    ; CHECK-NEXT: MOV64mr %0, &ic
+    ; CHECK-NEXT: MOV64mr 29, &ic
     ; CHECK-NEXT: RET64
 
 ...
@@ -576,8 +573,7 @@ body:             |
     ; CHECK-NEXT: frame-setup CFI_INSTRUCTION def_cfa_register $rbp
     ; CHECK-NEXT: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
-    ; CHECK-NEXT: %0:gr64 = ADD64ri32 %0, 8, implicit-def $eflags
-    ; CHECK-NEXT: MOV64mr %0, &ic
+    ; CHECK-NEXT: MOV64mr 8, &ic
     ; CHECK-NEXT: RET64
 
 ...
