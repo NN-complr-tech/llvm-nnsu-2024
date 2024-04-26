@@ -4,6 +4,7 @@
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/Register.h"
+#include "llvm/CodeGen/TargetRegisterInfo.h"
 
 using namespace llvm;
 
@@ -27,41 +28,45 @@ bool X86BodrovCountInstructionsPass::runOnMachineFunction(MachineFunction &MF) {
   if (!CounterVar) {
     // If global variable doesn't exist, create it
     CounterVar =
-        new GlobalVariable(*M, IntegerType::get(M->getContext(), 32), false,
+        new GlobalVariable(*M, IntegerType::get(M->getContext(), 64), false,
                            GlobalValue::ExternalLinkage, nullptr, "ic");
   }
 
   // Get the target instruction info
   const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
 
-  DebugLoc DL3 = MF.front().begin()->getDebugLoc();
+  // Get the register for storing the counter directly
+  const TargetRegisterInfo *TRI = MF.getSubtarget().getRegisterInfo();
+  unsigned icReg = MF.getRegInfo().createVirtualRegister(
+      TRI->getRegClass(X86::GR32RegClassID));
 
-  // Get the register for storing the counter
-  unsigned icReg = X86::R10;
+  DebugLoc DL3 = DebugLoc(); // Empty DebugLoc for simplicity
 
   // Iterate over all basic blocks in the function
   for (auto &MBB : MF) {
     unsigned InstructionCount =
         0; // Counter to store the number of instructions
     for (auto &MI : MBB) {
-      // Increment the instruction count, excluding the instruction to increment
-      // the counter itself
-      if (MI.getOpcode() !=
-          X86::MOV32ri) { // Exclude the instruction to increment the counter
+      // Check if the instruction is not the one used for incrementing the
+      // counter
+      if (MI.getOpcode() != X86::ADD32ri && MI.getOpcode() != X86::ADD64ri32) {
         ++InstructionCount;
       }
     }
 
+    // Write to the global variable "ic"
+    if (MBB.succ_empty()) {
+      BuildMI(MBB, MBB.begin(), DL3, TII->get(X86::MOV64mr))
+          .addReg(icReg)
+          .addExternalSymbol("ic");
+    }
+
     // Update the counter
-    BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri32), icReg)
+    auto InsertPt = MBB.getFirstTerminator();
+    BuildMI(MBB, InsertPt, DL3, TII->get(X86::ADD64ri32), icReg)
         .addReg(icReg)
         .addImm(InstructionCount);
   }
-
-  // Write to the global variable "ic"
-  BuildMI(MF.back(), MF.back().begin(), DL3, TII->get(X86::MOV64mr))
-      .addReg(icReg)
-      .addExternalSymbol("ic");
 
   return true;
 }

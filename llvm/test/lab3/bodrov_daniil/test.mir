@@ -1,29 +1,43 @@
 # RUN: llc -march=x86-64 --load=%llvmshlibdir/X86CountInstBD%shlibext -run-pass=x86-count-machine-instructions %s -o - | FileCheck %s
 
-# #include <iostream>
-
 # unsigned long ic;
-
+# 
 # int func(int a, int b, int c) {
 #     ic = 0;
 # 
 #     // Function body
 #     int d = 0;
-#     for (int i = 0; i < a; i++) {
+#     for (int i = 0; i < a; ++i) {
 #         if (d < b)
 #             d += c;
 #     }
 #     return d;
 # }
-
+# 
 # void empty_func() {}
-
-# int main() {
-#     int a = 10, b = 100, c = 5;
-#     int res = func(a, b, c);
-#     std::cout << "Number of machine instructions executed for func("
-#               << a << ", " << b << ", " << c << ") - " << ic << std::endl;
-#     return 0;
+# 
+# int myFunction(int x, int y, int z) {
+#     // Function body
+#     int total = 0;
+#     for (int i = 0; i < x; ++i) {
+#         if (i % 2 == 0) {
+#             total += y;
+#         } else {
+#             total -= z;
+#         }
+#     }
+#     return total;
+# }
+# 
+# int myFunctionAnotherVar(int x, int y, int z) {
+#     // Function body
+#     int total = 0;
+#     for (int i = 0; i < x; ++i) {
+#         for (int j = 0; j < y; ++j) {
+#             total += (x + y) - z;
+#         }
+#     }
+#     return total;
 # }
 
 --- |
@@ -32,34 +46,10 @@
   target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
   target triple = "x86_64-unknown-linux-gnu"
   
-  %"class.std::ios_base::Init" = type { i8 }
-  %"class.std::basic_ostream" = type { ptr, %"class.std::basic_ios" }
-  %"class.std::basic_ios" = type { %"class.std::ios_base", ptr, i8, i8, ptr, ptr, ptr, ptr }
-  %"class.std::ios_base" = type { ptr, i64, i64, i32, i32, i32, ptr, %"struct.std::ios_base::_Words", [8 x %"struct.std::ios_base::_Words"], i32, ptr, %"class.std::locale" }
-  %"struct.std::ios_base::_Words" = type { ptr, i64 }
-  %"class.std::locale" = type { ptr }
-  %"class.std::ctype" = type <{ %"class.std::locale::facet.base", [4 x i8], ptr, i8, [7 x i8], ptr, ptr, ptr, i8, [256 x i8], [256 x i8], i8, [6 x i8] }>
-  %"class.std::locale::facet.base" = type <{ ptr, i32 }>
-  
-  @_ZStL8__ioinit = internal global %"class.std::ios_base::Init" zeroinitializer, align 1
-  @__dso_handle = external hidden global i8
   @ic = dso_local local_unnamed_addr global i64 0, align 8
-  @_ZSt4cout = external global %"class.std::basic_ostream", align 8
-  @.str = private unnamed_addr constant [50 x i8] c"Number of machine instructions executed for func(\00", align 1
-  @.str.1 = private unnamed_addr constant [3 x i8] c", \00", align 1
-  @.str.2 = private unnamed_addr constant [5 x i8] c") - \00", align 1
-  @llvm.global_ctors = appending global [1 x { i32, ptr, ptr }] [{ i32, ptr, ptr } { i32 65535, ptr @_GLOBAL__sub_I_test.cpp, ptr null }]
-  
-  declare void @_ZNSt8ios_base4InitC1Ev(ptr noundef nonnull align 1 dereferenceable(1)) unnamed_addr #0
-  
-  ; Function Attrs: nounwind
-  declare void @_ZNSt8ios_base4InitD1Ev(ptr noundef nonnull align 1 dereferenceable(1)) unnamed_addr #1
-  
-  ; Function Attrs: nofree nounwind
-  declare i32 @__cxa_atexit(ptr, ptr, ptr) local_unnamed_addr #2
   
   ; Function Attrs: mustprogress nofree norecurse nosync nounwind memory(write, argmem: none, inaccessiblemem: none) uwtable
-  define dso_local noundef i32 @_Z4funciii(i32 noundef %a, i32 noundef %b, i32 noundef %c) local_unnamed_addr #3 {
+  define dso_local noundef i32 @_Z4funciii(i32 noundef %a, i32 noundef %b, i32 noundef %c) local_unnamed_addr #0 {
   entry:
     store i64 0, ptr @ic, align 8, !tbaa !5
     %cmp5 = icmp sgt i32 %a, 0
@@ -118,96 +108,157 @@
   }
   
   ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
-  define dso_local void @_Z10empty_funcv() local_unnamed_addr #4 {
+  define dso_local void @_Z10empty_funcv() local_unnamed_addr #1 {
   entry:
     ret void
   }
   
-  ; Function Attrs: mustprogress norecurse uwtable
-  define dso_local noundef i32 @main() local_unnamed_addr #5 {
+  ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
+  define dso_local noundef i32 @_Z10myFunctioniii(i32 noundef %x, i32 noundef %y, i32 noundef %z) local_unnamed_addr #1 {
   entry:
-    store i64 0, ptr @ic, align 8, !tbaa !5
-    %call1.i = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(ptr noundef nonnull align 8 dereferenceable(8) @_ZSt4cout, ptr noundef nonnull @.str, i64 noundef 49)
-    %call2 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSolsEi(ptr noundef nonnull align 8 dereferenceable(8) @_ZSt4cout, i32 noundef 10)
-    %call1.i14 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(ptr noundef nonnull align 8 dereferenceable(8) %call2, ptr noundef nonnull @.str.1, i64 noundef 2)
-    %call4 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSolsEi(ptr noundef nonnull align 8 dereferenceable(8) %call2, i32 noundef 100)
-    %call1.i16 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(ptr noundef nonnull align 8 dereferenceable(8) %call4, ptr noundef nonnull @.str.1, i64 noundef 2)
-    %call6 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSolsEi(ptr noundef nonnull align 8 dereferenceable(8) %call4, i32 noundef 5)
-    %call1.i18 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(ptr noundef nonnull align 8 dereferenceable(8) %call6, ptr noundef nonnull @.str.2, i64 noundef 4)
-    %0 = load i64, ptr @ic, align 8, !tbaa !5
-    %call.i = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo9_M_insertImEERSoT_(ptr noundef nonnull align 8 dereferenceable(8) %call6, i64 noundef %0)
-    %vtable.i = load ptr, ptr %call.i, align 8, !tbaa !13
-    %vbase.offset.ptr.i = getelementptr i8, ptr %vtable.i, i64 -24
-    %vbase.offset.i = load i64, ptr %vbase.offset.ptr.i, align 8
-    %add.ptr.i = getelementptr inbounds i8, ptr %call.i, i64 %vbase.offset.i
-    %_M_ctype.i.i = getelementptr inbounds %"class.std::basic_ios", ptr %add.ptr.i, i64 0, i32 5
-    %1 = load ptr, ptr %_M_ctype.i.i, align 8, !tbaa !15
-    %tobool.not.i.i.i = icmp eq ptr %1, null
-    br i1 %tobool.not.i.i.i, label %if.then.i.i.i, label %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i
+    %cmp6 = icmp sgt i32 %x, 0
+    br i1 %cmp6, label %for.body.lr.ph, label %for.cond.cleanup
   
-  if.then.i.i.i:                                    ; preds = %entry
-    tail call void @_ZSt16__throw_bad_castv() #8
-    unreachable
+  for.body.lr.ph:                                   ; preds = %entry
+    %0 = sub i32 0, %z
+    %min.iters.check = icmp ult i32 %x, 8
+    br i1 %min.iters.check, label %for.body.preheader, label %vector.ph
   
-  _ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i: ; preds = %entry
-    %_M_widen_ok.i.i.i = getelementptr inbounds %"class.std::ctype", ptr %1, i64 0, i32 8
-    %2 = load i8, ptr %_M_widen_ok.i.i.i, align 8, !tbaa !25
-    %tobool.not.i3.i.i = icmp eq i8 %2, 0
-    br i1 %tobool.not.i3.i.i, label %if.end.i.i.i, label %if.then.i4.i.i
+  vector.ph:                                        ; preds = %for.body.lr.ph
+    %n.vec = and i32 %x, -8
+    %broadcast.splatinsert = insertelement <4 x i32> poison, i32 %y, i64 0
+    %broadcast.splat = shufflevector <4 x i32> %broadcast.splatinsert, <4 x i32> poison, <4 x i32> zeroinitializer
+    %broadcast.splatinsert11 = insertelement <4 x i32> poison, i32 %0, i64 0
+    %broadcast.splat12 = shufflevector <4 x i32> %broadcast.splatinsert11, <4 x i32> poison, <4 x i32> zeroinitializer
+    %broadcast.splatinsert13 = insertelement <4 x i32> poison, i32 %y, i64 0
+    %broadcast.splat14 = shufflevector <4 x i32> %broadcast.splatinsert13, <4 x i32> poison, <4 x i32> zeroinitializer
+    %broadcast.splatinsert15 = insertelement <4 x i32> poison, i32 %0, i64 0
+    %broadcast.splat16 = shufflevector <4 x i32> %broadcast.splatinsert15, <4 x i32> poison, <4 x i32> zeroinitializer
+    br label %vector.body
   
-  if.then.i4.i.i:                                   ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i
-    %arrayidx.i.i.i = getelementptr inbounds %"class.std::ctype", ptr %1, i64 0, i32 9, i64 10
-    %3 = load i8, ptr %arrayidx.i.i.i, align 1, !tbaa !28
-    br label %_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_.exit
+  vector.body:                                      ; preds = %vector.body, %vector.ph
+    %lsr.iv = phi i32 [ %lsr.iv.next, %vector.body ], [ %n.vec, %vector.ph ]
+    %vec.ind = phi <4 x i32> [ <i32 0, i32 1, i32 2, i32 3>, %vector.ph ], [ %vec.ind.next, %vector.body ]
+    %vec.phi = phi <4 x i32> [ zeroinitializer, %vector.ph ], [ %7, %vector.body ]
+    %vec.phi10 = phi <4 x i32> [ zeroinitializer, %vector.ph ], [ %8, %vector.body ]
+    %1 = and <4 x i32> %vec.ind, <i32 1, i32 1, i32 1, i32 1>
+    %2 = and <4 x i32> %vec.ind, <i32 1, i32 1, i32 1, i32 1>
+    %3 = icmp eq <4 x i32> %1, zeroinitializer
+    %4 = icmp eq <4 x i32> %2, zeroinitializer
+    %5 = select <4 x i1> %3, <4 x i32> %broadcast.splat, <4 x i32> %broadcast.splat12
+    %6 = select <4 x i1> %4, <4 x i32> %broadcast.splat14, <4 x i32> %broadcast.splat16
+    %7 = add <4 x i32> %5, %vec.phi
+    %8 = add <4 x i32> %6, %vec.phi10
+    %vec.ind.next = add <4 x i32> %vec.ind, <i32 8, i32 8, i32 8, i32 8>
+    %lsr.iv.next = add i32 %lsr.iv, -8
+    %9 = icmp eq i32 %lsr.iv.next, 0
+    br i1 %9, label %middle.block, label %vector.body, !llvm.loop !13
   
-  if.end.i.i.i:                                     ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i
-    tail call void @_ZNKSt5ctypeIcE13_M_widen_initEv(ptr noundef nonnull align 8 dereferenceable(570) %1)
-    %vtable.i.i.i = load ptr, ptr %1, align 8, !tbaa !13
-    %vfn.i.i.i = getelementptr inbounds ptr, ptr %vtable.i.i.i, i64 6
-    %4 = load ptr, ptr %vfn.i.i.i, align 8
-    %call.i.i.i = tail call noundef signext i8 %4(ptr noundef nonnull align 8 dereferenceable(570) %1, i8 noundef signext 10)
-    br label %_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_.exit
+  middle.block:                                     ; preds = %vector.body
+    %bin.rdx = add <4 x i32> %8, %7
+    %rdx.shuf = shufflevector <4 x i32> %bin.rdx, <4 x i32> poison, <4 x i32> <i32 2, i32 3, i32 poison, i32 poison>
+    %bin.rdx1 = add <4 x i32> %bin.rdx, %rdx.shuf
+    %rdx.shuf2 = shufflevector <4 x i32> %bin.rdx1, <4 x i32> poison, <4 x i32> <i32 1, i32 poison, i32 poison, i32 poison>
+    %bin.rdx3 = add <4 x i32> %bin.rdx1, %rdx.shuf2
+    %10 = extractelement <4 x i32> %bin.rdx3, i32 0
+    %cmp.n = icmp eq i32 %n.vec, %x
+    br i1 %cmp.n, label %for.cond.cleanup, label %for.body.preheader
   
-  _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_.exit: ; preds = %if.end.i.i.i, %if.then.i4.i.i
-    %retval.0.i.i.i = phi i8 [ %3, %if.then.i4.i.i ], [ %call.i.i.i, %if.end.i.i.i ]
-    %call1.i20 = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo3putEc(ptr noundef nonnull align 8 dereferenceable(8) %call.i, i8 noundef signext %retval.0.i.i.i)
-    %call.i.i = tail call noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo5flushEv(ptr noundef nonnull align 8 dereferenceable(8) %call1.i20)
-    ret i32 0
+  for.body.preheader:                               ; preds = %middle.block, %for.body.lr.ph
+    %i.08.ph = phi i32 [ 0, %for.body.lr.ph ], [ %n.vec, %middle.block ]
+    %total.07.ph = phi i32 [ 0, %for.body.lr.ph ], [ %10, %middle.block ]
+    br label %for.body
+  
+  for.cond.cleanup:                                 ; preds = %for.body, %middle.block, %entry
+    %total.0.lcssa = phi i32 [ 0, %entry ], [ %10, %middle.block ], [ %total.1, %for.body ]
+    ret i32 %total.0.lcssa
+  
+  for.body:                                         ; preds = %for.body, %for.body.preheader
+    %i.08 = phi i32 [ %inc, %for.body ], [ %i.08.ph, %for.body.preheader ]
+    %total.07 = phi i32 [ %total.1, %for.body ], [ %total.07.ph, %for.body.preheader ]
+    %rem = and i32 %i.08, 1
+    %cmp1 = icmp eq i32 %rem, 0
+    %total.1.p = select i1 %cmp1, i32 %y, i32 %0
+    %total.1 = add i32 %total.1.p, %total.07
+    %inc = add nuw nsw i32 %i.08, 1
+    %exitcond.not = icmp eq i32 %x, %inc
+    br i1 %exitcond.not, label %for.cond.cleanup, label %for.body, !llvm.loop !16
   }
   
-  declare noundef nonnull align 8 dereferenceable(8) ptr @_ZNSolsEi(ptr noundef nonnull align 8 dereferenceable(8), i32 noundef) local_unnamed_addr #0
-  
-  declare noundef nonnull align 8 dereferenceable(8) ptr @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(ptr noundef nonnull align 8 dereferenceable(8), ptr noundef, i64 noundef) local_unnamed_addr #0
-  
-  declare noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo9_M_insertImEERSoT_(ptr noundef nonnull align 8 dereferenceable(8), i64 noundef) local_unnamed_addr #0
-  
-  declare noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo3putEc(ptr noundef nonnull align 8 dereferenceable(8), i8 noundef signext) local_unnamed_addr #0
-  
-  declare noundef nonnull align 8 dereferenceable(8) ptr @_ZNSo5flushEv(ptr noundef nonnull align 8 dereferenceable(8)) local_unnamed_addr #0
-  
-  ; Function Attrs: noreturn
-  declare void @_ZSt16__throw_bad_castv() local_unnamed_addr #6
-  
-  declare void @_ZNKSt5ctypeIcE13_M_widen_initEv(ptr noundef nonnull align 8 dereferenceable(570)) local_unnamed_addr #0
-  
-  ; Function Attrs: uwtable
-  define internal void @_GLOBAL__sub_I_test.cpp() #7 section ".text.startup" {
+  ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
+  define dso_local noundef i32 @_Z20myFunctionAnotherVariii(i32 noundef %x, i32 noundef %y, i32 noundef %z) local_unnamed_addr #1 {
   entry:
-    tail call void @_ZNSt8ios_base4InitC1Ev(ptr noundef nonnull align 1 dereferenceable(1) @_ZStL8__ioinit)
-    %0 = tail call i32 @__cxa_atexit(ptr nonnull @_ZNSt8ios_base4InitD1Ev, ptr nonnull @_ZStL8__ioinit, ptr nonnull @__dso_handle) #9
-    ret void
+    %cmp17 = icmp sgt i32 %x, 0
+    br i1 %cmp17, label %for.cond1.preheader.lr.ph, label %for.cond.cleanup
+  
+  for.cond1.preheader.lr.ph:                        ; preds = %entry
+    %add = add i32 %y, %x
+    %sub = sub i32 %add, %z
+    %0 = add i32 %y, -1
+    %1 = mul i32 %sub, %0
+    %2 = add i32 %add, %1
+    %3 = sub i32 %2, %z
+    %min.iters.check = icmp ult i32 %x, 8
+    br i1 %min.iters.check, label %for.cond1.preheader.preheader, label %vector.ph
+  
+  vector.ph:                                        ; preds = %for.cond1.preheader.lr.ph
+    %4 = icmp sgt i32 %y, 0
+    %n.vec = and i32 %x, -8
+    %broadcast.splatinsert = insertelement <4 x i32> poison, i32 %3, i64 0
+    %broadcast.splat = shufflevector <4 x i32> %broadcast.splatinsert, <4 x i32> poison, <4 x i32> zeroinitializer
+    %broadcast.splatinsert22 = insertelement <4 x i32> poison, i32 %3, i64 0
+    %broadcast.splat23 = shufflevector <4 x i32> %broadcast.splatinsert22, <4 x i32> poison, <4 x i32> zeroinitializer
+    %5 = select i1 %4, <4 x i32> %broadcast.splat, <4 x i32> zeroinitializer
+    %6 = select i1 %4, <4 x i32> %broadcast.splat23, <4 x i32> zeroinitializer
+    br label %vector.body
+  
+  vector.body:                                      ; preds = %vector.body, %vector.ph
+    %lsr.iv1 = phi i32 [ %lsr.iv.next2, %vector.body ], [ %n.vec, %vector.ph ]
+    %vec.phi = phi <4 x i32> [ zeroinitializer, %vector.ph ], [ %7, %vector.body ]
+    %vec.phi21 = phi <4 x i32> [ zeroinitializer, %vector.ph ], [ %8, %vector.body ]
+    %7 = add <4 x i32> %vec.phi, %5
+    %8 = add <4 x i32> %vec.phi21, %6
+    %lsr.iv.next2 = add i32 %lsr.iv1, -8
+    %9 = icmp eq i32 %lsr.iv.next2, 0
+    br i1 %9, label %middle.block, label %vector.body, !llvm.loop !17
+  
+  middle.block:                                     ; preds = %vector.body
+    %bin.rdx = add <4 x i32> %8, %7
+    %rdx.shuf = shufflevector <4 x i32> %bin.rdx, <4 x i32> poison, <4 x i32> <i32 2, i32 3, i32 poison, i32 poison>
+    %bin.rdx3 = add <4 x i32> %bin.rdx, %rdx.shuf
+    %rdx.shuf4 = shufflevector <4 x i32> %bin.rdx3, <4 x i32> poison, <4 x i32> <i32 1, i32 poison, i32 poison, i32 poison>
+    %bin.rdx5 = add <4 x i32> %bin.rdx3, %rdx.shuf4
+    %10 = extractelement <4 x i32> %bin.rdx5, i32 0
+    %cmp.n = icmp eq i32 %n.vec, %x
+    br i1 %cmp.n, label %for.cond.cleanup, label %for.cond1.preheader.preheader
+  
+  for.cond1.preheader.preheader:                    ; preds = %middle.block, %for.cond1.preheader.lr.ph
+    %i.019.ph = phi i32 [ 0, %for.cond1.preheader.lr.ph ], [ %n.vec, %middle.block ]
+    %total.018.ph = phi i32 [ 0, %for.cond1.preheader.lr.ph ], [ %10, %middle.block ]
+    %11 = icmp sgt i32 %y, 0
+    %12 = select i1 %11, i32 %3, i32 0
+    %13 = sub i32 %x, %i.019.ph
+    %14 = mul i32 %12, %13
+    %15 = add i32 %total.018.ph, %14
+    br label %for.cond1.preheader
+  
+  for.cond1.preheader:                              ; preds = %for.cond1.preheader, %for.cond1.preheader.preheader
+    %lsr.iv = phi i32 [ %lsr.iv.next, %for.cond1.preheader ], [ %13, %for.cond1.preheader.preheader ]
+    %lsr.iv.next = add i32 %lsr.iv, -1
+    %exitcond.not = icmp eq i32 %lsr.iv.next, 0
+    br i1 %exitcond.not, label %for.cond.cleanup, label %for.cond1.preheader, !llvm.loop !18
+  
+  for.cond.cleanup:                                 ; preds = %for.cond1.preheader, %middle.block, %entry
+    %total.0.lcssa = phi i32 [ 0, %entry ], [ %10, %middle.block ], [ %15, %for.cond1.preheader ]
+    ret i32 %total.0.lcssa
   }
   
-  attributes #0 = { "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #1 = { nounwind "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #2 = { nofree nounwind }
-  attributes #3 = { mustprogress nofree norecurse nosync nounwind memory(write, argmem: none, inaccessiblemem: none) uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #4 = { mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #5 = { mustprogress norecurse uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #6 = { noreturn "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #7 = { uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-  attributes #8 = { noreturn }
-  attributes #9 = { nounwind }
+  ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+  declare i32 @llvm.vector.reduce.add.v4i32(<4 x i32>) #2
+  
+  attributes #0 = { mustprogress nofree norecurse nosync nounwind memory(write, argmem: none, inaccessiblemem: none) uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+  attributes #1 = { mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+  attributes #2 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
   
   !llvm.module.flags = !{!0, !1, !2, !3}
   !llvm.ident = !{!4}
@@ -225,22 +276,12 @@
   !10 = !{!"llvm.loop.unroll.disable"}
   !11 = distinct !{!11, !12}
   !12 = !{!"llvm.loop.mustprogress"}
-  !13 = !{!14, !14, i64 0}
-  !14 = !{!"vtable pointer", !8, i64 0}
-  !15 = !{!16, !20, i64 240}
-  !16 = !{!"_ZTSSt9basic_iosIcSt11char_traitsIcEE", !17, i64 0, !20, i64 216, !7, i64 224, !24, i64 225, !20, i64 232, !20, i64 240, !20, i64 248, !20, i64 256}
-  !17 = !{!"_ZTSSt8ios_base", !6, i64 8, !6, i64 16, !18, i64 24, !19, i64 28, !19, i64 32, !20, i64 40, !21, i64 48, !7, i64 64, !22, i64 192, !20, i64 200, !23, i64 208}
-  !18 = !{!"_ZTSSt13_Ios_Fmtflags", !7, i64 0}
-  !19 = !{!"_ZTSSt12_Ios_Iostate", !7, i64 0}
-  !20 = !{!"any pointer", !7, i64 0}
-  !21 = !{!"_ZTSNSt8ios_base6_WordsE", !20, i64 0, !6, i64 8}
-  !22 = !{!"int", !7, i64 0}
-  !23 = !{!"_ZTSSt6locale", !20, i64 0}
-  !24 = !{!"bool", !7, i64 0}
-  !25 = !{!26, !7, i64 56}
-  !26 = !{!"_ZTSSt5ctypeIcE", !27, i64 0, !20, i64 16, !24, i64 24, !20, i64 32, !20, i64 40, !20, i64 48, !7, i64 56, !7, i64 57, !7, i64 313, !7, i64 569}
-  !27 = !{!"_ZTSNSt6locale5facetE", !22, i64 8}
-  !28 = !{!7, !7, i64 0}
+  !13 = distinct !{!13, !12, !14, !15}
+  !14 = !{!"llvm.loop.isvectorized", i32 1}
+  !15 = !{!"llvm.loop.unroll.runtime.disable"}
+  !16 = distinct !{!16, !12, !15, !14}
+  !17 = distinct !{!17, !12, !14, !15}
+  !18 = distinct !{!18, !12, !15, !14}
 
 ...
 ---
@@ -302,7 +343,7 @@ body:             |
   
     MOV64mi32 $rip, 1, $noreg, @ic, $noreg, 0 :: (store (s64) into @ic, !tbaa !5)
     TEST32rr renamable $edi, renamable $edi, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 3, implicit-def $eflags
     JCC_1 %bb.1, 14, implicit $eflags
   
   bb.2.for.body.preheader:
@@ -312,7 +353,7 @@ body:             |
     $ecx = MOV32rr $edi
     renamable $ecx = AND32ri killed renamable $ecx, 3, implicit-def dead $eflags
     CMP32ri renamable $edi, 4, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
     JCC_1 %bb.7, 3, implicit $eflags
   
   bb.3:
@@ -320,14 +361,14 @@ body:             |
     liveins: $ecx, $edx, $esi
   
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
   
   bb.4.for.cond.cleanup.loopexit.unr-lcssa:
     successors: %bb.6(0x30000000), %bb.5(0x50000000)
     liveins: $eax, $ecx, $edx, $esi
   
     TEST32rr renamable $ecx, renamable $ecx, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
     JCC_1 %bb.6, 4, implicit $eflags
   
   bb.5.for.body.epil (align 16):
@@ -339,18 +380,20 @@ body:             |
     renamable $edi = CMOV32rr killed renamable $edi, renamable $edx, 12, implicit $eflags
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $edi, implicit-def dead $eflags
     renamable $ecx = DEC32r killed renamable $ecx, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 6, implicit-def $eflags
     JCC_1 %bb.5, 5, implicit $eflags
   
   bb.6.for.cond.cleanup:
     liveins: $eax
   
-    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: MOV64mr %0, &ic
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
     RET64 $eax
   
   bb.1:
+    ; CHECK: MOV64mr %0, &ic
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
     RET64 $eax
   
   bb.7.for.body.preheader.new:
@@ -359,7 +402,7 @@ body:             |
   
     renamable $edi = AND32ri killed renamable $edi, -4, implicit-def dead $eflags
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 3, implicit-def $eflags
     JMP_1 %bb.8
   
   bb.16.for.body (align 16):
@@ -368,7 +411,7 @@ body:             |
   
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $r8d, implicit-def dead $eflags
     renamable $edi = ADD32ri killed renamable $edi, -4, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
     JCC_1 %bb.4, 4, implicit $eflags
   
   bb.8.for.body:
@@ -377,7 +420,7 @@ body:             |
   
     $r8d = MOV32rr $edx
     CMP32rr renamable $eax, renamable $esi, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 3, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 3, implicit-def $eflags
     JCC_1 %bb.10, 12, implicit $eflags
   
   bb.9.for.body:
@@ -385,7 +428,7 @@ body:             |
     liveins: $eax, $ecx, $edi, $edx, $esi
   
     renamable $r8d = XOR32rr undef $r8d, undef $r8d, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
   
   bb.10.for.body:
     successors: %bb.11(0x40000000), %bb.12(0x40000000)
@@ -394,7 +437,7 @@ body:             |
     renamable $r8d = nsw ADD32rr killed renamable $r8d, killed renamable $eax, implicit-def dead $eflags
     $eax = MOV32rr $edx
     CMP32rr renamable $r8d, renamable $esi, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
     JCC_1 %bb.12, 12, implicit $eflags
   
   bb.11.for.body:
@@ -402,7 +445,7 @@ body:             |
     liveins: $ecx, $edi, $edx, $esi, $r8d
   
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
   
   bb.12.for.body:
     successors: %bb.13(0x40000000), %bb.14(0x40000000)
@@ -411,7 +454,7 @@ body:             |
     renamable $eax = nsw ADD32rr killed renamable $eax, killed renamable $r8d, implicit-def dead $eflags
     $r8d = MOV32rr $edx
     CMP32rr renamable $eax, renamable $esi, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
     JCC_1 %bb.14, 12, implicit $eflags
   
   bb.13.for.body:
@@ -419,7 +462,7 @@ body:             |
     liveins: $eax, $ecx, $edi, $edx, $esi
   
     renamable $r8d = XOR32rr undef $r8d, undef $r8d, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 1, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
   
   bb.14.for.body:
     successors: %bb.15(0x40000000), %bb.16(0x40000000)
@@ -428,16 +471,15 @@ body:             |
     renamable $r8d = nsw ADD32rr killed renamable $r8d, killed renamable $eax, implicit-def dead $eflags
     $eax = MOV32rr $edx
     CMP32rr renamable $r8d, renamable $esi, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 4, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
     JCC_1 %bb.16, 12, implicit $eflags
   
   bb.15.for.body:
     successors: %bb.16(0x80000000)
     liveins: $ecx, $edi, $edx, $esi, $r8d
   
-    ; CHECK: MOV64mr $r10, &ic
     renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
     JMP_1 %bb.16
 
 ...
@@ -492,11 +534,13 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
+    ; CHECK: MOV64mr %0, &ic
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
     RET64
 
 ...
 ---
-name:            main
+name:            _Z10myFunctioniii
 alignment:       16
 exposesReturnsTwice: false
 legalized:       false
@@ -515,179 +559,20 @@ debugInstrRef:   true
 failsVerification: false
 tracksDebugUserValues: true
 registers:       []
-liveins:         []
+liveins:
+  - { reg: '$edi', virtual-reg: '' }
+  - { reg: '$esi', virtual-reg: '' }
+  - { reg: '$edx', virtual-reg: '' }
 frameInfo:
   isFrameAddressTaken: false
   isReturnAddressTaken: false
   hasStackMap:     false
   hasPatchPoint:   false
-  stackSize:       24
-  offsetAdjustment: -24
+  stackSize:       0
+  offsetAdjustment: 0
   maxAlignment:    1
-  adjustsStack:    true
-  hasCalls:        true
-  stackProtector:  ''
-  functionContext: ''
-  maxCallFrameSize: 0
-  cvBytesOfCalleeSavedRegisters: 16
-  hasOpaqueSPAdjustment: false
-  hasVAStart:      false
-  hasMustTailInVarArgFunc: false
-  hasTailCall:     false
-  localFrameSize:  0
-  savePoint:       ''
-  restorePoint:    ''
-fixedStack:
-  - { id: 0, type: spill-slot, offset: -24, size: 8, alignment: 8, stack-id: default, 
-      callee-saved-register: '$rbx', callee-saved-restored: true, debug-info-variable: '', 
-      debug-info-expression: '', debug-info-location: '' }
-  - { id: 1, type: spill-slot, offset: -16, size: 8, alignment: 16, stack-id: default, 
-      callee-saved-register: '$r14', callee-saved-restored: true, debug-info-variable: '', 
-      debug-info-expression: '', debug-info-location: '' }
-stack:           []
-entry_values:    []
-callSites:       []
-debugValueSubstitutions: []
-constants:       []
-machineFunctionInfo: {}
-body:             |
-  bb.0.entry:
-    successors: %bb.5(0x00000800), %bb.1(0x7ffff800)
-    liveins: $r14, $rbx
-  
-    frame-setup PUSH64r killed $r14, implicit-def $rsp, implicit $rsp
-    frame-setup CFI_INSTRUCTION def_cfa_offset 16
-    frame-setup PUSH64r killed $rbx, implicit-def $rsp, implicit $rsp
-    frame-setup CFI_INSTRUCTION def_cfa_offset 24
-    frame-setup PUSH64r undef $rax, implicit-def $rsp, implicit $rsp
-    frame-setup CFI_INSTRUCTION def_cfa_offset 32
-    CFI_INSTRUCTION offset $rbx, -24
-    CFI_INSTRUCTION offset $r14, -16
-    MOV64mi32 $rip, 1, $noreg, @ic, $noreg, 0 :: (store (s64) into @ic, !tbaa !5)
-    renamable $rbx = MOV64rm $rip, 1, $noreg, target-flags(x86-gotpcrel) @_ZSt4cout, $noreg :: (load (s64) from got)
-    $esi = MOV32ri @.str, implicit-def $rsi
-    $edx = MOV32ri 49, implicit-def $rdx
-    $rdi = MOV64rr $rbx
-    CALL64pcrel32 target-flags(x86-plt) @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit killed $rdx, implicit-def $rsp, implicit-def $ssp, implicit-def dead $rax
-    $rdi = MOV64rr killed $rbx
-    $esi = MOV32ri 10
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSolsEi, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax
-    $rbx = MOV64rr $rax
-    $esi = MOV32ri @.str.1, implicit-def $rsi
-    $edx = MOV32ri 2, implicit-def $rdx
-    $rdi = MOV64rr $rax
-    CALL64pcrel32 target-flags(x86-plt) @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit killed $rdx, implicit-def $rsp, implicit-def $ssp, implicit-def dead $rax
-    $rdi = MOV64rr killed $rbx
-    $esi = MOV32ri 100
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSolsEi, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax
-    $rbx = MOV64rr $rax
-    $esi = MOV32ri @.str.1, implicit-def $rsi
-    $edx = MOV32ri 2, implicit-def $rdx
-    $rdi = MOV64rr $rax
-    CALL64pcrel32 target-flags(x86-plt) @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit killed $rdx, implicit-def $rsp, implicit-def $ssp, implicit-def dead $rax
-    $rdi = MOV64rr killed $rbx
-    $esi = MOV32ri 5
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSolsEi, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax
-    $rbx = MOV64rr $rax
-    $esi = MOV32ri @.str.2, implicit-def $rsi
-    $edx = MOV32ri 4, implicit-def $rdx
-    $rdi = MOV64rr $rax
-    CALL64pcrel32 target-flags(x86-plt) @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit killed $rdx, implicit-def $rsp, implicit-def $ssp, implicit-def dead $rax
-    renamable $rsi = MOV64rm $rip, 1, $noreg, @ic, $noreg :: (dereferenceable load (s64) from @ic, !tbaa !5)
-    $rdi = MOV64rr killed $rbx
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSo9_M_insertImEERSoT_, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax
-    $rbx = MOV64rr $rax
-    renamable $rax = MOV64rm $rax, 1, $noreg, 0, $noreg :: (dereferenceable load (s64) from %ir.call.i, !tbaa !13)
-    renamable $rax = MOV64rm killed renamable $rax, 1, $noreg, -24, $noreg :: (load (s64) from %ir.vbase.offset.ptr.i)
-    renamable $r14 = MOV64rm renamable $rbx, 1, killed renamable $rax, 240, $noreg :: (load (s64) from %ir._M_ctype.i.i, !tbaa !15)
-    TEST64rr renamable $r14, renamable $r14, implicit-def $eflags
-    ; CHECK: $r10 = ADD64ri32 $r10, 36, implicit-def $eflags
-    JCC_1 %bb.5, 4, implicit $eflags
-  
-  bb.1._ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i.i:
-    successors: %bb.3(0x30000000), %bb.2(0x50000000)
-    liveins: $rbx, $r14
-  
-    CMP8mi renamable $r14, 1, $noreg, 56, $noreg, 0, implicit-def $eflags :: (load (s8) from %ir._M_widen_ok.i.i.i, align 8, !tbaa !25)
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
-    JCC_1 %bb.3, 4, implicit killed $eflags
-  
-  bb.2.if.then.i4.i.i:
-    successors: %bb.4(0x80000000)
-    liveins: $rbx, $r14
-  
-    $eax = MOVZX32rm8 killed renamable $r14, 1, $noreg, 67, $noreg :: (load (s8) from %ir.arrayidx.i.i.i, !tbaa !28)
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
-    JMP_1 %bb.4
-  
-  bb.3.if.end.i.i.i:
-    successors: %bb.4(0x80000000)
-    liveins: $rbx, $r14
-  
-    $rdi = MOV64rr $r14
-    CALL64pcrel32 target-flags(x86-plt) @_ZNKSt5ctypeIcE13_M_widen_initEv, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit-def $rsp, implicit-def $ssp
-    renamable $rax = MOV64rm renamable $r14, 1, $noreg, 0, $noreg :: (load (s64) from %ir.1, !tbaa !13)
-    $rdi = MOV64rr killed $r14
-    $esi = MOV32ri 10
-    CALL64m killed renamable $rax, 1, $noreg, 48, $noreg, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $al :: (load (s64) from %ir.vfn.i.i.i)
-    ; CHECK: $r10 = ADD64ri32 $r10, 5, implicit-def $eflags
-
-  bb.4._ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_.exit:
-    liveins: $al, $rbx
-  
-    renamable $esi = MOVSX32rr8 killed renamable $al
-    $rdi = MOV64rr killed $rbx
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSo3putEc, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $esi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax
-    $rdi = MOV64rr killed $rax
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSo5flushEv, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit-def $rsp, implicit-def $ssp, implicit-def dead $rax
-    $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
-    $rsp = frame-destroy ADD64ri32 $rsp, 8, implicit-def dead $eflags
-    frame-destroy CFI_INSTRUCTION def_cfa_offset 24
-    $rbx = frame-destroy POP64r implicit-def $rsp, implicit $rsp
-    frame-destroy CFI_INSTRUCTION def_cfa_offset 16
-    $r14 = frame-destroy POP64r implicit-def $rsp, implicit $rsp
-    frame-destroy CFI_INSTRUCTION def_cfa_offset 8
-    ; CHECK: $r10 = ADD64ri32 $r10, 13, implicit-def $eflags
-    RET64 $eax
-  
-  bb.5.if.then.i.i.i:
-    ; CHECK: MOV64mr $r10, &ic
-    CFI_INSTRUCTION def_cfa_offset 32
-    CALL64pcrel32 target-flags(x86-plt) @_ZSt16__throw_bad_castv, csr_64, implicit $rsp, implicit $ssp, implicit-def $rsp, implicit-def $ssp
-    ; CHECK: $r10 = ADD64ri32 $r10, 2, implicit-def $eflags
-
-...
----
-name:            _GLOBAL__sub_I_test.cpp
-alignment:       16
-exposesReturnsTwice: false
-legalized:       false
-regBankSelected: false
-selected:        false
-failedISel:      false
-tracksRegLiveness: true
-hasWinCFI:       false
-callsEHReturn:   false
-callsUnwindInit: false
-hasEHCatchret:   false
-hasEHScopes:     false
-hasEHFunclets:   false
-isOutlined:      false
-debugInstrRef:   true
-failsVerification: false
-tracksDebugUserValues: true
-registers:       []
-liveins:         []
-frameInfo:
-  isFrameAddressTaken: false
-  isReturnAddressTaken: false
-  hasStackMap:     false
-  hasPatchPoint:   false
-  stackSize:       8
-  offsetAdjustment: -8
-  maxAlignment:    1
-  adjustsStack:    true
-  hasCalls:        true
+  adjustsStack:    false
+  hasCalls:        false
   stackProtector:  ''
   functionContext: ''
   maxCallFrameSize: 0
@@ -695,7 +580,169 @@ frameInfo:
   hasOpaqueSPAdjustment: false
   hasVAStart:      false
   hasMustTailInVarArgFunc: false
-  hasTailCall:     true
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:      []
+stack:           []
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:
+  - id:              0
+    value:           '<4 x i32> <i32 0, i32 1, i32 2, i32 3>'
+    alignment:       16
+    isTargetSpecific: false
+  - id:              1
+    value:           '<4 x i32> <i32 1, i32 1, i32 1, i32 1>'
+    alignment:       16
+    isTargetSpecific: false
+  - id:              2
+    value:           '<4 x i32> <i32 8, i32 8, i32 8, i32 8>'
+    alignment:       16
+    isTargetSpecific: false
+machineFunctionInfo: {}
+body:             |
+  bb.0.entry:
+    successors: %bb.3(0x50000000), %bb.1(0x30000000)
+    liveins: $edi, $edx, $esi
+  
+    TEST32rr renamable $edi, renamable $edi, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+    JCC_1 %bb.1, 14, implicit $eflags
+  
+  bb.3.for.body.lr.ph:
+    successors: %bb.7(0x40000000), %bb.4(0x40000000)
+    liveins: $edi, $edx, $esi
+  
+    renamable $edx = NEG32r killed renamable $edx, implicit-def dead $eflags
+    renamable $ecx = XOR32rr undef $ecx, undef $ecx, implicit-def dead $eflags
+    renamable $eax = MOV32ri 0
+    CMP32ri renamable $edi, 8, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 5, implicit-def $eflags
+    JCC_1 %bb.7, 2, implicit $eflags
+  
+  bb.4.vector.ph:
+    successors: %bb.5(0x80000000)
+    liveins: $edi, $edx, $esi
+  
+    $ecx = MOV32rr $edi
+    renamable $ecx = AND32ri killed renamable $ecx, -8, implicit-def dead $eflags
+    renamable $xmm0 = MOVDI2PDIrr renamable $esi
+    renamable $xmm0 = PSHUFDri killed renamable $xmm0, 0
+    renamable $xmm1 = MOVDI2PDIrr renamable $edx
+    renamable $xmm1 = PSHUFDri killed renamable $xmm1, 0
+    renamable $xmm2 = PXORrr undef $xmm2, undef $xmm2
+    renamable $xmm3 = MOVDQArm $rip, 1, $noreg, %const.0, $noreg :: (load (s128) from constant-pool)
+    renamable $xmm5 = MOVDQArm $rip, 1, $noreg, %const.1, $noreg :: (load (s128) from constant-pool)
+    renamable $xmm6 = MOVDQArm $rip, 1, $noreg, %const.2, $noreg :: (load (s128) from constant-pool)
+    $eax = MOV32rr $ecx
+    renamable $xmm7 = PXORrr undef $xmm7, undef $xmm7
+    renamable $xmm4 = PXORrr undef $xmm4, undef $xmm4
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 13, implicit-def $eflags
+  
+  bb.5.vector.body (align 16):
+    successors: %bb.6(0x04000000), %bb.5(0x7c000000)
+    liveins: $eax, $ecx, $edi, $edx, $esi, $xmm0, $xmm1, $xmm2, $xmm3, $xmm4, $xmm5, $xmm6, $xmm7
+  
+    $xmm8 = MOVDQArr $xmm3
+    renamable $xmm8 = PANDrr killed renamable $xmm8, renamable $xmm5
+    renamable $xmm8 = PCMPEQDrr killed renamable $xmm8, renamable $xmm2
+    $xmm9 = MOVDQArr $xmm0
+    renamable $xmm9 = PANDrr killed renamable $xmm9, renamable $xmm8
+    renamable $xmm8 = PANDNrr killed renamable $xmm8, renamable $xmm1
+    renamable $xmm8 = PORrr killed renamable $xmm8, killed renamable $xmm9
+    renamable $xmm7 = PADDDrr killed renamable $xmm7, renamable $xmm8
+    renamable $xmm4 = PADDDrr killed renamable $xmm4, killed renamable $xmm8
+    renamable $xmm3 = PADDDrr killed renamable $xmm3, renamable $xmm6
+    renamable $eax = ADD32ri killed renamable $eax, -8, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 11, implicit-def $eflags
+    JCC_1 %bb.5, 5, implicit $eflags
+  
+  bb.6.middle.block:
+    successors: %bb.2(0x40000000), %bb.7(0x40000000)
+    liveins: $ecx, $edi, $edx, $esi, $xmm4, $xmm7
+  
+    renamable $xmm4 = PADDDrr killed renamable $xmm4, killed renamable $xmm7
+    renamable $xmm0 = PSHUFDri renamable $xmm4, -18
+    renamable $xmm0 = PADDDrr killed renamable $xmm0, killed renamable $xmm4
+    renamable $xmm1 = PSHUFDri renamable $xmm0, 85
+    renamable $xmm1 = PADDDrr killed renamable $xmm1, killed renamable $xmm0
+    renamable $eax = MOVPDI2DIrr killed renamable $xmm1
+    CMP32rr renamable $ecx, renamable $edi, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 8, implicit-def $eflags
+    JCC_1 %bb.2, 4, implicit $eflags
+  
+  bb.7.for.body (align 16):
+    successors: %bb.2(0x04000000), %bb.7(0x7c000000)
+    liveins: $eax, $ecx, $edi, $edx, $esi
+  
+    TEST8ri renamable $cl, 1, implicit-def $eflags
+    $r8d = MOV32rr $edx
+    renamable $r8d = CMOV32rr killed renamable $r8d, renamable $esi, 4, implicit $eflags
+    renamable $eax = ADD32rr killed renamable $eax, killed renamable $r8d, implicit-def dead $eflags
+    renamable $ecx = nuw nsw INC32r killed renamable $ecx, implicit-def dead $eflags
+    CMP32rr renamable $edi, renamable $ecx, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 7, implicit-def $eflags
+    JCC_1 %bb.7, 5, implicit $eflags
+  
+  bb.2.for.cond.cleanup:
+    liveins: $eax
+  
+    ; CHECK: MOV64mr %0, &ic
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
+    RET64 $eax
+  
+  bb.1:
+    ; CHECK: MOV64mr %0, &ic
+    renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+    RET64 $eax
+
+...
+---
+name:            _Z20myFunctionAnotherVariii
+alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
+tracksRegLiveness: true
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   true
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:
+  - { reg: '$edi', virtual-reg: '' }
+  - { reg: '$esi', virtual-reg: '' }
+  - { reg: '$edx', virtual-reg: '' }
+frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       0
+  offsetAdjustment: 0
+  maxAlignment:    1
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
   localFrameSize:  0
   savePoint:       ''
   restorePoint:    ''
@@ -708,17 +755,124 @@ constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
-  ; CHECK: MOV64mr $r10, &ic
-    frame-setup PUSH64r undef $rax, implicit-def $rsp, implicit $rsp
-    frame-setup CFI_INSTRUCTION def_cfa_offset 16
-    $edi = MOV32ri @_ZStL8__ioinit, implicit-def $rdi
-    CALL64pcrel32 target-flags(x86-plt) @_ZNSt8ios_base4InitC1Ev, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit-def $rsp, implicit-def $ssp
-    renamable $rdi = MOV64rm $rip, 1, $noreg, target-flags(x86-gotpcrel) @_ZNSt8ios_base4InitD1Ev, $noreg :: (load (s64) from got)
-    $esi = MOV32ri @_ZStL8__ioinit, implicit-def $rsi
-    $edx = MOV32ri @__dso_handle, implicit-def $rdx
-    $rax = frame-destroy POP64r implicit-def $rsp, implicit $rsp
-    frame-destroy CFI_INSTRUCTION def_cfa_offset 8
-    ; CHECK: $r10 = ADD64ri32 $r10, 7, implicit-def $eflags
-    TAILJMPd64 target-flags(x86-plt) @__cxa_atexit, csr_64, implicit $rsp, implicit $ssp, implicit $rsp, implicit $ssp, implicit $rdi, implicit killed $rsi, implicit killed $rdx
+    successors: %bb.2(0x50000000), %bb.1(0x30000000)
+    liveins: $edi, $edx, $esi
+  
+    renamable $esi = KILL $esi, implicit-def $rsi
+    renamable $edi = KILL $edi, implicit-def $rdi
+    TEST32rr renamable $edi, renamable $edi, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
+    JCC_1 %bb.1, 14, implicit $eflags
+  
+  bb.2.for.cond1.preheader.lr.ph:
+    successors: %bb.9(0x40000000), %bb.3(0x40000000)
+    liveins: $edx, $rdi, $rsi
+  
+    renamable $eax = LEA64_32r renamable $rsi, 1, renamable $rdi, 0, $noreg
+    $r8d = MOV32rr $eax
+    renamable $r8d = SUB32rr killed renamable $r8d, renamable $edx, implicit-def dead $eflags
+    renamable $ecx = LEA64_32r renamable $rsi, 1, $noreg, -1, $noreg
+    renamable $ecx = IMUL32rr killed renamable $ecx, killed renamable $r8d, implicit-def dead $eflags
+    renamable $ecx = ADD32rr killed renamable $ecx, killed renamable $eax, implicit-def dead $eflags
+    renamable $ecx = SUB32rr killed renamable $ecx, killed renamable $edx, implicit-def dead $eflags
+    renamable $edx = XOR32rr undef $edx, undef $edx, implicit-def dead $eflags
+    renamable $r8d = MOV32ri 0
+    renamable $eax = MOV32ri 0
+    CMP32ri renamable $edi, 8, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 12, implicit-def $eflags
+    JCC_1 %bb.9, 2, implicit $eflags
+  
+  bb.3.vector.ph:
+    successors: %bb.5(0x40000000), %bb.4(0x40000000)
+    liveins: $ecx, $edx, $rdi, $rsi
+  
+    renamable $xmm0 = PXORrr undef $xmm0, undef $xmm0
+    TEST32rr renamable $esi, renamable $esi, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 3, implicit-def $eflags
+    JCC_1 %bb.4, 15, implicit $eflags
+  
+  bb.5.vector.ph:
+    successors: %bb.6(0x80000000)
+    liveins: $ecx, $edx, $rdi, $rsi, $xmm0
+  
+    renamable $xmm1 = PXORrr undef $xmm1, undef $xmm1
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+    JMP_1 %bb.6
+  
+  bb.1:
+    ; CHECK: MOV64mr %0, &ic
+    renamable $eax = XOR32rr undef $eax, undef $eax, implicit-def dead $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+    RET64 $eax
+  
+  bb.4:
+    successors: %bb.6(0x80000000)
+    liveins: $ecx, $edx, $rdi, $rsi, $xmm0
+  
+    renamable $xmm1 = MOVDI2PDIrr renamable $ecx
+    renamable $xmm1 = PSHUFDri killed renamable $xmm1, 0
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+  
+  bb.6.vector.ph:
+    successors: %bb.7(0x80000000)
+    liveins: $ecx, $edx, $rdi, $rsi, $xmm0, $xmm1
+  
+    $r8d = MOV32rr $edi
+    renamable $r8d = AND32ri killed renamable $r8d, -8, implicit-def dead $eflags
+    $eax = MOV32rr $r8d
+    renamable $xmm2 = PXORrr undef $xmm2, undef $xmm2
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 4, implicit-def $eflags
+  
+  bb.7.vector.body (align 16):
+    successors: %bb.8(0x04000000), %bb.7(0x7c000000)
+    liveins: $eax, $ecx, $edx, $rdi, $rsi, $xmm0, $xmm1, $xmm2, $r8d
+  
+    renamable $xmm0 = PADDDrr killed renamable $xmm0, renamable $xmm1
+    renamable $xmm2 = PADDDrr killed renamable $xmm2, renamable $xmm1
+    renamable $eax = ADD32ri killed renamable $eax, -8, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 3, implicit-def $eflags
+    JCC_1 %bb.7, 5, implicit $eflags
+  
+  bb.8.middle.block:
+    successors: %bb.11(0x40000000), %bb.9(0x40000000)
+    liveins: $ecx, $edx, $rdi, $rsi, $xmm0, $xmm2, $r8d
+  
+    renamable $xmm2 = PADDDrr killed renamable $xmm2, killed renamable $xmm0
+    renamable $xmm0 = PSHUFDri renamable $xmm2, -18
+    renamable $xmm0 = PADDDrr killed renamable $xmm0, killed renamable $xmm2
+    renamable $xmm1 = PSHUFDri renamable $xmm0, 85
+    renamable $xmm1 = PADDDrr killed renamable $xmm1, killed renamable $xmm0
+    renamable $eax = MOVPDI2DIrr killed renamable $xmm1
+    CMP32rr renamable $r8d, renamable $edi, implicit-def $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 8, implicit-def $eflags
+    JCC_1 %bb.11, 4, implicit $eflags
+  
+  bb.9.for.cond1.preheader.preheader:
+    successors: %bb.10(0x80000000)
+    liveins: $eax, $ecx, $edx, $rdi, $rsi, $r8d
+  
+    $r9d = MOV32rr killed $eax
+    TEST32rr renamable $esi, renamable $esi, implicit-def $eflags, implicit killed $rsi
+    renamable $edx = CMOV32rr killed renamable $edx, killed renamable $ecx, 15, implicit $eflags
+    renamable $edi = SUB32rr renamable $edi, killed renamable $r8d, implicit-def dead $eflags, implicit killed $rdi, implicit-def $rdi
+    renamable $edx = IMUL32rr killed renamable $edx, renamable $edi, implicit-def dead $eflags
+    $eax = MOV32rr killed $edx
+    renamable $eax = ADD32rr killed renamable $eax, killed renamable $r9d, implicit-def dead $eflags
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 7, implicit-def $eflags
+  
+  bb.10.for.cond1.preheader (align 16):
+    successors: %bb.11(0x04000000), %bb.10(0x7c000000)
+    liveins: $eax, $rdi
+  
+    renamable $edi = DEC32r renamable $edi, implicit-def $eflags, implicit killed $rdi, implicit-def $rdi
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 2, implicit-def $eflags
+    JCC_1 %bb.10, 5, implicit $eflags
+  
+  bb.11.for.cond.cleanup:
+    liveins: $eax
+
+    ; CHECK: MOV64mr %0, &ic
+    ; CHECK: %0:gr32 = ADD64ri32 %0, 1, implicit-def $eflags
+    RET64 $eax
 
 ...
