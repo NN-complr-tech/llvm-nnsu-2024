@@ -5,7 +5,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 class classprinter : public clang::RecursiveASTVisitor<classprinter> {
- public:
+public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
       printClassName(declaration);
@@ -15,7 +15,7 @@ class classprinter : public clang::RecursiveASTVisitor<classprinter> {
     return true;
   }
 
- private:
+private:
   void printClassName(clang::CXXRecordDecl *declaration) {
     llvm::outs() << declaration->getNameAsString() << "\n";
   }
@@ -28,7 +28,7 @@ class classprinter : public clang::RecursiveASTVisitor<classprinter> {
 };
 
 class ClassPrinterASTConsumer : public clang::ASTConsumer {
- public:
+public:
   classprinter Visitor;
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
@@ -36,11 +36,11 @@ class ClassPrinterASTConsumer : public clang::ASTConsumer {
 };
 
 class ClassPrinterPluginAction : public clang::PluginASTAction {
- public:
+public:
   bool helpFlag = false;
 
-  std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
-      clang::CompilerInstance &ci, llvm::StringRef) override {
+  std::unique_ptr<clang::ASTConsumer>
+  CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef) override {
     if (helpFlag) {
       return nullptr;
     }
@@ -61,5 +61,5 @@ class ClassPrinterPluginAction : public clang::PluginASTAction {
   }
 };
 
-static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction> X(
-    "classprinter", "Prints all members of the class");
+static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction>
+    X("classprinter", "Prints all members of the class");
