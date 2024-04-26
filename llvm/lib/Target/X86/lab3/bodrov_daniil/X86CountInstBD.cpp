@@ -50,12 +50,12 @@ bool X86BodrovCountInstructionsPass::runOnMachineFunction(MachineFunction &MF) {
 
     // Update the counter
     BuildMI(MBB, InsertPt, DL3, TII->get(X86::ADD64mi32))
-          .addReg(0)
-          .addImm(1)
-          .addReg(0)
-          .addGlobalAddress(CounterVar)
-          .addReg(0)
-          .addImm(InstructionCount);
+        .addReg(0)
+        .addImm(1)
+        .addReg(0)
+        .addGlobalAddress(CounterVar)
+        .addReg(0)
+        .addImm(InstructionCount);
   }
 
   return true;
