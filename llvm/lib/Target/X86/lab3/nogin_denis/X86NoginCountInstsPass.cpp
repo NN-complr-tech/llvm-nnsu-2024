@@ -15,28 +15,18 @@ public:
   bool runOnMachineFunction(MachineFunction &MachFunc) override {
     DebugLoc DebugLocation = MachFunc.front().begin()->getDebugLoc();
     const TargetInstrInfo *InstrInfo = MachFunc.getSubtarget().getInstrInfo();
-    size_t Count = 0;
-
-    MachineBasicBlock *ReturnBlock = nullptr;
 
     for (auto &BasicBlock : MachFunc) {
+      size_t Count = 0;
       for (auto &Instr : BasicBlock) {
         Count++;
-        if (Instr.isReturn()) {
-          ReturnBlock = &BasicBlock;
-        }
       }
-    }
 
-    if (!ReturnBlock) {
-      ReturnBlock = &MachFunc.back();
-      DebugLocation = ReturnBlock->begin()->getDebugLoc();
+      BuildMI(BasicBlock, BasicBlock.getFirstTerminator(), DebugLocation,
+              InstrInfo->get(X86::ADD64ri32))
+          .addImm(Count)
+          .addExternalSymbol("ic");
     }
-
-    BuildMI(*ReturnBlock, ReturnBlock->getFirstTerminator(), DebugLocation,
-            InstrInfo->get(X86::MOV64mr))
-        .addImm(Count)
-        .addExternalSymbol("ic");
 
     return true;
   }
