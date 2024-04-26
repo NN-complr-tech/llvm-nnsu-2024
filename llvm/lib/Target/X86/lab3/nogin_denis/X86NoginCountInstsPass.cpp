@@ -18,13 +18,12 @@ public:
     size_t Count = 0;
 
     MachineBasicBlock *ReturnBlock = nullptr;
-    
+
     for (auto &BasicBlock : MachFunc) {
       for (auto &Instr : BasicBlock) {
         Count++;
         if (Instr.isReturn()) {
           ReturnBlock = &BasicBlock;
-          DebugLocation = Instr.getDebugLoc();
         }
       }
     }
