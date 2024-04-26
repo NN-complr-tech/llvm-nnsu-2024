@@ -4,7 +4,11 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 
+<<<<<<< HEAD
 class classprinter : public clang::RecursiveASTVisitor<classprinter> {
+=======
+class ClassPrinter : public clang::RecursiveASTVisitor<ClassPrinter> {
+>>>>>>> 18e3500320854cfcac20f4f048ef775133aca1bc
 public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
