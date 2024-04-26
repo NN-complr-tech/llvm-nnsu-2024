@@ -79,9 +79,10 @@ public:
                 for (unsigned i = 0; i < newInstruction->getNumOperands();
                      ++i) {
                   llvm::Value *operand = newInstruction->getOperand(i);
-                  if (auto bb = llvm::dyn_cast<llvm::BasicBlock *>(operand)) {
+                  if (llvm::BasicBlock *bb =
+                          llvm::dyn_cast<llvm::BasicBlock>(*operand)) {
                     newInstruction->setOperand(
-                        i, llvm::dyn_cast<llvm::Value>(blockMap[*bb]));
+                        i, llvm::dyn_cast<llvm::Value>(blockMap[bb]));
                   }
                 }
               }
