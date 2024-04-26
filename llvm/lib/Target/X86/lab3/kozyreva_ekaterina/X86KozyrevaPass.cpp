@@ -67,4 +67,4 @@ bool X86KozyrevaPass::runOnMachineFunction(MachineFunction &pFunction) {
 } // namespace
 
 static RegisterPass<X86KozyrevaPass> X("x86-kozyreva-pass", "X86 Kozyreva Pass",
-                                     false, false);
+                                       false, false);
