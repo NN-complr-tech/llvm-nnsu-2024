@@ -4,8 +4,8 @@
 #include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 
-class classprinter : public clang::RecursiveASTVisitor<classprinter> {
- public:
+class ClassPrinter : public clang::RecursiveASTVisitor<ClassPrinter> {
+public:
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *declaration) {
     if (declaration->isClass() || declaration->isStruct()) {
       printClassName(declaration);
@@ -15,7 +15,7 @@ class classprinter : public clang::RecursiveASTVisitor<classprinter> {
     return true;
   }
 
- private:
+private:
   void printClassName(clang::CXXRecordDecl *declaration) {
     llvm::outs() << declaration->getNameAsString() << "\n";
   }
@@ -28,8 +28,8 @@ class classprinter : public clang::RecursiveASTVisitor<classprinter> {
 };
 
 class ClassPrinterASTConsumer : public clang::ASTConsumer {
- public:
-  classprinter Visitor;
+public:
+  ClassPrinter Visitor;
   void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
@@ -61,5 +61,5 @@ class ClassPrinterPluginAction : public clang::PluginASTAction {
   }
 };
 
-static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction> X(
-    "classprinter", "Prints all members of the class");
+static clang::FrontendPluginRegistry::Add<ClassPrinterPluginAction>
+    X("classprinter", "Prints all members of the class");
