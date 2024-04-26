@@ -1,3 +1,5 @@
+#include "llvm/ADT/SmallPtrSet.h"
+#include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/Instructions.h"
@@ -37,7 +39,8 @@ struct SimonyanInliningPass : public llvm::PassInfoMixin<SimonyanInliningPass> {
       llvm::BasicBlock *PrevBB = nullptr;
       llvm::BasicBlock *CurrentBB = nullptr;
       for (llvm::BasicBlock &CalleeBB : *Callee) {
-        llvm::BasicBlock::Create(F.getContext(), "", &F, PostCallBB);
+        CurrentBB =
+            llvm::BasicBlock::Create(F.getContext(), "", &F, PostCallBB);
         ValueMap[&CalleeBB] = CurrentBB;
 
         Builder.SetInsertPoint(CurrentBB);
