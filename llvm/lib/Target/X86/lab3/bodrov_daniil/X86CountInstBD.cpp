@@ -40,12 +40,17 @@ bool X86BodrovCountInstructionsPass::runOnMachineFunction(MachineFunction &MF) {
 
   // Iterate over all basic blocks in the function
   for (auto &MBB : MF) {
-    unsigned InstructionCount =
-        0; // Counter to store the number of instructions
+    unsigned InstructionCount = std::distance(MBB.begin(), MBB.end());
     auto InsertPt = MBB.getFirstTerminator();
 
     for (auto &MI : MBB) {
-      ++InstructionCount;
+      // Check if the instruction modifies or reads the EFLAGS register
+      if (MI.modifiesRegister(X86::EFLAGS, TRI) ||
+          MI.readsRegister(X86::EFLAGS, TRI)) {
+        if (MI.isCompare()) {
+          InsertPt = &MI;
+        }
+      }
     }
 
     // Update the counter
