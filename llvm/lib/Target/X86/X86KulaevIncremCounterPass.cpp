@@ -6,7 +6,7 @@
 
 using namespace llvm;
 
-#define PASS_NAME "X86KulaevIncremCounterPass"
+#define PASS_NAME "x86-kulaev-increm-counter-pass"
 
 namespace {
 class X86KulaevIncremCounterPass : public MachineFunctionPass {
