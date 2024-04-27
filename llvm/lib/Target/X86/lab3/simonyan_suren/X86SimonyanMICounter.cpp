@@ -3,9 +3,8 @@
 #include "X86Subtarget.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
-
-#define MI_COUNTER_DESC "X86 Count number of machine instructions pass"
-#define MI_COUNTER_NAME "x86-simonyan-mi-counter"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
 
 using namespace llvm;
 
@@ -62,16 +61,12 @@ public:
     return true;
   }
 
-  StringRef getPassName() const override { return MI_COUNTER_DESC; }
 };
 
 char X86SimonyanMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
-FunctionPass *llvm::createX86SimonyanMICounterPass() {
-  return new X86SimonyanMICounterPass();
-}
-
-INITIALIZE_PASS(X86SimonyanMICounterPass, MI_COUNTER_NAME, MI_COUNTER_DESC,
-                false, false)
+static RegisterPass<X86SimonyanMICounterPass>
+    X("x86-simonyan-mi-counter",
+      "X86 Count of machine instructions pass", false, false);
