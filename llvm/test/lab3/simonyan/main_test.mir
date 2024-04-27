@@ -1,4 +1,4 @@
-# RUN: llc -march=x86-64 -simplify-mir -run-pass=x86-simonyan-mi-counter %s -o - | FileCheck %s
+# RUN: llc -march=x86-64 -simplify-mir --load=%llvmshlibdir/X86SimonyanMICounterPass%shlibext -run-pass=x86-simonyan-mi-counter %s -o - | FileCheck %s
 
 # unsigned long ic;
 # 
