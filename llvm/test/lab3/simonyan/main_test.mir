@@ -1,29 +1,16 @@
-# RUN: llc -march=x86-64 -simplify-mir --load=%llvmshlibdir/X86SimonyanMICounter%shlibext -run-pass=x86-simonyan-mi-counter %s -o - | FileCheck %s
-
-
-# COM: // The first empty func test
-
-# void empty_func() {}
-
-
-# COM: // The second empty function
+# RUN: llc -march=x86-64 -simplify-mir -run-pass=x86-simonyan-mi-counter %s -o - | FileCheck %s
 
 # unsigned long ic;
-# int main_func(int a, int b, int c) {
-#   ic = 0;
 # 
-#   // Function body
-#   int d = 0;
-#   for (int i = 0; i < a; i++) {
-#     if (d < b)
-#       d += c;
+# void test1() {
+#   ic = 0;
+#   for (int i = 0; i < 2; i++) {
+#     for (int j = 0; j < 2; j++) {
+#       int a = i + j;
+#     }
 #   }
-#   return d;
 # }
-
-
-# COM: // The third nested loops
-
+# 
 # int nested_func(int n) {
 #   int res = 0;
 #   for (int i = 0; i < n; ++i) {
@@ -36,68 +23,63 @@
 # }
 
 --- |
-  ; ModuleID = 'd:\GitRepos\llvm-nnsu-2024\llvm\test\lab3\temp\test.ll'
-  source_filename = "d:\\GitRepos\\llvm-nnsu-2024\\llvm\\test\\lab3\\temp\\test.cpp"
-  target datalayout = "e-m:w-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-  target triple = "x86_64-w64-windows-gnu"
-
+  ; ModuleID = 'test.ll'
+  source_filename = "test.cpp"
+  target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+  target triple = "x86_64-unknown-linux-gnu"
+  
   @ic = dso_local global i64 0, align 8
-
+  
   ; Function Attrs: mustprogress noinline nounwind optnone uwtable
-  define dso_local void @_Z10empty_funcv() #0 {
+  define dso_local void @_Z5test1v() #0 {
   entry:
-    ret void
-  }
-
-  ; Function Attrs: mustprogress noinline nounwind optnone uwtable
-  define dso_local noundef i32 @_Z9main_funciii(i32 noundef %a, i32 noundef %b, i32 noundef %c) #0 {
-  entry:
-    %a.addr = alloca i32, align 4
-    %b.addr = alloca i32, align 4
-    %c.addr = alloca i32, align 4
-    %d = alloca i32, align 4
     %i = alloca i32, align 4
-    store i32 %a, ptr %a.addr, align 4
-    store i32 %b, ptr %b.addr, align 4
-    store i32 %c, ptr %c.addr, align 4
+    %j = alloca i32, align 4
+    %a = alloca i32, align 4
     store i64 0, ptr @ic, align 8
-    store i32 0, ptr %d, align 4
     store i32 0, ptr %i, align 4
     br label %for.cond
-
-  for.cond:                                         ; preds = %for.inc, %entry
+  
+  for.cond:                                         ; preds = %for.inc4, %entry
     %0 = load i32, ptr %i, align 4
-    %1 = load i32, ptr %a.addr, align 4
-    %cmp = icmp slt i32 %0, %1
-    br i1 %cmp, label %for.body, label %for.end
-
+    %cmp = icmp slt i32 %0, 2
+    br i1 %cmp, label %for.body, label %for.end6
+  
   for.body:                                         ; preds = %for.cond
-    %2 = load i32, ptr %d, align 4
-    %3 = load i32, ptr %b.addr, align 4
-    %cmp1 = icmp slt i32 %2, %3
-    br i1 %cmp1, label %if.then, label %if.end
-
-  if.then:                                          ; preds = %for.body
-    %4 = load i32, ptr %c.addr, align 4
-    %5 = load i32, ptr %d, align 4
-    %add = add nsw i32 %5, %4
-    store i32 %add, ptr %d, align 4
-    br label %if.end
-
-  if.end:                                           ; preds = %if.then, %for.body
+    store i32 0, ptr %j, align 4
+    br label %for.cond1
+  
+  for.cond1:                                        ; preds = %for.inc, %for.body
+    %1 = load i32, ptr %j, align 4
+    %cmp2 = icmp slt i32 %1, 2
+    br i1 %cmp2, label %for.body3, label %for.end
+  
+  for.body3:                                        ; preds = %for.cond1
+    %2 = load i32, ptr %i, align 4
+    %3 = load i32, ptr %j, align 4
+    %add = add nsw i32 %2, %3
+    store i32 %add, ptr %a, align 4
     br label %for.inc
-
-  for.inc:                                          ; preds = %if.end
-    %6 = load i32, ptr %i, align 4
-    %inc = add nsw i32 %6, 1
-    store i32 %inc, ptr %i, align 4
-    br label %for.cond, !llvm.loop !6
-
-  for.end:                                          ; preds = %for.cond
-    %7 = load i32, ptr %d, align 4
-    ret i32 %7
+  
+  for.inc:                                          ; preds = %for.body3
+    %4 = load i32, ptr %j, align 4
+    %inc = add nsw i32 %4, 1
+    store i32 %inc, ptr %j, align 4
+    br label %for.cond1, !llvm.loop !6
+  
+  for.end:                                          ; preds = %for.cond1
+    br label %for.inc4
+  
+  for.inc4:                                         ; preds = %for.end
+    %5 = load i32, ptr %i, align 4
+    %inc5 = add nsw i32 %5, 1
+    store i32 %inc5, ptr %i, align 4
+    br label %for.cond, !llvm.loop !8
+  
+  for.end6:                                         ; preds = %for.cond
+    ret void
   }
-
+  
   ; Function Attrs: mustprogress noinline nounwind optnone uwtable
   define dso_local noundef i32 @_Z11nested_funci(i32 noundef %n) #0 {
   entry:
@@ -109,23 +91,23 @@
     store i32 0, ptr %res, align 4
     store i32 0, ptr %i, align 4
     br label %for.cond
-
+  
   for.cond:                                         ; preds = %for.inc5, %entry
     %0 = load i32, ptr %i, align 4
     %1 = load i32, ptr %n.addr, align 4
     %cmp = icmp slt i32 %0, %1
     br i1 %cmp, label %for.body, label %for.end7
-
+  
   for.body:                                         ; preds = %for.cond
     store i32 0, ptr %j, align 4
     br label %for.cond1
-
+  
   for.cond1:                                        ; preds = %for.inc, %for.body
     %2 = load i32, ptr %j, align 4
     %3 = load i32, ptr %n.addr, align 4
     %cmp2 = icmp slt i32 %2, %3
     br i1 %cmp2, label %for.body3, label %for.end
-
+  
   for.body3:                                        ; preds = %for.cond1
     %4 = load i32, ptr %i, align 4
     %5 = load i32, ptr %res, align 4
@@ -136,32 +118,32 @@
     %add4 = add nsw i32 %7, %6
     store i32 %add4, ptr %res, align 4
     br label %for.inc
-
+  
   for.inc:                                          ; preds = %for.body3
     %8 = load i32, ptr %j, align 4
     %inc = add nsw i32 %8, 1
     store i32 %inc, ptr %j, align 4
-    br label %for.cond1, !llvm.loop !8
-
+    br label %for.cond1, !llvm.loop !9
+  
   for.end:                                          ; preds = %for.cond1
     br label %for.inc5
-
+  
   for.inc5:                                         ; preds = %for.end
     %9 = load i32, ptr %i, align 4
     %inc6 = add nsw i32 %9, 1
     store i32 %inc6, ptr %i, align 4
-    br label %for.cond, !llvm.loop !9
-
+    br label %for.cond, !llvm.loop !10
+  
   for.end7:                                         ; preds = %for.cond
     %10 = load i32, ptr %res, align 4
     ret i32 %10
   }
-
+  
   attributes #0 = { mustprogress noinline nounwind optnone uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-
+  
   !llvm.module.flags = !{!0, !1, !2, !3, !4}
   !llvm.ident = !{!5}
-
+  
   !0 = !{i32 1, !"wchar_size", i32 4}
   !1 = !{i32 8, !"PIC Level", i32 2}
   !2 = !{i32 7, !"PIE Level", i32 2}
@@ -172,223 +154,284 @@
   !7 = !{!"llvm.loop.mustprogress"}
   !8 = distinct !{!8, !7}
   !9 = distinct !{!9, !7}
+  !10 = distinct !{!10, !7}
 
 ...
 ---
-name:            _Z10empty_funcv
+name:            _Z5test1v
 alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
 tracksRegLiveness: true
-registers:
-  - { id: 0, class: gr64 }
-  # CHECK: - { id: 1, class: gr64 }
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   false
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:         []
 frameInfo:
-  maxAlignment:    1
-machineFunctionInfo: {}
-body:             |
-  bb.0.entry:
-    ; CHECK: %1:gr64 = ADD64ri32 %1, 1, implicit-def $eflags
-    ; CHECK: MOV64mr %1, &ic
-    RET64
-...
----
-name:            _Z9main_funciii
-alignment:       16
-tracksRegLiveness: true
-registers:
-  - { id: 0, class: gr32 }
-  - { id: 1, class: gr32 }
-  - { id: 2, class: gr32 }
-  - { id: 3, class: gr32 }
-  - { id: 4, class: gr32 }
-  - { id: 5, class: gr32 }
-  - { id: 6, class: gr32 }
-  - { id: 7, class: gr32 }
-  - { id: 8, class: gr32 }
-  - { id: 9, class: gr32 }
-  - { id: 10, class: gr32 }
-  - { id: 11, class: gr32 }
-  - { id: 12, class: gr32 }
-  - { id: 13, class: gr32 }
-  - { id: 14, class: gr32 }
-  - { id: 15, class: gr32 }
-  - { id: 16, class: gr32 }
-  - { id: 17, class: gr32 }
-  - { id: 18, class: gr32 }
-  - { id: 19, class: gr32 }
-  - { id: 20, class: gr32 }
-  - { id: 21, class: gr32 }
-  - { id: 22, class: gr32 }
-  - { id: 23, class: gr64 }
-  # CHECK: - { id: 24, class: gr64 }
-liveins:
-  - { reg: '$edi', virtual-reg: '%0' }
-  - { reg: '$esi', virtual-reg: '%2' }
-  - { reg: '$edx', virtual-reg: '%4' }
-frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       8
+  offsetAdjustment: -8
   maxAlignment:    4
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:
+  - { id: 0, type: spill-slot, offset: -16, size: 8, alignment: 16, stack-id: default, 
+      callee-saved-register: '', callee-saved-restored: true, debug-info-variable: '', 
+      debug-info-expression: '', debug-info-location: '' }
 stack:
-  - { id: 0, name: a.addr, size: 4, alignment: 4 }
-  - { id: 1, name: b.addr, size: 4, alignment: 4 }
-  - { id: 2, name: c.addr, size: 4, alignment: 4 }
-  - { id: 3, name: d, size: 4, alignment: 4 }
-  - { id: 4, name: i, size: 4, alignment: 4 }
+  - { id: 0, name: i, type: default, offset: -24, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, name: j, type: default, offset: -20, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 2, name: a, type: default, offset: -28, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
-    liveins: $edi, $esi, $edx
+    successors: %bb.1(0x80000000)
   
-    %4:gr32 = COPY $edx
-    %2:gr32 = COPY $esi
-    %0:gr32 = COPY $edi
-    %1:gr32 = COPY killed %0
-    %3:gr32 = COPY killed %2
-    %5:gr32 = COPY killed %4
-    MOV32mr %stack.0.a.addr, 1, $noreg, 0, $noreg, %1 :: (store (s32) into %ir.a.addr)
-    MOV32mr %stack.1.b.addr, 1, $noreg, 0, $noreg, %3 :: (store (s32) into %ir.b.addr)
-    MOV32mr %stack.2.c.addr, 1, $noreg, 0, $noreg, %5 :: (store (s32) into %ir.c.addr)
+    frame-setup PUSH64r killed $rbp, implicit-def $rsp, implicit $rsp
+    frame-setup CFI_INSTRUCTION def_cfa_offset 16
+    frame-setup CFI_INSTRUCTION offset $rbp, -16
+    $rbp = frame-setup MOV64rr $rsp
+    frame-setup CFI_INSTRUCTION def_cfa_register $rbp
     MOV64mi32 $noreg, 1, $noreg, @ic, $noreg, 0 :: (store (s64) into @ic)
-    MOV32mi %stack.3.d, 1, $noreg, 0, $noreg, 0 :: (store (s32) into %ir.d)
-    MOV32mi %stack.4.i, 1, $noreg, 0, $noreg, 0 :: (store (s32) into %ir.i)
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 12, implicit-def $eflags
+    MOV32mi $rbp, 1, $noreg, -8, $noreg, 0 :: (store (s32) into %ir.i)
+    ; CHECK: ADD64ri32 7, &ic, implicit-def $eflags
   
   bb.1.for.cond:
-    %8:gr32 = MOV32rm %stack.4.i, 1, $noreg, 0, $noreg :: (load (s32) from %ir.i)
-    CMP32rm %8, %stack.0.a.addr, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.a.addr)
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 3, implicit-def $eflags
-    JCC_1 %bb.6, 13, implicit $eflags
+    successors: %bb.8(0x40000000), %bb.2(0x40000000)
+  
+    CMP32mi $rbp, 1, $noreg, -8, $noreg, 2, implicit-def $eflags :: (load (s32) from %ir.i)
+    ; CHECK: ADD64ri32 2, &ic, implicit-def $eflags
+    JCC_1 %bb.8, 13, implicit killed $eflags
   
   bb.2.for.body:
-    %13:gr32 = MOV32rm %stack.3.d, 1, $noreg, 0, $noreg :: (load (s32) from %ir.d)
-    CMP32rm %13, %stack.1.b.addr, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.b.addr)
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 3, implicit-def $eflags
-    JCC_1 %bb.4, 13, implicit $eflags
+    successors: %bb.3(0x80000000)
   
-  bb.3.if.then:
-    %18:gr32 = MOV32rm %stack.2.c.addr, 1, $noreg, 0, $noreg :: (load (s32) from %ir.c.addr)
-    %17:gr32 = ADD32rm %18, %stack.3.d, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.d)
-    MOV32mr %stack.3.d, 1, $noreg, 0, $noreg, %17 :: (store (s32) into %ir.d)
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 3, implicit-def $eflags
+    MOV32mi $rbp, 1, $noreg, -4, $noreg, 0 :: (store (s32) into %ir.j)
+    ; CHECK: ADD64ri32 1, &ic, implicit-def $eflags
   
-  bb.4.if.end:
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 1, implicit-def $eflags
-    JMP_1 %bb.5
+  bb.3.for.cond1:
+    successors: %bb.6(0x40000000), %bb.4(0x40000000)
+  
+    CMP32mi $rbp, 1, $noreg, -4, $noreg, 2, implicit-def $eflags :: (load (s32) from %ir.j)
+    ; CHECK: ADD64ri32 2, &ic, implicit-def $eflags
+    JCC_1 %bb.6, 13, implicit killed $eflags
+  
+  bb.4.for.body3:
+    successors: %bb.5(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.i)
+    renamable $eax = ADD32rm killed renamable $eax, $rbp, 1, $noreg, -4, $noreg, implicit-def dead $eflags :: (load (s32) from %ir.j)
+    MOV32mr $rbp, 1, $noreg, -12, $noreg, killed renamable $eax :: (store (s32) into %ir.a)
+    ; CHECK: ADD64ri32 3, &ic, implicit-def $eflags
   
   bb.5.for.inc:
-    %22:gr32 = MOV32rm %stack.4.i, 1, $noreg, 0, $noreg :: (load (s32) from %ir.i)
-    %21:gr32 = ADD32ri %22, 1, implicit-def $eflags
-    MOV32mr %stack.4.i, 1, $noreg, 0, $noreg, %21 :: (store (s32) into %ir.i)
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 4, implicit-def $eflags
-    JMP_1 %bb.1
+    successors: %bb.3(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.j)
+    renamable $eax = ADD32ri killed renamable $eax, 1, implicit-def dead $eflags
+    MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.j)
+    ; CHECK: ADD64ri32 4, &ic, implicit-def $eflags
+    JMP_1 %bb.3
   
   bb.6.for.end:
-    %10:gr32 = MOV32rm %stack.3.d, 1, $noreg, 0, $noreg :: (load (s32) from %ir.d)
-    $eax = COPY %10
-    ; CHECK: %24:gr64 = ADD64ri32 %24, 3, implicit-def $eflags
-    ; CHECK: MOV64mr %24, &ic
-    RET64 implicit $eax
+    successors: %bb.7(0x80000000)
+  
+    ; CHECK: ADD64ri32 1, &ic, implicit-def $eflags
+    JMP_1 %bb.7
+  
+  bb.7.for.inc4:
+    successors: %bb.1(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.i)
+    renamable $eax = ADD32ri killed renamable $eax, 1, implicit-def dead $eflags
+    MOV32mr $rbp, 1, $noreg, -8, $noreg, killed renamable $eax :: (store (s32) into %ir.i)
+    ; CHECK: ADD64ri32 4, &ic, implicit-def $eflags
+    JMP_1 %bb.1
+  
+  bb.8.for.end6:
+    $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
+    frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
+    ; CHECK: ADD64ri32 3, &ic, implicit-def $eflags
+    RET64
+
 ...
 ---
 name:            _Z11nested_funci
 alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
 tracksRegLiveness: true
-registers:
-  - { id: 0, class: gr32 }
-  - { id: 1, class: gr32 }
-  - { id: 2, class: gr32 }
-  - { id: 3, class: gr32 }
-  - { id: 4, class: gr32 }
-  - { id: 5, class: gr32 }
-  - { id: 6, class: gr32 }
-  - { id: 7, class: gr32 }
-  - { id: 8, class: gr32 }
-  - { id: 9, class: gr32 }
-  - { id: 10, class: gr32 }
-  - { id: 11, class: gr32 }
-  - { id: 12, class: gr32 }
-  - { id: 13, class: gr32 }
-  - { id: 14, class: gr32 }
-  - { id: 15, class: gr32 }
-  - { id: 16, class: gr32 }
-  - { id: 17, class: gr32 }
-  - { id: 18, class: gr32 }
-  - { id: 19, class: gr32 }
-  - { id: 20, class: gr32 }
-  - { id: 21, class: gr32 }
-  - { id: 22, class: gr32 }
-  - { id: 23, class: gr32 }
-  - { id: 24, class: gr32 }
-  - { id: 25, class: gr32 }
-  - { id: 26, class: gr32 }
-  - { id: 27, class: gr32 }
-  - { id: 28, class: gr64 }
-  # CHECK: - { id: 29, class: gr64 }
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   false
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
 liveins:
-  - { reg: '$edi', virtual-reg: '%0' }
+  - { reg: '$edi', virtual-reg: '' }
 frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       8
+  offsetAdjustment: -8
   maxAlignment:    4
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:
+  - { id: 0, type: spill-slot, offset: -16, size: 8, alignment: 16, stack-id: default, 
+      callee-saved-register: '', callee-saved-restored: true, debug-info-variable: '', 
+      debug-info-expression: '', debug-info-location: '' }
 stack:
-  - { id: 0, name: n.addr, size: 4, alignment: 4 }
-  - { id: 1, name: res, size: 4, alignment: 4 }
-  - { id: 2, name: i, size: 4, alignment: 4 }
-  - { id: 3, name: j, size: 4, alignment: 4 }
+  - { id: 0, name: n.addr, type: default, offset: -32, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 1, name: res, type: default, offset: -20, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 2, name: i, type: default, offset: -28, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+  - { id: 3, name: j, type: default, offset: -24, size: 4, alignment: 4, 
+      stack-id: default, callee-saved-register: '', callee-saved-restored: true, 
+      debug-info-variable: '', debug-info-expression: '', debug-info-location: '' }
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
 machineFunctionInfo: {}
 body:             |
   bb.0.entry:
+    successors: %bb.1(0x80000000)
     liveins: $edi
   
-    %0:gr32 = COPY $edi
-    %1:gr32 = COPY killed %0
-    MOV32mr %stack.0.n.addr, 1, $noreg, 0, $noreg, %1 :: (store (s32) into %ir.n.addr)
-    MOV32mi %stack.1.res, 1, $noreg, 0, $noreg, 0 :: (store (s32) into %ir.res)
-    MOV32mi %stack.2.i, 1, $noreg, 0, $noreg, 0 :: (store (s32) into %ir.i)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 5, implicit-def $eflags
+    frame-setup PUSH64r killed $rbp, implicit-def $rsp, implicit $rsp
+    frame-setup CFI_INSTRUCTION def_cfa_offset 16
+    frame-setup CFI_INSTRUCTION offset $rbp, -16
+    $rbp = frame-setup MOV64rr $rsp
+    frame-setup CFI_INSTRUCTION def_cfa_register $rbp
+    MOV32mr $rbp, 1, $noreg, -16, $noreg, killed renamable $edi :: (store (s32) into %ir.n.addr)
+    MOV32mi $rbp, 1, $noreg, -4, $noreg, 0 :: (store (s32) into %ir.res)
+    MOV32mi $rbp, 1, $noreg, -12, $noreg, 0 :: (store (s32) into %ir.i)
+    ; CHECK: ADD64ri32 8, &ic, implicit-def $eflags
   
   bb.1.for.cond:
-    %4:gr32 = MOV32rm %stack.2.i, 1, $noreg, 0, $noreg :: (load (s32) from %ir.i)
-    CMP32rm %4, %stack.0.n.addr, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.n.addr)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 3, implicit-def $eflags
-    JCC_1 %bb.8, 13, implicit $eflags
+    successors: %bb.8(0x40000000), %bb.2(0x40000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -12, $noreg :: (load (s32) from %ir.i)
+    CMP32rm killed renamable $eax, $rbp, 1, $noreg, -16, $noreg, implicit-def $eflags :: (load (s32) from %ir.n.addr)
+    ; CHECK: ADD64ri32 3, &ic, implicit-def $eflags
+    JCC_1 %bb.8, 13, implicit killed $eflags
   
   bb.2.for.body:
-    MOV32mi %stack.3.j, 1, $noreg, 0, $noreg, 0 :: (store (s32) into %ir.j)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 1, implicit-def $eflags
+    successors: %bb.3(0x80000000)
+  
+    MOV32mi $rbp, 1, $noreg, -8, $noreg, 0 :: (store (s32) into %ir.j)
+    ; CHECK: ADD64ri32 1, &ic, implicit-def $eflags
   
   bb.3.for.cond1:
-    %9:gr32 = MOV32rm %stack.3.j, 1, $noreg, 0, $noreg :: (load (s32) from %ir.j)
-    CMP32rm %9, %stack.0.n.addr, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.n.addr)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 3, implicit-def $eflags
-    JCC_1 %bb.6, 13, implicit $eflags
+    successors: %bb.6(0x40000000), %bb.4(0x40000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.j)
+    CMP32rm killed renamable $eax, $rbp, 1, $noreg, -16, $noreg, implicit-def $eflags :: (load (s32) from %ir.n.addr)
+    ; CHECK: ADD64ri32 3, &ic, implicit-def $eflags
+    JCC_1 %bb.6, 13, implicit killed $eflags
   
   bb.4.for.body3:
-    %23:gr32 = MOV32rm %stack.2.i, 1, $noreg, 0, $noreg :: (load (s32) from %ir.i)
-    %22:gr32 = ADD32rm %23, %stack.1.res, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.res)
-    MOV32mr %stack.1.res, 1, $noreg, 0, $noreg, %22 :: (store (s32) into %ir.res)
-    %18:gr32 = MOV32rm %stack.3.j, 1, $noreg, 0, $noreg :: (load (s32) from %ir.j)
-    %17:gr32 = ADD32rm %18, %stack.1.res, 1, $noreg, 0, $noreg, implicit-def $eflags :: (load (s32) from %ir.res)
-    MOV32mr %stack.1.res, 1, $noreg, 0, $noreg, %17 :: (store (s32) into %ir.res)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 6, implicit-def $eflags
+    successors: %bb.5(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -12, $noreg :: (load (s32) from %ir.i)
+    renamable $eax = ADD32rm killed renamable $eax, $rbp, 1, $noreg, -4, $noreg, implicit-def dead $eflags :: (load (s32) from %ir.res)
+    MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.res)
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.j)
+    renamable $eax = ADD32rm killed renamable $eax, $rbp, 1, $noreg, -4, $noreg, implicit-def dead $eflags :: (load (s32) from %ir.res)
+    MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.res)
+    ; CHECK: ADD64ri32 6, &ic, implicit-def $eflags
   
   bb.5.for.inc:
-    %27:gr32 = MOV32rm %stack.3.j, 1, $noreg, 0, $noreg :: (load (s32) from %ir.j)
-    %26:gr32 = ADD32ri %27, 1, implicit-def $eflags
-    MOV32mr %stack.3.j, 1, $noreg, 0, $noreg, %26 :: (store (s32) into %ir.j)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 4, implicit-def $eflags
+    successors: %bb.3(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.j)
+    renamable $eax = ADD32ri killed renamable $eax, 1, implicit-def dead $eflags
+    MOV32mr $rbp, 1, $noreg, -8, $noreg, killed renamable $eax :: (store (s32) into %ir.j)
+    ; CHECK: ADD64ri32 4, &ic, implicit-def $eflags
     JMP_1 %bb.3
   
   bb.6.for.end:
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 1, implicit-def $eflags
+    successors: %bb.7(0x80000000)
+  
+    ; CHECK: ADD64ri32 1, &ic, implicit-def $eflags
     JMP_1 %bb.7
   
   bb.7.for.inc5:
-    %13:gr32 = MOV32rm %stack.2.i, 1, $noreg, 0, $noreg :: (load (s32) from %ir.i)
-    %12:gr32 = ADD32ri %13, 1, implicit-def $eflags
-    MOV32mr %stack.2.i, 1, $noreg, 0, $noreg, %12 :: (store (s32) into %ir.i)
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 4, implicit-def $eflags
+    successors: %bb.1(0x80000000)
+  
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -12, $noreg :: (load (s32) from %ir.i)
+    renamable $eax = ADD32ri killed renamable $eax, 1, implicit-def dead $eflags
+    MOV32mr $rbp, 1, $noreg, -12, $noreg, killed renamable $eax :: (store (s32) into %ir.i)
+    ; CHECK: ADD64ri32 4, &ic, implicit-def $eflags
     JMP_1 %bb.1
   
   bb.8.for.end7:
-    %6:gr32 = MOV32rm %stack.1.res, 1, $noreg, 0, $noreg :: (load (s32) from %ir.res)
-    $eax = COPY %6
-    ; CHECK: %29:gr64 = ADD64ri32 %29, 3, implicit-def $eflags
-    ; CHECK: MOV64mr %29, &ic
+    renamable $eax = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.res)
+    $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
+    frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
+    ; CHECK: ADD64ri32 4, &ic, implicit-def $eflags
     RET64 implicit $eax
+
+...
