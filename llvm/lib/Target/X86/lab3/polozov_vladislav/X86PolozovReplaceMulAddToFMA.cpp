@@ -23,8 +23,6 @@ public:
 
     for (MachineBasicBlock &MBB : MF) {
 
-      
-
       auto isUsed = [&](MachineInstr *instr, MachineInstr *mult) {
         for (auto &reg : instr->all_uses()) {
           if (reg.getReg() == mult->getOperand(0).getReg()) {
@@ -44,28 +42,27 @@ public:
         std::vector<MachineInstr *> add_instructions;
 
         auto Check = [&](MachineInstr *add, auto it_begin) {
-                auto mult = &(*it_begin);
-                ++it_begin;
+          ++it_begin;
 
-                for (it_begin; &(*it_begin) != add; ++it_begin) {
-                  auto instr = &(*it_begin);
-                  if (std::find(Need_Del.begin(), Need_Del.end(), instr) !=
-                      Need_Del.end()) {
-                    continue;
-                  }
-                  if (std::find(add_instructions.begin(), add_instructions.end(), instr) !=
-                      add_instructions.end()) {
-                    continue;
-                  }
-                  for (auto &reg : instr->all_uses()) {
-                    if (reg.getReg() == add->getOperand(1).getReg() ||
-                        reg.getReg() == add->getOperand(2).getReg()) {
-                      return false;
-                    }
-                  }
-                }
-                return true;
-              };
+          for (it_begin; &(*it_begin) != add; ++it_begin) {
+            auto instr = &(*it_begin);
+            if (std::find(Need_Del.begin(), Need_Del.end(), instr) !=
+                Need_Del.end()) {
+              continue;
+            }
+            if (std::find(add_instructions.begin(), add_instructions.end(),
+                          instr) != add_instructions.end()) {
+              continue;
+            }
+            for (auto &reg : instr->all_uses()) {
+              if (reg.getReg() == add->getOperand(1).getReg() ||
+                  reg.getReg() == add->getOperand(2).getReg()) {
+                return false;
+              }
+            }
+          }
+          return true;
+        };
 
         auto iterator_for_add = std::next(iterator_for_mult);
         for (; iterator_for_add != MBB.end(); ++iterator_for_add) {
@@ -118,8 +115,6 @@ public:
 
     return Changed;
   }
-
-
 };
 } // end anonymous namespace
 
