@@ -28,6 +28,13 @@
 #  	return tmp2 + tmp;
 # }
 
+# __m128d test5(__m128d a, __m128d b, __m128d c, __m128d d, __m128d e) {
+#     __m128d tmp = a * b;
+# 	__m128d aa = tmp + c;
+#     __m128d bb = tmp + d;
+#     __m128d cc = tmp + e;
+#     return aa * bb * cc;
+# }
 --- |
   ; ModuleID = 'main.ll'
   source_filename = "main.c"
@@ -55,11 +62,10 @@
   
   ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
   define dso_local <2 x double> @test3(<2 x double> noundef %0, <2 x double> noundef %1, <2 x double> noundef %2, <2 x double> noundef %3) local_unnamed_addr #0 {
-    %5 = fmul <2 x double> %0, %1
-    %6 = fmul <2 x double> %2, %3
+    %5 = fmul <2 x double> %2, %3
+    %6 = fadd <2 x double> %5, %2
     %7 = fadd <2 x double> %5, %6
-    %8 = fadd <2 x double> %6, %7
-    ret <2 x double> %8
+    ret <2 x double> %7
   }
   
   ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
@@ -69,6 +75,17 @@
     %7 = fadd <2 x double> %5, %6
     %8 = fadd <2 x double> %6, %7
     ret <2 x double> %8
+  }
+  
+  ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
+  define dso_local <2 x double> @test5(<2 x double> noundef %0, <2 x double> noundef %1, <2 x double> noundef %2, <2 x double> noundef %3, <2 x double> noundef %4) local_unnamed_addr #0 {
+    %6 = fmul <2 x double> %0, %1
+    %7 = fadd <2 x double> %6, %2
+    %8 = fadd <2 x double> %6, %3
+    %9 = fadd <2 x double> %6, %4
+    %10 = fmul <2 x double> %7, %8
+    %11 = fmul <2 x double> %10, %9
+    ret <2 x double> %11
   }
   
   attributes #0 = { mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable "frame-pointer"="none" "min-legal-vector-width"="128" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
@@ -176,10 +193,7 @@ registers:
   - { id: 4, class: vr128 }
   - { id: 5, class: vr128 }
   - { id: 6, class: vr128 }
-  - { id: 7, class: vr128 }
 liveins:
-  - { reg: '$xmm0', virtual-reg: '%0' }
-  - { reg: '$xmm1', virtual-reg: '%1' }
   - { reg: '$xmm2', virtual-reg: '%2' }
   - { reg: '$xmm3', virtual-reg: '%3' }
 frameInfo:
@@ -187,22 +201,18 @@ frameInfo:
 machineFunctionInfo: {}
 body:             |
   bb.0 (%ir-block.4):
-    liveins: $xmm0, $xmm1, $xmm2, $xmm3
+    liveins: $xmm2, $xmm3
   
     %3:vr128 = COPY $xmm3
     %2:vr128 = COPY $xmm2
-    %1:vr128 = COPY $xmm1
-    %0:vr128 = COPY $xmm0
-    ; CHECK: %6:vr128 = VFMADD213PDr %0, %1, %5, implicit $mxcsr
-    ; CHECK-NEXT: %5:vr128 = nofpexcept MULPDrr %2, %3, implicit $mxcsr
-    ; CHECK-NEXT: %7:vr128 = nofpexcept ADDPDrr %5, killed %6, implicit $mxcsr
-    ; CHECK-NEXT: $xmm0 = COPY %7
+    ; CHECK: %5:vr128 = VFMADD213PDr %2, %3, %2, implicit $mxcsr
+    ; CHECK-NEXT: %6:vr128 = VFMADD213PDr %2, %3, %5, implicit $mxcsr
+    ; CHECK-NEXT: $xmm0 = COPY %6
     ; CHECK-NEXT: RET 0, $xmm0
-    %4:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
-    %5:vr128 = nofpexcept MULPDrr %2, %3, implicit $mxcsr
-    %6:vr128 = nofpexcept ADDPDrr %4, %5, implicit $mxcsr
-    %7:vr128 = nofpexcept ADDPDrr %5, killed %6, implicit $mxcsr
-    $xmm0 = COPY %7
+    %4:vr128 = nofpexcept MULPDrr %2, %3, implicit $mxcsr
+    %5:vr128 = nofpexcept ADDPDrr %4, %2, implicit $mxcsr
+    %6:vr128 = nofpexcept ADDPDrr %4, killed %5, implicit $mxcsr
+    $xmm0 = COPY %6
     RET 0, $xmm0
 
 ...
@@ -236,8 +246,8 @@ body:             |
     %2:vr128 = COPY $xmm2
     %1:vr128 = COPY $xmm1
     %0:vr128 = COPY $xmm0
-    ; CHECK: %6:vr128 = VFMADD213PDr %0, %1, %5, implicit $mxcsr
-    ; CHECK-NEXT: %5:vr128 = nofpexcept MULPDrr %2, %3, implicit $mxcsr
+    ; CHECK: %5:vr128 = nofpexcept MULPDrr %2, %3, implicit $mxcsr
+    ; CHECK-NEXT: %6:vr128 = VFMADD213PDr %0, %1, %5, implicit $mxcsr
     ; CHECK-NEXT: %7:vr128 = nofpexcept ADDPDrr %5, killed %6, implicit $mxcsr
     ; CHECK-NEXT: $xmm0 = COPY %7
     ; CHECK-NEXT: RET 0, $xmm0
@@ -246,6 +256,58 @@ body:             |
     %6:vr128 = nofpexcept ADDPDrr %4, %5, implicit $mxcsr
     %7:vr128 = nofpexcept ADDPDrr %5, killed %6, implicit $mxcsr
     $xmm0 = COPY %7
+    RET 0, $xmm0
+
+...
+---
+name:            test5
+alignment:       16
+tracksRegLiveness: true
+debugInstrRef:   true
+registers:
+  - { id: 0, class: vr128 }
+  - { id: 1, class: vr128 }
+  - { id: 2, class: vr128 }
+  - { id: 3, class: vr128 }
+  - { id: 4, class: vr128 }
+  - { id: 5, class: vr128 }
+  - { id: 6, class: vr128 }
+  - { id: 7, class: vr128 }
+  - { id: 8, class: vr128 }
+  - { id: 9, class: vr128 }
+  - { id: 10, class: vr128 }
+liveins:
+  - { reg: '$xmm0', virtual-reg: '%0' }
+  - { reg: '$xmm1', virtual-reg: '%1' }
+  - { reg: '$xmm2', virtual-reg: '%2' }
+  - { reg: '$xmm3', virtual-reg: '%3' }
+  - { reg: '$xmm4', virtual-reg: '%4' }
+frameInfo:
+  maxAlignment:    1
+machineFunctionInfo: {}
+body:             |
+  bb.0 (%ir-block.5):
+    liveins: $xmm0, $xmm1, $xmm2, $xmm3, $xmm4
+  
+    %4:vr128 = COPY $xmm4
+    %3:vr128 = COPY $xmm3
+    %2:vr128 = COPY $xmm2
+    %1:vr128 = COPY $xmm1
+    %0:vr128 = COPY $xmm0
+    ; CHECK: %6:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
+    ; CHECK-NEXT: %7:vr128 = VFMADD213PDr %0, %1, %3, implicit $mxcsr
+    ; CHECK-NEXT: %8:vr128 = VFMADD213PDr %0, %1, %4, implicit $mxcsr
+    ; CHECK-NEXT: %9:vr128 = nofpexcept MULPDrr %6, killed %7, implicit $mxcsr
+    ; CHECK-NEXT: %10:vr128 = nofpexcept MULPDrr %9, killed %8, implicit $mxcsr
+    ; CHECK-NEXT: $xmm0 = COPY %10
+    ; CHECK-NEXT: RET 0, $xmm0
+    %5:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
+    %6:vr128 = nofpexcept ADDPDrr %5, %2, implicit $mxcsr
+    %7:vr128 = nofpexcept ADDPDrr %5, %3, implicit $mxcsr
+    %8:vr128 = nofpexcept ADDPDrr %5, %4, implicit $mxcsr
+    %9:vr128 = nofpexcept MULPDrr %6, killed %7, implicit $mxcsr
+    %10:vr128 = nofpexcept MULPDrr %9, killed %8, implicit $mxcsr
+    $xmm0 = COPY %10
     RET 0, $xmm0
 
 ...

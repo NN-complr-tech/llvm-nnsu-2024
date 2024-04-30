@@ -23,23 +23,7 @@ public:
 
     for (MachineBasicBlock &MBB : MF) {
 
-      auto Check = [&](MachineInstr *add, auto it_begin) {
-        ++it_begin;
-        for (it_begin; &(*it_begin) != add; ++it_begin) {
-          auto instr = &(*it_begin);
-          if (std::find(Need_Del.begin(), Need_Del.end(), instr) !=
-              Need_Del.end()) {
-            continue;
-          }
-          for (auto &reg : instr->all_uses()) {
-            if (reg.getReg() == add->getOperand(1).getReg() ||
-                reg.getReg() == add->getOperand(2).getReg()) {
-              return false;
-            }
-          }
-        }
-        return true;
-      };
+      
 
       auto isUsed = [&](MachineInstr *instr, MachineInstr *mult) {
         for (auto &reg : instr->all_uses()) {
@@ -58,6 +42,31 @@ public:
         auto mult = &(*iterator_for_mult);
         bool Can = true;
         std::vector<MachineInstr *> add_instructions;
+
+        auto Check = [&](MachineInstr *add, auto it_begin) {
+                auto mult = &(*it_begin);
+                ++it_begin;
+
+                for (it_begin; &(*it_begin) != add; ++it_begin) {
+                  auto instr = &(*it_begin);
+                  if (std::find(Need_Del.begin(), Need_Del.end(), instr) !=
+                      Need_Del.end()) {
+                    continue;
+                  }
+                  if (std::find(add_instructions.begin(), add_instructions.end(), instr) !=
+                      add_instructions.end()) {
+                    continue;
+                  }
+                  for (auto &reg : instr->all_uses()) {
+                    if (reg.getReg() == add->getOperand(1).getReg() ||
+                        reg.getReg() == add->getOperand(2).getReg()) {
+                      return false;
+                    }
+                  }
+                }
+                return true;
+              };
+
         auto iterator_for_add = std::next(iterator_for_mult);
         for (; iterator_for_add != MBB.end(); ++iterator_for_add) {
           if (iterator_for_add->getOpcode() != X86::ADDPDrr) {
@@ -93,7 +102,7 @@ public:
           for (auto add : add_instructions) {
             Need_Del.push_back(add);
             MIMetadata MIMD(*iterator_for_mult);
-            BuildMI(MBB, mult, MIMD, TII.get(X86::VFMADD213PDr),
+            BuildMI(MBB, add, MIMD, TII.get(X86::VFMADD213PDr),
                     add->getOperand(0).getReg())
                 .addReg(mult->getOperand(1).getReg())
                 .addReg(mult->getOperand(2).getReg())
@@ -110,12 +119,7 @@ public:
     return Changed;
   }
 
-private:
-  bool findInstruction(std::vector<MachineInstr *> &MIvector,
-                       MachineInstr *instruction) {
-    auto result{std::find(begin(MIvector), end(MIvector), instruction)};
-    return (result != end(MIvector));
-  }
+
 };
 } // end anonymous namespace
 
