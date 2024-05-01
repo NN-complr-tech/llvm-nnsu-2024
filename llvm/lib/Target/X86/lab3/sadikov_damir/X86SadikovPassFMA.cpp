@@ -78,13 +78,5 @@ char X86SadikovPassFMA::ID = 0;
 
 } // namespace
 
-// static RegisterPass<X86SadikovPassFMA> X("x86-sadikov-pass-fma",
-//                                          "X86 Sadikov Pass FMA", false,
-//                                          false);
-
-INITIALIZE_PASS(X86SadikovPassFMA, "x86-sadikov-pass-fma",
-                "X86 Sadikov Pass FMA", false, false)
-
-FunctionPass *llvm::createX86SadikovPassFMA() {
-  return new X86SadikovPassFMA();
-}
+static RegisterPass<X86SadikovPassFMA> X("x86-sadikov-pass-fma",
+                                         "X86 Sadikov Pass FMA", false, false);

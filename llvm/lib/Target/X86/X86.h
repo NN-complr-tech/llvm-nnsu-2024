@@ -202,9 +202,6 @@ void initializeX86SpeculativeExecutionSideEffectSuppressionPass(PassRegistry &);
 void initializeX86SpeculativeLoadHardeningPassPass(PassRegistry &);
 void initializeX86TileConfigPass(PassRegistry &);
 
-FunctionPass *createX86SadikovPassFMA();
-void initializeX86SadikovPassFMAPass(PassRegistry &);
-
 namespace X86AS {
 enum : unsigned {
   GS = 256,

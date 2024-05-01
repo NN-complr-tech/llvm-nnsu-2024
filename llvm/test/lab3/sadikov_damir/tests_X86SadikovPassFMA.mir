@@ -1,4 +1,4 @@
-# RUN: llc -mtriple x86_64-unknown-linux-gnu -run-pass=x86-sadikov-pass-fma %s -o - | FileCheck %s
+# RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86SadikovPassFMA%shlibext -run-pass=x86-sadikov-pass-fma %s -o - | FileCheck %s
 
 # clang -O2 -emit-llvm -S -g0 source.cpp -o source.ll
 # llc -simplify-mir -march=x86-64 source.ll -stop-after=x86-isel -o tests_X86SadikovPassFMA.mir
