@@ -5,8 +5,8 @@
 #include "llvm/CodeGen/MachineInstr.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/Register.h"
-#include <vector>
 #include <utility>
+#include <vector>
 
 using namespace llvm;
 
@@ -27,11 +27,16 @@ public:
     for (MachineBasicBlock &BB : MF) {
       for (auto MI = BB.begin(); MI != BB.end(); ++MI) {
         MachineInstr *mulInstr = &(*MI);
-        if (mulInstr->getOpcode() == X86::MULPDrr) {
+        if (mulInstr->getOpcode() == X86::MULPDrr ||
+            mulInstr->getOpcode() == X86::MULPDrm) {
           MachineInstr *addInstr = nullptr;
           for (auto MI_2 = std::next(MI); MI_2 != BB.end(); ++MI_2) {
             if (MI_2->readsRegister(mulInstr->getOperand(0).getReg())) {
-              if (MI_2->getOpcode() == X86::ADDPDrr && addInstr == nullptr) {
+              if ((MI_2->getOpcode() == X86::ADDPDrr ||
+                   MI_2->getOpcode() == X86::ADDPDrm) &&
+                  addInstr == nullptr &&
+                  mulInstr->getOperand(0).getReg() ==
+                      MI_2->getOperand(1).getReg()) {
                 addInstr = &(*MI_2);
               } else {
                 addInstr = nullptr;
