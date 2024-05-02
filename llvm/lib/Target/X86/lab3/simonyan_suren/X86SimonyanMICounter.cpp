@@ -19,6 +19,14 @@ public:
   bool runOnMachineFunction(MachineFunction &MF) override {
     const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
     DebugLoc DL3 = MF.front().begin()->getDebugLoc();
+    Module &M = *MF.getFunction().getParent();
+    GlobalVariable *gvar = M.getGlobalVariable("ic");
+
+    if (!gvar) {
+      LLVMContext &context = M.getContext();
+      gvar = new GlobalVariable(M, IntegerType::get(context, 64), false,
+                                GlobalValue::ExternalLinkage, nullptr, "ic");
+    }
 
     for (auto &MBB : MF) {
       unsigned count = 0;
@@ -27,12 +35,16 @@ public:
           ++count;
       }
 
-      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64ri32))
-          .addImm(count)
-          .addExternalSymbol("ic");
-    }
+      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64mi32))
+          .addReg(0)
+          .addImm(1)
+          .addReg(0)
+          .addGlobalAddress(gvar)
+          .addReg(0)
+          .addImm(count);
 
-    return true;
+      return true;
+    }
   }
 };
 
