@@ -24,7 +24,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       for (auto *const pre_header :
            llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
         if (Loop->contains(pre_header) &&
-            !LoopCallPresent("loop_start", pre_header)) {
+            !LoopCallPresent("loop_start", Func)) {
           Builder.SetInsertPoint(pre_header->getTerminator());
           Builder.CreateCall(
               par_module->getOrInsertFunction("loop_start", function_type));
@@ -34,7 +34,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::SmallVector<llvm::BasicBlock *, 4> llvm_blocks;
       Loop->getExitBlocks(llvm_blocks);
       for (auto *const llvm_block : llvm_blocks) {
-        if (!LoopCallPresent("loop_end", llvm_block) &&
+        if (!LoopCallPresent("loop_end", Func) &&
             LastBlock(llvm_block, llvm_blocks)) {
           Builder.SetInsertPoint(llvm_block->getFirstNonPHI());
           Builder.CreateCall(
@@ -46,11 +46,11 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
   }
 
   bool LoopCallPresent(const std::string &LoopFuncName, llvm::Function &Func) {
-    for (auto &User : Func.users()) {
+    for (auto *User : Func.users()) {
       if (auto *Inst = llvm::dyn_cast<llvm::Instruction>(User)) {
         if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(Inst)) {
           if (auto *CallFunc = instCall->getCalledFunction()) {
-            if (CallFunc->getName() == LoopFuncName) {
+            if (CallFunc->getName().str() == LoopFuncName) {
               return true;
             }
           }
@@ -76,15 +76,15 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
 extern "C" LLVM_ATTRIBUTE_WEAK::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "LoopPlugin", LLVM_VERSION_STRING,
-          [](llvm::PassBuilder &PassBuild) {
+          [](llvm::PassBuilder &PassBuild {
             PassBuild.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PassManag,
-                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-                  if (Name == "bonyuk-loop-plugin") {
-                    PassManag.addPass(LoopPlugin());
-                    return true;
-                  }
-                  return false;
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement {
+      if (Name == "bonyuk-loop-plugin") {
+        PassManag.addPass(LoopPlugin());
+        return true;
+      }
+      return false;
                 });
           }};
 }
