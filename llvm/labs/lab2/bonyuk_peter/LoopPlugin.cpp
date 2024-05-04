@@ -24,7 +24,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       for (auto *const pre_header :
            llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
         if (Loop->contains(pre_header) &&
-            !LoopCallPresent("loop_start", Func)) {
+            !LoopCallPresent("loop_start", pre_header)) {
           Builder.SetInsertPoint(pre_header->getTerminator());
           Builder.CreateCall(
               par_module->getOrInsertFunction("loop_start", function_type));
@@ -34,7 +34,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::SmallVector<llvm::BasicBlock *, 4> llvm_blocks;
       Loop->getExitBlocks(llvm_blocks);
       for (auto *const llvm_block : llvm_blocks) {
-        if (!LoopCallPresent("loop_end", Func) &&
+        if (!LoopCallPresent("loop_end", llvm_block) &&
             LastBlock(llvm_block, llvm_blocks)) {
           Builder.SetInsertPoint(llvm_block->getFirstNonPHI());
           Builder.CreateCall(
@@ -45,19 +45,26 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
     return llvm::PreservedAnalyses::all();
   }
 
-  bool LoopCallPresent(const std::string &LoopFuncName, llvm::Function &Func) {
-    for (auto *User : Func.users()) {
-      if (auto *Inst = llvm::dyn_cast<llvm::Instruction>(User)) {
-        if (auto *instCall = llvm::dyn_cast<llvm::CallInst>(Inst)) {
-          if (auto *CallFunc = instCall->getCalledFunction()) {
-            if (CallFunc->getName().str() == LoopFuncName) {
-              return true;
-            }
-          }
+  bool FunctionUsedByCallInst(const std::string &FuncName,
+                              llvm::Function *Func) {
+    for (auto user : Func->users()) {
+      if (auto *inst = llvm::dyn_cast<llvm::CallInst>(user)) {
+        llvm::Function *CalledFunction = inst->getCalledFunction();
+        if (CalledFunction && CalledFunction->getName() == FuncName) {
+          return true;
         }
       }
     }
     return false;
+  }
+
+  bool LoopCallPresent(const std::string &LoopFuncName, llvm::BasicBlock *block,
+                       llvm::Module &module) {
+    llvm::Function *LoopFunc = module.getFunction(LoopFuncName);
+    if (!LoopFunc) {
+      return false;
+    }
+    return FunctionUsedByCallInst(LoopFuncName, LoopFunc);
   }
 
   bool LastBlock(llvm::BasicBlock *const BasicB,
