@@ -79,7 +79,7 @@ llvmGetPassPluginInfo() {
           [](llvm::PassBuilder &PassBuild {
             PassBuild.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PassManag,
-                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement {
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement) {
       if (Name == "bonyuk-loop-plugin") {
         PassManag.addPass(LoopPlugin());
         return true;
