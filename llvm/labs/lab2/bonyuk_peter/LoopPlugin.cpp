@@ -76,15 +76,15 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
 extern "C" LLVM_ATTRIBUTE_WEAK::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "LoopPlugin", LLVM_VERSION_STRING,
-          [](llvm::PassBuilder &PassBuild {
+          [](llvm::PassBuilder &PassBuild) {
             PassBuild.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PassManag,
-                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement) {
-      if (Name == "bonyuk-loop-plugin") {
-        PassManag.addPass(LoopPlugin());
-        return true;
-      }
-      return false;
+                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                  if (Name == "bonyuk-loop-plugin") {
+                    PassManag.addPass(LoopPlugin());
+                    return true;
+                  }
+                  return false;
                 });
           }};
 }
