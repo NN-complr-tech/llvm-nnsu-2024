@@ -24,7 +24,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       for (auto *const pre_header :
            llvm::children<llvm::Inverse<llvm::BasicBlock *>>(Header)) {
         if (Loop->contains(pre_header) &&
-            !LoopCallPresent("loop_start", pre_header)) {
+            !LoopCallPresent("loop_start", pre_header, par_module)) {
           Builder.SetInsertPoint(pre_header->getTerminator());
           Builder.CreateCall(
               par_module->getOrInsertFunction("loop_start", function_type));
@@ -34,7 +34,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
       llvm::SmallVector<llvm::BasicBlock *, 4> llvm_blocks;
       Loop->getExitBlocks(llvm_blocks);
       for (auto *const llvm_block : llvm_blocks) {
-        if (!LoopCallPresent("loop_end", llvm_block) &&
+        if (!LoopCallPresent("loop_end", llvm_block, par_module) &&
             LastBlock(llvm_block, llvm_blocks)) {
           Builder.SetInsertPoint(llvm_block->getFirstNonPHI());
           Builder.CreateCall(
