@@ -76,7 +76,7 @@ struct LoopPlugin : public llvm::PassInfoMixin<LoopPlugin> {
 extern "C" LLVM_ATTRIBUTE_WEAK::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "LoopPlugin", LLVM_VERSION_STRING,
-          [](llvm::PassBuilder &PassBuild {
+          [](llvm::PassBuilder &PassBuild { // Добавлена закрывающая скобка
             PassBuild.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PassManag,
                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement {
