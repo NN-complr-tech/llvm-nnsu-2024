@@ -10,14 +10,16 @@ class AddWarningConsumer : public ASTConsumer {
   bool withoutClass;
 
 public:
-  AddWarningConsumer(CompilerInstance &Instance, bool withoutClass) : Instance(Instance), withoutClass(withoutClass) {}
+  AddWarningConsumer(CompilerInstance &Instance, bool withoutClass)
+    : Instance(Instance), withoutClass(withoutClass) {}
 
   void HandleTranslationUnit(ASTContext &context) override {
 
     struct Visitor : public RecursiveASTVisitor<Visitor> {
       ASTContext *context;
       bool withoutClass;
-      Visitor(ASTContext *context, bool withoutClass) : context(context), withoutClass(withoutClass) {}
+      Visitor(ASTContext *context, bool withoutClass)
+        : context(context), withoutClass(withoutClass) {}
 
       bool VisitFunctionDecl(FunctionDecl *FD) {
         if (!withoutClass) {
