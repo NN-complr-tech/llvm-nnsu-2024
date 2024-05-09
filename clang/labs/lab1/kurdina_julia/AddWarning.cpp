@@ -11,7 +11,7 @@ class AddWarningConsumer : public ASTConsumer {
 
 public:
   AddWarningConsumer(CompilerInstance &Instance, bool withoutClass)
-    : Instance(Instance), withoutClass(withoutClass) {}
+      : Instance(Instance), withoutClass(withoutClass) {}
 
   void HandleTranslationUnit(ASTContext &context) override {
 
@@ -19,7 +19,7 @@ public:
       ASTContext *context;
       bool withoutClass;
       Visitor(ASTContext *context, bool withoutClass)
-        : context(context), withoutClass(withoutClass) {}
+          : context(context), withoutClass(withoutClass) {}
 
       bool VisitFunctionDecl(FunctionDecl *FD) {
         if (!withoutClass) {
