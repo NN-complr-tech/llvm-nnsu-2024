@@ -17,34 +17,38 @@ public:
   X86SimonyanMICounterPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MF) override {
+    DebugLoc DL = MF.front().begin()->getDebugLoc();
     const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-    DebugLoc DL3 = MF.front().begin()->getDebugLoc();
     Module &M = *MF.getFunction().getParent();
-    GlobalVariable *gvar = M.getGlobalVariable("ic");
+    GlobalVariable *globalCounter = M.getNamedGlobal("ic");
 
-    if (!gvar) {
+    if (!globalCounter) {
       LLVMContext &context = M.getContext();
-      gvar = new GlobalVariable(M, IntegerType::get(context, 64), false,
-                                GlobalValue::ExternalLinkage, nullptr, "ic");
+      globalCounter =
+          new GlobalVariable(M, IntegerType::get(context, 64), false,
+                             GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &MBB : MF) {
-      unsigned count = 0;
-      for (auto &MI : MBB) {
-        if (!MI.isDebugInstr())
-          ++count;
+      int instructionCount = std::distance(MBB.begin(), MBB.end());
+      auto insertPoint = MBB.getFirstTerminator();
+
+      if (insertPoint != MBB.end() && insertPoint != MBB.begin() &&
+          insertPoint->getOpcode() >= X86::JCC_1 &&
+          insertPoint->getOpcode() <= X86::JCC_4) {
+        --insertPoint;
       }
 
-      BuildMI(MBB, MBB.getFirstTerminator(), DL3, TII->get(X86::ADD64mi32))
+      BuildMI(MBB, insertPoint, DL, TII->get(X86::ADD64mi32))
           .addReg(0)
           .addImm(1)
           .addReg(0)
-          .addGlobalAddress(gvar)
+          .addGlobalAddress(globalCounter)
           .addReg(0)
-          .addImm(count);
-
-      return true;
+          .addImm(instructionCount);
     }
+
+    return true;
   }
 };
 
