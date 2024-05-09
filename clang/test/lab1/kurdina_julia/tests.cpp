@@ -1,4 +1,8 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/addWarning%pluginext -plugin warn_dep %s 2>&1 | FileCheck %s
+// RUN: split-file %s %t
+// RUN: %clang_cc1 -load %llvmshlibdir/addWarning%pluginext -plugin warn_dep %t/with_notCheckClass.cpp -plugin-arg-warn_dep -notCheckClass 2>&1 | FileCheck %t/with_notCheckClass.cpp
+// RUN: %clang_cc1 -load %llvmshlibdir/addWarning%pluginext -plugin warn_dep %t/without_notCheckClass.cpp 2>&1 | FileCheck %t/without_notCheckClass.cpp
+
+//--- with_notCheckClass.cpp
 
 // CHECK: warning: Deprecated is contain in function name
 void deprecated();
@@ -11,3 +15,31 @@ void function();
 
 // CHECK-NOT: warning: Deprecated is contain in function name
 void function_depr();
+
+class CheckClass {
+	// CHECK-NOT: warning: Deprecated is contain in function name
+	void deprecated();
+	// CHECK-NOT: warning: Deprecated is contain in function name
+	void function();
+};
+
+//--- without_notCheckClass.cpp
+
+// CHECK: warning: Deprecated is contain in function name
+void deprecated();
+
+// CHECK: warning: Deprecated is contain in function name
+void function_name_is_deprecated();
+
+// CHECK-NOT: warning: Deprecated is contain in function name
+void function();
+
+// CHECK-NOT: warning: Deprecated is contain in function name
+void function_depr();
+
+class CheckClass {
+	// CHECK: warning: Deprecated is contain in function name
+	void deprecated();
+	// CHECK-NOT: warning: Deprecated is contain in function name
+	void function();
+};

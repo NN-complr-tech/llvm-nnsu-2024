@@ -7,29 +7,45 @@ using namespace clang;
 
 class AddWarningConsumer : public ASTConsumer {
   CompilerInstance &Instance;
+  bool withoutClass;
 
 public:
-  AddWarningConsumer(CompilerInstance &Instance) : Instance(Instance) {}
+  AddWarningConsumer(CompilerInstance &Instance, bool withoutClass) : Instance(Instance), withoutClass(withoutClass) {}
 
   void HandleTranslationUnit(ASTContext &context) override {
+
     struct Visitor : public RecursiveASTVisitor<Visitor> {
       ASTContext *context;
-
-      Visitor(ASTContext *context) : context(context) {}
+      bool withoutClass;
+      Visitor(ASTContext *context, bool withoutClass) : context(context), withoutClass(withoutClass) {}
 
       bool VisitFunctionDecl(FunctionDecl *FD) {
-        std::string name = FD->getNameInfo().getAsString();
-        if (name.find("deprecated") != -1) {
-          DiagnosticsEngine &diag = context->getDiagnostics();
-          unsigned diagID =
-              diag.getCustomDiagID(DiagnosticsEngine::Warning,
-                                   "Deprecated is contain in function name");
-          SourceLocation location = FD->getLocation();
-          diag.Report(location, diagID);
+        if (!withoutClass) {
+          std::string name = FD->getNameInfo().getAsString();
+          if (name.find("deprecated") != std::string::npos) {
+            DiagnosticsEngine &diag = context->getDiagnostics();
+            unsigned diagID =
+                diag.getCustomDiagID(DiagnosticsEngine::Warning,
+                                     "Deprecated is contain in function name");
+            SourceLocation location = FD->getLocation();
+            diag.Report(location, diagID);
+          }
+        } else {
+          if (!FD->isCXXClassMember()) {
+            std::string name = FD->getNameInfo().getAsString();
+            if (name.find("deprecated") != std::string::npos) {
+              DiagnosticsEngine &diag = context->getDiagnostics();
+              unsigned diagID = diag.getCustomDiagID(
+                  DiagnosticsEngine::Warning,
+                  "Deprecated is contain in function name");
+              SourceLocation location = FD->getLocation();
+              diag.Report(location, diagID);
+            }
+          }
         }
         return true;
       }
-    } v(&Instance.getASTContext());
+    } v(&Instance.getASTContext(), withoutClass);
 
     v.TraverseDecl(context.getTranslationUnitDecl());
   }
@@ -37,15 +53,22 @@ public:
 
 class AddWarningAction : public PluginASTAction {
 protected:
+  bool withoutClass = false;
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &CI, llvm::StringRef InFile) override {
-    return std::make_unique<AddWarningConsumer>(CI);
+    return std::make_unique<AddWarningConsumer>(CI, withoutClass);
   }
 
   bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
+    for (const auto &arg : args) {
+      if (arg == "-notCheckClass") {
+        withoutClass = true;
+      }
+    }
     return true;
   }
+
 };
 
 static FrontendPluginRegistry::Add<AddWarningAction> X("warn_dep", "warn_dep");
