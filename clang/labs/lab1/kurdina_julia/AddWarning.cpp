@@ -68,7 +68,6 @@ protected:
     }
     return true;
   }
-
 };
 
 static FrontendPluginRegistry::Add<AddWarningAction> X("warn_dep", "warn_dep");
