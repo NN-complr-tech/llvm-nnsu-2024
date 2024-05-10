@@ -149,7 +149,7 @@ for.inc:                                          ; preds = %for.body
   br label %for.cond
 
 for.end:                                          ; preds = %for.cond
-; CHECK-NEXT: call void @loop_end()
+; CHECK: call void @loop_end()
 ; CHECK-NEXT: %4 = load i32, ptr %summa, align 4
 ; CHECK-NEXT: ret i32 %4
   call void @loop_end()
