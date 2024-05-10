@@ -126,11 +126,12 @@ entry:
   %summa = alloca i32, align 4
   %i = alloca i32, align 4
   store i32 0, ptr %summa, align 4
+; CHECK: call void @loop_start()
+; CHECK-NEXT: store i32 0, ptr %i, align 4
+; CHECK-NEXT: br label %for.cond
   call void @loop_start()
   store i32 0, ptr %i, align 4
   br label %for.cond
-; CHECK: call void @loop_start()
-; CHECK-NEXT: br label %while.cond
 
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, ptr %i, align 4
