@@ -119,6 +119,8 @@ if.false:                                          ; preds = %entry
 ; 	return summa;
 ; }
 
+declare void @loop_start()
+declare void @loop_end()
 define dso_local i32 @summa_with_loop() #0 {
 entry:
   %summa = alloca i32, align 4
