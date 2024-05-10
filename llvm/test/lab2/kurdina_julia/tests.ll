@@ -52,8 +52,8 @@ for.end:                                          ; preds = %for.cond
 
 define dso_local i32 @minus(i32 noundef %a, i32 noundef %b) #0 {
 entry:
-  a.addr = alloca i32, align 4
-  b.addr = alloca i32, align 4
+  %a.addr = alloca i32, align 4
+  %b.addr = alloca i32, align 4
   store i32 %a, ptr %a.addr, align 4
   store i32 %b, ptr %b.addr, align 4
 ; CHECK: call void @loop_start()
@@ -67,13 +67,13 @@ while.cond:                                        ; preds = %while.body, %entry
 
 while.body:                                        ; preds = %while.cond
   %2 = load i32, ptr %a.addr, align 4
-  %3 = load i32, ptr %a.addr, align 4
+  %3 = load i32, ptr %b.addr, align 4
   %sub = sub nsw i32 %2, %3
-  store i32 %sub, ptr %a_ptr, align 4
+  store i32 %sub, ptr %a.addr, align 4
   br label %while.cond
 
 while.end:                                         ; preds = %while.cond
 ; CHECK: call void @loop_end()
-  %4 = load i32, ptr %a_ptr, align 4
+  %4 = load i32, ptr %a.addr, align 4
   ret i32 %4
 }
