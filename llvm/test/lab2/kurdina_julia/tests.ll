@@ -119,7 +119,7 @@ if.false:                                          ; preds = %entry
 ; 	return summa;
 ; }
 
-define dso_local i32 @summa() #0 {
+define dso_local i32 @summa_with_loop() #0 {
 entry:
   %summa = alloca i32, align 4
   %i = alloca i32, align 4
