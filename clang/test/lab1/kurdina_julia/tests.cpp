@@ -4,42 +4,42 @@
 
 //--- with_notCheckClass.cpp
 
-// CHECK: warning: Deprecated is contain in function name
+// CHECK: warning: Function or method is deprecated
 void deprecated();
 
-// CHECK: warning: Deprecated is contain in function name
+// CHECK: warning: Function or method is deprecated
 void function_name_is_deprecated();
 
-// CHECK-NOT: warning: Deprecated is contain in function name
+// CHECK-NOT: warning: Function or method is deprecated
 void function();
 
-// CHECK-NOT: warning: Deprecated is contain in function name
+// CHECK-NOT: warning: Function or method is deprecated
 void function_depr();
 
 class CheckClass {
-	// CHECK-NOT: warning: Deprecated is contain in function name
+	// CHECK-NOT: warning: Function or method is deprecated
 	void deprecated();
-	// CHECK-NOT: warning: Deprecated is contain in function name
+	// CHECK-NOT: warning: Function or method is deprecated
 	void function();
 };
 
 //--- without_notCheckClass.cpp
 
-// CHECK: warning: Deprecated is contain in function name
+// CHECK: warning: Function or method is deprecated
 void deprecated();
 
-// CHECK: warning: Deprecated is contain in function name
+// CHECK: warning: Function or method is deprecated
 void function_name_is_deprecated();
 
-// CHECK-NOT: warning: Deprecated is contain in function name
+// CHECK-NOT: warning: Function or method is deprecated
 void function();
 
-// CHECK-NOT: warning: Deprecated is contain in function name
+// CHECK-NOT: warning: Function or method is deprecated
 void function_depr();
 
 class CheckClass {
-	// CHECK: warning: Deprecated is contain in function name
+	// CHECK: warning: Function or method is deprecated
 	void deprecated();
-	// CHECK-NOT: warning: Deprecated is contain in function name
+	// CHECK-NOT: warning: Function or method is deprecated
 	void function();
 };
