@@ -36,3 +36,5 @@ add_mlir_library(MLIRTransforms
   MLIRSupport
   MLIRTransformUtils
   )
+
+add_subdirectory(lab4)
