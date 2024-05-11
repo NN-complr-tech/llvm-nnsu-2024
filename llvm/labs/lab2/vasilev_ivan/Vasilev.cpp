@@ -29,8 +29,8 @@ public:
 
       if (!Preheader || ExitBlocks.empty())
         continue;
-      llvm::Function *StartFunc = llvm::cast<llvm::Function>
-      (LoopStartFunc.getCallee());
+      llvm::Function *StartFunc =
+          llvm::cast<llvm::Function>(LoopStartFunc.getCallee());
       bool loop_start = false;
       for (auto *U : StartFunc->users()) {
         if (auto *CI = dyn_cast<CallInst>(U)) {
@@ -42,8 +42,8 @@ public:
       }
 
       IRBuilder<> Builder(Preheader->getTerminator());
-      llvm::Function *EndFunc = llvm::cast<llvm::Function>
-      (LoopEndFunc.getCallee());
+      llvm::Function *EndFunc = 
+          llvm::cast<llvm::Function>(LoopEndFunc.getCallee());
       bool loop_end = false;
       if (!loop_start)
         Builder.CreateCall(StartFunc);
