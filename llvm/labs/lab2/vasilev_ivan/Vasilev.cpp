@@ -42,7 +42,7 @@ public:
       }
 
       IRBuilder<> Builder(Preheader->getTerminator());
-      llvm::Function *EndFunc = 
+      llvm::Function *EndFunc =
           llvm::cast<llvm::Function>(LoopEndFunc.getCallee());
       bool loop_end = false;
       if (!loop_start)
