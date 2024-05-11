@@ -26,9 +26,8 @@ public:
           std::string name = FD->getNameInfo().getAsString();
           if (name.find("deprecated") != std::string::npos) {
             DiagnosticsEngine &diag = context->getDiagnostics();
-            unsigned diagID =
-                diag.getCustomDiagID(DiagnosticsEngine::Warning,
-                                     "Function or method is deprecated");
+            unsigned diagID = diag.getCustomDiagID(
+                DiagnosticsEngine::Warning, "Function or method is deprecated");
             SourceLocation location = FD->getLocation();
             diag.Report(location, diagID);
           }
