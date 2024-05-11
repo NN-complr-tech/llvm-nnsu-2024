@@ -29,32 +29,30 @@ public:
 
       if (!Preheader || ExitBlocks.empty())
         continue;
-
-      int loop_start = 0;
-      int loop_end = 0;
-
-      for (Instruction &Instr : *Preheader) {
-        if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
-          if (CI->getCalledFunction() &&
-              CI->getCalledFunction()->getName() == "_Z10loop_startv") {
-            loop_start = 1;
+      llvm::Function *StartFunc = llvm::cast<llvm::Function>
+      (LoopStartFunc.getCallee());
+      bool loop_start = false;
+      for (auto *U : StartFunc->users()) {
+        if (auto *CI = dyn_cast<CallInst>(U)) {
+          if (CI->getParent() == Preheader) {
+            loop_start = true;
             break;
           }
         }
       }
 
       IRBuilder<> Builder(Preheader->getTerminator());
-
+      llvm::Function *EndFunc = llvm::cast<llvm::Function>
+      (LoopEndFunc.getCallee());
+      bool loop_end = false;
       if (!loop_start)
-        Builder.CreateCall(LoopStartFunc);
+        Builder.CreateCall(StartFunc);
 
       for (auto &ExitBlock : ExitBlocks) {
-        loop_end = 0;
-        for (Instruction &Instr : *ExitBlock) {
-          if (CallInst *CI = dyn_cast<CallInst>(&Instr)) {
-            if (CI->getCalledFunction() &&
-                CI->getCalledFunction()->getName() == "_Z8loop_endv") {
-              loop_end = 1;
+        for (auto *U : LoopStartFunc.getCallee()->users()) {
+          if (auto *CI = dyn_cast<CallInst>(U)) {
+            if (CI->getParent() == ExitBlock) {
+              loop_end = true;
               break;
             }
           }
@@ -62,7 +60,7 @@ public:
         Builder.SetInsertPoint(ExitBlock->getFirstNonPHI());
 
         if (!loop_end)
-          Builder.CreateCall(LoopEndFunc);
+          Builder.CreateCall(EndFunc);
       }
     }
     return PreservedAnalyses::all();
