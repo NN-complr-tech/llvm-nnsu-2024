@@ -1,5 +1,5 @@
 if (NOT WIN32 AND NOT CYGWIN)
-    set(path ${CMAKE_CURRENT_SOURCE_DIR})
+    set(PATH_TO_TOOLS_MLIR ${CMAKE_BINARY_DIR}/tools/mlir/include)
 
     FILE(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
     FOREACH(child ${children})

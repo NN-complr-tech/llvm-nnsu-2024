@@ -43,6 +43,9 @@ public:
 };
 } // namespace
 
+MLIR_DECLARE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
+MLIR_DEFINE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
+
 mlir::PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "ZakharovFuncCallCnt", LLVM_VERSION_STRING,
           []() { mlir::PassRegistration<FunctionCallCounterPass>(); }};
