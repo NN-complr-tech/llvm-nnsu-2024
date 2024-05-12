@@ -1,10 +1,6 @@
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/Pass/Pass.h"
-#include "mlir/Pass/PassManager.h"
-#include "mlir/Pass/PassRegistry.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
-#include "mlir/Transforms/DialectConversion.h"
-#include "llvm/Passes/PassPlugin.h"
 
 using namespace mlir;
 
@@ -22,11 +18,11 @@ public:
     std::map<StringRef, int> callCounter;
 
     getOperation()->walk([&](Operation *op) {
-      if (LLVM::LLVMFuncOp func = dyn_cast<LLVM::LLVMFuncOp>(op)) {
+      if (auto func = dyn_cast<LLVM::LLVMFuncOp>(op)) {
         funcs.push_back(func);
       }
 
-      if (LLVM::CallOp call = dyn_cast<LLVM::CallOp>(op)) {
+      if (auto call = dyn_cast<LLVM::CallOp>(op)) {
         StringRef funcName = call.getCallee().value();
         callCounter[funcName]++;
       }
@@ -43,13 +39,14 @@ public:
 };
 } // namespace
 
+MLIR_DECLARE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
+MLIR_DEFINE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
 
-mlir::PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
+PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "ZakharovFuncCallCnt", LLVM_VERSION_STRING,
-          []() { mlir::PassRegistration<FunctionCallCounterPass>(); }};
+          []() { PassRegistration<FunctionCallCounterPass>(); }};
 }
 
-extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
-mlirGetPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
   return getFunctionCallCounterPassPluginInfo();
 }
