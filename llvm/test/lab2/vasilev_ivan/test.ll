@@ -163,6 +163,7 @@ define dso_local void @_Z15with_lopps_funcv() {
 entry:
   %i = alloca i32, align 4
   store i32 0, ptr %i, align 4
+  call void @_Z10loop_startv()
 ; CHECK:    call void @_Z10loop_startv()
 ; CHECK-NOT:    call void @_Z10loop_startv()
   br label %while.cond
