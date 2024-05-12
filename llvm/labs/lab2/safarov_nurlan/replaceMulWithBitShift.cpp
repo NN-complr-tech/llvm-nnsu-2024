@@ -12,14 +12,14 @@ using namespace llvm;
 namespace {
 
 bool runPlugin(Function &F) {
-  std::vector<Instruction*> instrDeleteList;
+  std::vector<Instruction *> instrDeleteList;
   for (llvm::BasicBlock &funcBlock : F) {
     for (llvm::Instruction &instr : funcBlock) {
       if (llvm::BinaryOperator *binOper = dyn_cast<BinaryOperator>(&instr)) {
         if (binOper->getOpcode() == llvm::Instruction::BinaryOps::Mul) {
-          Constant* constant = dyn_cast<Constant>(binOper->getOperand(0));
+          Constant *constant = dyn_cast<Constant>(binOper->getOperand(0));
           int notConstantOperandNumber;
-		  if (constant) {
+          if (constant) {
             notConstantOperandNumber = 1;
           } else {
             constant = dyn_cast<Constant>(binOper->getOperand(1));
@@ -29,25 +29,24 @@ bool runPlugin(Function &F) {
             llvm::APInt value = constant->getUniqueInteger();
             if ((value & (value - 1)) == 0) {
               IRBuilder<> Builder(binOper);
-              Value* newInstr = Builder.CreateShl(
+              Value *newInstr = Builder.CreateShl(
                   binOper->getOperand(notConstantOperandNumber),
                   value.logBase2());
               binOper->replaceAllUsesWith(newInstr);
               //  errs() << "Replacement: " << instr << "\n";
               errs() << instr << "\n";
-              instrDeleteList.push_back(&instr);						
-            }	
-          }				
+              instrDeleteList.push_back(&instr);
+            }
+          }
         }
       }
     }
   }
-	
-  for (auto* instr : instrDeleteList)
+  for (auto *instr : instrDeleteList)
     instr->eraseFromParent();
 
   return false;
- }
+}
 
 struct RunOrNonePass : PassInfoMixin<RunOrNonePass> {
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
