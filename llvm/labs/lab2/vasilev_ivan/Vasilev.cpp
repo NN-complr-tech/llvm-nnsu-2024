@@ -29,27 +29,31 @@ public:
 
       if (!Preheader || ExitBlocks.empty())
         continue;
+
       llvm::Function *StartFunc =
           llvm::cast<llvm::Function>(LoopStartFunc.getCallee());
-      bool loop_start = false;
-      for (auto *U : StartFunc->users()) {
-        if (auto *CI = dyn_cast<CallInst>(U)) {
-          if (CI->getParent() == Preheader) {
-            loop_start = true;
-            break;
-          }
+
+      int loop_start = 0;
+      int loop_end = 0;
+
+    for (User *U : LoopStartFunc.getCallee()->users()) {
+      if (CallInst *CI = dyn_cast<CallInst>(U)) {
+        if (CI->getParent() == Preheader) {
+          loop_start = 1;
+          break;
         }
       }
+    }
 
       IRBuilder<> Builder(Preheader->getTerminator());
-      llvm::Function *EndFunc =
-          llvm::cast<llvm::Function>(LoopEndFunc.getCallee());
-      bool loop_end = false;
+
       if (!loop_start)
         Builder.CreateCall(StartFunc);
 
+      llvm::Function *EndFunc =
+          llvm::cast<llvm::Function>(LoopEndFunc.getCallee());
       for (auto &ExitBlock : ExitBlocks) {
-        for (auto *U : LoopStartFunc.getCallee()->users()) {
+        for (auto *U : LoopEndFunc.getCallee()->users()) {
           if (auto *CI = dyn_cast<CallInst>(U)) {
             if (CI->getParent() == ExitBlock) {
               loop_end = true;
