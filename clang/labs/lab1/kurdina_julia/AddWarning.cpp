@@ -22,7 +22,7 @@ public:
           : context(context), withoutClass(withoutClass) {}
 
       bool VisitFunctionDecl(FunctionDecl *FD) {
-        if (!withoutClass || withoutClass && !FD->isCXXClassMember()) {
+        if (!withoutClass || !FD->isCXXClassMember()) {
           std::string name = FD->getNameInfo().getAsString();
           if (name.find("deprecated") != std::string::npos) {
             DiagnosticsEngine &diag = context->getDiagnostics();
