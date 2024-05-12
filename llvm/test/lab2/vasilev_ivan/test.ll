@@ -180,6 +180,7 @@ while.body:
   br label %while.cond
 
 while.end:
+  call void @_Z8loop_endv()
 ; CHECK:    call void @_Z8loop_endv()
 ; CHECK-NOT:    call void @_Z8loop_endv()
   ret void
