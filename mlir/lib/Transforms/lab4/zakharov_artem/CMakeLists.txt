@@ -9,4 +9,4 @@ add_llvm_pass_plugin(${PluginName}
         BUILDTREE_ONLY
         )
 
-set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
+set(MLIR_TEST_DEPENDS ${PluginName} ${MLIR_TEST_DEPENDS} PARENT_SCOPE)
