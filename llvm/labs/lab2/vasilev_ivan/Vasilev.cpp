@@ -36,14 +36,14 @@ public:
       int loop_start = 0;
       int loop_end = 0;
 
-    for (User *U : LoopStartFunc.getCallee()->users()) {
-      if (CallInst *CI = dyn_cast<CallInst>(U)) {
-        if (CI->getParent() == Preheader) {
-          loop_start = 1;
-          break;
+      for (User *U : LoopStartFunc.getCallee()->users()) {
+        if (CallInst *CI = dyn_cast<CallInst>(U)) {
+          if (CI->getParent() == Preheader) {
+            loop_start = 1;
+            break;
+          }
         }
       }
-    }
 
       IRBuilder<> Builder(Preheader->getTerminator());
 
