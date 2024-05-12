@@ -12,74 +12,74 @@ using namespace llvm;
 namespace {
 
 bool runPlugin(Function &F) {
-	std::vector<Instruction*> instrDeleteList;
-	for (llvm::BasicBlock &funcBlock : F)
-	{
-		for (llvm::Instruction &instr : funcBlock)
-		{
-			if (llvm::BinaryOperator *binOper = dyn_cast<BinaryOperator>(&instr))
-			{
-				if (binOper->getOpcode() == llvm::Instruction::BinaryOps::Mul)
-				{
-					Constant* constant = dyn_cast<Constant>(binOper->getOperand(0));
-					int notConstantOperandNumber;
-					if (constant) {
-						notConstantOperandNumber = 1;
-					}
-					else {
-						constant = dyn_cast<Constant>(binOper->getOperand(1));
-						notConstantOperandNumber = 0;
-					}
-					if (constant) {
-         				llvm::APInt value = constant->getUniqueInteger();
-						if ((value & (value - 1)) == 0)
-						{
-							IRBuilder<> Builder(binOper);
-							Value* newInstr = Builder.CreateShl
-								(binOper->getOperand(notConstantOperandNumber), value.logBase2());
-							binOper->replaceAllUsesWith(newInstr);
-							//  errs() << "Replacement: " << instr << "\n";
-                            errs() << instr << "\n";
-							instrDeleteList.push_back(&instr);						
-						}	
-					}
-         	
-         						
-				}
-			}
-		}
-	}
+  std::vector<Instruction*> instrDeleteList;
+  for (llvm::BasicBlock &funcBlock : F) {
+    for (llvm::Instruction &instr : funcBlock) {
+      if (llvm::BinaryOperator *binOper = dyn_cast<BinaryOperator>(&instr)) {
+        if (binOper->getOpcode() == llvm::Instruction::BinaryOps::Mul) {
+          Constant* constant = dyn_cast<Constant>(binOper->getOperand(0));
+          int notConstantOperandNumber;
+		  if (constant) {
+            notConstantOperandNumber = 1;
+          } else {
+            constant = dyn_cast<Constant>(binOper->getOperand(1));
+            notConstantOperandNumber = 0;
+          }
+          if (constant) {
+            llvm::APInt value = constant->getUniqueInteger();
+            if ((value & (value - 1)) == 0) {
+              IRBuilder<> Builder(binOper);
+              Value* newInstr = Builder.CreateShl(
+                  binOper->getOperand(notConstantOperandNumber),
+                  value.logBase2());
+              binOper->replaceAllUsesWith(newInstr);
+              //  errs() << "Replacement: " << instr << "\n";
+              errs() << instr << "\n";
+              instrDeleteList.push_back(&instr);						
+            }	
+          }				
+        }
+      }
+    }
+  }
 	
-	for (auto* instr : instrDeleteList)
-		instr->eraseFromParent();
+  for (auto* instr : instrDeleteList)
+    instr->eraseFromParent();
 
+  return false;
+ }
 
-  	return false;
-}
-
-struct RunOrNonePass : PassInfoMixin<RunOrNonePass> {PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
+struct RunOrNonePass : PassInfoMixin<RunOrNonePass> {
+  PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
     if (!runPlugin(F))
       return PreservedAnalyses::all();
     return PreservedAnalyses::none();
   }
 };
 
-} 
+} // namespace
 llvm::PassPluginLibraryInfo getRunOrNonePassPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "replaceMulWithBitShift", LLVM_VERSION_STRING, [](PassBuilder &PB)
-  				{
-            PB.registerVectorizerStartEPCallback([](llvm::FunctionPassManager &PM, OptimizationLevel Level) { PM.addPass(RunOrNonePass()); });
-            PB.registerPipelineParsingCallback([](StringRef Name, llvm::FunctionPassManager &PM, ArrayRef<llvm::PassBuilder::PipelineElement>) 
-            {
-							if (Name == "replaceMulWithBitShift") {
-								PM.addPass(RunOrNonePass());
-								return true;
-							}
-							return false;
-						});
-					}};
+  return {LLVM_PLUGIN_API_VERSION, "replaceMulWithBitShift",
+          LLVM_VERSION_STRING, [](PassBuilder &PB) {
+            PB.registerVectorizerStartEPCallback(
+                [](llvm::FunctionPassManager &PM, OptimizationLevel Level) {
+                  PM.addPass(RunOrNonePass());
+                });
+            PB.registerPipelineParsingCallback(
+                [](StringRef Name, llvm::FunctionPassManager &PM,
+                   ArrayRef<llvm::PassBuilder::PipelineElement>) {
+                  if (Name == "replaceMulWithBitShift") {
+                    PM.addPass(RunOrNonePass());
+                    return true;
+                  }
+                  return false;
+                });
+          }};
 }
 
 #ifndef LLVM_MY_PLUGIN_LINK_INTO_TOOLS
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo llvmGetPassPluginInfo() { return getRunOrNonePassPluginInfo(); }
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
+  return getRunOrNonePassPluginInfo();
+}
 #endif
