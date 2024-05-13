@@ -2,8 +2,8 @@
 
 ;int first_function() {
 ;  int x;
-;	 x = x * 16;
-;	 return 1;
+;  x = x * 16;
+;  return 1;
 ;}
 
 ;int second_function(int t) {
@@ -18,12 +18,12 @@
 
 ;void four_function() {
 ;  int a;
-;	 int b = 5;
-;	 int c = c * 4;
-;	 c *= 64;
-;	 b = b * 7;
-;	 c *= 128;
-;	 b *= 256;
+;  int b = 5;
+;  int c = c * 4;
+;  c *= 64;
+;  b = b * 7;
+;  c *= 128;
+;  b *= 256;
 ;  b = b * 15;
 ;}
 

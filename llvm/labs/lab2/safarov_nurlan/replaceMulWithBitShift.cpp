@@ -15,29 +15,27 @@ bool runPlugin(Function &F) {
   std::vector<Instruction *> instrDeleteList;
   for (llvm::BasicBlock &funcBlock : F) {
     for (llvm::Instruction &instr : funcBlock) {
-      if (llvm::BinaryOperator *binOper = dyn_cast<BinaryOperator>(&instr)) {
-        if (binOper->getOpcode() == llvm::Instruction::BinaryOps::Mul) {
-          Constant *constant = dyn_cast<Constant>(binOper->getOperand(0));
-          int notConstantOperandNumber;
-          if (constant) {
-            notConstantOperandNumber = 1;
-          } else {
-            constant = dyn_cast<Constant>(binOper->getOperand(1));
-            notConstantOperandNumber = 0;
-          }
-          if (constant) {
-            llvm::APInt value = constant->getUniqueInteger();
-            if ((value & (value - 1)) == 0) {
-              IRBuilder<> Builder(binOper);
-              Value *newInstr = Builder.CreateShl(
-                  binOper->getOperand(notConstantOperandNumber),
-                  value.logBase2());
-              binOper->replaceAllUsesWith(newInstr);
-              //  errs() << "Replacement: " << instr << "\n";
-              errs() << instr << "\n";
-              instrDeleteList.push_back(&instr);
-            }
-          }
+      auto *binOper = dyn_cast<BinaryOperator>(&instr);
+      if (!binOper || binOper->getOpcode() != llvm::Instruction::BinaryOps::Mul) {
+        continue;
+      }
+      auto *constant = dyn_cast<Constant>(binOper->getOperand(0));
+      int notConstantOperandNumber;
+      if (constant) {
+        notConstantOperandNumber = 1;
+      } else {
+        constant = dyn_cast<Constant>(binOper->getOperand(1));
+        notConstantOperandNumber = 0;
+      }
+      if (constant) {
+        llvm::APInt value = constant->getUniqueInteger();
+        if (value.isPowerOf2()) {
+          IRBuilder<> Builder(binOper);
+          Value *newInstr = Builder.CreateShl(
+              binOper->getOperand(notConstantOperandNumber),
+              value.logBase2());
+          binOper->replaceAllUsesWith(newInstr);
+          instrDeleteList.push_back(&instr);
         }
       }
     }
