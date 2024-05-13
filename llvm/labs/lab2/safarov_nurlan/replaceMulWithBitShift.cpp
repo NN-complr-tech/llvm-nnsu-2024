@@ -16,7 +16,8 @@ bool runPlugin(Function &F) {
   for (llvm::BasicBlock &funcBlock : F) {
     for (llvm::Instruction &instr : funcBlock) {
       auto *binOper = dyn_cast<BinaryOperator>(&instr);
-      if (!binOper || binOper->getOpcode() != llvm::Instruction::BinaryOps::Mul) {
+      if (!binOper ||
+          binOper->getOpcode() != llvm::Instruction::BinaryOps::Mul) {
         continue;
       }
       auto *constant = dyn_cast<Constant>(binOper->getOperand(0));
@@ -32,8 +33,7 @@ bool runPlugin(Function &F) {
         if (value.isPowerOf2()) {
           IRBuilder<> Builder(binOper);
           Value *newInstr = Builder.CreateShl(
-              binOper->getOperand(notConstantOperandNumber),
-              value.logBase2());
+              binOper->getOperand(notConstantOperandNumber), value.logBase2());
           binOper->replaceAllUsesWith(newInstr);
           instrDeleteList.push_back(&instr);
         }
