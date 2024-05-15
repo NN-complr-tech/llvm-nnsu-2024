@@ -37,6 +37,6 @@ add_mlir_library(MLIRTransforms
   MLIRTransformUtils
   )
 
-  add_subdirectory(lab4)
+add_subdirectory(lab4)
 
-  set(MLIR_TEST_DEPENDS ${MLIR_TEST_DEPENDS} PARENT_SCOPE)
+set(MLIR_TEST_DEPENDS ${MLIR_TEST_DEPENDS} PARENT_SCOPE)
