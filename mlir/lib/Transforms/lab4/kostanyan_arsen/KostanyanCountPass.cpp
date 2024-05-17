@@ -8,6 +8,11 @@ namespace {
 class FunctionCallCounterPass
     : public PassWrapper<FunctionCallCounterPass, OperationPass<ModuleOp>> {
 public:
+  StringRef getArgument() const final { return "FuncCallCounter"; }
+  StringRef getDescription() const final {
+    return "Counts the amount of calls to each function in the module";
+  }
+
   void runOnOperation() override {
     ModuleOp module = getOperation();
     std::map<StringRef, int> callCounter;
