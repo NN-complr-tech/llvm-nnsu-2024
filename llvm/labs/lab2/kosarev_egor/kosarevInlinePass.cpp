@@ -11,20 +11,24 @@
 #include <string>
 
 using namespace llvm;
-
 namespace {
+
+static cl::opt<bool> NoLoopInline(
+    "no-loop-inline",
+    cl::desc("Turns off inlining of functions that contain loops"));
 
 struct CustomInliningPass : public PassInfoMixin<CustomInliningPass> {
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM) {
-
     Function *Callee{};
     std::vector<CallInst *> callsToInline{};
+    LoopInfo LI;
     for (auto &BB : F) {
       for (auto &I : BB) {
         if (auto *CI = dyn_cast<CallInst>(&I)) {
           Callee = CI->getCalledFunction();
           if (Callee && Callee->arg_size() == 0 &&
-              Callee->getReturnType()->isVoidTy()) {
+              Callee->getReturnType()->isVoidTy() &&
+              !(NoLoopInline && hasLoops(Callee, AM))) {
             callsToInline.push_back(CI);
           }
         }
@@ -149,6 +153,10 @@ struct CustomInliningPass : public PassInfoMixin<CustomInliningPass> {
     }
 
     return PreservedAnalyses::none();
+  }
+  bool hasLoops(Function *Func, FunctionAnalysisManager &AM) {
+    auto &LI = AM.getResult<LoopAnalysis>(*Func);
+    return !LI.empty();
   }
   static bool isRequired() { return true; }
 };
