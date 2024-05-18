@@ -96,24 +96,62 @@ define dso_local noundef i32 @_Z13five_functionv() #0 {
 }
 
 ; CHECK-LABEL: @_Z14first_functionv
-; CHECK: shl
-; CHECK: ret
+; CHECK: %1 = alloca i32, align 4
+; CHECK: %2 = load i32, ptr %1, align 4
+; CHECK: %3 = shl i32 %2, 4
+; CHECK: store i32 %3, ptr %1, align 4
+; CHECK: ret i32 1
 
 ; CHECK-LABEL: @_Z15second_functioni
-; CHECK: shl
-; CHECK: ret
+; CHECK: %2 = alloca i32, align 4
+; CHECK: %3 = alloca i32, align 4
+; CHECK: store i32 %0, ptr %2, align 4
+; CHECK: %4 = load i32, ptr %2, align 4
+; CHECK: %5 = shl i32 %4, 3
+; CHECK: store i32 %5, ptr %3, align 4
+; CHECK: %6 = load i32, ptr %3, align 4
+; CHECK: ret i32 %6
+
 
 ; CHECK-LABEL: @_Z14third_functioni
-; CHECK: shl
-; CHECK: ret
+; CHECK: %2 = alloca i32, align 4
+; CHECK: %3 = alloca i32, align 4
+; CHECK: store i32 %0, ptr %2, align 4
+; CHECK: store i32 45, ptr %3, align 4
+; CHECK: %4 = load i32, ptr %2, align 4
+; CHECK: %5 = shl i32 %4, 5
+; CHECK: store i32 %5, ptr %2, align 4
+; CHECK: ret void
+
 
 ; CHECK-LABEL: @_Z13four_functionv
-; CHECK: shl
-; CHECK: shl
-; CHECK: shl
-; CHECK: shl
-; CHECK: ret
+; CHECK: %1 = alloca i32, align 4
+; CHECK: %2 = alloca i32, align 4
+; CHECK: %3 = alloca i32, align 4
+; CHECK: store i32 5, ptr %2, align 4
+; CHECK: %4 = load i32, ptr %3, align 4
+; CHECK: %5 = shl i32 %4, 2
+; CHECK: store i32 %5, ptr %3, align 4
+; CHECK: %6 = load i32, ptr %3, align 4
+; CHECK: %7 = shl i32 %6, 6
+; CHECK: store i32 %7, ptr %3, align 4
+; CHECK: %8 = load i32, ptr %2, align 4
+; CHECK: %9 = mul nsw i32 %8, 7
+; CHECK: store i32 %9, ptr %2, align 4
+; CHECK: %10 = load i32, ptr %3, align 4
+; CHECK: %11 = shl i32 %10, 7
+; CHECK: store i32 %11, ptr %3, align 4
+; CHECK: %12 = load i32, ptr %2, align 4
+; CHECK: %13 = shl i32 %12, 8
+; CHECK: store i32 %13, ptr %2, align 4
+; CHECK: %14 = load i32, ptr %2, align 4
+; CHECK: %15 = mul nsw i32 %14, 15
+; CHECK: store i32 %15, ptr %2, align 4
+; CHECK: ret void
+
 
 ; CHECK-LABEL: @_Z13five_functionv
-; CHECK-NOT: shl
-; CHECK: ret
+; CHECK: %1 = alloca i32, align 4
+; CHECK: store i32 4, ptr %1, align 4
+; CHECK: %2 = load i32, ptr %1, align 4
+; CHECK: ret i32 %2

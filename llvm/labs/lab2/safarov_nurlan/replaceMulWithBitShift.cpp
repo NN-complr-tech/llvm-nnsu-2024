@@ -20,12 +20,12 @@ bool runPlugin(Function &F) {
           binOper->getOpcode() != llvm::Instruction::BinaryOps::Mul) {
         continue;
       }
-      auto *constant = dyn_cast<Constant>(binOper->getOperand(0));
+      auto *constant = dyn_cast<ConstantInt>(binOper->getOperand(0));
       int notConstantOperandNumber;
       if (constant) {
         notConstantOperandNumber = 1;
       } else {
-        constant = dyn_cast<Constant>(binOper->getOperand(1));
+        constant = dyn_cast<ConstantInt>(binOper->getOperand(1));
         notConstantOperandNumber = 0;
       }
       if (constant) {
