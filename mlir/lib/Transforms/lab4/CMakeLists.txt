@@ -6,5 +6,9 @@ FOREACH(child ${children})
 ENDFOREACH()
 
 set(MLIR_TEST_DEPENDS ${MLIR_TEST_DEPENDS} PARENT_SCOPE)
+<<<<<<< HEAD
 
 message("MLIR_TEST_DEPENDS ${MLIR_TEST_DEPENDS}")
+=======
+message("MLIR_TEST_DEPENDS ${MLIR_TEST_DEPENDS}")
+>>>>>>> 78ac52b7de9e (first commit)
