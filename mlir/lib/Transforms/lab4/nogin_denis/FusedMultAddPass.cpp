@@ -8,9 +8,6 @@ using namespace mlir;
 namespace {
 class FusedMultAddPass
     : public PassWrapper<FusedMultAddPass, OperationPass<ModuleOp>> {
-private:
-  llvm::SmallPtrSet<Operation *, 8> storeOps;
-
 public:
   StringRef getArgument() const final { return "fused-mult-add"; }
   StringRef getDescription() const final {
