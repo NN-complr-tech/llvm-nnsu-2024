@@ -36,7 +36,6 @@ private:
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
     Value div = builder.create<arith::DivUIOp>(loc, sub, b);
-	
     op.replaceAllUsesWith(div);
     op.erase();
   }
