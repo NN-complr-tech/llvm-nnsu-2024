@@ -26,34 +26,28 @@ public:
 
 private:
   void replaceCeilDivUI(arith::CeilDivUIOp op) {
-    OpBuilder builder(op);
-    Location loc = op.getLoc();
-    Value a = op.getLhs();
-    Value b = op.getRhs();
-
-    Value one =
-        builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
-    Value add = builder.create<arith::AddIOp>(loc, a, b);
-    Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div = builder.create<arith::DivUIOp>(loc, sub, b);
-    op.replaceAllUsesWith(div);
-    op.erase();
+    replaceCeilDiv(op, arith::DivUIOp::getOperationName());
   }
 
   void replaceCeilDivSI(arith::CeilDivSIOp op) {
-    OpBuilder builder(op);
-    Location loc = op.getLoc();
-    Value a = op.getLhs();
-    Value b = op.getRhs();
+    replaceCeilDiv(op, arith::DivSIOp::getOperationName());
+  }
 
-    Value one =
-        builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
+  template<typename DivOp>
+  void replaceCeilDiv(Operation *op, StringRef divOpName) {
+    OpBuilder builder(op);
+    Location loc = op->getLoc();
+    Value a = op->getOperand(0);
+    Value b = op->getOperand(1);
+    Type type = a.getType();
+
+    Value one = builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div = builder.create<arith::DivSIOp>(loc, sub, b);
+    Value div = builder.create<arith::DivOp>(loc, type, sub, b);
 
-    op.replaceAllUsesWith(div);
-    op.erase();
+    op->replaceAllUsesWith(div);
+    op->erase();
   }
 };
 } // anonymous namespace
