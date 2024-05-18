@@ -1,5 +1,43 @@
 # RUN: llc -mtriple x86_64-unknown-linux-gnu -simplify-mir --load=%llvmshlibdir/X86KruglovCntPass%shlibext -run-pass=x86-kruglov-cnt-pass %s -o - | FileCheck %s
 
+# void empty() {}
+
+# unsigned long ic;
+# int mixed(int a) {
+#   ic = 0;
+#   int k;
+#   if (a % 2 == 1)
+#     for (int i = 0; i < a; a++)
+#     {
+#         k += i % 2;
+#     }
+#   else k = 0;
+#   return k;
+# }
+
+# int ariphmetics(int a, int b){
+#     ic = 0;
+#     a = a + b;
+#     return a * b + 2;
+# }
+
+# int branch(int a, int b){
+#     if (a < b) {
+#         return a;
+#     }
+#     else { 
+#         return b;
+#     }
+# }
+
+# int cycles(int n){
+#     int k = 1;
+#     for (int i = 0; i < n; i++){
+#         k *= i;
+#     }
+#     return k;
+# }
+
 --- |
     ; ModuleID = 'hello.ll'
     source_filename = "hello.c"
