@@ -8,9 +8,7 @@ namespace {
 class FunctionCallCounterPass
     : public PassWrapper<FunctionCallCounterPass, OperationPass<ModuleOp>> {
 public:
-  StringRef getArgument() const final {
-    return "SafarovNcntFuncCalls";
-  }
+  StringRef getArgument() const final { return "SafarovNcntFuncCalls"; }
   void runOnOperation() override {
     std::vector<LLVM::LLVMFuncOp> functions;
     std::map<StringRef, int> numberOfCalls;
