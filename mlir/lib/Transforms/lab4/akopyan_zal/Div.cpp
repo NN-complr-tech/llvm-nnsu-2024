@@ -10,7 +10,8 @@ class DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "akopyan_divpass"; }
   StringRef getDescription() const final {
-    return "splits the arith.ceildivui and arith.ceildivsi into arith operations";
+    return "splits the arith.ceildivui and arith.ceildivsi into arith "
+	"operations";
   }
 
   void runOnOperation() override {
