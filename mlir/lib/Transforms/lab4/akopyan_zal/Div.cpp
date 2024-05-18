@@ -3,7 +3,7 @@
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
 
-    using namespace mlir;
+using namespace mlir;
 
 namespace {
 class DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
