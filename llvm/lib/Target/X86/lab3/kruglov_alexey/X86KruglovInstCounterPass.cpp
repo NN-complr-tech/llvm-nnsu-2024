@@ -4,7 +4,6 @@
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 
-
 using namespace llvm;
 
 namespace {
@@ -23,7 +22,7 @@ public:
       for (auto &MI : MBB) {
         Count++;
       }
-        
+
       BuildMI(MBB, MBB.getFirstTerminator(), DebugLocation,
               InstrInfo->get(X86::ADD64ri32))
           .addImm(Count)
