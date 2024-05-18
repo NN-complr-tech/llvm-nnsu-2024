@@ -1,29 +1,4 @@
-#include "mlir/IR/Builders.h"
-#include "mlir/IR/BuiltinOps.h"
-#include "mlir/Pass/Pass.h"
-#include "mlir/Transforms/DialectConversion.h"
-#include "mlir/Dialect/Arithmetic/IR/Arithmetic.h"
-
-using namespace mlir;
-
-namespace {
-struct DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
-  void replaceCeilDivUI(arith::CeilDivUIOp op);
-  void replaceCeilDivSI(arith::CeilDivSIOp op);
-  template <typename DivOp>
-  void replaceCeilDiv(Operation *op, StringRef divOpName);
-  void runOnOperation() override;
-};
-
-void DivPass::replaceCeilDivUI(arith::CeilDivUIOp op) {
-  replaceCeilDiv<arith::DivUIOp>(op, arith::DivUIOp::getOperationName());
-}
-
-void DivPass::replaceCeilDivSI(arith::CeilDivSIOp op) {
-  replaceCeilDiv<arith::DivSIOp>(op, arith::DivSIOp::getOperationName());
-}
-
-template <typename DivOp>#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
