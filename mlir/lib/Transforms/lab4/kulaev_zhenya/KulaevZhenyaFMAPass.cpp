@@ -29,6 +29,14 @@ public:
         }
       }
     });
+
+    module.walk([&](Operation *op) {
+      if (auto mulOp = dyn_cast<LLVM::FMulOp>(op)) {
+        if (mulOp.use_empty()) {
+          mulOp.erase();
+        }
+      }
+    });
   }
 
 private:
@@ -38,8 +46,10 @@ private:
     Value fma = builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
                                             mulOp.getOperand(1), otherOperand);
     addOp.replaceAllUsesWith(fma);
+    if (mulOp.getOperand(0).hasOneUse()) {
+      mulOp.erase();
+    }
     addOp.erase();
-    mulOp.erase();
   }
 };
 } // namespace
