@@ -30,7 +30,7 @@ template <typename DivOp>#include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
 
-using namespace mlir;
+    using namespace mlir;
 
 namespace {
 class DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
@@ -60,7 +60,7 @@ private:
     replaceCeilDiv(op, arith::DivSIOp::getOperationName());
   }
 
-  template<typename DivOp>
+  template <typename DivOp>
   void replaceCeilDiv(Operation *op, StringRef divOpName) {
     OpBuilder builder(op);
     Location loc = op->getLoc();
@@ -69,7 +69,7 @@ private:
     Type type = a.getType();
 
     Value one = 
-	    builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
+        builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
     Value div = builder.create<arith::DivOp>(loc, type, sub, b);
