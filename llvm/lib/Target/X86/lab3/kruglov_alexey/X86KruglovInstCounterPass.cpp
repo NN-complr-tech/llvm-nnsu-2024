@@ -18,13 +18,13 @@ public:
     DebugLoc DebugLocation = MF.front().begin()->getDebugLoc();
     const TargetInstrInfo *InstrInfo = MF.getSubtarget().getInstrInfo();
 
-    for (auto &BasicBlock : MF) {
+    for (auto &MBB : MF) {
       size_t Count = 0;
-      for (auto &Instr : BasicBlock) {
+      for (auto &MI : MBB) {
         Count++;
       }
         
-      BuildMI(BasicBlock, BasicBlock.getFirstTerminator(), DebugLocation,
+      BuildMI(MBB, MBB.getFirstTerminator(), DebugLocation,
               InstrInfo->get(X86::ADD64ri32))
           .addImm(Count)
           .addExternalSymbol("ic");
