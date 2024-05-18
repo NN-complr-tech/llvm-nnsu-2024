@@ -10,10 +10,8 @@ namespace {
 struct DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
   void replaceCeilDivUI(arith::CeilDivUIOp op);
   void replaceCeilDivSI(arith::CeilDivSIOp op);
-  
   template <typename DivOp>
   void replaceCeilDiv(Operation *op, StringRef divOpName);
-
   void runOnOperation() override;
 };
 
@@ -68,8 +66,8 @@ private:
     Value b = op->getOperand(1);
     Type type = a.getType();
 
-    Value one = 
-        builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
+    Value one =
+	    builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
     Value div = builder.create<arith::DivOp>(loc, type, sub, b);
