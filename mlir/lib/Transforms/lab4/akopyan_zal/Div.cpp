@@ -67,7 +67,7 @@ private:
     Type type = a.getType();
 
     Value one =
-	    builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
+        builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
     Value div = builder.create<arith::DivOp>(loc, type, sub, b);
