@@ -11,7 +11,7 @@ public:
   StringRef getArgument() const final { return "akopyan_divpass"; }
   StringRef getDescription() const final {
     return "splits the arith.ceildivui and arith.ceildivsi into arith "
-	"operations";
+		   "operations";
   }
 
   void runOnOperation() override {
