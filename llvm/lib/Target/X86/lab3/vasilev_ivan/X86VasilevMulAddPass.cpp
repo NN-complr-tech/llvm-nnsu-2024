@@ -69,4 +69,3 @@ bool X86VasilevMulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
 } // namespace
 static RegisterPass<X86VasilevMulAddPass>
     X("x86-Vasilevmuladd", "X86 Vasilev muladd pass", false, false);
-
