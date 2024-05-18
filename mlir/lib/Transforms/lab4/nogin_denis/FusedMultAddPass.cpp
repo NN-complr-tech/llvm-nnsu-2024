@@ -16,27 +16,34 @@ public:
 
   void runOnOperation() override {
     ModuleOp module = getOperation();
+
     module.walk([&](Operation *op) {
       if (auto addOp = dyn_cast<LLVM::FAddOp>(op)) {
         Value addLHS = addOp.getOperand(0);
         Value addRHS = addOp.getOperand(1);
 
-        if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
-          OpBuilder builder(addOp);
-          Value fma = builder.create<LLVM::FMAOp>(
-              addOp.getLoc(), mulOpLHS.getOperand(0), mulOpLHS.getOperand(1),
-              addRHS);
-          addOp.replaceAllUsesWith(fma);
+        auto tryFuse = [&](Value mulOperand, Value otherOperand, Value &fma) {
+          if (auto mulOp = mulOperand.getDefiningOp<LLVM::FMulOp>()) {
+            OpBuilder builder(addOp);
+            fma =
+                builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
+                                            mulOp.getOperand(1), otherOperand);
+            addOp.replaceAllUsesWith(fma);
+            return true;
+          }
+          return false;
+        };
+
+        Value fma;
+        if (tryFuse(addLHS, addRHS, fma) || tryFuse(addRHS, addLHS, fma)) {
           addOp.erase();
-          mulOpLHS.erase();
-        } else if (auto mulOpRHS = addRHS.getDefiningOp<LLVM::FMulOp>()) {
-          OpBuilder builder(addOp);
-          Value fma = builder.create<LLVM::FMAOp>(
-              addOp.getLoc(), mulOpRHS.getOperand(0), mulOpRHS.getOperand(1),
-              addLHS);
-          addOp.replaceAllUsesWith(fma);
-          addOp.erase();
-          mulOpRHS.erase();
+        }
+      }
+    });
+    module.walk([&](Operation *op) {
+      if (auto mulOp = dyn_cast<LLVM::FMulOp>(op)) {
+        if (mulOp.use_empty()) {
+          mulOp.erase();
         }
       }
     });
