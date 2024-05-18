@@ -6,6 +6,9 @@
 using namespace mlir;
 
 namespace {
+
+enum OpType { SignedOp, UnsignedOp };
+
 class sCeilDivPass : public PassWrapper<sCeilDivPass, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "sharapov_ceildiv"; }
@@ -17,15 +20,16 @@ public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
       if (auto ceilDivUI = dyn_cast<arith::CeilDivUIOp>(op)) {
-        replaceCeilDivUI(ceilDivUI);
+        replaceCeilDiv(ceilDivUI, OpType::UnsignedOp);
       } else if (auto ceilDivSI = dyn_cast<arith::CeilDivSIOp>(op)) {
-        replaceCeilDivSI(ceilDivSI);
+        replaceCeilDiv(ceilDivSI, OpType::SignedOp);
       }
     });
   }
 
 private:
-  void replaceCeilDivUI(arith::CeilDivUIOp op) {
+  template <typename CeilDivOpType>
+  void replaceCeilDiv(CeilDivOpType op, OpType type) {
     OpBuilder builder(op);
     Location loc = op.getLoc();
     Value a = op.getLhs();
@@ -35,23 +39,13 @@ private:
         builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div = builder.create<arith::DivUIOp>(loc, sub, b);
+    Value div;
 
-    op.replaceAllUsesWith(div);
-    op.erase();
-  }
-
-  void replaceCeilDivSI(arith::CeilDivSIOp op) {
-    OpBuilder builder(op);
-    Location loc = op.getLoc();
-    Value a = op.getLhs();
-    Value b = op.getRhs();
-
-    Value one =
-        builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
-    Value add = builder.create<arith::AddIOp>(loc, a, b);
-    Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div = builder.create<arith::DivSIOp>(loc, sub, b);
+    if (type == OpType::SignedOp) {
+      div = builder.create<arith::DivSIOp>(loc, sub, b);
+    } else {
+      div = builder.create<arith::DivUIOp>(loc, sub, b);
+    }
 
     op.replaceAllUsesWith(div);
     op.erase();
