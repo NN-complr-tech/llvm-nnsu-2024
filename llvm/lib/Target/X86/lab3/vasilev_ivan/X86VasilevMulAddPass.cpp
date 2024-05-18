@@ -27,13 +27,13 @@ bool X86VasilevMulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
   std::unordered_set<MachineInstr *> addInstrs;
 
   for (auto &block : machineFunc) {
-    for (auto I = block.begin(); I!= block.end(); ++I) {
+    for (auto I = block.begin(); I != block.end(); ++I) {
       if (I->getOpcode() == X86::MULPDrr) {
         worklist.push(&(*I));
       }
     }
 
-    for (auto I = block.begin(); I!= block.end(); ++I) {
+    for (auto I = block.begin(); I != block.end(); ++I) {
       if (I->getOpcode() == X86::ADDPDrr) {
         addInstrs.insert(&(*I));
       }
@@ -45,9 +45,9 @@ bool X86VasilevMulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
 
       for (auto I : addInstrs) {
         if (I->getOperand(1).getReg() == mulInstr->getOperand(0).getReg()) {
-          MachineInstrBuilder MIB =
-              BuildMI(*mulInstr->getParent(), *mulInstr, mulInstr->getDebugLoc(),
-                      instrInfo->get(X86::VFMADD213PDZ128r));
+          MachineInstrBuilder MIB = BuildMI(
+              *mulInstr->getParent(), *mulInstr, mulInstr->getDebugLoc(),
+              instrInfo->get(X86::VFMADD213PDZ128r));
 
           MIB.addReg(I->getOperand(0).getReg(), RegState::Define);
           MIB.addReg(mulInstr->getOperand(1).getReg());
@@ -67,6 +67,6 @@ bool X86VasilevMulAddPass::runOnMachineFunction(MachineFunction &machineFunc) {
   return changed;
 }
 } // namespace
-static RegisterPass<X86VasilevMulAddPass> X("x86-Vasilevmuladd", "X86 Vasilev muladd pass", false,
-                                     false);
+static RegisterPass<X86VasilevMulAddPass>
+    X("x86-Vasilevmuladd", "X86 Vasilev muladd pass", false,false);
 
