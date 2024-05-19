@@ -14,7 +14,8 @@ class AlexseevMulAddMergePass
         mulOp.getOperand(1), otherOperand);
     addOp.replaceAllUsesWith(fma);
     addOp.erase();
-    mulOp.erase();
+    if (mulOp.use_empty())
+      mulOp.erase();
   }
 
 public:
