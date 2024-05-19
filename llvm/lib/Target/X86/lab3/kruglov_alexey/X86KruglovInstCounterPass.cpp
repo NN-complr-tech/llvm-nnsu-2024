@@ -14,23 +14,19 @@ public:
   X86KruglovCntPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MF) override {
-    // Get the global variable 'ic'
     auto *GV = MF.getFunction().getParent()->getNamedGlobal("ic");
     if (!GV) {
-        // If 'ic' does not exist, create it
-        LLVMContext &context = MF.getFunction().getParent()->getContext();
-        GV = new GlobalVariable(*MF.getFunction().getParent(),
-                                IntegerType::get(context, 64), false,
-                                GlobalValue::ExternalLinkage, nullptr, "ic");
-        GV->setAlignment(Align(8));
-        // If the global variable 'ic' cannot be created, return false
-        if (!GV) {
+      LLVMContext &context = MF.getFunction().getParent()->getContext();
+      GV = new GlobalVariable(*MF.getFunction().getParent(),
+                              IntegerType::get(context, 64), false,
+                              GlobalValue::ExternalLinkage, nullptr, "ic");
+      GV->setAlignment(Align(8));
+      if (!GV) {
         return false;
-        }
+      }
     }
     DebugLoc DebugLocation = MF.front().begin()->getDebugLoc();
     const TargetInstrInfo *InstrInfo = MF.getSubtarget().getInstrInfo();
-
     for (auto &MBB : MF) {
       BuildMI(MBB, MBB.getFirstTerminator(), DebugLocation,
               InstrInfo->get(X86::ADD64mi32))
@@ -40,13 +36,6 @@ public:
           .addGlobalAddress(GV)
           .addReg(0)
           .addImm(MBB.size());
-
-    //   if (!MBB.isReturnBlock())
-    //     continue;
-    //   BuildMI(MBB, MBB.getFirstTerminator(), DebugLocation,
-    //           InstrInfo->get(X86::MOV64mr))
-    //       .addImm(MBB.size())
-    //       .addGlobalAddress(GV);
     }
     return true;
   }
