@@ -13,12 +13,12 @@ public:
     std::vector<LLVM::LLVMFuncOp> functions;
     std::map<StringRef, int> numberOfCalls;
 
-    getOperation()->walk([&](Operation *opearation) {
-      auto checkingForAFunction = dyn_cast<LLVM::LLVMFuncOp>(opearation);
+    getOperation()->walk([&](Operation *operation) {
+      auto checkingForAFunction = dyn_cast<LLVM::LLVMFuncOp>(operation);
       if (checkingForAFunction) {
         functions.push_back(checkingForAFunction);
       }
-      auto checkingForAFunctionCall = dyn_cast<LLVM::CallOp>(opearation);
+      auto checkingForAFunctionCall = dyn_cast<LLVM::CallOp>(operation);
       if (checkingForAFunctionCall) {
         numberOfCalls[checkingForAFunctionCall.getCallee().value()]++;
       }
