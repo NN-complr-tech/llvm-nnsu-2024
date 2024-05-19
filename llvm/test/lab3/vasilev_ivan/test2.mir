@@ -244,34 +244,17 @@ body:             |
   bb.0 (%ir-block.3):
     liveins: $xmm0, $xmm1, $xmm2
   
-    frame-setup PUSH64r killed $rbp, implicit-def $rsp, implicit $rsp
-    CFI_INSTRUCTION def_cfa_offset 16
-    CFI_INSTRUCTION offset $rbp, -16
-    $rbp = frame-setup MOV64rr $rsp
-    CFI_INSTRUCTION def_cfa_register $rbp
-    ; CHECK: MOVAPDmr $rbp, 1, $noreg, -64, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.4)
-    ; CHECK-NEXT: MOVAPDmr $rbp, 1, $noreg, -48, $noreg, killed renamable $xmm1 :: (store (s128) into %ir.5)
-    ; CHECK-NEXT: MOVAPDmr $rbp, 1, $noreg, -32, $noreg, killed renamable $xmm2 :: (store (s128) into %ir.6)
-    ; CHECK-NEXT: renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -64, $noreg :: (load (s128) from %ir.4)
-    ; CHECK-NEXT: renamable $xmm0 = MULPDrm killed renamable $xmm0, $rbp, 1, $noreg, -48, $noreg, implicit $mxcsr :: (load (s128) from %ir.5)
-    ; CHECK-NEXT: MOVAPDmr $rbp, 1, $noreg, -16, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.7)
-    ; CHECK-NEXT: renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -16, $noreg :: (load (s128) from %ir.7)
-    ; CHECK-NEXT: renamable $xmm0 = ADDPDrm killed renamable $xmm0, $rbp, 1, $noreg, -32, $noreg, implicit $mxcsr :: (load (s128) from %ir.6)
-    ; CHECK-NEXT: MOVAPDmr $rbp, 1, $noreg, -16, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.7)
-    ; CHECK-NEXT: renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -16, $noreg :: (load (s128) from %ir.7)
-    MOVAPDmr $rbp, 1, $noreg, -64, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.4)
-    MOVAPDmr $rbp, 1, $noreg, -48, $noreg, killed renamable $xmm1 :: (store (s128) into %ir.5)
-    MOVAPDmr $rbp, 1, $noreg, -32, $noreg, killed renamable $xmm2 :: (store (s128) into %ir.6)
-    renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -64, $noreg :: (load (s128) from %ir.4)
-    renamable $xmm0 = MULPDrm killed renamable $xmm0, $rbp, 1, $noreg, -48, $noreg, implicit $mxcsr :: (load (s128) from %ir.5)
-    MOVAPDmr $rbp, 1, $noreg, -16, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.7)
-    renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -16, $noreg :: (load (s128) from %ir.7)
-    renamable $xmm0 = ADDPDrm killed renamable $xmm0, $rbp, 1, $noreg, -32, $noreg, implicit $mxcsr :: (load (s128) from %ir.6)
-    MOVAPDmr $rbp, 1, $noreg, -16, $noreg, killed renamable $xmm0 :: (store (s128) into %ir.7)
-    renamable $xmm0 = MOVAPDrm $rbp, 1, $noreg, -16, $noreg :: (load (s128) from %ir.7)
-    $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
-    CFI_INSTRUCTION def_cfa $rsp, 8
-    RET64 implicit $xmm0
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    RET64 $xmm0
+    ; CHECK: liveins: $xmm0, $xmm1, $xmm2
+    ; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    ; CHECK-NOT: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    ; CHECK: $xmm0 = VFMADD213PDZ128r $xmm0, $xmm1, $xmm2, implicit $mxcsr
+    ; CHECK-NOT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    ; CHECK-NOT: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    
+    ; CHECK-NEXT: RET64 $xmm0
 
 ...
 ---
