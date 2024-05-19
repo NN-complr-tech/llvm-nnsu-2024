@@ -1,10 +1,5 @@
-set(Title "Instrument_function")
-set(Student "Veselov_Ilya")
-set(Group "FIIT1")
-set(PluginName "${Title}_${Student}_${Group}")
-
 if (NOT WIN32 AND NOT CYGWIN)
-    message("-- ${PluginName} -- BUILD")
+    set(PluginName InstrumentFunctionVeselovIlya)
 
     file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.hpp)
     add_llvm_pass_plugin(${PluginName} ${ALL_SOURCE_FILES}
@@ -13,6 +8,4 @@ if (NOT WIN32 AND NOT CYGWIN)
     BUILDTREE_ONLY)
 
     set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
-else()
-    message("-- ${PluginName} -- NOT BUILD")
 endif()

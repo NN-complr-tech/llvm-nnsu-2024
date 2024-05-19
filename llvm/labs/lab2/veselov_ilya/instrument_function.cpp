@@ -7,32 +7,39 @@
 namespace {
 struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
   llvm::PreservedAnalyses run(llvm::Function &function,
-                              llvm::FunctionAnalysisManager &fam) {
+                              llvm::FunctionAnalysisManager &) {
     llvm::LLVMContext &con = function.getContext();
     llvm::IRBuilder<> build(con);
     llvm::Module *mod = function.getParent();
     llvm::FunctionType *type =
         llvm::FunctionType::get(llvm::Type::getVoidTy(con), false);
     llvm::FunctionCallee f_start =
-        (*mod).getOrInsertFunction("instrument_start", type);
+        mod->getOrInsertFunction("instrument_start", type);
     llvm::FunctionCallee f_end =
-        (*mod).getOrInsertFunction("instrument_end", type);
+        mod->getOrInsertFunction("instrument_end", type);
     bool is_start = false;
     bool is_end = false;
-    llvm::Function *f_start_f =
-        llvm::dyn_cast<llvm::Function>(f_start.getCallee());
-    llvm::Function *f_end_f = llvm::dyn_cast<llvm::Function>(f_end.getCallee());
-    for (auto *user : f_start_f->users()) {
-      if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
-        if (ci->getFunction() == &function) {
-          is_start = true;
+    llvm::Function *f_start_f = llvm::dyn_cast<llvm::Function>(
+        f_start.getCallee()->stripPointerCasts());
+    llvm::Function *f_end_f =
+        llvm::dyn_cast<llvm::Function>(f_end.getCallee()->stripPointerCasts());
+    if (f_start_f) {
+      for (auto *user : f_start_f->users()) {
+        if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
+          if (ci->getFunction() == &function) {
+            is_start = true;
+            break;
+          }
         }
       }
     }
-    for (auto *user : f_end_f->users()) {
-      if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
-        if (ci->getFunction() == &function) {
-          is_end = true;
+    if (f_end_f) {
+      for (auto *user : f_end_f->users()) {
+        if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
+          if (ci->getFunction() == &function) {
+            is_end = true;
+            break;
+          }
         }
       }
     }
@@ -40,12 +47,10 @@ struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
       build.SetInsertPoint(&function.getEntryBlock().front());
       build.CreateCall(f_start);
     }
-    llvm::ReturnInst *retI;
     if (!is_end) {
       for (llvm::BasicBlock &bb : function) {
-        if ((retI = llvm::dyn_cast<llvm::ReturnInst>(bb.getTerminator())) !=
-            NULL) {
-          build.SetInsertPoint(bb.getTerminator());
+        if (auto *retI = llvm::dyn_cast<llvm::ReturnInst>(bb.getTerminator())) {
+          build.SetInsertPoint(retI);
           build.CreateCall(f_end);
         }
       }
@@ -58,7 +63,7 @@ struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
 } // namespace
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
-llvmGetPassPuginInfo() {
+llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "InstrumentFunction", "0.1",
           [](llvm::PassBuilder &pb) {
             pb.registerPipelineParsingCallback(

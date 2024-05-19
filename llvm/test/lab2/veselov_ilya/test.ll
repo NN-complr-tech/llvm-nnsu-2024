@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/Instrument_function_Veselov_Ilya_FIIT1%pluginext\
+; RUN: opt -load-pass-plugin %llvmshlibdir/InstrumentFunctionVeselovIlya%pluginext\
 ; RUN: -passes=instrument_function -S %s | FileCheck %s
 
 ; CHECK-LABEL: @_Z8sum_funcii
