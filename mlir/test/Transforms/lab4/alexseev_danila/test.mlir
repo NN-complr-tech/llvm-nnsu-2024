@@ -30,11 +30,11 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f80, dense<128> :
     // CHECK-NOT: %0 = llvm.fmul %arg0, %arg1  : f64
     // CHECK-NOT: %1 = llvm.fadd %0, %arg2  : f64
     // CHECK:     %0 = llvm.intr.fma(%arg0, %arg1, %arg2)  : (f64, f64, f64) -> f64
-	%0 = llvm.fmul %arg0, %arg1  : f64
+    %0 = llvm.fmul %arg0, %arg1  : f64
     %1 = llvm.fadd %0, %arg2  : f64
     // CHECK-NOT: %2 = llvm.fadd %0, %arg3  : f64
     // CHECK:     %1 = llvm.intr.fma(%arg0, %arg1, %arg3)  : (f64, f64, f64) -> f64
-	%2 = llvm.fadd %0, %arg3  : f64
+    %2 = llvm.fadd %0, %arg3  : f64
     llvm.return
   }
 }
