@@ -26,22 +26,26 @@ public:
         mlir::Value lhv = addOp.getOperand(0);
         mlir::Value rhv = addOp.getOperand(1);
         if (auto defOpLH = lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
-          buildFMAOp(addOp, defOpLH, defOpLH.getOperand(0),
-                     defOpLH.getOperand(1), rhv);
+          if (defOpLH.getResult().hasOneUse())
+            buildFMAOp(addOp, defOpLH, defOpLH.getOperand(0),
+                       defOpLH.getOperand(1), rhv);
         } else if (auto defOpRH = rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
-          buildFMAOp(addOp, defOpRH, defOpRH.getOperand(0),
-                     defOpRH.getOperand(1), lhv);
+          if (defOpRH.getResult().hasOneUse())
+            buildFMAOp(addOp, defOpRH, defOpRH.getOperand(0),
+                       defOpRH.getOperand(1), lhv);
         }
       } else if (auto subOp = mlir::dyn_cast<mlir::LLVM::FSubOp>(op)) {
         mlir::Value lhv = subOp.getOperand(0);
         mlir::Value rhv = subOp.getOperand(1);
         if (auto defOpLH = lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
-          buildFMAOp(subOp, defOpLH, defOpLH.getOperand(0),
-                     defOpLH.getOperand(1), buildFNegativeOp(subOp, rhv));
+          if (defOpLH.getResult().hasOneUse())
+            buildFMAOp(subOp, defOpLH, defOpLH.getOperand(0),
+                       defOpLH.getOperand(1), buildFNegativeOp(subOp, rhv));
         } else if (auto defOpRH = rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
-          buildFMAOp(subOp, defOpRH,
-                     buildFNegativeOp(subOp, defOpRH.getOperand(0)),
-                     defOpRH.getOperand(1), lhv);
+          if (defOpRH.getResult().hasOneUse())
+            buildFMAOp(subOp, defOpRH,
+                       buildFNegativeOp(subOp, defOpRH.getOperand(0)),
+                       defOpRH.getOperand(1), lhv);
         }
       }
     });
@@ -61,9 +65,7 @@ protected:
         op.getLoc(), defMulOperand1, defMulOperand2, otherOperand);
     op.replaceAllUsesWith(fma);
     op.erase();
-    if (defMul.getResult().use_empty()) {
-      defMul.erase();
-    }
+    defMul.erase();
   }
 };
 } // namespace

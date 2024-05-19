@@ -164,19 +164,18 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f128, dense<128> 
 // CHECK-NEXT: llvm.return %1 : f64
 
 // COM: f6
-// COM: expect fma and keep e fmul result
+// COM: expect no fma (don't just replace fadd with fma)
 // CHECK: llvm.func local_unnamed_addr @_Z2f6ddd(%arg0: f64, %arg1: f64, %arg2: f64) -> f64 {
 // CHECK-NEXT: %0 = llvm.mlir.constant(1.000000e+00 : f64) : f64
 // CHECK-NEXT: %1 = llvm.fmul %arg0, %arg1  : f64
-// CHECK-NEXT: %2 = llvm.intr.fma(%arg0, %arg1, %arg2)  : (f64, f64, f64) -> f64
+// CHECK-NEXT: %2 = llvm.fadd %1, %arg2  : f64
 // CHECK-NEXT: %3 = llvm.fdiv %2, %1  : f64
 // CHECK-NEXT: %4 = llvm.fadd %3, %0  : f64
 // CHECK-NEXT: llvm.return %4 : f64
 
 // COM: f7
-// COM: expect fma and keep c fmul result
-// COM: fma(a, b, c)
+// COM: expect no fma (don't just replace fadd with fma)
 // CHECK: llvm.func local_unnamed_addr @_Z2f7dd(%arg0: f64, %arg1: f64) -> f64 {
 // CHECK-NEXT: %0 = llvm.fmul %arg0, %arg1  : f64
-// CHECK-NEXT: %1 = llvm.intr.fma(%arg0, %arg1, %0)  : (f64, f64, f64) -> f64
+// CHECK-NEXT: %1 = llvm.fadd %0, %0  : f64
 // CHECK-NEXT: llvm.return %1 : f64
