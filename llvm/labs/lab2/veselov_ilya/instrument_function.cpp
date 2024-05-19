@@ -1,5 +1,6 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instructions.h"
+#include "llvm/IR/PassManager.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/raw_ostream.h"
@@ -19,38 +20,27 @@ struct InstrumentFunction : llvm::PassInfoMixin<InstrumentFunction> {
         mod->getOrInsertFunction("instrument_end", type);
     bool is_start = false;
     bool is_end = false;
-    llvm::Function *f_start_f = llvm::dyn_cast<llvm::Function>(
-        f_start.getCallee()->stripPointerCasts());
-    llvm::Function *f_end_f =
-        llvm::dyn_cast<llvm::Function>(f_end.getCallee()->stripPointerCasts());
-    if (f_start_f) {
-      for (auto *user : f_start_f->users()) {
-        if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
-          if (ci->getFunction() == &function) {
+    for (auto &bb : function) {
+      for (auto &instr : bb) {
+        if (llvm::isa<llvm::CallInst>(&instr)) {
+          llvm::CallInst *ci = llvm::cast<llvm::CallInst>(&instr);
+          if (ci->getCalledFunction() == f_start.getCallee()) {
             is_start = true;
-            break;
-          }
-        }
-      }
-    }
-    if (f_end_f) {
-      for (auto *user : f_end_f->users()) {
-        if (auto *ci = llvm::dyn_cast<llvm::CallInst>(user)) {
-          if (ci->getFunction() == &function) {
+          } else if (ci->getCalledFunction() == f_end.getCallee()) {
             is_end = true;
-            break;
           }
         }
       }
     }
     if (!is_start) {
-      build.SetInsertPoint(&function.getEntryBlock().front());
+      llvm::Instruction *i = &function.front().front();
+      build.SetInsertPoint(i);
       build.CreateCall(f_start);
     }
     if (!is_end) {
-      for (llvm::BasicBlock &bb : function) {
-        if (auto *retI = llvm::dyn_cast<llvm::ReturnInst>(bb.getTerminator())) {
-          build.SetInsertPoint(retI);
+      for (auto &bb : function) {
+        if (llvm::isa<llvm::ReturnInst>(bb.getTerminator())) {
+          build.SetInsertPoint(bb.getTerminator());
           build.CreateCall(f_end);
         }
       }
