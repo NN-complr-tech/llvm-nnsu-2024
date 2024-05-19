@@ -33,6 +33,12 @@
 //  double f = d / e + 1;
 //  return f;
 //}
+//
+//double f7(double a, double b) {
+//  double c = a * b;
+//  double d = c + c;
+//  return d;
+//}
 
 //------------llvm ir
 
@@ -69,9 +75,15 @@
 //define dso_local double @_Z2f6ddd(double %0, double %1, double %2) local_unnamed_addr {
 //  %4 = fmul double %0, %1
 //  %5 = fadd double %4, %2
-//  %6 = fdiv double %4, %5
+//  %6 = fdiv double %5, %4
 //  %7 = fadd double %6, 1.000000e+00
 //  ret double %7
+//}
+//
+//define dso_local double @_Z2f7dd(double %0, double %1) local_unnamed_addr {
+//  %3 = fmul double %0, %1
+//  %4 = fadd double %3, %3
+//  ret double %4
 //}
 
 module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i64, dense<[32, 64]> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<"dlti.endianness", "little">>} {
@@ -104,9 +116,14 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f128, dense<128> 
     %0 = llvm.mlir.constant(1.000000e+00 : f64) : f64
     %1 = llvm.fmul %arg0, %arg1  : f64
     %2 = llvm.fadd %1, %arg2  : f64
-    %3 = llvm.fdiv %1, %2  : f64
+    %3 = llvm.fdiv %2, %1  : f64
     %4 = llvm.fadd %3, %0  : f64
     llvm.return %4 : f64
+  }
+  llvm.func local_unnamed_addr @_Z2f7dd(%arg0: f64, %arg1: f64) -> f64 {
+    %0 = llvm.fmul %arg0, %arg1  : f64
+    %1 = llvm.fadd %0, %0  : f64
+    llvm.return %1 : f64
   }
 }
 
@@ -152,6 +169,14 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<f128, dense<128> 
 // CHECK-NEXT: %0 = llvm.mlir.constant(1.000000e+00 : f64) : f64
 // CHECK-NEXT: %1 = llvm.fmul %arg0, %arg1  : f64
 // CHECK-NEXT: %2 = llvm.intr.fma(%arg0, %arg1, %arg2)  : (f64, f64, f64) -> f64
-// CHECK-NEXT: %3 = llvm.fdiv %1, %2  : f64
+// CHECK-NEXT: %3 = llvm.fdiv %2, %1  : f64
 // CHECK-NEXT: %4 = llvm.fadd %3, %0  : f64
 // CHECK-NEXT: llvm.return %4 : f64
+
+// COM: f7
+// COM: expect fma and keep c fmul result
+// COM: fma(a, b, c)
+// CHECK: llvm.func local_unnamed_addr @_Z2f7dd(%arg0: f64, %arg1: f64) -> f64 {
+// CHECK-NEXT: %0 = llvm.fmul %arg0, %arg1  : f64
+// CHECK-NEXT: %1 = llvm.intr.fma(%arg0, %arg1, %0)  : (f64, f64, f64) -> f64
+// CHECK-NEXT: llvm.return %1 : f64

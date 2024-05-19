@@ -22,28 +22,23 @@ public:
   void runOnOperation() override {
     mlir::ModuleOp module = getOperation();
     module.walk([this](mlir::Operation *op) {
-      if (mlir::LLVM::FAddOp addOp = mlir::dyn_cast<mlir::LLVM::FAddOp>(op)) {
+      if (auto addOp = mlir::dyn_cast<mlir::LLVM::FAddOp>(op)) {
         mlir::Value lhv = addOp.getOperand(0);
         mlir::Value rhv = addOp.getOperand(1);
-        if (mlir::LLVM::FMulOp defOpLH =
-                lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        if (auto defOpLH = lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
           buildFMAOp(addOp, defOpLH, defOpLH.getOperand(0),
                      defOpLH.getOperand(1), rhv);
-        } else if (mlir::LLVM::FMulOp defOpRH =
-                       rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        } else if (auto defOpRH = rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
           buildFMAOp(addOp, defOpRH, defOpRH.getOperand(0),
                      defOpRH.getOperand(1), lhv);
         }
-      } else if (mlir::LLVM::FSubOp subOp =
-                     mlir::dyn_cast<mlir::LLVM::FSubOp>(op)) {
+      } else if (auto subOp = mlir::dyn_cast<mlir::LLVM::FSubOp>(op)) {
         mlir::Value lhv = subOp.getOperand(0);
         mlir::Value rhv = subOp.getOperand(1);
-        if (mlir::LLVM::FMulOp defOpLH =
-                lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        if (auto defOpLH = lhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
           buildFMAOp(subOp, defOpLH, defOpLH.getOperand(0),
                      defOpLH.getOperand(1), buildFNegativeOp(subOp, rhv));
-        } else if (mlir::LLVM::FMulOp defOpRH =
-                       rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        } else if (auto defOpRH = rhv.getDefiningOp<mlir::LLVM::FMulOp>()) {
           buildFMAOp(subOp, defOpRH,
                      buildFNegativeOp(subOp, defOpRH.getOperand(0)),
                      defOpRH.getOperand(1), lhv);
