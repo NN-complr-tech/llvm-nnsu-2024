@@ -34,7 +34,6 @@ public:
           return false;
         };
 
-        Value fma;
         if (tryFuse(addLHS, addRHS) || tryFuse(addRHS, addLHS)) {
           addOp.erase();
         }
