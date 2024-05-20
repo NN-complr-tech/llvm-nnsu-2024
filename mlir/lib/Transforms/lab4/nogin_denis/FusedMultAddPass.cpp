@@ -22,10 +22,10 @@ public:
         Value addLHS = addOp.getOperand(0);
         Value addRHS = addOp.getOperand(1);
 
-        auto tryFuse = [&](Value mulOperand, Value otherOperand, Value &fma) {
+        auto tryFuse = [&](Value mulOperand, Value otherOperand) {
           if (auto mulOp = mulOperand.getDefiningOp<LLVM::FMulOp>()) {
             OpBuilder builder(addOp);
-            fma =
+            Value fma =
                 builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
                                             mulOp.getOperand(1), otherOperand);
             addOp.replaceAllUsesWith(fma);
@@ -35,7 +35,7 @@ public:
         };
 
         Value fma;
-        if (tryFuse(addLHS, addRHS, fma) || tryFuse(addRHS, addLHS, fma)) {
+        if (tryFuse(addLHS, addRHS) || tryFuse(addRHS, addLHS)) {
           addOp.erase();
         }
       }
