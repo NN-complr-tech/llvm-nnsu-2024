@@ -6,10 +6,11 @@ using namespace llvm;
 
 class BitwiseShift : public PassInfoMixin<BitwiseShift> {
 public:
-  PreservedAnalyses run(llvm::Function &func, llvm::FunctionAnalysisManager &aManager) {
+  PreservedAnalyses run(llvm::Function &func,
+                        llvm::FunctionAnalysisManager &aManager) {
     bool changed = false;
     for (auto &basicBlock : func) {
-      for (auto InstIt = basicBlock.begin(); InstIt != basicBlock.end(); ) {
+      for (auto InstIt = basicBlock.begin(); InstIt != basicBlock.end();) {
         Instruction &instr = *InstIt++;
         if (instr.getOpcode() != Instruction::Mul) {
           continue;
@@ -30,7 +31,8 @@ public:
         }
         if (rightLog >= 0) {
           IRBuilder<> Builder(Op);
-          Value *NewVal = Builder.CreateShl(leftVal, ConstantInt::get(Op->getType(), rightLog));
+          Value *NewVal = Builder.CreateShl(
+              leftVal, ConstantInt::get(Op->getType(), rightLog));
           instr.replaceAllUsesWith(NewVal);
           InstIt = instr.eraseFromParent();
           changed = true;
@@ -59,8 +61,8 @@ bool registerPipeLine(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
 }
 
 PassPluginLibraryInfo getBitwiseShiftPluginPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "lebedeva-bitwise-shift", LLVM_VERSION_STRING,
-          [](PassBuilder &PB) {
+  return {LLVM_PLUGIN_API_VERSION, "lebedeva-bitwise-shift",
+          LLVM_VERSION_STRING, [](PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeLine);
           }};
 }
