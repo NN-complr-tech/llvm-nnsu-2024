@@ -15,9 +15,6 @@ private:
     Value fma = builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
                                             mulOp.getOperand(1), otherOperand);
     addOp.replaceAllUsesWith(fma);
-    if (mulOp.getOperand(0).hasOneUse()) {
-      mulOp.erase();
-    }
     addOp.erase();
   }
 
