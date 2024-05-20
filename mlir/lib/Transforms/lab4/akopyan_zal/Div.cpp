@@ -6,7 +6,9 @@
 using namespace mlir;
 
 namespace {
-class DivPass : public PassWrapper<DivPass, OperationPass<ModuleOp>> {
+enum OpType { SignedOp, UnsignedOp };
+
+class AkopyanDiv : public PassWrapper<AkopyanDiv, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "akopyan_divpass"; }
   StringRef getDescription() const final {
@@ -17,48 +19,45 @@ public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
       if (auto ceilDivUI = dyn_cast<arith::CeilDivUIOp>(op)) {
-        replaceCeilDivUI(ceilDivUI);
+        replaceCeilDiv(ceilDivUI, OpType::UnsignedOp);
       } else if (auto ceilDivSI = dyn_cast<arith::CeilDivSIOp>(op)) {
-        replaceCeilDivSI(ceilDivSI);
+        replaceCeilDiv(ceilDivSI, OpType::SignedOp);
       }
     });
   }
 
 private:
-  void replaceCeilDivUI(arith::CeilDivUIOp op) {
-    replaceCeilDiv(op, arith::DivUIOp::getOperationName());
-  }
-
-  void replaceCeilDivSI(arith::CeilDivSIOp op) {
-    replaceCeilDiv(op, arith::DivSIOp::getOperationName());
-  }
-
-  template <typename DivOp>
-  void replaceCeilDiv(Operation *op, StringRef divOpName) {
+  template <typename CeilDivOpType>
+  void replaceCeilDiv(CeilDivOpType op, OpType type) {
     OpBuilder builder(op);
-    Location loc = op->getLoc();
-    Value a = op->getOperand(0);
-    Value b = op->getOperand(1);
-    Type type = a.getType();
+    Location loc = op.getLoc();
+    Value a = op.getLhs();
+    Value b = op.getRhs();
 
     Value one =
-        builder.create<arith::ConstantOp>(loc, builder.getIntegerAttr(type, 1));
+        builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
     Value add = builder.create<arith::AddIOp>(loc, a, b);
     Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div = builder.create<arith::DivOp>(loc, type, sub, b);
+    Value div;
 
-    op->replaceAllUsesWith(div);
-    op->erase();
+    if (type == OpType::SignedOp) {
+      div = builder.create<arith::DivSIOp>(loc, sub, b);
+    } else {
+      div = builder.create<arith::DivUIOp>(loc, sub, b);
+    }
+
+    op.replaceAllUsesWith(div);
+    op.erase();
   }
 };
 } // anonymous namespace
 
-MLIR_DECLARE_EXPLICIT_TYPE_ID(DivPass)
-MLIR_DEFINE_EXPLICIT_TYPE_ID(DivPass)
+MLIR_DECLARE_EXPLICIT_TYPE_ID(AkopyanDiv)
+MLIR_DEFINE_EXPLICIT_TYPE_ID(AkopyanDiv)
 
 PassPluginLibraryInfo getsCeilDivPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "akopyan_divpass", LLVM_VERSION_STRING,
-          []() { PassRegistration<DivPass>(); }};
+          []() { PassRegistration<AkopyanDiv>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
