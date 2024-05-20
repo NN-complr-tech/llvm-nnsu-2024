@@ -7,7 +7,8 @@ using namespace mlir;
 class LebedevaCallFuncCounter
     : public PassWrapper<LebedevaCallFuncCounter, OperationPass<ModuleOp>> {
 private:
-    std::map<StringRef, int> сounter;
+  std::map<StringRef, int> сounter;
+
 public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
