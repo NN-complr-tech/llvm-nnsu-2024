@@ -2,7 +2,8 @@
 
 module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>} {
   llvm.func @_Z9function1i(%arg0: i32 {llvm.noundef}) -> (i1 {llvm.noundef, llvm.zeroext}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: attributes {"call-count" = 4
+    // CHECK: llvm.func @_Z9function1i
+    // CHECK-SAME: attributes {"call-count" = 4 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.mlir.constant(2 : i32) : i32
     %2 = llvm.mlir.constant(0 : i32) : i32
@@ -14,7 +15,8 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
     llvm.return %6 : i1
   }
   llvm.func @_Z9function2ii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) -> (i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: attributes {"call-count" = 2
+    // CHECK: llvm.func @_Z9function2ii
+    // CHECK-SAME: attributes {"call-count" = 2 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %2 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
@@ -33,14 +35,14 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
     llvm.return %11 : i32
   }
   llvm.func @_Z9function3ii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: attributes {"call-count" = 1
+    // CHECK: llvm.func @_Z9function3ii
+    // CHECK-SAME: attributes {"call-count" = 1 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %2 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %3 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %4 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     llvm.store %arg0, %1 {alignment = 4 : i64} : i32, !llvm.ptr
-
     llvm.store %arg1, %2 {alignment = 4 : i64} : i32, !llvm.ptr
     %5 = llvm.load %2 {alignment = 4 : i64} : !llvm.ptr -> i32
     %6 = llvm.call @_Z9function1i(%5) : (i32) -> i1
@@ -53,7 +55,8 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
     llvm.return
   }
   llvm.func @_Z9function4ii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: attributes {"call-count" = 0
+    // CHECK: llvm.func @_Z9function4ii
+    // CHECK-SAME: attributes {"call-count" = 0 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %2 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr

@@ -7,29 +7,27 @@ using namespace mlir;
 class LebedevaCallFuncCounter
     : public PassWrapper<LebedevaCallFuncCounter, OperationPass<ModuleOp>> {
 private:
-  std::map<StringRef, int> сounter;
+    std::map<StringRef, int> counter;
 
 public:
   void runOnOperation() override {
-    getOperation()->walk([&](Operation *op) {
-      if (auto callOp = dyn_cast<LLVM::CallOp>(op)) {
-        StringRef functionName = callOp.getCallee().value();
-        сounter[functionName]++;
-      }
+    getOperation()->walk([&](LLVM::CallOp callOp) {
+      StringRef functionName = callOp.getCallee().value();
+      counter[functionName]++;
     });
-    getOperation()->walk([&](Operation *op) {
-      if (auto functionOp = dyn_cast<LLVM::LLVMFuncOp>(op)) {
-        StringRef functionName = functionOp.getName();
-        int nummerCalls = сounter[functionName];
-        auto attrValue = IntegerAttr::get(
-            IntegerType::get(functionOp.getContext(), 32), nummerCalls);
-        functionOp->setAttr("call-count", attrValue);
-      }
+
+    getOperation()->walk([&](LLVM::LLVMFuncOp functionOp) {
+      StringRef functionName = functionOp.getName();
+      int numberCalls = counter[functionName];
+      auto attrValue = IntegerAttr::get(
+          IntegerType::get(functionOp.getContext(), 32), numberCalls);
+      functionOp->setAttr("call-count", attrValue);
     });
   }
+
   StringRef getArgument() const final { return "lebedeva-call-func-counter"; }
   StringRef getDescription() const final {
-    return "Simple pass that counts the number of calls to each function";
+    return "Pass that counts the number of calls to each function";
   }
 };
 
