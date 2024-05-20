@@ -9,8 +9,7 @@ namespace {
 
 enum class CeilDivType { Signed, Unsigned };
 
-class CeilDivPass
-    : public PassWrapper<CeilDivPass, OperationPass<ModuleOp>> {
+class CeilDivPass : public PassWrapper<CeilDivPass, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "pushkarev_ceildiv"; }
   StringRef getDescription() const final {
