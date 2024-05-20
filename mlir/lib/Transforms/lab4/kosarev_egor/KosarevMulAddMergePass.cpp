@@ -1,8 +1,7 @@
-#include "mlir/IR/PatternMatch.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
-#include "mlir/Tools/Plugins/PassPlugin.h"
+#include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
-
+#include "mlir/Tools/Plugins/PassPlugin.h"
 
 class KosarevEgorFMAPass
     : public mlir::PassWrapper<KosarevEgorFMAPass,
@@ -20,7 +19,9 @@ class KosarevEgorFMAPass
   }
 
 public:
-  mlir::StringRef getArgument() const final { return "kosarev_egor_mul_add_merge"; }
+  mlir::StringRef getArgument() const final {
+    return "kosarev_egor_mul_add_merge";
+  }
 
   mlir::StringRef getDescription() const final {
     return "Merge multiplication and addition into a single math.fma";
@@ -44,7 +45,8 @@ MLIR_DECLARE_EXPLICIT_TYPE_ID(KosarevEgorFMAPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(KosarevEgorFMAPass)
 
 PassPluginLibraryInfo getKosarevEgorFMAPassPluginInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "kosarev_egor_mul_add_merge", LLVM_VERSION_STRING,
+  return {MLIR_PLUGIN_API_VERSION, "kosarev_egor_mul_add_merge",
+          LLVM_VERSION_STRING,
           []() { PassRegistration<KosarevEgorFMAPass>(); }};
 }
 
