@@ -7,9 +7,10 @@ using namespace mlir;
 
 namespace {
 
-enum OpType { SignedOp, UnsignedOp };
+enum class CeilDivType { Signed, Unsigned };
 
-class sCeilDivPass : public PassWrapper<sCeilDivPass, OperationPass<ModuleOp>> {
+class CeilDivPass
+    : public PassWrapper<CeilDivPass, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "pushkarev_ceildiv"; }
   StringRef getDescription() const final {
@@ -20,47 +21,49 @@ public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
       if (auto ceilDivUI = dyn_cast<arith::CeilDivUIOp>(op)) {
-        replaceCeilDiv(ceilDivUI, OpType::UnsignedOp);
+        transformCeilDiv(ceilDivUI, CeilDivType::Unsigned);
       } else if (auto ceilDivSI = dyn_cast<arith::CeilDivSIOp>(op)) {
-        replaceCeilDiv(ceilDivSI, OpType::SignedOp);
+        transformCeilDiv(ceilDivSI, CeilDivType::Signed);
       }
     });
   }
 
 private:
-  template <typename CeilDivOpType>
-  void replaceCeilDiv(CeilDivOpType op, OpType type) {
+  template <typename CeilDivOp>
+  void transformCeilDiv(CeilDivOp op, CeilDivType divType) {
     OpBuilder builder(op);
-    Location loc = op.getLoc();
-    Value a = op.getLhs();
-    Value b = op.getRhs();
+    Location location = op.getLoc();
+    Value numerator = op.getLhs();
+    Value denominator = op.getRhs();
 
     Value one =
-        builder.create<arith::ConstantIntOp>(loc, 1, builder.getI32Type());
-    Value add = builder.create<arith::AddIOp>(loc, a, b);
-    Value sub = builder.create<arith::SubIOp>(loc, add, one);
-    Value div;
+        builder.create<arith::ConstantIntOp>(location, 1, builder.getI32Type());
+    Value sum = builder.create<arith::AddIOp>(location, numerator, denominator);
+    Value adjustedSum = builder.create<arith::SubIOp>(location, sum, one);
+    Value quotient;
 
-    if (type == OpType::SignedOp) {
-      div = builder.create<arith::DivSIOp>(loc, sub, b);
+    if (divType == CeilDivType::Signed) {
+      quotient =
+          builder.create<arith::DivSIOp>(location, adjustedSum, denominator);
     } else {
-      div = builder.create<arith::DivUIOp>(loc, sub, b);
+      quotient =
+          builder.create<arith::DivUIOp>(location, adjustedSum, denominator);
     }
 
-    op.replaceAllUsesWith(div);
+    op.replaceAllUsesWith(quotient);
     op.erase();
   }
 };
 } // anonymous namespace
 
-MLIR_DECLARE_EXPLICIT_TYPE_ID(sCeilDivPass)
-MLIR_DEFINE_EXPLICIT_TYPE_ID(sCeilDivPass)
+MLIR_DECLARE_EXPLICIT_TYPE_ID(CeilDivPass)
+MLIR_DEFINE_EXPLICIT_TYPE_ID(CeilDivPass)
 
-PassPluginLibraryInfo getsCeilDivPassPluginInfo() {
+PassPluginLibraryInfo getCeilDivPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "pushkarev_ceildiv", LLVM_VERSION_STRING,
-          []() { PassRegistration<sCeilDivPass>(); }};
+          []() { PassRegistration<CeilDivPass>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
-  return getsCeilDivPassPluginInfo();
+  return getCeilDivPassPluginInfo();
 }
