@@ -57,7 +57,7 @@ MLIR_DECLARE_EXPLICIT_TYPE_ID(SimonyanSurenFMAPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(SimonyanSurenFMAPass)
 
 PassPluginLibraryInfo getSimonyanSurenFMAPassPluginInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "kulaev_zhenya_fma", LLVM_VERSION_STRING,
+  return {MLIR_PLUGIN_API_VERSION, "simonyan_suren_fma", LLVM_VERSION_STRING,
           []() { PassRegistration<SimonyanSurenFMAPass>(); }};
 }
 
