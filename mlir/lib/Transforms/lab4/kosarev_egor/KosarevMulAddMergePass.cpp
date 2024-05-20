@@ -44,12 +44,9 @@ public:
 MLIR_DECLARE_EXPLICIT_TYPE_ID(KosarevEgorFMAPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(KosarevEgorFMAPass)
 
-PassPluginLibraryInfo getKosarevEgorFMAPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
+mlirGetPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "kosarev_egor_mul_add_merge",
           LLVM_VERSION_STRING,
-          []() { PassRegistration<KosarevEgorFMAPass>(); }};
-}
-
-extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
-  return getKosarevEgorFMAPassPluginInfo();
+          []() { mlir::PassRegistration<KosarevEgorFMAPassPass>(); }};
 }
