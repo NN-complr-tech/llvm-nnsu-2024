@@ -7,7 +7,7 @@ using namespace mlir;
 
 namespace {
 class FusedMultAddPass
-    : public PassWrapper<FusedMultAddPass, OperationPass<ModuleOp>> {
+    : public PassWrapper<FusedMultAddPass, OperationPass<LLVM::LLVMFuncOp>> {
 public:
   StringRef getArgument() const final { return "fused-mult-add"; }
   StringRef getDescription() const final {
@@ -15,9 +15,9 @@ public:
   }
 
   void runOnOperation() override {
-    ModuleOp module = getOperation();
+    LLVM::LLVMFuncOp func = getOperation();
 
-    module.walk([](LLVM::FAddOp addOp) {
+    func.walk([&](LLVM::FAddOp addOp) {
       Value addLHS = addOp.getOperand(0);
       Value addRHS = addOp.getOperand(1);
 
@@ -37,7 +37,7 @@ public:
         addOp.erase();
       }
     });
-    module.walk([&](LLVM::FMulOp mulOp) {
+    func.walk([&](LLVM::FMulOp mulOp) {
       if (mulOp.use_empty()) {
         mulOp.erase();
       }
