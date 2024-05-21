@@ -9,7 +9,7 @@ using namespace mlir;
 
 namespace {
 class KosarevEgorFMAPass
-    : public PassWrapper<KosarevEgorFMAPass, OperationPass<FuncOp>> {
+    : public PassWrapper<KosarevEgorFMAPass, OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "KosarevEgorFMAPass"; }
   StringRef getDescription() const final { return "fma pass"; }
@@ -19,25 +19,26 @@ public:
   }
 
   void runOnOperation() override {
-    FuncOp function = getOperation();
-    OpBuilder builder(function);
+    mlir::ModuleOp module = getOperation();
+    mlir::OpBuilder builder(module);
 
-    auto replaceAndEraseOp = [&](LLVM::FMulOp &mulOp, LLVM::FAddOp &addOp,
-                                 Value &thirdOperand) {
+    auto replaceAndEraseOp = [&](mlir::LLVM::FMulOp &mulOp,
+                                 mlir::LLVM::FAddOp &addOp,
+                                 mlir::Value &thirdOperand) -> void {
       builder.setInsertionPoint(addOp);
-      Value fmaResult =
-          builder.create<math::FmaOp>(addOp.getLoc(), mulOp.getOperand(0),
-                                      mulOp.getOperand(1), thirdOperand);
+      mlir::Value fmaResult =
+          builder.create<mlir::math::FmaOp>(addOp.getLoc(), mulOp.getOperand(0),
+                                            mulOp.getOperand(1), thirdOperand);
       addOp.replaceAllUsesWith(fmaResult);
       addOp.erase();
       mulOp.erase();
     };
 
-    function.walk([&](LLVM::FAddOp addOp) {
-      Value addLhs = addOp.getOperand(0);
-      Value addRhs = addOp.getOperand(1);
+    module.walk([&](mlir::LLVM::FAddOp faddOp) {
+      mlir::Value addLhs = addOp.getOperand(0);
+      mlir::Value addRhs = addOp.getOperand(1);
 
-      auto isSingleUse = [&](Value value, Operation *userOp) {
+      auto isSingleUse = [&](mlir::Value value, mlir::Operation *userOp) {
         for (auto &use : value.getUses()) {
           if (use.getOwner() != userOp) {
             return false;
@@ -46,17 +47,18 @@ public:
         return true;
       };
 
-      if (auto mulOp = addLhs.getDefiningOp<LLVM::FMulOp>()) {
-        if (isSingleUse(mulOp->getResult(0), addOp)) {
+      if (auto mulOp = addLhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        if (mulOp->hasOneUse()) {
           replaceAndEraseOp(mulOp, addOp, addRhs);
         }
-      } else if (auto mulOp = addRhs.getDefiningOp<LLVM::FMulOp>()) {
+      } else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
         if (isSingleUse(mulOp->getResult(0), addOp)) {
           replaceAndEraseOp(mulOp, addOp, addLhs);
         }
       }
-    });
-  }
+    }
+  });
+}
 };
 } // namespace
 
@@ -71,5 +73,4 @@ mlir::PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
 extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
 mlirGetPassPluginInfo() {
   return getFunctionCallCounterPassPluginInfo();
-  FunctionCallCounterPassPluginInfo();
 }
