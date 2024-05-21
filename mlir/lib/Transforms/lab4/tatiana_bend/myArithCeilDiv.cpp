@@ -1,4 +1,5 @@
 #include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
@@ -8,14 +9,13 @@ using namespace mlir;
 namespace {
 
 class MyArithCeilDiv
-    : public PassWrapper<MyArithCeilDiv, OperationPass<ModuleOp>> {
+    : public PassWrapper<MyArithCeilDiv, OperationPass<func::FuncOp>> {
 public:
   StringRef getArgument() const final { return "BendArithCeilDiv"; }
   StringRef getDescription() const final {
     return "breaks down arith.ceildivui and arith.ceildivsi";
   }
-  template <typename ceilop, typename divop>
-  void combineOp(ceilop op, divop dop) {
+  template <typename ceilop, typename divop> void combineOp(ceilop op) {
     OpBuilder builder(op);
     auto loc = op.getLoc();
     Value a = op.getOperand(0);
@@ -34,9 +34,9 @@ public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
       if (auto ceilDivUIOp = dyn_cast<arith::CeilDivUIOp>(op)) {
-        combineOp(ceilDivUIOp, arith::DivUIOp{});
+        combineOp<arith::CeilDivUIOp, arith::DivUIOp>(ceilDivUIOp);
       } else if (auto ceilDivSIOp = dyn_cast<arith::CeilDivSIOp>(op)) {
-        combineOp(ceilDivSIOp, arith::DivSIOp{});
+        combineOp<arith::CeilDivSIOp, arith::DivSIOp>(ceilDivSIOp);
       }
     });
   }
