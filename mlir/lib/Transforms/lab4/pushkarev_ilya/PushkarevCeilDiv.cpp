@@ -1,4 +1,6 @@
 #include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+#include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
@@ -9,7 +11,8 @@ namespace {
 
 enum class CeilDivType { Signed, Unsigned };
 
-class CeilDivPass : public PassWrapper<CeilDivPass, OperationPass<ModuleOp>> {
+class CeilDivPass
+    : public PassWrapper<CeilDivPass, OperationPass<LLVM::LLVMFuncOp>> {
 public:
   StringRef getArgument() const final { return "pushkarev_ceildiv"; }
   StringRef getDescription() const final {
@@ -53,6 +56,7 @@ private:
     op.erase();
   }
 };
+
 } // anonymous namespace
 
 MLIR_DECLARE_EXPLICIT_TYPE_ID(CeilDivPass)
