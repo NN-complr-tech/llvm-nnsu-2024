@@ -34,31 +34,27 @@ public:
       mulOp.erase();
     };
 
-    module.walk([&](mlir::LLVM::FAddOp faddOp) {
-      mlir::Value addLhs = addOp.getOperand(0);
-      mlir::Value addRhs = addOp.getOperand(1);
+    module.walk([](LLVM::FAddOp addOp) {
+      Value addLHS = addOp.getOperand(0);
+      Value addRHS = addOp.getOperand(1);
 
-      auto isSingleUse = [&](mlir::Value value, mlir::Operation *userOp) {
-        for (auto &use : value.getUses()) {
-          if (use.getOwner() != userOp) {
-            return false;
-          }
+      auto tryFuse = [&](Value mulOperand, Value otherOperand) {
+        if (auto mulOp = mulOperand.getDefiningOp<LLVM::FMulOp>()) {
+          OpBuilder builder(addOp);
+          Value fma =
+              builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
+                                          mulOp.getOperand(1), otherOperand);
+          addOp.replaceAllUsesWith(fma);
+          return true;
         }
-        return true;
+        return false;
       };
 
-      if (auto mulOp = addLhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
-        if (mulOp->hasOneUse()) {
-          replaceAndEraseOp(mulOp, addOp, addRhs);
-        }
-      } else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
-        if (isSingleUse(mulOp->getResult(0), addOp)) {
-          replaceAndEraseOp(mulOp, addOp, addLhs);
-        }
+      if (tryFuse(addLHS, addRHS) || tryFuse(addRHS, addLHS)) {
+        addOp.erase();
       }
-    }
-  });
-}
+    });
+  }
 };
 } // namespace
 
