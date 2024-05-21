@@ -15,10 +15,7 @@ public:
   }
 
   void runOnOperation() override {
-    ModuleOp module = getOperation();
-
-    module.walk([&](Operation *op) {
-      if (auto addOp = dyn_cast<LLVM::FAddOp>(op)) {
+     getOperation().walk([](LLVM::FAddOp addOp) {
         Value addLHS = addOp.getOperand(0);
         Value addRHS = addOp.getOperand(1);
 
@@ -37,14 +34,11 @@ public:
         if (tryFuse(addLHS, addRHS) || tryFuse(addRHS, addLHS)) {
           addOp.erase();
         }
-      }
     });
-    module.walk([&](Operation *op) {
-      if (auto mulOp = dyn_cast<LLVM::FMulOp>(op)) {
+    getOperation().walk([&](LLVM::FMulOp mulOp) {
         if (mulOp.use_empty()) {
           mulOp.erase();
         }
-      }
     });
   }
 };
