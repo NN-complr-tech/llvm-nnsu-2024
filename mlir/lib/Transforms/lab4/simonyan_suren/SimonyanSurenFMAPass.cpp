@@ -22,7 +22,7 @@ public:
   void runOnOperation() override {
     ModuleOp module = getOperation();
     // Add operation.
-    module.walk([](LLVM::FAddOp addOp) {
+    module.walk([this](LLVM::FAddOp addOp) {
       Value addLHS = addOp.getOperand(0);
       Value addRHS = addOp.getOperand(1);
       if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
