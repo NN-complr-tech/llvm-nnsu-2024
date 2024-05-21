@@ -1,7 +1,7 @@
 // RUN: %clang_cc1 -ast-dump -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -add-plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=SUM
-// SUM: __attribute__((always_inline)) int sum(int A, int B) {
-// SUM-NEXT:   return A + B;
-// SUM-NEXT: }
+// SUM: `-FunctionDecl {{.*}} sum
+// Next line is for excluding cases when current function declaration is finished and another one is started.
+// SUM-NOT: FunctionDecl
 // SUM: `-AlwaysInlineAttr {{.* Implicit always_inline}}
 int sum(int A, int B) { return A + B; }
 
