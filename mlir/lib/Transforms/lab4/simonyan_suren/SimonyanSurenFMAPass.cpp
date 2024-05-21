@@ -21,9 +21,9 @@ private:
 
 public:
   void runOnOperation() override {
-    ModuleOp module = getOperation();
+    LLVM::LLVMFuncOp func = getOperation();
     // Add operation.
-    module.walk([this](LLVM::FAddOp addOp) {
+    func.walk([this](LLVM::FAddOp addOp) {
       Value addLHS = addOp.getOperand(0);
       Value addRHS = addOp.getOperand(1);
       if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
@@ -34,13 +34,12 @@ public:
     });
 
     // Mul operation.
-    module.walk([](LLVM::FMulOp mulOp) {
+    func.walk([](LLVM::FMulOp mulOp) {
       if (mulOp.use_empty()) {
         mulOp.erase();
       }
     });
   }
-
   StringRef getArgument() const final { return "simonyan_suren_fma"; }
   StringRef getDescription() const final {
     return "Replaces add and multiply operations with a single instruction.";
