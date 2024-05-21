@@ -1,3 +1,4 @@
+#include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/Dialect/Math/IR/Math.h"
 #include "mlir/IR/PatternMatch.h"
@@ -9,7 +10,7 @@ using namespace mlir;
 
 namespace {
 class KosarevEgorFMAPass
-    : public PassWrapper<KosarevEgorFMAPass, OperationPass<FuncOp>> {
+    : public PassWrapper<KosarevEgorFMAPass, OperationPass<func::FuncOp>> {
 public:
   StringRef getArgument() const final { return "KosarevEgorFMAPass"; }
   StringRef getDescription() const final { return "fma pass"; }
@@ -19,9 +20,10 @@ public:
   }
 
   void runOnOperation() override {
-    FuncOp function = getOperation();
+    func::FuncOp function = getOperation();
     mlir::OpBuilder builder(function);
 
+    // Функция для замены и удаления операций
     auto replaceAndEraseOp = [&](mlir::LLVM::FMulOp &mulOp,
                                  mlir::LLVM::FAddOp &addOp,
                                  mlir::Value &thirdOperand) -> void {
@@ -42,7 +44,9 @@ public:
         if (mulOp->hasOneUse()) {
           replaceAndEraseOp(mulOp, addOp, addRhs);
         }
-      } else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
+      }
+
+      else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
         if (mulOp->hasOneUse()) {
           replaceAndEraseOp(mulOp, addOp, addLhs);
         }
