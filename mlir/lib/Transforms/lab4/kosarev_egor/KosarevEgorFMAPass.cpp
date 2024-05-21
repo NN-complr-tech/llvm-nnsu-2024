@@ -70,5 +70,6 @@ mlir::PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
 
 extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
 mlirGetPassPluginInfo() {
-  return getFunctionCallCounterPassPluginInfo();FunctionCallCounterPassPluginInfo();
+  return getFunctionCallCounterPassPluginInfo();
+  FunctionCallCounterPassPluginInfo();
 }
