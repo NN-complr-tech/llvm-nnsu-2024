@@ -10,7 +10,7 @@ using namespace mlir;
 
 namespace {
 class KosarevEgorFMAPass
-    : public PassWrapper<KosarevEgorFMAPass, OperationPass<func::FuncOp>> {
+    : public PassWrapper<KosarevEgorFMAPass, OperationPass<func::LLVMFuncOp>> {
 public:
   StringRef getArgument() const final { return "KosarevEgorFMAPass"; }
   StringRef getDescription() const final { return "fma pass"; }
@@ -20,10 +20,9 @@ public:
   }
 
   void runOnOperation() override {
-    func::FuncOp function = getOperation();
+    LLVM::LLVMFuncOp function = getOperation();
     mlir::OpBuilder builder(function);
 
-    // Функция для замены и удаления операций
     auto replaceAndEraseOp = [&](mlir::LLVM::FMulOp &mulOp,
                                  mlir::LLVM::FAddOp &addOp,
                                  mlir::Value &thirdOperand) -> void {
