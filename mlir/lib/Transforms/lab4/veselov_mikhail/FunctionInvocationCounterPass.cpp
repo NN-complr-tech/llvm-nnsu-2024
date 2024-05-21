@@ -6,7 +6,8 @@ using namespace mlir;
 
 namespace {
 class FunctionInvocationCounterPass
-    : public PassWrapper<FunctionInvocationCounterPass, OperationPass<ModuleOp>> {
+    : public PassWrapper<FunctionInvocationCounterPass,
+                         OperationPass<ModuleOp>> {
 public:
   StringRef getArgument() const final { return "VeselovFuncCallCnt"; }
   StringRef getDescription() const final {
