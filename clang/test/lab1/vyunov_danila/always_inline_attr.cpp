@@ -11,14 +11,8 @@ int sum(int A, int B) { return A + B; }
 void checkEmpty() {}
 
 // RUN: %clang_cc1 -load %llvmshlibdir/vyunovAlwaysInlinePlugin%pluginext -plugin AddAlwaysInline %s 1>&1 | FileCheck %s --check-prefix=MIN-NESTED
-// MIN-NESTED: int minNested(int A, int B) {
-// MIN-NESTED-NEXT:     {
-// MIN-NESTED-NEXT:         if (A < B) {
-// MIN-NESTED-NEXT:             return A;
-// MIN-NESTED-NEXT:         }
-// MIN-NESTED-NEXT:         return B;
-// MIN-NESTED-NEXT:     }
-// MIN-NESTED-NEXT: }
+// MIN-NESTED: `-FunctionDecl {{.*}} minNested
+// MIN-NESTED-NOT: AlwaysInlineAttr
 int minNested(int A, int B) {
   {
     if (A < B) {
