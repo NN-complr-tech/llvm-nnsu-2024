@@ -10,7 +10,7 @@ using namespace mlir;
 
 namespace {
 class KosarevEgorFMAPass
-    : public PassWrapper<KosarevEgorFMAPass, OperationPass<func::LLVMFuncOp>> {
+    : public PassWrapper<KosarevEgorFMAPass, OperationPass<LLVM::LLVMFuncOp>> {
 public:
   StringRef getArgument() const final { return "KosarevEgorFMAPass"; }
   StringRef getDescription() const final { return "fma pass"; }
