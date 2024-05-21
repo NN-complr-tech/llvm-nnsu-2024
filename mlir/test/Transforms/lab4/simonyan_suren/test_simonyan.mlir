@@ -1,4 +1,4 @@
-// RUN: mlir-opt -load-pass-plugin=%mlir_lib_dir/SimonyanSurenFMAPass%shlibext --pass-pipeline="builtin.func(simonyan_suren_fma)" %s | FileCheck %s
+// RUN: mlir-opt -load-pass-plugin=%mlir_lib_dir/SimonyanSurenFMAPass%shlibext --pass-pipeline="builtin.module(llvm.func(simonyan_suren_fma))" %s | FileCheck %s
 
 // double func1(double a, double b) {
   // double constant1 = 2.0;
