@@ -34,24 +34,18 @@ public:
       mulOp.erase();
     };
 
-    module.walk([](LLVM::FAddOp addOp) {
-      Value addLHS = addOp.getOperand(0);
-      Value addRHS = addOp.getOperand(1);
+    module.walk([&](mlir::LLVM::FAddOp addOp) {
+      mlir::Value addLhs = addOp.getOperand(0);
+      mlir::Value addRhs = addOp.getOperand(1);
 
-      auto tryFuse = [&](Value mulOperand, Value otherOperand) {
-        if (auto mulOp = mulOperand.getDefiningOp<LLVM::FMulOp>()) {
-          OpBuilder builder(addOp);
-          Value fma =
-              builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
-                                          mulOp.getOperand(1), otherOperand);
-          addOp.replaceAllUsesWith(fma);
-          return true;
+      if (auto mulOp = addLhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        if (mulOp->hasOneUse()) {
+          replaceAndEraseOp(mulOp, addOp, addRhs);
         }
-        return false;
-      };
-
-      if (tryFuse(addLHS, addRHS) || tryFuse(addRHS, addLHS)) {
-        addOp.erase();
+      } else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
+        if (mulOp->hasOneUse()) {
+          replaceAndEraseOp(mulOp, addOp, addLhs);
+        }
       }
     });
   }
