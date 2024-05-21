@@ -6,11 +6,11 @@
 
 using namespace llvm;
 
-class X86TravinCountInstsPass : public MachineFunctionPass {
+class X86TravinCountInstPass : public MachineFunctionPass {
 public:
   static inline char ID = 0;
 
-  X86TravinCountInstsPass() : MachineFunctionPass(ID) {}
+  X86TravinCountInstPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MachFunc) override {
     DebugLoc DebugLocation;
@@ -40,6 +40,6 @@ public:
   }
 };
 
-static RegisterPass<X86TravinCountInstsPass>
-    X("x86-travin-count-insts", "Pass counting number of machine instructions",
+static RegisterPass<X86TravinCountInstPass>
+    X("x86-travin-count-inst", "Pass counting number of machine instructions",
       false, false);

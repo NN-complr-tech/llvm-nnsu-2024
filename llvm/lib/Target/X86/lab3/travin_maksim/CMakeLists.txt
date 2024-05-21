@@ -1,4 +1,4 @@
-set(PluginName X86TravinCountInstsPass)
+set(PluginName X86TravinCountInstPass)
 
 file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp)
 add_llvm_pass_plugin(${PluginName}
