@@ -9,7 +9,7 @@ using namespace mlir;
 
 namespace {
 class KosarevEgorFMAPass
-    : public PassWrapper<KosarevEgorFMAPass, OperationPass<ModuleOp>> {
+    : public PassWrapper<KosarevEgorFMAPass, OperationPass<FuncOp>> {
 public:
   StringRef getArgument() const final { return "KosarevEgorFMAPass"; }
   StringRef getDescription() const final { return "fma pass"; }
@@ -19,8 +19,8 @@ public:
   }
 
   void runOnOperation() override {
-    mlir::ModuleOp module = getOperation();
-    mlir::OpBuilder builder(module);
+    FuncOp function = getOperation();
+    mlir::OpBuilder builder(function);
 
     auto replaceAndEraseOp = [&](mlir::LLVM::FMulOp &mulOp,
                                  mlir::LLVM::FAddOp &addOp,
@@ -34,7 +34,7 @@ public:
       mulOp.erase();
     };
 
-    module.walk([&](mlir::LLVM::FAddOp addOp) {
+    function.walk([&](mlir::LLVM::FAddOp addOp) {
       mlir::Value addLhs = addOp.getOperand(0);
       mlir::Value addRhs = addOp.getOperand(1);
 
