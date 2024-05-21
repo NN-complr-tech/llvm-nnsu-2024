@@ -54,6 +54,9 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
     llvm.store %10, %4 {alignment = 4 : i64} : i32, !llvm.ptr
     llvm.return
   }
+  llvm.func @extern_func(i32) -> i32
+  // CHECK: llvm.func @extern_func
+  // CHECK-SAME: attributes {"call-count" = 1 : i32
   llvm.func @_Z9function4ii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
     // CHECK: llvm.func @_Z9function4ii
     // CHECK-SAME: attributes {"call-count" = 0 : i32
@@ -68,18 +71,19 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : 
     %6 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
     %7 = llvm.call @_Z9function1i(%6) : (i32) -> i1
     %8 = llvm.zext %7 : i1 to i8
+    %9 = llvm.call @extern_func(%6) : (i32) -> i32
     llvm.store %8, %3 {alignment = 1 : i64} : i8, !llvm.ptr
-    %9 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
-    %10 = llvm.call @_Z9function1i(%9) : (i32) -> i1
-    %11 = llvm.zext %10 : i1 to i8
-    llvm.store %11, %4 {alignment = 1 : i64} : i8, !llvm.ptr
-    %12 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
-    %13 = llvm.load %2 {alignment = 4 : i64} : !llvm.ptr -> i32
-    %14 = llvm.call @_Z9function2ii(%12, %13) : (i32, i32) -> i32
+    %10 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
+    %11 = llvm.call @_Z9function1i(%9) : (i32) -> i1
+    %12 = llvm.zext %11 : i1 to i8
+    llvm.store %12, %4 {alignment = 1 : i64} : i8, !llvm.ptr
+    %13 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
+    %14 = llvm.load %2 {alignment = 4 : i64} : !llvm.ptr -> i32
+    %15 = llvm.call @_Z9function2ii(%13, %14) : (i32, i32) -> i32
     llvm.store %14, %5 {alignment = 4 : i64} : i32, !llvm.ptr
-    %15 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
-    %16 = llvm.load %2 {alignment = 4 : i64} : !llvm.ptr -> i32
-    llvm.call @_Z9function3ii(%15, %16) : (i32, i32) -> ()
+    %16 = llvm.load %1 {alignment = 4 : i64} : !llvm.ptr -> i32
+    %17 = llvm.load %2 {alignment = 4 : i64} : !llvm.ptr -> i32
+    llvm.call @_Z9function3ii(%16, %17) : (i32, i32) -> ()
     llvm.return
   }
 }
