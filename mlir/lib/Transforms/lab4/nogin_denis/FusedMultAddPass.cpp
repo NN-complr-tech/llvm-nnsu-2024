@@ -15,7 +15,9 @@ public:
   }
 
   void runOnOperation() override {
-     getOperation().walk([](LLVM::FAddOp addOp) {
+    ModuleOp module = getOperation();
+
+     module.walk([](LLVM::FAddOp addOp) {
         Value addLHS = addOp.getOperand(0);
         Value addRHS = addOp.getOperand(1);
 
@@ -35,7 +37,7 @@ public:
           addOp.erase();
         }
     });
-    getOperation().walk([&](LLVM::FMulOp mulOp) {
+    module.walk([&](LLVM::FMulOp mulOp) {
         if (mulOp.use_empty()) {
           mulOp.erase();
         }
