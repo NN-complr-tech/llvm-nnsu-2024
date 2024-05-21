@@ -6,15 +6,7 @@ add_llvm_pass_plugin(${PluginName}
         DEPENDS
         intrinsics_gen
         MLIRBuiltinLocationAttributesIncGen
-        MLIROpAsmInterfaceIncGen
         MLIRBuiltinTypeInterfacesIncGen
-        MLIRBytecodeOpInterfaceIncGen
-        MLIRRegionKindInterfaceIncGen
-        MLIRSymbolInterfacesIncGen
-        MLIRSideEffectInterfacesIncGen
-        MLIRCallInterfacesIncGen
-        MLIRControlFlowInterfacesIncGen
-        MLIRInferTypeOpInterfaceIncGen
         BUILDTREE_ONLY
         )
 
