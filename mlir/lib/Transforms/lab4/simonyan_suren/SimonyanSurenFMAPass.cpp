@@ -7,7 +7,8 @@ using namespace mlir;
 
 namespace {
 class SimonyanSurenFMAPass
-    : public PassWrapper<SimonyanSurenFMAPass, OperationPass<LLVM::LLVMFuncOp>> {
+    : public PassWrapper<SimonyanSurenFMAPass,
+                         OperationPass<LLVM::LLVMFuncOp>> {
 private:
   void handleMulOp(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
                    Value &otherOperand) {
@@ -45,7 +46,6 @@ public:
     return "Replaces add and multiply operations with a single instruction.";
   }
 };
-
 } // namespace
 
 MLIR_DECLARE_EXPLICIT_TYPE_ID(SimonyanSurenFMAPass)
