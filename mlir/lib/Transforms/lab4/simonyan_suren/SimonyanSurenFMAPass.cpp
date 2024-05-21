@@ -7,7 +7,7 @@ using namespace mlir;
 
 namespace {
 class SimonyanSurenFMAPass
-    : public PassWrapper<SimonyanSurenFMAPass, OperationPass<ModuleOp>> {
+    : public PassWrapper<SimonyanSurenFMAPass, OperationPass<LLVM::FMulOp>> {
 private:
   void handleMulOp(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
                    Value &otherOperand) {
@@ -21,25 +21,21 @@ private:
 public:
   void runOnOperation() override {
     ModuleOp module = getOperation();
-    module.walk([&](Operation *operation) {
-      // Add operation.
-      if (auto addOp = dyn_cast<LLVM::FAddOp>(operation)) {
-        Value addLHS = addOp.getOperand(0);
-        Value addRHS = addOp.getOperand(1);
-        if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
-          handleMulOp(addOp, mulOpLHS, addRHS);
-        } else if (auto mulOpRHS = addRHS.getDefiningOp<LLVM::FMulOp>()) {
-          handleMulOp(addOp, mulOpRHS, addLHS);
-        }
+    // Add operation.
+    module.walk([](LLVM::FAddOp addOp) {
+      Value addLHS = addOp.getOperand(0);
+      Value addRHS = addOp.getOperand(1);
+      if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
+        handleMulOp(addOp, mulOpLHS, addRHS);
+      } else if (auto mulOpRHS = addRHS.getDefiningOp<LLVM::FMulOp>()) {
+        handleMulOp(addOp, mulOpRHS, addLHS);
       }
     });
 
-    module.walk([&](Operation *operation) {
-      // Mul operation.
-      if (auto mulOp = dyn_cast<LLVM::FMulOp>(operation)) {
-        if (mulOp.use_empty()) {
-          mulOp.erase();
-        }
+    // Mul operation.
+    module.walk([](LLVM::FMulOp mulOp) {
+      if (mulOp.use_empty()) {
+        mulOp.erase();
       }
     });
   }
