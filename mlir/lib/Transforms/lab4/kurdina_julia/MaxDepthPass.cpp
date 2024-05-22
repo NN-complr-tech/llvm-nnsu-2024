@@ -24,6 +24,7 @@ public:
           IntegerAttr::get(IntegerType::get(op->getContext(), 32), maxDepth));
     });
   }
+
 private:
   int getMaxDepth(Operation *funcOp) {
     int maxDepth = 1;
