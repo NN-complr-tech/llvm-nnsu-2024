@@ -13,17 +13,14 @@ public:
   X86TravinCountInstPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MachFunc) override {
-    DebugLoc DebugLocation;
+    DebugLoc DebugLocation = MachFunc.front().begin()->getDebugLoc();
     const TargetInstrInfo *InstrInfo = MachFunc.getSubtarget().getInstrInfo();
+    const TargetRegisterInfo *RegInfo = MachFunc.getSubtarget().getRegisterInfo();
 
     for (auto &BasicBlock : MachFunc) {
-      size_t Count = 0;
+      size_t Count = std::distance(BasicBlock.begin(), BasicBlock.end());
 
-      for (auto &Instr : BasicBlock) {
-        Count++;
-      }
-
-      const TargetRegisterClass *RC = &X86::GR64RegClass;
+      const TargetRegisterClass *RC = RegInfo->getRegClass(X86::GR64RegClassID);
       Register TmpReg = MachFunc.getRegInfo().createVirtualRegister(RC);
 
       BuildMI(BasicBlock, BasicBlock.getFirstTerminator(), DebugLocation,
