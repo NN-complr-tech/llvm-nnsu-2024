@@ -210,6 +210,7 @@ body:             |
     $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
     RET64 implicit $eax
+    ; CHECK: ADD64mi32 @ic, 4, implicit-def $eflags
 
 ...
 ---
@@ -249,11 +250,13 @@ body:             |
     MOV32mr $rbp, 1, $noreg, -16, $noreg, killed renamable $esi :: (store (s32) into %ir.b.addr)
     MOV32mi $rbp, 1, $noreg, -8, $noreg, 0 :: (store (s32) into %ir.d)
     MOV32mi $rbp, 1, $noreg, -4, $noreg, 0 :: (store (s32) into %ir.i)
+    ; CHECK: ADD64mi32 @ic, 10, implicit-def $eflags
   
   bb.1.for.cond:
     renamable $eax = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.i)
     CMP32rm killed renamable $eax, $rbp, 1, $noreg, -12, $noreg, implicit-def $eflags :: (load (s32) from %ir.a.addr)
     JCC_1 %bb.4, 13, implicit killed $eflags
+    ; CHECK: ADD64mi32 @ic, 3, implicit-def $eflags
   
   bb.2.for.body:
     renamable $edi = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.i)
@@ -262,12 +265,14 @@ body:             |
     CALL64pcrel32 @_Z6func_1iii, csr_64, implicit $rsp, implicit $ssp, implicit $edi, implicit $esi, implicit $edx, implicit-def $eax
     renamable $eax = ADD32rm killed renamable $eax, $rbp, 1, $noreg, -8, $noreg, implicit-def dead $eflags :: (load (s32) from %ir.d)
     MOV32mr $rbp, 1, $noreg, -8, $noreg, killed renamable $eax :: (store (s32) into %ir.d)
+    ; CHECK: ADD64mi32 @ic, 6, implicit-def $eflags
   
   bb.3.for.inc:
     renamable $eax = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.i)
     renamable $eax = ADD32ri killed renamable $eax, 1, implicit-def dead $eflags
     MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.i)
     JMP_1 %bb.1
+    ; CHECK: ADD64mi32 @ic, 4, implicit-def $eflags
   
   bb.4.for.end:
     renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.d)
@@ -275,5 +280,6 @@ body:             |
     $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
     RET64 implicit $eax
+    ; CHECK: ADD64mi32 @ic, 5, implicit-def $eflags
 
 ...
