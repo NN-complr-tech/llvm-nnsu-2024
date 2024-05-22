@@ -595,7 +595,7 @@ body:             |
     frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
     RET64 implicit $eax
 
-        ; CHECK: %0:gr64 = MOV64rm &ic
+    ; CHECK: %0:gr64 = MOV64rm &ic
     ; CHECK: %0:gr64 = ADD64ri32 %0, 16, implicit-def $eflags
     
 ...
