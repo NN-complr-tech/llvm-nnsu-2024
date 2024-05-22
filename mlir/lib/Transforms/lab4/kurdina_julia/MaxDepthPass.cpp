@@ -19,12 +19,11 @@ public:
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
       int maxDepth = getMaxDepth(op);
-      op->setAttr("maxDepth",
-                      IntegerAttr::get(
-                          IntegerType::get(op->getContext(), 32), maxDepth));
+      op->setAttr(
+          "maxDepth",
+          IntegerAttr::get(IntegerType::get(op->getContext(), 32), maxDepth));
     });
   }
-
 private:
   int getMaxDepth(Operation *funcOp) {
     int maxDepth = 1;
@@ -40,7 +39,6 @@ private:
       }
       maxDepth = std::max(maxDepth, depth);
     });
-
     return maxDepth;
   }
 };
