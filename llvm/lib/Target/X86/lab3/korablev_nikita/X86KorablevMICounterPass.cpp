@@ -16,7 +16,7 @@ public:
 
   bool runOnMachineFunction(MachineFunction &MF) override {
     const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-    DebugLoc DL = MF.front().begin()->getDebugLoc(); // ?
+    DebugLoc DL = MF.front().begin()->getDebugLoc();
 
     Module &module = *MF.getFunction().getParent();
     GlobalVariable *var = module.getGlobalVariable("ic");
@@ -33,7 +33,7 @@ public:
         ++count;
 
       BuildMI(BB, BB.getFirstTerminator(), DL, TII->get(X86::ADD64mi32))
-          .addGlobalAddress(var, 0, X86II::MO_NO_FLAG) // ?
+          .addGlobalAddress(var, 0, X86II::MO_NO_FLAG)
           .addImm(count);
     }
 
@@ -47,4 +47,4 @@ static RegisterPass<X86KorablevMICounterPass>
     X("korablev_mi_counter_pass",
       "X86 Count number of machine instructions performed during execution of "
       "a function",
-      false, false); // ?
+      false, false);
