@@ -34,7 +34,8 @@ private:
 
     for (Region &region : op->getRegions()) {
       for (Block &block : region) {
-        maxDepth = std::max(maxDepth, computeMaxDepth(block.getTerminator(), currentDepth + 1));
+        maxDepth = std::max(
+            maxDepth, computeMaxDepth(block.getTerminator(), currentDepth + 1));
       }
     }
 
