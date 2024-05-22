@@ -22,8 +22,9 @@ public:
     GlobalVariable *var = module.getGlobalVariable("ic");
 
     if (!var) {
-      var = new GlobalVariable(module, IntegerType::get(module.getContext(), 64), false,
-                                GlobalValue::ExternalLinkage, nullptr, "ic");
+      var = new GlobalVariable(module,
+                               IntegerType::get(module.getContext(), 64), false,
+                               GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &BB : MF) {
@@ -31,8 +32,7 @@ public:
       for (auto MI = BB.begin(); MI != BB.end(); ++MI)
         ++count;
 
-      BuildMI(BB, BB.getFirstTerminator(), DL,
-              TII->get(X86::ADD64mi32))
+      BuildMI(BB, BB.getFirstTerminator(), DL, TII->get(X86::ADD64mi32))
           .addGlobalAddress(var, 0, X86II::MO_NO_FLAG) // ?
           .addImm(count);
     }
@@ -45,4 +45,6 @@ public:
 char X86KorablevMICounterPass::ID = 0;
 static RegisterPass<X86KorablevMICounterPass>
     X("korablev_mi_counter_pass",
-      "X86 Count number of machine instructions performed during execution of a function", false, false); // ?
+      "X86 Count number of machine instructions performed during execution of "
+      "a function",
+      false, false); // ?
