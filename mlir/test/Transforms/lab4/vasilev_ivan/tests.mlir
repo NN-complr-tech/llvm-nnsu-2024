@@ -2,13 +2,13 @@
 // RUN: mlir-opt -load-pass-plugin=%mlir_lib_dir/dephCounter%shlibext --pass-pipeline="builtin.module(func.func(VasilevDepthCounter))" %t/one.mlir | FileCheck %t/one.mlir
 
 //--- one.mlir
-// CHECK: max_region_depth = 1
+// CHECK: func.func @one() attributes {max_region_depth = 1 : i32}
 func.func @one() {
   func.return
 }
 
 //--- two.mlir
-// CHECK: max_region_depth = 2
+// CHECK: func.func @two() attributes {max_region_depth = 2 : i32}
 func.func @two() {
     %cond = arith.constant 1 : i1
     %0 = scf.if %cond -> (i1) {
@@ -20,7 +20,7 @@ func.func @two() {
 }
 
 //--- three.mlir
-// CHECK: max_region_depth = 3
+// CHECK: func.func @three() attributes {max_region_depth = 3 : i32}
 func.func @three() {
     %cond = arith.constant 1 : i1
     %0 = scf.if %cond -> (i1) {
