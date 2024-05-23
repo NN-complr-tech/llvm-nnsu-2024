@@ -20,8 +20,8 @@ public:
     func.walk([&](LLVM::FAddOp addOp) {
       Value left = addOp.getOperand(0);
       Value right = addOp.getOperand(1);
-      if (tryMergeAddWithMul(addOp, left, right) ||
-          tryMergeAddWithMul(addOp, right, left)) {
+      if (tryMergeAddMul(addOp, left, right) ||
+          tryMergeAddMul(addOp, right, left)) {
         addOp.erase();
       }
     });
@@ -56,7 +56,7 @@ MLIR_DEFINE_EXPLICIT_TYPE_ID(TravinMultAddPass)
 
 PassPluginLibraryInfo getTravinMultAddPassPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "merge-mult-add", LLVM_VERSION_STRING,
-          []() { PassRegistration<FusedMultAddPass>(); }};
+          []() { PassRegistration<TravinMultAddPass>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
