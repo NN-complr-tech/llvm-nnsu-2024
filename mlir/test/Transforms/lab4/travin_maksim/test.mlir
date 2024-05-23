@@ -55,7 +55,7 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<!llvm.ptr<271>, d
     %5 = llvm.fadd %4, %3  : f64
     llvm.return %5 : f64
 
-    // CHECK-NEXT: %3 = llvm.intr.fma(%arg0, %arg1, %0)  : (f64, f64, f64) -> f64
+    // CHECK: %3 = llvm.intr.fma(%arg0, %arg1, %0)  : (f64, f64, f64) -> f64
     // CHECK-NEXT: %4 = llvm.intr.fma(%2, %1, %3)  : (f64, f64, f64) -> f64
     // CHECK-NEXT: llvm.return %4 : f64
   }
