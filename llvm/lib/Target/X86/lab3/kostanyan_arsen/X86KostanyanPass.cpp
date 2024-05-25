@@ -15,8 +15,7 @@ public:
   bool runOnMachineFunction(MachineFunction &MFunc) override {
     DebugLoc DLocation = MFunc.front().begin()->getDebugLoc();
     const TargetInstrInfo *InstrInfo = MFunc.getSubtarget().getInstrInfo();
-    const TargetRegisterInfo *RegInfo =
-        MFunc.getSubtarget().getRegisterInfo();
+    const TargetRegisterInfo *RegInfo = MFunc.getSubtarget().getRegisterInfo();
 
     for (auto &BB : MFunc) {
       size_t Count = std::distance(BB.begin(), BB.end());
@@ -39,5 +38,5 @@ public:
 };
 
 static RegisterPass<X86KostanyanPass>
-    X("x86-kostanyan-count-inst", "Pass that counts the number of machine instructions",
-      false, false);
+    X("x86-kostanyan-count-inst",
+      "Pass that counts the number of machine instructions", false, false);
