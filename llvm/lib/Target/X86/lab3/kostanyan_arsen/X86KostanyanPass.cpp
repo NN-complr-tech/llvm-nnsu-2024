@@ -31,6 +31,12 @@ public:
               InstrInfo->get(X86::ADD64ri32), TmpReg)
           .addReg(TmpReg)
           .addImm(Count);
+
+      BuildMI(BB, BB.getFirstTerminator(), DLocation,
+              InstrInfo->get(X86::MOV64mr))
+          .addExternalSymbol("ic")
+          .addReg(TmpReg);
+          
     }
 
     return true;
