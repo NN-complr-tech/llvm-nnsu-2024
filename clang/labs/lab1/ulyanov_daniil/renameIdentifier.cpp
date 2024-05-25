@@ -195,4 +195,4 @@ private:
 };
 
 static clang::FrontendPluginRegistry::Add<RenamePlugin>
-    X("renameIdentifier", "Rename variable, function or class");
+    X("rename", "Rename variable, function or class");
