@@ -12,8 +12,7 @@ public:
                          clang::StringRef first_name,
                          clang::StringRef second_name)
       : rewriter(rewriter), type(type), first_name(first_name),
-        second_name(second_name) {
-  }
+        second_name(second_name) {}
 
   bool VisitFunctionDecl(clang::FunctionDecl *func) {
     if (type == IdType::Func && func->getName() == first_name) {
