@@ -9,8 +9,10 @@ enum class IdType { Var, Func, Class };
 class RenameVisitor : public clang::RecursiveASTVisitor<RenameVisitor> {
 public:
   explicit RenameVisitor(clang::Rewriter rewriter, IdType type,
-                         clang::StringRef first_name, clang::StringRef second_name)
-      : rewriter(rewriter), type(type), first_name(first_name), second_name(second_name) {
+                         clang::StringRef first_name,
+                         clang::StringRef second_name)
+      : rewriter(rewriter), type(type), first_name(first_name),
+        second_name(second_name) {
   }
 
   bool VisitFunctionDecl(clang::FunctionDecl *func) {
@@ -119,7 +121,8 @@ public:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &CI,
                     clang::StringRef InFile) override {
-    return std::make_unique<RenameASTConsumer>(CI, type, first_name, second_name);
+    return std::make_unique<RenameASTConsumer>(CI, type, first_name,
+                                               second_name);
   }
 
 protected:
@@ -129,10 +132,11 @@ protected:
         {"type=", ""}, {"first-name=", ""}, {"second-name=", ""}};
 
     if (!args.empty() && args[0] == "help") {
-      llvm::errs() << "Specify three required arguments:\n"
-        "-plugin-arg-rename type=[\"variable\", \"function\", \"class\"]\n"
-        "-plugin-arg-rename first-name=\"Current identifier name\"\n"
-        "-plugin-arg-rename second-name=\"New identifier name\"\n";
+      llvm::errs()
+          << "Specify three required arguments:\n"
+             "-plugin-arg-rename type=[\"variable\", \"function\", \"class\"]\n"
+             "-plugin-arg-rename first-name=\"Current identifier name\"\n"
+             "-plugin-arg-rename second-name=\"New identifier name\"\n";
       return true;
     }
 
@@ -157,7 +161,9 @@ protected:
     }
 
     std::vector<std::pair<std::string, IdType>> id_type = {
-        {"variable", IdType::Var}, {"function", IdType::Func}, {"class", IdType::Class}};
+        {"variable", IdType::Var},
+        {"function", IdType::Func},
+        {"class", IdType::Class}};
     size_t i;
     for (i = 0; i < id_type.size(); i++) {
       if (params[0].second == id_type[i].first) {
@@ -190,4 +196,4 @@ private:
 };
 
 static clang::FrontendPluginRegistry::Add<RenamePlugin>
-    X("rename", "Rename variable, function or class");
+    X("renameIdentifier", "Rename variable, function or class");
