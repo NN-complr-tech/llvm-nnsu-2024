@@ -36,7 +36,6 @@ public:
               InstrInfo->get(X86::MOV64mr))
           .addExternalSymbol("ic")
           .addReg(TmpReg);
-          
     }
 
     return true;
