@@ -9,9 +9,8 @@
 
 namespace {
 
-class IsaevInlinePass
+struct IsaevInlinePass
     : public llvm::PassInfoMixin<IsaevInlinePass> {
-public:
   llvm::PreservedAnalyses run(llvm::Function &Func,
                               llvm::FunctionAnalysisManager &) {
     llvm::SmallVector<llvm::CallInst *, 8> CallsToInline;
