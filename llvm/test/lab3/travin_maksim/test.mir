@@ -605,8 +605,8 @@ body:             |
     ; CHECK-NEXT: %
     ; CHECK-SAME: gr64 = ADD64ri32 %
     ; CHECK-SAME: , 2, implicit-def $eflags
-    ; CHECK-NEXT: JCC_1 %bb.3, 14, implicit killed $eflags
     ; CHECK-NEXT: MOV64mr &ic, %
+    ; CHECK-NEXT: JCC_1 %bb.3, 14, implicit killed $eflags
   
   bb.2.while.body:
     successors: %bb.1(0x80000000)
