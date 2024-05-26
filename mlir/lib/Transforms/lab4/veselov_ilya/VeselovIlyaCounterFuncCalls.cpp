@@ -40,7 +40,8 @@ MLIR_DEFINE_EXPLICIT_TYPE_ID(VeselovIlyaCounterFuncCalls)
 
 PassPluginLibraryInfo getVeselovIlyaCounterFuncCallsInfo() {
   return {MLIR_PLUGIN_API_VERSION, "VeselovIlyaCounterFuncCalls",
-          LLVM_VERSION_STRING, []() { PassRegistration<VeselovIlyaCounterFuncCalls>(); }};
+          LLVM_VERSION_STRING,
+          []() { PassRegistration<VeselovIlyaCounterFuncCalls>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
