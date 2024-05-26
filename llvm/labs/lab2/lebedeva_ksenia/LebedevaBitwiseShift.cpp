@@ -1,6 +1,7 @@
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
+#include <optional>
 
 using namespace llvm;
 
@@ -22,8 +23,8 @@ public:
 
         Value *leftVal = Op->getOperand(0);
         Value *rightVal = Op->getOperand(1);
-        int leftLog = getLog2(leftVal);
-        int rightLog = getLog2(rightVal);
+        auto leftLog = getLog2(leftVal);
+        auto rightLog = getLog2(rightVal);
 
         if (rightLog < leftLog) {
           std::swap(leftLog, rightLog);
@@ -32,7 +33,7 @@ public:
         if (rightLog >= 0) {
           IRBuilder<> Builder(Op);
           Value *NewVal = Builder.CreateShl(
-              leftVal, ConstantInt::get(Op->getType(), rightLog));
+              leftVal, ConstantInt::get(Op->getType(), *rightLog));
           instr.replaceAllUsesWith(NewVal);
           InstIt = instr.eraseFromParent();
           changed = true;
@@ -43,11 +44,11 @@ public:
   }
 
 private:
-  int getLog2(llvm::Value *Op) {
+  std::optional<int> getLog2(llvm::Value *Op) {
     if (auto *CI = dyn_cast<ConstantInt>(Op)) {
       return CI->getValue().exactLogBase2();
     }
-    return -1;
+    return std::nullopt;
   }
 };
 
