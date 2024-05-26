@@ -21,6 +21,7 @@ public:
     }
     gVar->setInitializer(ConstantInt::get(Type::getInt64Ty(context), 0));
     const TargetInstrInfo *tii = mFunc.getSubtarget().getInstrInfo();
+    DebugLoc dl = mFunc.front().begin()->getDebugLoc();
 
     for (auto &mbb : mFunc) {
       unsigned InstrCount = 0;
@@ -28,9 +29,8 @@ public:
         if (!mi.isDebugInstr())
           ++InstrCount;
       }
-      BuildMI(mbb, mbb.begin(), DebugLoc(), tii->get(TargetOpcode::G_ADD),
-              X86::RAX)
-          .addGlobalAddress(gVar)
+      BuildMI(mbb, mbb.getFirstTerminator(), dl, tii->get(X86::ADD64ri32))
+          .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
           .addImm(InstrCount);
     }
     return true;
