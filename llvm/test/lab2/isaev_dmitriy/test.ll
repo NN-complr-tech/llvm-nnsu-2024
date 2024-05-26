@@ -224,19 +224,19 @@ if.end:                                           ; preds = %if.then, %entry
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
 
-;void foo5() {
-;  float a = 1.0f;
-;  a += 1.0f;
-;}
+; void foo5() {
+;   float a = 1.0f;
+;   a += 1.0f;
+; }
 ;
-;void bar5() {
-;  int a = 0;
-;  foo5();
-;  foo5(); // Call foo5 twice
-;  a++;
-;}
+; void bar5() {
+;   int a = 0;
+;   foo5();
+;   foo5();
+;   a++;
+; }
 
-define dso_local void @_Z4foo5v() {
+define dso_local void @_Z4foo5v() #0 {
 entry:
   %a = alloca float, align 4
   store float 1.000000e+00, ptr %a, align 4
@@ -251,7 +251,7 @@ entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
   call void @_Z4foo5v()
-  call void @_Z4foo5v() ; Call foo5 twice
+  call void @_Z4foo5v()
   %0 = load i32, ptr %a, align 4
   %inc = add nsw i32 %0, 1
   store i32 %inc, ptr %a, align 4
@@ -263,23 +263,23 @@ entry:
 ; CHECK-NEXT:   %a = alloca i32, align 4
 ; CHECK-NEXT:   store i32 0, ptr %a, align 4
 ; CHECK-NEXT:   br label %post-call
-; CHECK: 0:
+; CHECK: 0:                                                
 ; CHECK-NEXT:   %1 = alloca float, align 4
 ; CHECK-NEXT:   store float 1.000000e+00, ptr %1, align 4
 ; CHECK-NEXT:   %2 = load float, ptr %1, align 4
 ; CHECK-NEXT:   %3 = fadd float %2, 1.000000e+00
 ; CHECK-NEXT:   store float %3, ptr %1, align 4
 ; CHECK-NEXT:   br label %post-call
-; CHECK: post-call:
-; CHECK-NEXT:   br label %post-call1
-; CHECK: 1:
+; CHECK: post-call:                                        
+; CHECK-NEXT:   br label %post-call2
+; CHECK: post-call2:                                        
 ; CHECK-NEXT:   %4 = alloca float, align 4
 ; CHECK-NEXT:   store float 1.000000e+00, ptr %4, align 4
 ; CHECK-NEXT:   %5 = load float, ptr %4, align 4
 ; CHECK-NEXT:   %6 = fadd float %5, 1.000000e+00
 ; CHECK-NEXT:   store float %6, ptr %4, align 4
-; CHECK-NEXT:   br label %post-call1
-; CHECK: post-call1:
+; CHECK-NEXT:   br label %post-call3
+; CHECK: post-call3:                                        
 ; CHECK-NEXT:   %7 = load i32, ptr %a, align 4
 ; CHECK-NEXT:   %inc = add nsw i32 %7, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
