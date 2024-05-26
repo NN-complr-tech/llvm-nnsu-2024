@@ -236,4 +236,5 @@ body:             |
     ; CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %5
     RET 0, $xmm0
-Footer
+
+...
