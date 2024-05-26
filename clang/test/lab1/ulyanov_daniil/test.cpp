@@ -85,6 +85,48 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/RenamePluginUlyanov%pluginext\
 // RUN: -add-plugin rename\
 // RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename first-name=ab\
+// RUN: -plugin-arg-rename second-name=new_class %t/rename_tmp_class.cpp
+// RUN: FileCheck %s < %t/rename_tmp_class.cpp --check-prefix=TMP_CLASS
+
+// TMP_CLASS: template <typename T> class new_class {
+// TMP_CLASS-NEXT: T a;
+// TMP_CLASS-NEXT: ab() {}
+// TMP_CLASS-NEXT: ~ab();
+// TMP_CLASS-NEXT: };
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePluginUlyanov%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename first-name=rty\
+// RUN: -plugin-arg-rename second-name=new_class %t/rename_inherited_class.cpp
+// RUN: FileCheck %s < %t/rename_inherited_class.cpp --check-prefix=INHERITED_CLASS
+
+// INHERITED_CLASS: class qwe {
+// INHERITED_CLASS-NEXT: qwe();
+// INHERITED_CLASS-NEXT: ~qwe();
+// INHERITED_CLASS-NEXT: };
+// INHERITED_CLASS: class new_class : public qwe {
+// INHERITED_CLASS-NEXT: new_class();
+// INHERITED_CLASS-NEXT: ~new_class();
+// INHERITED_CLASS-NEXT: };
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePluginUlyanov%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename first-name=ab\
+// RUN: -plugin-arg-rename second-name=new_class %t/rename_delete_var_class.cpp
+// RUN: FileCheck %s < %t/rename_delete_var_class.cpp --check-prefix=DELETE_VAR
+
+// DELETE_VAR: class abcd {};
+// DELETE_VAR: void f() {
+// DELETE_VAR-NEXT: abcd* aaa = new abcd();
+// DELETE_VAR-NEXT: delete aaa;
+// DELETE_VAR-NEXT: }
+
+// RUN: %clang_cc1 -load %llvmshlibdir/RenamePluginUlyanov%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
 // RUN: -plugin-arg-rename first-name=B\
 // RUN: -plugin-arg-rename second-name=C %t/rename_other_class.cpp
 // RUN: FileCheck %s < %t/rename_other_class.cpp --check-prefix=NON_EXIST_CLASS
@@ -181,12 +223,32 @@ class abc{
   abc(int a): a(a) {}
   ~abc();
 };
-
 void func() {
   abc a;
   abc* var = new abc(1);
   delete var;
 }
+//--- rename_delete_var_class.cpp
+class abcd {};
+void f() {
+  abcd* aaa = new abcd();
+  delete aaa;
+}
+//--- rename_tmp_class.cpp
+template <typename T> class ab {
+  T a;
+  ab() {}
+  ~ab();
+};
+//--- rename_inherited_class.cpp
+class qwe {
+ qwe();
+ ~qwe();
+};
+class rty : public qwe {
+ rty();
+ ~rty();
+};
 //--- rename_other_class.cpp
 class A{
  private:
@@ -195,7 +257,6 @@ class A{
  A() {};
  ~A() {};
 };
-
 void func() {
   A var1;
   A* var2 = new A;
