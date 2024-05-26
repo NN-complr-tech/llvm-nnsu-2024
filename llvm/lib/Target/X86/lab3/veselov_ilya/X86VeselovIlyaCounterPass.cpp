@@ -8,34 +8,39 @@ using namespace llvm;
 
 class X86VeselovIlyaCounterPass : public MachineFunctionPass {
 public:
-    static char ID;
-    X86VeselovIlyaCounterPass() : MachineFunctionPass(ID) {}
+  static char ID;
+  X86VeselovIlyaCounterPass() : MachineFunctionPass(ID) {}
 
-    bool runOnMachineFunction(MachineFunction &mFunc) override {
-        Module &mod = *mFunc.getFunction().getParent();
-        LLVMContext &context = mod.getContext();
-        GlobalVariable *gVar = mod.getGlobalVariable("ic");
-        if (!gVar) {
-            gVar = new GlobalVariable(mod, Type::getInt64Ty(context), false, GlobalValue::ExternalLinkage, nullptr, "ic");
-        }
-        gVar->setInitializer(ConstantInt::get(Type::getInt64Ty(context), 0));
-        const TargetInstrInfo *tii = mFunc.getSubtarget().getInstrInfo();
-
-        for (auto &mbb : mFunc) {
-            unsigned InstrCount = 0;
-            for (auto &mi : mbb) {
-                if (!mi.isDebugInstr())
-                  ++InstrCount;
-            }
-            BuildMI(mbb, mbb.begin(), DebugLoc(), tii->get(TargetOpcode::G_ADD), X86::RAX)
-                .addGlobalAddress(gVar)
-                .addImm(InstrCount);
-        }
-        return true;
+  bool runOnMachineFunction(MachineFunction &mFunc) override {
+    Module &mod = *mFunc.getFunction().getParent();
+    LLVMContext &context = mod.getContext();
+    GlobalVariable *gVar = mod.getGlobalVariable("ic");
+    if (!gVar) {
+      gVar = new GlobalVariable(mod, Type::getInt64Ty(context), false,
+                                GlobalValue::ExternalLinkage, nullptr, "ic");
     }
+    gVar->setInitializer(ConstantInt::get(Type::getInt64Ty(context), 0));
+    const TargetInstrInfo *tii = mFunc.getSubtarget().getInstrInfo();
+
+    for (auto &mbb : mFunc) {
+      unsigned InstrCount = 0;
+      for (auto &mi : mbb) {
+        if (!mi.isDebugInstr())
+          ++InstrCount;
+      }
+      BuildMI(mbb, mbb.begin(), DebugLoc(), tii->get(TargetOpcode::G_ADD),
+              X86::RAX)
+          .addGlobalAddress(gVar)
+          .addImm(InstrCount);
+    }
+    return true;
+  }
 };
 
 char X86VeselovIlyaCounterPass::ID = 0;
 
 static RegisterPass<X86VeselovIlyaCounterPass>
-    X("x86-veselov-ilya-counter-pass", "Count number of machine instructions performed during execution of a function (excluding instruction counter increment)", false, false);
+    X("x86-veselov-ilya-counter-pass",
+      "Count number of machine instructions performed during execution of a "
+      "function (excluding instruction counter increment)",
+      false, false);
