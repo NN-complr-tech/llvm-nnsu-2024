@@ -7,11 +7,10 @@ using namespace mlir;
 
 namespace {
 class VeselovIlyaCounterFuncCalls
-    : public PassWraper<VeselovIlyaCounterFuncCalls, OperationPass<ModuleOp>> {
+    : public PassWrapper<VeselovIlyaCounterFuncCalls, OperationPass<ModuleOp>> {
 public:
-  StringRef getArgument() const final{
-      return "VeselovIlyaCounterFuncCalls"} StringRef
-      getDescription() const final {
+  StringRef getArgument() const final { return "VeselovIlyaCounterFuncCalls"; }
+  StringRef getDescription() const final {
     return "Counts amount of times it was called by other functions in the "
            "module";
   }
@@ -20,7 +19,7 @@ public:
     ModuleOp mod = getOperation();
     std::map<StringRef, int> calls;
     mod.walk([&](Operation *oper) {
-      if (auto callOper = dyn_cast<LLVM::CallOp>(op)) {
+      if (auto callOper = dyn_cast<LLVM::CallOp>(oper)) {
         StringRef callee = callOper.getCallee().value();
         calls[callee]++;
       }
