@@ -28,7 +28,7 @@ public:
       StringRef name = funcOper.getName();
       int countOfCalls = calls[name];
       auto val =
-          IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32), count);
+          IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32), countOfCalls);
       funcOper->setAttr("countOfCalls", val);
     });
   }
@@ -40,7 +40,7 @@ MLIR_DEFINE_EXPLICIT_TYPE_ID(VeselovIlyaCounterFuncCalls)
 
 PassPluginLibraryInfo getVeselovIlyaCounterFuncCallsInfo() {
   return {MLIR_PLUGIN_API_VERSION, "VeselovIlyaCounterFuncCalls",
-          LLVM_VERSION_STRING, []() { PassRegistration<FuncCallCountPass>(); }};
+          LLVM_VERSION_STRING, []() { PassRegistration<VeselovIlyaCounterFuncCalls>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
