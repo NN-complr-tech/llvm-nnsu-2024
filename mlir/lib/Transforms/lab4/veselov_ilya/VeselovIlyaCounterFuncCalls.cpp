@@ -6,13 +6,14 @@
 using namespace mlir;
 
 namespace {
-class VeselovIlyaCounterFuncCalls : public PassWraper<VeselovIlyaCounterFuncCalls, OperationPass<ModuleOp>> {
+class VeselovIlyaCounterFuncCalls
+    : public PassWraper<VeselovIlyaCounterFuncCalls, OperationPass<ModuleOp>> {
 public:
-  StringRef getArgument() const final {
-    return "VeselovIlyaCounterFuncCalls"
-  }
-  StringRef getDescription() const final {
-    return "Counts amount of times it was called by other functions in the module";
+  StringRef getArgument() const final{
+      return "VeselovIlyaCounterFuncCalls"} StringRef
+      getDescription() const final {
+    return "Counts amount of times it was called by other functions in the "
+           "module";
   }
 
   void runOnOperation() override {
@@ -27,7 +28,8 @@ public:
     mod.walk([&](LLVM::LLVMFuncOp funcOper) {
       StringRef name = funcOper.getName();
       int countOfCalls = calls[name];
-      auto val = IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32), count);
+      auto val =
+          IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32), count);
       funcOper->setAttr("countOfCalls", val);
     });
   }
@@ -38,7 +40,8 @@ MLIR_DECLARE_EXPLICIT_TYPE_ID(VeselovIlyaCounterFuncCalls)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(VeselovIlyaCounterFuncCalls)
 
 PassPluginLibraryInfo getVeselovIlyaCounterFuncCallsInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "VeselovIlyaCounterFuncCalls", LLVM_VERSION_STRING, []() { PassRegistration<FuncCallCountPass>(); }};
+  return {MLIR_PLUGIN_API_VERSION, "VeselovIlyaCounterFuncCalls",
+          LLVM_VERSION_STRING, []() { PassRegistration<FuncCallCountPass>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
