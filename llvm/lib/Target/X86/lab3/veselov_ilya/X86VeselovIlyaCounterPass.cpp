@@ -9,7 +9,6 @@ using namespace llvm;
 class X86VeselovIlyaCounterPass : public MachineFunctionPass {
 public:
   static char ID;
-  
   X86VeselovIlyaCounterPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &mFunc) override {
