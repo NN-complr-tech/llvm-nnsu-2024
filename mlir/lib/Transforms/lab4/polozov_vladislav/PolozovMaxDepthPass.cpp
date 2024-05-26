@@ -16,7 +16,7 @@ class PolozovMaxDepthPass
 public:
   StringRef getArgument() const final { return "max-depth-pass"; }
   StringRef getDescription() const final {
-    return "Counts the max depth of region nests in the function.";
+    return "Counts the max depth of region nests in a function.";
   }
   std::map<Operation *, int> Depth;
   void runOnOperation() override {
