@@ -28,7 +28,7 @@ public:
     }
 
     for (auto &BB : MF) {
-      size_t count = std::distance(BB.begin(), BB.end());;
+      size_t count = std::distance(BB.begin(), BB.end());
 
       BuildMI(BB, BB.getFirstTerminator(), DL, TII->get(X86::ADD64mi32))
           .addGlobalAddress(var, 0, X86II::MO_NO_FLAG)
