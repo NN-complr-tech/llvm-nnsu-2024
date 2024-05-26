@@ -1,5 +1,5 @@
 if (NOT WIN32 AND NOT CYGWIN)
-  set(PluginName IsaevInlinePlugin)
+  set(PluginName IsaevInlinePass)
   
   file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
   add_llvm_pass_plugin(${PluginName}
