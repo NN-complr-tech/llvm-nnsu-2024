@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin=%llvmshlibdir/IsaevInlinePass%pluginext -passes=isaev-inline -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin=%llvmshlibdir/IsaevInlinePlugin%pluginext -passes=isaev-inline -S %s | FileCheck %s
 
 ; COM: Simple inline check. Expect inline
 

@@ -9,8 +9,7 @@
 
 namespace {
 
-struct IsaevInlinePass
-    : public llvm::PassInfoMixin<IsaevInlinePass> {
+struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
   llvm::PreservedAnalyses run(llvm::Function &Func,
                               llvm::FunctionAnalysisManager &) {
     llvm::SmallVector<llvm::CallInst *, 8> CallsToInline;
@@ -114,10 +113,9 @@ struct IsaevInlinePass
   }
 };
 
-} // end anonymous namespace
+} // end anonym namespace
 
-llvm::PassPluginLibraryInfo
-getIsaevInlinePluginInfo() {
+llvm::PassPluginLibraryInfo getIsaevInlinePluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "IsaevInlinePass", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
