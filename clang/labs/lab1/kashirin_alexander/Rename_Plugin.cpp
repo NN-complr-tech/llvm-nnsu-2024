@@ -182,8 +182,9 @@ protected:
     clang::DiagnosticsEngine &D = CI.getDiagnostics();
 
     D.Report(
-        D.getCustomDiagID(clang::DiagnosticsEngine::Error, "Invalid arguments\n"
-                          "Specify \"-plugin-arg-rename help\" for usage\n"));
+        D.getCustomDiagID(clang::DiagnosticsEngine::Error,
+                          +"Invalid arguments\n"
+                           "Specify \"-plugin-arg-rename help\" for usage\n"));
   }
 
 private:
