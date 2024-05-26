@@ -48,7 +48,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
           if (!Inst.isTerminator()) {
             llvm::Instruction *NewInst = Inst.clone();
             if (!NewInst) {
-              llvm::errs() << "Error: Failed to clone instruction.\\n";
+              llvm::errs() << "Error: Failed to clone instruction.\n";
               return llvm::PreservedAnalyses::none();
             }
             Builder.Insert(NewInst);
