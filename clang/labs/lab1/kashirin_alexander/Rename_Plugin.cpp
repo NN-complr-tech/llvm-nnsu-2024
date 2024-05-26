@@ -183,7 +183,7 @@ protected:
 
     D.Report(
         D.getCustomDiagID(clang::DiagnosticsEngine::Error,
-                          +"Invalid arguments\n"
+                           "Invalid arguments\n"
                            "Specify \"-plugin-arg-rename help\" for usage\n"));
   }
 
