@@ -113,7 +113,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
   }
 };
 
-} // end anonym namespace
+} // namespace
 
 llvm::PassPluginLibraryInfo getIsaevInlinePluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "IsaevInlinePass", "0.1",
