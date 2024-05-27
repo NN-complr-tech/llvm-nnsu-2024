@@ -31,7 +31,8 @@ public:
       }
       if (InstrCount > 0) {
         MachineBasicBlock::iterator mi = mbb.getFirstTerminator();
-        Register tempReg = mFunc.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
+        Register tempReg =
+            mFunc.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
 
         BuildMI(mbb, mi, dl, tii->get(X86::MOV64rm), tempReg)
             .addReg(X86::RIP)
