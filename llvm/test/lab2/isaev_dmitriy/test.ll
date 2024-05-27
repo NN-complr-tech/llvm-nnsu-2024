@@ -236,7 +236,7 @@ if.end:                                           ; preds = %if.then, %entry
 ;   a++;
 ; }
 
-define dso_local void @_Z4foo5v() #0 {
+define dso_local void @_Z4foo5v() {
 entry:
   %a = alloca float, align 4
   store float 1.000000e+00, ptr %a, align 4
@@ -269,17 +269,15 @@ entry:
 ; CHECK-NEXT:   %2 = load float, ptr %1, align 4
 ; CHECK-NEXT:   %3 = fadd float %2, 1.000000e+00
 ; CHECK-NEXT:   store float %3, ptr %1, align 4
-; CHECK-NEXT:   br label %post-call
-; CHECK: post-call:                                        
-; CHECK-NEXT:   br label %post-call2
-; CHECK: post-call2:                                        
+; CHECK-NEXT:   br label %1
+; CHECK: 1:                                                
 ; CHECK-NEXT:   %4 = alloca float, align 4
 ; CHECK-NEXT:   store float 1.000000e+00, ptr %4, align 4
 ; CHECK-NEXT:   %5 = load float, ptr %4, align 4
 ; CHECK-NEXT:   %6 = fadd float %5, 1.000000e+00
 ; CHECK-NEXT:   store float %6, ptr %4, align 4
-; CHECK-NEXT:   br label %post-call3
-; CHECK: post-call3:                                        
+; CHECK-NEXT:   br label %post-call
+; CHECK: post-call:                                               
 ; CHECK-NEXT:   %7 = load i32, ptr %a, align 4
 ; CHECK-NEXT:   %inc = add nsw i32 %7, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
