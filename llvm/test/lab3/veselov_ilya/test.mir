@@ -179,7 +179,7 @@ body:             |
   
     ; CHECK: renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.i)
     ; CHECK-NEXT: CMP32rm killed renamable $eax, $rbp, 1, $noreg, -20, $noreg, implicit-def $eflags :: (load (s32) from %ir.a.addr)
-    ; CHECK-NEXT: ADD64ri32 @ic, 3, implicit-def $eflags
+    ; CHECK-NEXT: ADD64ri32 @ic, 11, implicit-def $eflags
     ; CHECK-NEXT: JCC_1 %bb.6, 13, implicit killed $eflags
   
   bb.2.for.body:
