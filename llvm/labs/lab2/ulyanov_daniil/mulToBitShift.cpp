@@ -45,7 +45,7 @@ public:
     return -1;
   }
 };
-}
+} // namespace
 
 bool registerPipeLine(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
                       llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
@@ -57,8 +57,8 @@ bool registerPipeLine(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
 }
 
 PassPluginLibraryInfo getUlyanovMulToBitShiftPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "ulyanovMulToBitShiftPlugin", LLVM_VERSION_STRING,
-          [](PassBuilder &PB) {
+  return {LLVM_PLUGIN_API_VERSION, "ulyanovMulToBitShiftPlugin",
+          LLVM_VERSION_STRING, [](PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeLine);
           }};
 }
