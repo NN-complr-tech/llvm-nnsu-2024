@@ -49,6 +49,6 @@ public:
 char X86SafarovMICounter::ID = 0;
 static RegisterPass<X86SafarovMICounter>
     X("x86-safarov-mi-counter",
-    "Counter of machine instructions executed during the execution of "
-    "functions",
-    false, false);
+      "Counter of machine instructions executed during the execution of "
+      "functions",
+      false, false);
