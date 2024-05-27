@@ -3,7 +3,7 @@
 
 ; CHECK-LABEL: @_Z8sum_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %a.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: ret i32 %2
 
@@ -37,7 +37,7 @@ entry:
 
 ; CHECK-LABEL: @_Z8end_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %a.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: %0 = load i32, ptr %a.addr, align 4
 
@@ -60,7 +60,7 @@ entry:
 
 ; CHECK-LABEL: @_Z13sum_cond_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %a.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: ret i32 %5
 
@@ -97,7 +97,7 @@ if.end:                                           ; preds = %if.else, %if.then
 
 ; CHECK-LABEL: @_Z3sumii
 ; CHECK: call void @instrument_start()
-; CHECK: %a.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: ret i32 %2
 
@@ -120,7 +120,7 @@ entry:
 
 ; CHECK-LABEL: @_Z8multiplyii
 ; CHECK: call void @instrument_start()
-; CHECK: %a.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: ret i32 %2
 
@@ -143,7 +143,7 @@ entry:
 
 ; CHECK-LABEL: @_Z11conditionali
 ; CHECK: call void @instrument_start()
-; CHECK: %x.addr = alloca i32, align 4
+; CHECK: %0 = load i32, ptr %x.addr, align 4
 ; CHECK: call void @instrument_end()
 ; CHECK: ret i1 %tobool
 
@@ -172,5 +172,5 @@ if.end:                                           ; preds = %if.else, %if.then
   ret i1 %tobool
 }
 
-declare void @instrument_start()
-declare void @instrument_end()
+declare void @instrument_start() #1
+declare void @instrument_end() #1
