@@ -29,25 +29,12 @@ public:
         if (!mi.isDebugInstr())
           ++InstrCount;
       }
-      if (InstrCount > 0) {
-        MachineBasicBlock::iterator mi = mbb.getFirstTerminator();
-        Register tempReg =
-            mFunc.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
-
-        BuildMI(mbb, mi, dl, tii->get(X86::MOV64rm), tempReg)
-            .addReg(X86::RIP)
-            .addImm(0)
-            .addReg(0)
-            .addGlobalAddress(gVar)
-            .addReg(0);
-
-        BuildMI(mbb, mi, dl, tii->get(X86::ADD64mi32))
-            .addReg(tempReg)
-            .addImm(0)
-            .addReg(0)
-            .addImm(0)
-            .addImm(InstrCount);
-      }
+      BuildMI(mbb, mbb.getFirstTerminator(), dl, tii->get(X86::ADD64mi32))
+          .addGlobalAddress(gVar)
+          .addImm(0)
+          .addReg(0)
+          .addReg(0)
+          .addImm(InstrCount);
     }
     return true;
   }
