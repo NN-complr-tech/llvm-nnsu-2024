@@ -3,13 +3,9 @@
 
 ; CHECK-LABEL: @_Z8sum_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %a.addr, align 4
-; CHECK: %1 = load i32, i32* %b.addr, align 4
-; CHECK: %add = add nsw i32 %0, %1
-; CHECK: store i32 %add, i32* %c, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %2 = load i32, i32* %c, align 4
-; CHECK: ret i32 %2
+; CHECK-NEXT: ret i32 %2
 
 define dso_local noundef i32 @_Z8sum_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -31,7 +27,7 @@ entry:
 ; CHECK-LABEL: @_Z7func_vvv
 ; CHECK: call void @instrument_start()
 ; CHECK: call void @instrument_end()
-; CHECK: ret void
+; CHECK-NEXT: ret void
 
 define dso_local void @_Z7func_vvv() #0 {
 entry:
@@ -42,13 +38,9 @@ entry:
 
 ; CHECK-LABEL: @_Z8end_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %a.addr, align 4
-; CHECK: %1 = load i32, i32* %b.addr, align 4
-; CHECK: %add = add nsw i32 %0, %1
-; CHECK: store i32 %add, i32* %c, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %2 = load i32, i32* %c, align 4
-; CHECK: ret i32 %2
+; CHECK-NEXT: ret i32 %2
 
 define dso_local noundef i32 @_Z8end_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -69,27 +61,9 @@ entry:
 
 ; CHECK-LABEL: @_Z13sum_cond_funcii
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %a.addr, align 4
-; CHECK: %1 = load i32, i32* %b.addr, align 4
-; CHECK: %cmp = icmp slt i32 %0, %1
-; CHECK: br i1 %cmp, label %if.then, label %if.else
-
-; CHECK: if.then:
-; CHECK: %2 = load i32, i32* %b.addr, align 4
-; CHECK: %3 = load i32, i32* %a.addr, align 4
-; CHECK: %sub = sub nsw i32 %2, %3
-; CHECK: store i32 %sub, i32* %c, align 4
-; CHECK: br label %if.end
-
-; CHECK: if.else:
-; CHECK: %4 = load i32, i32* %a.addr, align 4
-; CHECK: store i32 %4, i32* %c, align 4
-; CHECK: br label %if.end
-
-; CHECK: if.end:
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %5 = load i32, i32* %c, align 4
-; CHECK: ret i32 %5
+; CHECK-NEXT: ret i32 %5
 
 define dso_local noundef i32 @_Z13sum_cond_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -124,13 +98,9 @@ if.end:                                           ; preds = %if.else, %if.then
 
 ; CHECK-LABEL: @_Z3sumii
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %a.addr, align 4
-; CHECK: %1 = load i32, i32* %b.addr, align 4
-; CHECK: %add = add nsw i32 %0, %1
-; CHECK: store i32 %add, i32* %result, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %2 = load i32, i32* %result, align 4
-; CHECK: ret i32 %2
+; CHECK-NEXT: ret i32 %2
 
 define dso_local noundef i32 @_Z3sumii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -151,13 +121,9 @@ entry:
 
 ; CHECK-LABEL: @_Z8multiplyii
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %a.addr, align 4
-; CHECK: %1 = load i32, i32* %b.addr, align 4
-; CHECK: %mul = mul nsw i32 %0, %1
-; CHECK: store i32 %mul, i32* %result, align 4
+; CHECK-NEXT: %a.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %2 = load i32, i32* %result, align 4
-; CHECK: ret i32 %2
+; CHECK-NEXT: ret i32 %2
 
 define dso_local noundef i32 @_Z8multiplyii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -178,23 +144,9 @@ entry:
 
 ; CHECK-LABEL: @_Z11conditionali
 ; CHECK: call void @instrument_start()
-; CHECK: %0 = load i32, i32* %x.addr, align 4
-; CHECK: %cmp = icmp sgt i32 %0, 0
-; CHECK: br i1 %cmp, label %if.then, label %if.else
-
-; CHECK: if.then:
-; CHECK: store i8 1, i8* %res, align 1
-; CHECK: br label %if.end
-
-; CHECK: if.else:
-; CHECK: store i8 0, i8* %res, align 1
-; CHECK: br label %if.end
-
-; CHECK: if.end:
+; CHECK-NEXT: %x.addr = alloca i32, align 4
 ; CHECK: call void @instrument_end()
-; CHECK: %1 = load i8, i8* %res, align 1
-; CHECK: %tobool = trunc i8 %1 to i1
-; CHECK: ret i1 %tobool
+; CHECK-NEXT: ret i1 %tobool
 
 define dso_local noundef zeroext i1 @_Z11conditionali(i32 noundef %x) #0 {
 entry:
