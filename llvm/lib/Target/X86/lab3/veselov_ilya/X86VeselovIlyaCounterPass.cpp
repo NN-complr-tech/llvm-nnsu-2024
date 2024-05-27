@@ -18,8 +18,8 @@ public:
     if (!gVar) {
       gVar = new GlobalVariable(mod, Type::getInt64Ty(context), false,
                                 GlobalValue::ExternalLinkage, nullptr, "ic");
+      gVar->setInitializer(ConstantInt::get(Type::getInt64Ty(context), 0));
     }
-    gVar->setInitializer(ConstantInt::get(Type::getInt64Ty(context), 0));
     const TargetInstrInfo *tii = mFunc.getSubtarget().getInstrInfo();
     DebugLoc dl = mFunc.front().begin()->getDebugLoc();
 
@@ -29,9 +29,24 @@ public:
         if (!mi.isDebugInstr())
           ++InstrCount;
       }
-      BuildMI(mbb, mbb.getFirstTerminator(), dl, tii->get(X86::ADD64ri32))
-          .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
-          .addImm(InstrCount);
+      if (InstrCount > 0) {
+        MachineBasicBlock::iterator mi = mbb.getFirstTerminator();
+        Register tempReg = mFunc.getRegInfo().createVirtualRegister(&X86::GR64RegClass);
+
+        BuildMI(mbb, mi, dl, tii->get(X86::MOV64rm), tempReg)
+            .addReg(X86::RIP)
+            .addImm(0)
+            .addReg(0)
+            .addGlobalAddress(gVar)
+            .addReg(0);
+
+        BuildMI(mbb, mi, dl, tii->get(X86::ADD64mi32))
+            .addReg(tempReg)
+            .addImm(0)
+            .addReg(0)
+            .addImm(0)
+            .addImm(InstrCount);
+      }
     }
     return true;
   }
