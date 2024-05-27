@@ -27,8 +27,8 @@ public:
     mod.walk([&](LLVM::LLVMFuncOp funcOper) {
       StringRef name = funcOper.getName();
       int countOfCalls = calls[name];
-      auto val =
-          IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32), countOfCalls);
+      auto val = IntegerAttr::get(IntegerType::get(funcOper.getContext(), 32),
+                                  countOfCalls);
       funcOper->setAttr("countOfCalls", val);
     });
   }
