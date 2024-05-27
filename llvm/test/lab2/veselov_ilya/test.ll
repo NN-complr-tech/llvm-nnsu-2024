@@ -5,7 +5,7 @@
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %2
+; CHECK-NEXT: %2 = load i32, ptr %c, align 4
 
 define dso_local noundef i32 @_Z8sum_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -40,7 +40,7 @@ entry:
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %2
+; CHECK-NEXT: %2 = load i32, ptr %c, align 4
 
 define dso_local noundef i32 @_Z8end_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -63,7 +63,7 @@ entry:
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %5
+; CHECK-NEXT: %5 = load i32, ptr %c, align 4
 
 define dso_local noundef i32 @_Z13sum_cond_funcii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -100,7 +100,7 @@ if.end:                                           ; preds = %if.else, %if.then
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %2
+; CHECK-NEXT: %2 = load i32, ptr %result, align 4
 
 define dso_local noundef i32 @_Z3sumii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -123,7 +123,7 @@ entry:
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i32 %2
+; CHECK-NEXT: %2 = load i32, ptr %result, align 4
 
 define dso_local noundef i32 @_Z8multiplyii(i32 noundef %a, i32 noundef %b) #0 {
 entry:
@@ -146,7 +146,7 @@ entry:
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: %0 = load i32, ptr %x.addr, align 4
 ; CHECK: call void @instrument_end()
-; CHECK-NEXT: ret i1 %tobool
+; CHECK-NEXT: %1 = load i8, ptr %res, align 1
 
 define dso_local noundef zeroext i1 @_Z11conditionali(i32 noundef %x) #0 {
 entry:
