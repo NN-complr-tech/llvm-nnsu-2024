@@ -23,7 +23,7 @@ struct AddPass : public PassInfoMixin<AddPass> {
 
       if (PreheaderBlock != nullptr) { // Check if the loop has a preheader
         bool IsLoopStartFunc = false;
-        for (auto &Inst : *PreheaderBlock) {
+        for (Instruction &Inst : *PreheaderBlock) {
           if (CallInst *CallInst = dyn_cast<CallInst>(&Inst)) {
             if (CallInst->getCalledFunction() &&
                 CallInst->getCalledFunction()->getName() == "loop_start") {
@@ -43,9 +43,9 @@ struct AddPass : public PassInfoMixin<AddPass> {
       SmallVector<BasicBlock *, 8> ExitBlocks;
       Loop->getExitBlocks(ExitBlocks); // Get all exit blocks of the loop
       bool IsLoopEndFunc = false;
-      for (auto *ExitBlock : ExitBlocks) { // Iterate over all exit blocks
+      for (BasicBlock *ExitBlock : ExitBlocks) { // Iterate over all exit blocks
         IsLoopEndFunc = false;
-        for (auto &Inst : *ExitBlock) {
+        for (Instruction &Inst : *ExitBlock) {
           if (CallInst *CallInst = dyn_cast<CallInst>(&Inst)) {
             if (CallInst->getCalledFunction() &&
                 CallInst->getCalledFunction()->getName() == "loop_end") {
