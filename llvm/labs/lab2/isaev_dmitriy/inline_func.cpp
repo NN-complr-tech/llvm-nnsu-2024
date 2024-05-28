@@ -15,11 +15,11 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
     llvm::SmallVector<llvm::CallInst *, 8> CallsToInline;
     llvm::IRBuilder<> Builder(Func.getContext());
 
+    // Сбор вызовов для инлайнинга
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
         if (auto *CI = llvm::dyn_cast<llvm::CallInst>(&Instr)) {
           llvm::Function *Callee = CI->getCalledFunction();
-
           if (Callee && Callee->arg_empty() &&
               Callee->getReturnType()->isVoidTy()) {
             CallsToInline.push_back(CI);
@@ -28,6 +28,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
       }
     }
 
+    // Инлайнинг вызовов
     for (auto *CI : CallsToInline) {
       llvm::BasicBlock *InsertionBlock = CI->getParent();
       llvm::ValueToValueMapTy ValueMap;
@@ -36,8 +37,9 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
           InsertionBlock->splitBasicBlock(CI->getIterator(), "post-call");
 
       llvm::Function *Callee = CI->getCalledFunction();
-      llvm::BasicBlock *PrevBB = nullptr;
+      llvm::BasicBlock *PrevBB = InsertionBlock;
       llvm::BasicBlock *CurrentBB = nullptr;
+
       for (llvm::BasicBlock &CalleeBB : *Callee) {
         CurrentBB =
             llvm::BasicBlock::Create(Func.getContext(), "", &Func, PostCallBB);
@@ -56,10 +58,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
           }
         }
 
-        if (PrevBB) {
-          if (PrevBB->getTerminator()) {
-            PrevBB->getTerminator()->eraseFromParent();
-          }
+        if (PrevBB && !PrevBB->getTerminator()) {
           Builder.SetInsertPoint(PrevBB);
           Builder.CreateBr(CurrentBB);
         }
@@ -67,14 +66,12 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
         PrevBB = CurrentBB;
       }
 
-      if (PrevBB) {
-        if (PrevBB->getTerminator()) {
-          PrevBB->getTerminator()->eraseFromParent();
-        }
+      if (PrevBB && !PrevBB->getTerminator()) {
         Builder.SetInsertPoint(PrevBB);
         Builder.CreateBr(PostCallBB);
       }
 
+      // Обновление операндов для клонированных инструкций
       for (auto Iter = ValueMap.begin(); Iter != ValueMap.end(); ++Iter) {
         if (llvm::BasicBlock *NewBB =
                 llvm::dyn_cast<llvm::BasicBlock>(Iter->second)) {
@@ -86,24 +83,6 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
             }
           }
         }
-      }
-
-      for (auto &Use : CI->uses()) {
-        llvm::User *User = Use.getUser();
-        for (unsigned i = 0; i < User->getNumOperands(); ++i) {
-          if (ValueMap.count(User->getOperand(i))) {
-            User->getOperand(i)->replaceAllUsesWith(
-                ValueMap[User->getOperand(i)]);
-          }
-        }
-      }
-
-      llvm::BasicBlock *PostCallBBNext = PostCallBB->getNextNode();
-      if (PostCallBBNext) {
-        llvm::Instruction *Term = PostCallBB->getTerminator();
-        Term->eraseFromParent();
-        Builder.SetInsertPoint(PostCallBB);
-        Builder.CreateBr(PostCallBBNext);
       }
 
       CI->eraseFromParent();
