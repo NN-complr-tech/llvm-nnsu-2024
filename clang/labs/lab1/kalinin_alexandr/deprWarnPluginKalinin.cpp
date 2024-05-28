@@ -6,46 +6,36 @@
 using namespace clang;
 
 class CustomNodeVisitor : public RecursiveASTVisitor<CustomNodeVisitor> {
-  bool CaseInsensitive;
-
 public:
-  CustomNodeVisitor(bool CaseInsensitive) : CaseInsensitive(CaseInsensitive) {}
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
-    if (fDecl->getNameInfo().getAsString().find("deprecated") != std::string::npos) {
+    if (fDecl && fDecl->getNameInfo().getAsString().find("deprecated") !=
+                     std::string::npos) {
       DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-      unsigned diagnID = diagn.getCustomDiagID(DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-      diagn.Report(fDecl->getLocation(), diagnID) << fDecl->getNameInfo().getAsString();
+      unsigned diagnID = diagn.getCustomDiagID(
+          DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+      diagn.Report(fDecl->getLocation(), diagnID)
+          << fDecl->getNameInfo().getAsString();
     }
     return true;
   }
 };
 
 class CustomConsumer : public ASTConsumer {
-  bool CaseInsensitive;
-
 public:
-  explicit CustomConsumer(bool CaseInsensitive)
-      : CaseInsensitive(CaseInsensitive) {}
   void HandleTranslationUnit(ASTContext &Context) override {
-    CustomNodeVisitor Cnv(CaseInsensitive);
+    CustomNodeVisitor Cnv;
     Cnv.TraverseDecl(Context.getTranslationUnitDecl());
   }
 };
 
 class PluginDeprFunc : public PluginASTAction {
-  bool CaseInsensitive = false;
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Instance,
                     llvm::StringRef InFile) override {
-    return std::make_unique<CustomConsumer>(CaseInsensitive);
+    return std::make_unique<CustomConsumer>();
   }
   bool ParseArgs(const CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
-    for (const auto &arg : Args) {
-      if (arg == "-i") {
-        CaseInsensitive = true;
-      }
-    }
     return true;
   }
 };
