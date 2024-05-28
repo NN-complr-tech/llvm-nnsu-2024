@@ -7,37 +7,73 @@ using namespace clang;
 
 class CustomNodeVisitor : public RecursiveASTVisitor<CustomNodeVisitor> {
 public:
+  CustomNodeVisitor(bool caseSensitive) : CaseSensitive(caseSensitive) {}
+
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
-    if (fDecl && fDecl->getNameInfo().getAsString().find("deprecated") !=
-                     std::string::npos) {
-      DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-      unsigned diagnID = diagn.getCustomDiagID(
-          DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-      diagn.Report(fDecl->getLocation(), diagnID)
-          << fDecl->getNameInfo().getAsString();
+    if (fDecl) {
+      std::string functionName = fDecl->getNameInfo().getAsString();
+      std::string keyword = "deprecated";
+
+      if (!CaseSensitive) {
+        // Convert both strings to lower case for case-insensitive comparison
+        std::transform(functionName.begin(), functionName.end(),
+                       functionName.begin(), ::tolower);
+        std::transform(keyword.begin(), keyword.end(), keyword.begin(),
+                       ::tolower);
+      }
+
+      if (functionName.find(keyword) != std::string::npos) {
+        DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+        unsigned diagnID = diagn.getCustomDiagID(
+            DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+        diagn.Report(fDecl->getLocation(), diagnID)
+            << fDecl->getNameInfo().getAsString();
+      }
     }
     return true;
   }
+
+private:
+  bool CaseSensitive;
 };
 
 class CustomConsumer : public ASTConsumer {
 public:
+  CustomConsumer(bool caseSensitive) : CaseSensitive(caseSensitive) {}
+
   void HandleTranslationUnit(ASTContext &Context) override {
-    CustomNodeVisitor Cnv;
+    CustomNodeVisitor Cnv(CaseSensitive);
     Cnv.TraverseDecl(Context.getTranslationUnitDecl());
   }
+
+private:
+  bool CaseSensitive;
 };
 
 class PluginDeprFunc : public PluginASTAction {
+public:
+  PluginDeprFunc() : CaseSensitive(true) {}
+
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Instance,
                     llvm::StringRef InFile) override {
-    return std::make_unique<CustomConsumer>();
+    return std::make_unique<CustomConsumer>(CaseSensitive);
   }
+
   bool ParseArgs(const CompilerInstance &Compiler,
                  const std::vector<std::string> &Args) override {
+    for (const auto &Arg : Args) {
+      if (Arg == "-case-insensitive") {
+        CaseSensitive = false;
+      } else if (Arg == "-case-sensitive") {
+        CaseSensitive = true;
+      }
+    }
     return true;
   }
+
+private:
+  bool CaseSensitive;
 };
 
 static FrontendPluginRegistry::Add<PluginDeprFunc>
