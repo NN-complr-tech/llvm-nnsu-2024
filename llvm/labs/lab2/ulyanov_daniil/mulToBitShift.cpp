@@ -1,6 +1,7 @@
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
+#include <optional>
 
 using namespace llvm;
 
@@ -18,31 +19,45 @@ public:
         Value *LVal = Op->getOperand(0);
         Value *RVal = Op->getOperand(1);
 
-        int LLog = getLog2(LVal);
-        int RLog = getLog2(RVal);
+        std::optional<int> LLog = getLog2(LVal);
+        std::optional<int> RLog = getLog2(RVal);
 
-        if (RLog < LLog) {
+        if (!LLog.has_value() || !RLog.has_value()) {
+          continue;
+        }
+        if (LLog.has_value() && !RLog.has_value()) {
           std::swap(LLog, RLog);
           std::swap(LVal, RVal);
-        }
-        if (RLog < 0) {
-          continue;
+        } else if (LLog.has_value() && RLog.has_value()) {
+          if (RLog.value() < LLog.value()) {
+            std::swap(LLog, RLog);
+            std::swap(LVal, RVal);
+          }
         }
 
         IRBuilder<> Builder(Op);
-        Value *NewVal =
-            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog));
+        Value *NewVal;
+        if (RVal->getType()->isIntegerTy(8) && RLog.value() > 8) {
+          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 8));
+        } else if(RVal->getType()->isIntegerTy(16) && RLog.value() > 16) {
+          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 16));
+        } else if(RVal->getType()->isIntegerTy(32) && RLog.value() > 32) {
+          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 32));
+        } else {
+          NewVal =
+            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog.value()));
+        }
         ReplaceInstWithValue(InstIt, NewVal);
       }
     }
     return PreservedAnalyses::all();
   }
 
-  int getLog2(llvm::Value *Op) {
+  std::optional<int> getLog2(llvm::Value *Op) {
     if (auto *CI = dyn_cast<ConstantInt>(Op)) {
       return CI->getValue().exactLogBase2();
     }
-    return -1;
+    return std::nullopt;
   }
 };
 } // namespace
