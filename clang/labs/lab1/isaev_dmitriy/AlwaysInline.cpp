@@ -68,4 +68,5 @@ protected:
 } // namespace
 
 static clang::FrontendPluginRegistry::Add<AlwaysInlinePlugin>
-    X("add-always-inline", "Add the always_inline attribute to all functions that don't have conditions");
+    X("add-always-inline", "Add the always_inline attribute to all functions "
+                           "that don't have conditions");
