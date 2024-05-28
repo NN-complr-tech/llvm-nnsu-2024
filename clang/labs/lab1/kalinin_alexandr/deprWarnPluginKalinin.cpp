@@ -10,7 +10,7 @@ class CustomNodeVisitor : public RecursiveASTVisitor<CustomNodeVisitor> {
 
 public:
   CustomNodeVisitor(bool CaseInsensitive) : CaseInsensitive(CaseInsensitive) {}
-  bool VisitFunctionDecl(FunctionDecl *Pfunction) {
+  bool VisitFunctionDecl(FunctionDecl *fDecl) {
     if (fDecl->getNameInfo().getAsString().find("deprecated") != std::string::npos) {
       DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
       unsigned diagnID = diagn.getCustomDiagID(DiagnosticsEngine::Warning, "The function name has 'deprecated'");
