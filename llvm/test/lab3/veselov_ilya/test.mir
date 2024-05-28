@@ -1,3 +1,4 @@
+# RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86VeselovIlyaCounterPass%shlibext -run-pass=x86-veselov-ilya-counter-pass  %s -o - | FileCheck %s
 --- |
   ; ModuleID = 'llvm/test/lab3/veselov_ilya/test.mir'
   source_filename = "../llvm/test/lab3/veselov_ilya/test.cpp"
