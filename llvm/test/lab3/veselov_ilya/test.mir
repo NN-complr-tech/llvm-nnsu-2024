@@ -1,4 +1,5 @@
 # RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86VeselovIlyaCounterPass%shlibext -run-pass=x86-veselov-ilya-counter-pass  %s -o - | FileCheck %s
+
 --- |
   ; ModuleID = 'llvm/test/lab3/veselov_ilya/test.mir'
   source_filename = "../llvm/test/lab3/veselov_ilya/test.cpp"
@@ -398,18 +399,14 @@ body:             |
     ; CHECK-NEXT: MOV32mi $rbp, 1, $noreg, -12, $noreg, 5 :: (store (s32) into %ir.a)
     ; CHECK-NEXT: MOV32mi $rbp, 1, $noreg, -8, $noreg, 3 :: (store (s32) into %ir.b)
     ; CHECK-NEXT: renamable $eax = MOV32rm $rbp, 1, $noreg, -12, $noreg :: (load (s32) from %ir.a)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = ADD32ri killed renamable $eax, 10, implicit-def dead $eflags
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = ADD32rm killed renamable $eax, $rbp, 1, $noreg, -8, $noreg, implicit-def dead $eflags :: (load (s32) from %ir.b)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: MOV32mr $rbp, 1, $noreg, -4, $noreg, killed renamable $eax :: (store (s32) into %ir.c)
     ; CHECK-NEXT: renamable $eax = IMUL32rmi $rbp, 1, $noreg, -4, $noreg, 5, implicit-def dead $eflags :: (load (s32) from %ir.c)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: MOV32mr $rbp, 1, $noreg, -16, $noreg, killed renamable $eax :: (store (s32) into %ir.d)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
+    ; CHECK-NEXT: ADD64mi32 @ic, 16, implicit-def $eflags
     ; CHECK-NEXT: RET64
 
 ...
@@ -505,31 +502,19 @@ body:             |
     ; CHECK-NEXT: $rbp = frame-setup MOV64rr $rsp
     ; CHECK-NEXT: frame-setup CFI_INSTRUCTION def_cfa_register $rbp
     ; CHECK-NEXT: MOV32mi $rbp, 1, $noreg, -4, $noreg, 10 :: (store (s32) into %ir.a)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.a)
-    ; CHECK-NEXT: ADD64mi32 @ic, 10, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = ADD32ri killed renamable $eax, 5, implicit-def dead $eflags
-    ; CHECK-NEXT: ADD64mi32 @ic, 5, implicit-def $eflags
     ; CHECK-NEXT: MOV32mr $rbp, 1, $noreg, -8, $noreg, killed renamable $eax :: (store (s32) into %ir.b)
-    ; CHECK-NEXT: ADD64mi32 @ic, 5, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = MOV32rm $rbp, 1, $noreg, -8, $noreg :: (load (s32) from %ir.b)
-    ; CHECK-NEXT: ADD64mi32 @ic, 5, implicit-def $eflags
     ; CHECK-NEXT: renamable $ecx = MOV32ri 3
-    ; CHECK-NEXT: ADD64mi32 @ic, 3, implicit-def $eflags
     ; CHECK-NEXT: CDQ implicit-def $eax, implicit-def $edx, implicit $eax
-    ; CHECK-NEXT: ADD64mi32 @ic, 3, implicit-def $eflags
     ; CHECK-NEXT: IDIV32r killed renamable $ecx, implicit-def $eax, implicit-def dead $edx, implicit-def dead $eflags, implicit $eax, implicit killed $edx
-    ; CHECK-NEXT: ADD64mi32 @ic, 3, implicit-def $eflags
     ; CHECK-NEXT: renamable $ecx = MOV32rm $rbp, 1, $noreg, -4, $noreg :: (load (s32) from %ir.a)
-    ; CHECK-NEXT: ADD64mi32 @ic, 3, implicit-def $eflags
     ; CHECK-NEXT: renamable $ecx = SHL32ri killed renamable $ecx, 2, implicit-def dead $eflags
-    ; CHECK-NEXT: ADD64mi32 @ic, 2, implicit-def $eflags
     ; CHECK-NEXT: renamable $eax = ADD32rr killed renamable $eax, killed renamable $ecx, implicit-def dead $eflags
-    ; CHECK-NEXT: ADD64mi32 @ic, 2, implicit-def $eflags
     ; CHECK-NEXT: $rbp = frame-destroy POP64r implicit-def $rsp, implicit $rsp
-    ; CHECK-NEXT: ADD64mi32 @ic, 2, implicit-def $eflags
     ; CHECK-NEXT: frame-destroy CFI_INSTRUCTION def_cfa $rsp, 8
-    ; CHECK-NEXT: ADD64mi32 @ic, 2, implicit-def $eflags
+    ; CHECK-NEXT: ADD64mi32 @ic, 19, implicit-def $eflags
     ; CHECK-NEXT: RET64 implicit $eax
 
 ...
