@@ -171,6 +171,7 @@ body:             |
     %0:vr128 = COPY $xmm0
     %3:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
     %4:vr128 = nofpexcept ADDPDrr %3, %2, implicit $mxcsr
+    ;CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %4
     RET 0, $xmm0
 ...
@@ -195,7 +196,7 @@ body:             |
     %0:vr128 = COPY $xmm0
     %1:vr128 = nofpexcept MULPDrr %0, %0, implicit $mxcsr
     %2:vr128 = nofpexcept ADDPDrr %1, %0, implicit $mxcsr
-    ;CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
+    ;CHECK : %2:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %2
     RET 0, $xmm0
 ...
@@ -226,7 +227,7 @@ body:             |
     %0:vr128 = COPY $xmm0
     %3:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
     %4:vr128 = nofpexcept ADDPDrr %3, %2, implicit $mxcsr
-    ; CHECK : %2:vr128 = VFMADD213PDr %0, %0, %0, implicit $mxcsr
+    ; CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %4
     RET 0, $xmm0
 ...
@@ -290,7 +291,7 @@ body:             |
     %0:vr128 = COPY $xmm0
     %3:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
     %4:vr128 = nofpexcept ADDPDrr %3, %2, implicit $mxcsr
-    ; CHECK : %2:vr128 = VFMADD213PDr %0, %0, %0, implicit $mxcsr
+    ; CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %4
     RET 0, $xmm0
 ...
@@ -321,8 +322,8 @@ body:             |
     %1:vr128 = COPY $xmm1
     %0:vr128 = COPY $xmm0
     %3:vr128 = nofpexcept MULPDrr %0, %1, implicit $mxcsr
-    %4:vr128 = nofpexcept ADDPDrr %3, %2, implicit $mxcsr
-    %5:vr128 = nofpexcept ADDPDrr %3, %4, implicit $mxcsr
+    %4:vr128 = nofpexcept ADDPDrr %3, %3, implicit $mxcsr
+    %5:vr128 = nofpexcept ADDPDrr %2, %4, implicit $mxcsr
     ; CHECK : %4:vr128 = VFMADD213PDr %0, %1, %2, implicit $mxcsr
     $xmm0 = COPY %5
     RET 0, $xmm0
