@@ -25,28 +25,33 @@ public:
         if (!LLog.has_value() || !RLog.has_value()) {
           continue;
         }
-        if (LLog.has_value() && !RLog.has_value()) {
+        // if (LLog.has_value() && !RLog.has_value()) {
+        //   std::swap(LLog, RLog);
+        //   std::swap(LVal, RVal);
+        // } else if (LLog.has_value() && RLog.has_value()) {
+        //   if (RLog.value() < LLog.value()) {
+        //     std::swap(LLog, RLog);
+        //     std::swap(LVal, RVal);
+        //   }
+        // }
+        if (RLog.value() < LLog.value()) {
           std::swap(LLog, RLog);
           std::swap(LVal, RVal);
-        } else if (LLog.has_value() && RLog.has_value()) {
-          if (RLog.value() < LLog.value()) {
-            std::swap(LLog, RLog);
-            std::swap(LVal, RVal);
-          }
         }
 
         IRBuilder<> Builder(Op);
-        Value *NewVal;
-        if (RVal->getType()->isIntegerTy(8) && RLog.value() > 8) {
-          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 8));
-        } else if (RVal->getType()->isIntegerTy(16) && RLog.value() > 16) {
-          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 16));
-        } else if (RVal->getType()->isIntegerTy(32) && RLog.value() > 32) {
-          NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 32));
-        } else {
-          NewVal = Builder.CreateShl(
-              LVal, ConstantInt::get(Op->getType(), RLog.value()));
-        }
+        Value *NewVal =
+            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog.value()));
+        // if (RVal->getType()->isIntegerTy(8) && RLog.value() > 8) {
+        //   NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 8));
+        // } else if (RVal->getType()->isIntegerTy(16) && RLog.value() > 16) {
+        //   NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 16));
+        // } else if (RVal->getType()->isIntegerTy(32) && RLog.value() > 32) {
+        //   NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 32));
+        // } else {
+        //   NewVal = Builder.CreateShl(
+        //       LVal, ConstantInt::get(Op->getType(), RLog.value()));
+        // }
         ReplaceInstWithValue(InstIt, NewVal);
       }
     }
