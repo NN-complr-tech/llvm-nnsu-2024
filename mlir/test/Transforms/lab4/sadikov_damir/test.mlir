@@ -32,8 +32,11 @@ module{
     func.func @func3(%buffer: memref<1024xf32>, %lb: index, %ub: index, %step: index) -> f32 {
         %sum_0 = arith.constant 0.0 : f32
         %c0 = arith.constant 0.0 : f32
-        %sum = scf.for %iv = %lb to %ub step %step
-        iter_args(%sum_iter = %sum_0) -> (f32) {
+        %sum = scf.while (%arg1 = %c0) : (f32) -> f32 {
+            %condition = arith.constant 1 : i1
+            scf.condition(%condition) %arg1 : f32
+        } do {
+            ^bb0(%sum_iter: f32):
             %cond = arith.constant 1 : i1
             %sum_next = scf.if %cond -> (f32) {
                 %new_sum = arith.addf %sum_iter, %sum_iter : f32
