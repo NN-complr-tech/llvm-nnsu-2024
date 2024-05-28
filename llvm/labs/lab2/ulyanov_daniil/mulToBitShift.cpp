@@ -39,13 +39,13 @@ public:
         Value *NewVal;
         if (RVal->getType()->isIntegerTy(8) && RLog.value() > 8) {
           NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 8));
-        } else if(RVal->getType()->isIntegerTy(16) && RLog.value() > 16) {
+        } else if (RVal->getType()->isIntegerTy(16) && RLog.value() > 16) {
           NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 16));
-        } else if(RVal->getType()->isIntegerTy(32) && RLog.value() > 32) {
+        } else if (RVal->getType()->isIntegerTy(32) && RLog.value() > 32) {
           NewVal = Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), 32));
         } else {
-          NewVal =
-            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog.value()));
+          NewVal = Builder.CreateShl(
+              LVal, ConstantInt::get(Op->getType(), RLog.value()));
         }
         ReplaceInstWithValue(InstIt, NewVal);
       }
