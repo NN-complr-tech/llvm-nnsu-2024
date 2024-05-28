@@ -54,6 +54,11 @@ struct AddPass : public PassInfoMixin<AddPass> {
             }
           }
         }
+        if (!IsLoopEndFunc) { // Check if the exit block has a call to loop_end
+          IRBuild.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
+          IRBuild.CreateCall(
+              ParentModule->getOrInsertFunction("loop_end", FuncType));
+        }
       }
     }
     return PreservedAnalyses::all();
