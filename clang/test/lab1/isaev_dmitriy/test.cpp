@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -ast-dump -ast-dump-filter foo -load %llvmshlibdir/IsaevAlwaysInlinePlugin%pluginext -add-plugin always-inline %s | FileCheck %s
+// RUN: %clang_cc1 -ast-dump -ast-dump-filter foo -load %llvmshlibdir/IsaevAlwaysInlinePlugin%pluginext -add-plugin add-always-inline %s | FileCheck %s
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) foo2 'int \(\)'}}
 int foo1() {
