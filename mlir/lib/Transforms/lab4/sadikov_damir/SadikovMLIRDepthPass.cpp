@@ -21,7 +21,7 @@ public:
   }
   void runOnOperation() override {
     Operation *func = getOperation();
-    func->setAttr("depth_of_region",
+    func->setAttr("depth_of_func",
                   IntegerAttr::get(IntegerType::get(func->getContext(), 32),
                                    getDepth(func)));
   }

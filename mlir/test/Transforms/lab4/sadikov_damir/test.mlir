@@ -6,7 +6,7 @@
 
 //--- func1.mlir
 module{
-    // CHECK: func.func @func1() -> f32 attributes {depth_of_region = 1 : i32} {
+    // CHECK: func.func @func1() -> f32 attributes {depth_of_func = 1 : i32} {
     func.func @func1() -> f32 {
         %sum_0 = arith.constant 0.0 : f32
         return %sum_0 : f32
@@ -15,7 +15,7 @@ module{
 
 //--- func2.mlir
 module{
-    // CHECK: func.func @func2(%arg0: memref<1024xf32>, %arg1: index, %arg2: index, %arg3: index) -> f32 attributes {depth_of_region = 2 : i32} {
+    // CHECK: func.func @func2(%arg0: memref<1024xf32>, %arg1: index, %arg2: index, %arg3: index) -> f32 attributes {depth_of_func = 2 : i32} {
     func.func @func2(%buffer: memref<1024xf32>, %lb: index, %ub: index, %step: index) -> f32 {
         %sum_0 = arith.constant 0.0 : f32
         %sum = scf.for %iv = %lb to %ub step %step iter_args(%sum_iter = %sum_0) -> (f32) {
@@ -28,7 +28,7 @@ module{
 
 //--- func3.mlir
 module{ 
-    // CHECK: func.func @func3(%arg0: memref<1024xf32>, %arg1: index, %arg2: index, %arg3: index) -> f32 attributes {depth_of_region = 3 : i32} {
+    // CHECK: func.func @func3(%arg0: memref<1024xf32>, %arg1: index, %arg2: index, %arg3: index) -> f32 attributes {depth_of_func = 3 : i32} {
     func.func @func3(%buffer: memref<1024xf32>, %lb: index, %ub: index, %step: index) -> f32 {
         %sum_0 = arith.constant 0.0 : f32
         %c0 = arith.constant 0.0 : f32
