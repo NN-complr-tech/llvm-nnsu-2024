@@ -24,7 +24,7 @@ struct AddPass : public PassInfoMixin<AddPass> {
       if (PreheaderBlock != nullptr) { // Check if the loop has a preheader
         bool IsLoopStartFunc = false;
         for (auto &Inst : *PreheaderBlock) {
-          if (auto *CallInst = dyn_cast<CallInst>(&Inst)) {
+          if (CallInst *CallInst = dyn_cast<CallInst>(&Inst)) {
             if (CallInst->getCalledFunction() &&
                 CallInst->getCalledFunction()->getName() == "loop_start") {
               IsLoopStartFunc = true;
@@ -46,7 +46,7 @@ struct AddPass : public PassInfoMixin<AddPass> {
       for (auto *ExitBlock : ExitBlocks) { // Iterate over all exit blocks
         IsLoopEndFunc = false;
         for (auto &Inst : *ExitBlock) {
-          if (auto *CallInst = dyn_cast<CallInst>(&Inst)) {
+          if (CallInst *CallInst = dyn_cast<CallInst>(&Inst)) {
             if (CallInst->getCalledFunction() &&
                 CallInst->getCalledFunction()->getName() == "loop_end") {
               IsLoopEndFunc = true;
