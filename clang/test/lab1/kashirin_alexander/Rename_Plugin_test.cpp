@@ -142,6 +142,50 @@
 //ERROR: Invalid arguments
 //ERROR-NEXT: Specify "-plugin-arg-rename help" for usage
 
+// RUN: %clang_cc1 -load %llvmshlibdir/rename_id_plugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename cur-name=TemplateClass\
+// RUN: -plugin-arg-rename new-name=RenamedClass %t/rename_template_class.cpp
+// RUN: FileCheck %s < %t/rename_template_class.cpp --check-prefix=TEMPLATE_CLASS
+
+// TEMPLATE_CLASS: template<typename T>
+// TEMPLATE_CLASS-NEXT: class RenamedClass {
+// TEMPLATE_CLASS-NEXT: public:
+// TEMPLATE_CLASS-NEXT:   void method() {}
+// TEMPLATE_CLASS-NEXT: };
+
+// RUN: %clang_cc1 -load %llvmshlibdir/rename_id_plugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=func\
+// RUN: -plugin-arg-rename cur-name=staticMethod\
+// RUN: -plugin-arg-rename new-name=renamedMethod %t/rename_static_method.cpp
+// RUN: FileCheck %s < %t/rename_static_method.cpp --check-prefix=STATIC_METHOD
+
+// STATIC_METHOD: class Class {
+// STATIC_METHOD: public:
+// STATIC_METHOD:   static void renamedMethod() {}
+// STATIC_METHOD: };
+
+// RUN: %clang_cc1 -load %llvmshlibdir/rename_id_plugin%pluginext\
+// RUN: -add-plugin rename\
+// RUN: -plugin-arg-rename type=class\
+// RUN: -plugin-arg-rename cur-name=OldClass\
+// RUN: -plugin-arg-rename new-name=NewClass %t/rename_inherited_class.cpp
+// RUN: FileCheck %s < %t/rename_inherited_class.cpp --check-prefix=INHERITED_CLASS
+
+// INHERITED_CLASS: class Class {
+// INHERITED_CLASS-NEXT: public:
+// INHERITED_CLASS-NEXT:   void method() {}
+// INHERITED_CLASS-NEXT: };
+
+// INHERITED_CLASS: class NewClass : public Class {};
+
+// INHERITED_CLASS: void func() {
+// INHERITED_CLASS-NEXT:   NewClass obj;
+// INHERITED_CLASS-NEXT:   obj.method();
+// INHERITED_CLASS-NEXT: }
+
 //--- rename_var.cpp
 int func() {
   int a = 2, b = 2;
@@ -208,4 +252,30 @@ void func() {
   A var1;
   A* var2 = new A;
   delete var2;
+}
+
+//--- rename_template_class.cpp
+template<typename T>
+class TemplateClass {
+public:
+  void method() {}
+};
+
+//--- rename_static_method.cpp
+class Class {
+public:
+  static void staticMethod() {}
+};
+
+//--- rename_inherited_class.cpp
+class Class {
+public:
+  void method() {}
+};
+
+class OldClass : public Class {};
+
+void func() {
+  OldClass obj;
+  obj.method();
 }
