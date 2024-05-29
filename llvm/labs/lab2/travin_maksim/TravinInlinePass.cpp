@@ -112,6 +112,7 @@ struct TravinInlinePass : public PassInfoMixin<TravinInlinePass> {
 PassPluginLibraryInfo getTravinInlinePassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "TravinInlinePass", "v1.0",
           [](PassBuilder &PB) {
+            
             PB.registerPipelineParsingCallback(
                 [](StringRef Name, FunctionPassManager &FPM,
                    ArrayRef<PassBuilder::PipelineElement>) {
@@ -119,6 +120,7 @@ PassPluginLibraryInfo getTravinInlinePassPluginInfo() {
                     FPM.addPass(TravinInlinePass());
                     return true;
                   }
+                  
                   return false;
                 });
           }};
