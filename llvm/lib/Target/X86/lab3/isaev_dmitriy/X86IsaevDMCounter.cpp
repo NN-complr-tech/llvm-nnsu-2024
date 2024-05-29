@@ -38,6 +38,7 @@ bool X86IsaevDMCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
         Place->getOpcode() >= X86::JCC_1 && Place->getOpcode() <= X86::JCC_4) {
       --Place;
     }
+    
     BuildMI(MBB, Place, DL, TII->get(X86::ADD64mi32))
         .addReg(0)
         .addImm(1)
