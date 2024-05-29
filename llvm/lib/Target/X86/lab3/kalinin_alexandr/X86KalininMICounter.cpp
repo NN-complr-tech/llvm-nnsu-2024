@@ -37,9 +37,7 @@ public:
       auto insertPoint = basicBlock.getFirstTerminator();
 
       if (insertPoint != basicBlock.end() &&
-          insertPoint != basicBlock.begin() &&
-          insertPoint->getOpcode() >= X86::JCC_1 &&
-          insertPoint->getOpcode() <= X86::JCC_4) {
+          insertPoint != basicBlock.begin()) {
         --insertPoint;
       }
 
