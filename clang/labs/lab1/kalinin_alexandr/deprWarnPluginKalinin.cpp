@@ -70,7 +70,7 @@ public:
       } else if (Arg == "-case-sensitive") {
         CaseSensitive = true;
       } else {
-        CI.getDiagnostics().Report(diag::err_drv_invalid_value)
+        CI.getDiagnostics().Report(llvm::diag::err_drv_invalid_value)
             << Arg << "invalid argument";
       }
     }
