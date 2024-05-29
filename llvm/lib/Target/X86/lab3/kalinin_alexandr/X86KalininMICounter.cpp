@@ -32,11 +32,7 @@ public:
     }
 
     for (auto &basicBlock : machineFunction) {
-      unsigned instructionCount = 0;
-      for (auto &instruction : basicBlock) {
-        if (!instruction.isDebugInstr())
-          ++instructionCount;
-      }
+      int instructionCount = std::distance(MBB.begin(), MBB.end());
 
       BuildMI(basicBlock, basicBlock.getFirstTerminator(), debugLocation,
               targetInstrInfo->get(X86::ADD64ri32))
