@@ -38,13 +38,9 @@ public:
 
       auto insertPoint = basicBlock.getFirstTerminator();
 
-      BuildMI(basicBlock, insertPoint, debugLocation,
-              targetInstrInfo->get(X86::ADD64mi32))
-          .addReg(0)
-          .addImm(1)
-          .addReg(0)
-          .addGlobalAddress(instructionCounter)
-          .addReg(0)
+      BuildMI(basicBl, basicBl.getFirstTerminator(), debugLocation,
+              targInstInf->get(X86::ADD64ri32))
+          .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
           .addImm(instructionCount);
     }
 
