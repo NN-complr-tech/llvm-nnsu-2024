@@ -16,29 +16,40 @@ public:
 
   X86SKalininMICounterPass() : MachineFunctionPass(ID) {}
 
-  bool runOnMachineFunction(MachineFunction &MF) override {
-    DebugLoc debugLocation = MF.front().begin()->getDebugLoc();
-    const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-    Module &module = *MF.getFunction().getParent();
+  bool runOnMachineFunction(MachineFunction &machineFunction) override {
+    DebugLoc debugLocation = machineFunction.front().begin()->getDebugLoc();
+    const TargetInstrInfo *targetInstrInfo =
+        machineFunction.getSubtarget().getInstrInfo();
+    Module &module = *machineFunction.getFunction().getParent();
     GlobalVariable *instructionCounter =
-        module.getNamedGlobal("instruction_count");
+        module.getNamedGlobal("instruction_counter");
 
     if (!instructionCounter) {
       LLVMContext &context = module.getContext();
       instructionCounter = new GlobalVariable(
           module, IntegerType::get(context, 64), false,
-          GlobalValue::ExternalLinkage, nullptr, "instruction_count");
+          GlobalValue::ExternalLinkage, nullptr, "instruction_counter");
     }
 
-    for (auto &MBB : MF) {
-      int instructionCount = std::distance(MBB.begin(), MBB.end());
-      auto insertionPoint = MBB.getFirstTerminator();
+    for (auto &basicBlock : machineFunction) {
+      int instructionCount =
+          std::distance(basicBlock.begin(), basicBlock.end());
+      auto insertPoint = basicBlock.getFirstTerminator();
 
-      BuildMI(MBB, insertionPoint, debugLocation, TII->get(X86::ADD64mi32))
+      if (insertPoint != basicBlock.end() &&
+          insertPoint != basicBlock.begin() &&
+          insertPoint->getOpcode() >= X86::JCC_1 &&
+          insertPoint->getOpcode() <= X86::JCC_4) {
+        --insertPoint;
+      }
+
+      BuildMI(basicBlock, insertPoint, debugLocation,
+              targetInstrInfo->get(X86::ADD64mi32))
           .addReg(0)
           .addImm(1)
           .addReg(0)
           .addGlobalAddress(instructionCounter)
+          .addReg(0)
           .addImm(instructionCount);
     }
 
@@ -46,7 +57,7 @@ public:
   }
 };
 
-char X86SKalininMICounterPass::ID = 0;
+char X86SimonyanMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
