@@ -18,7 +18,7 @@ public:
   void runOnOperation() override {
     ModuleOp mod = getOperation();
     std::map<StringRef, int> calls;
-    mod.walk([&](LLVM::CallOp *callOper) {
+    mod.walk([&](LLVM::CallOp callOper) {
       StringRef callee = callOper.getCallee().value();
       calls[callee]++;
     });
