@@ -72,7 +72,7 @@ llvmGetPassPluginInfo() {
             PB.registerPipelineParsingCallback(
                 [](llvm::StringRef Name, llvm::FunctionPassManager &PM,
                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) {
-                  if (Name == "loop_func") {
+                  if (Name == "loop_func_kalinin") {
                     PM.addPass(AddPass());
                     return true;
                   }
