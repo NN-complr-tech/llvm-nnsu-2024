@@ -902,4 +902,3 @@ body:             |
     ; CHECK: $eax = COPY %0
     ; CHECK-NEXT: ADD64mi32 $noreg, 1, $noreg, @ic, $noreg, 4, implicit-def $eflags
     ; CHECK-NEXT: RET64 implicit $eax
-
