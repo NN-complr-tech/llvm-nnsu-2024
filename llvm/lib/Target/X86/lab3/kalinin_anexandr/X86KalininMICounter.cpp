@@ -22,13 +22,13 @@ public:
         machineFunction.getSubtarget().getInstrInfo();
     Module &module = *machineFunction.getFunction().getParent();
     GlobalVariable *instructionCounter =
-        module.getNamedGlobal("instruction_counter");
+        module.getNamedGlobal("ic");
 
     if (!instructionCounter) {
       LLVMContext &context = module.getContext();
       instructionCounter = new GlobalVariable(
           module, IntegerType::get(context, 64), false,
-          GlobalValue::ExternalLinkage, nullptr, "instruction_counter");
+          GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &basicBlock : machineFunction) {
