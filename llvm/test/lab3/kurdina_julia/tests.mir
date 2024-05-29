@@ -1,7 +1,7 @@
 # RUN: llc -mtriple x86_64-unknown-linux-gnu --load=%llvmshlibdir/X86KurdinaPass%shlibext -run-pass=x86-mul-add-pass  %s -o - | FileCheck %s
 
 # source_tmp.cpp
-
+#include <immintrin.h>
 # __m128d muladd_test1(__m128d a, __m128d b, __m128d c) 
 #   { return a * b + c; }
 
@@ -34,7 +34,7 @@
 #   return tmp + tmp2;
 # }
 
-# __m128d swap_addpd(__m128d a, __m128d b, __m128d c) {
+# __m128d muladd_test7(__m128d a, __m128d b, __m128d c) {
 #   __m128d tmp = a * b;
 #   return tmp + tmp;
 # }
