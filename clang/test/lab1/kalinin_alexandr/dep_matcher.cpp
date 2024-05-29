@@ -1,5 +1,5 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions case-sensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-SENSITIVE
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions case-insensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-INSENSITIVE
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions -case-sensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-SENSITIVE
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions -case-insensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-INSENSITIVE
 
 // CASE-SENSITIVE: warning: The function name has 'deprecated'
 void deprecated();
@@ -38,12 +38,12 @@ void DePrEcAtEd_FuNc();
 int DEPRECATED_SUMM(int a, int b) {
     return a + b;
 }
+
 // CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
 void dEpReCaTiOn();
 
 // CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
 void DePrFuNc();
-
 
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 void deprecated();
@@ -55,6 +55,7 @@ void deprecatedFunc();
 int deprecatedSumm(int a, int b) {
     return a + b;
 }
+
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 void deprecation();
 
@@ -81,6 +82,7 @@ void DePrEcAtEd_FuNc();
 int DEPRECATED_SUMM(int a, int b) {
     return a + b;
 }
+
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 void dEpReCaTiOn();
 
