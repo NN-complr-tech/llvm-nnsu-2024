@@ -7,6 +7,7 @@ using namespace clang;
 
 class CustomNodeVisitor : public RecursiveASTVisitor<CustomNodeVisitor> {
   bool CaseInsensitive;
+
 public:
   CustomNodeVisitor(bool CaseInsensitive) : CaseInsensitive(CaseInsensitive) {}
   bool VisitFunctionDecl(FunctionDecl *Pfunction) { // NOLINT
