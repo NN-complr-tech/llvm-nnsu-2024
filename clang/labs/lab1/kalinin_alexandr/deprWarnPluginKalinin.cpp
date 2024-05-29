@@ -17,8 +17,7 @@ public:
                      NameOfFunction.begin(), ::tolower);
     }
     if (NameOfFunction.find("deprecated") != std::string::npos) {
-      DiagnosticsEngine &Diagnostics =
-          fDecl->getASTContext().getDiagnostics();
+      DiagnosticsEngine &Diagnostics = fDecl->getASTContext().getDiagnostics();
       unsigned int DiagnosticsId = Diagnostics.getCustomDiagID(
           DiagnosticsEngine::Warning,
           "The function name contains \"deprecated\"");
