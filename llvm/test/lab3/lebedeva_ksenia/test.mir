@@ -223,7 +223,7 @@ body:             |
     successors: %bb.1(0x80000000)
     liveins: $edi, $edx, $esi
   
-    ; CHECK: ADD64mi32 @ic, 11, implicit-def $eflags
+    ; CHECK: ADD64mi32 @ic, 10, implicit-def $eflags
     frame-setup PUSH64r killed $rbp, implicit-def $rsp, implicit $rsp
     frame-setup CFI_INSTRUCTION def_cfa_offset 16
     frame-setup CFI_INSTRUCTION offset $rbp, -16
