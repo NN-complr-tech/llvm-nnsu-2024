@@ -17,18 +17,28 @@ public:
 
       if (!CaseSensitive) {
         // Convert both strings to lower case for case-insensitive comparison
-        std::transform(functionName.begin(), functionName.end(),
-                       functionName.begin(), ::tolower);
+        std::string lowerFunctionName = functionName;
+        std::transform(lowerFunctionName.begin(), lowerFunctionName.end(),
+                       lowerFunctionName.begin(), ::tolower);
         std::transform(keyword.begin(), keyword.end(), keyword.begin(),
                        ::tolower);
-      }
 
-      if (functionName.find(keyword) != std::string::npos) {
-        DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-        unsigned diagnID = diagn.getCustomDiagID(
-            DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-        diagn.Report(fDecl->getLocation(), diagnID)
-            << fDecl->getNameInfo().getAsString();
+        if (lowerFunctionName.find(keyword) != std::string::npos) {
+          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+          unsigned diagnID = diagn.getCustomDiagID(
+              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+          diagn.Report(fDecl->getLocation(), diagnID)
+              << fDecl->getNameInfo().getAsString();
+        }
+      } else {
+        // Case-sensitive comparison
+        if (functionName.find(keyword) != std::string::npos) {
+          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+          unsigned diagnID = diagn.getCustomDiagID(
+              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+          diagn.Report(fDecl->getLocation(), diagnID)
+              << fDecl->getNameInfo().getAsString();
+        }
       }
     }
     return true;
