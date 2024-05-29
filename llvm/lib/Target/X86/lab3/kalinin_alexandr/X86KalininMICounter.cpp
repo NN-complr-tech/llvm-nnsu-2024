@@ -17,28 +17,30 @@ public:
   X86SKalininMICounterPass() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &machineFunction) override {
-    DebugLoc debugLocation = machineFunction.front().begin()->getDebugLoc();
     const TargetInstrInfo *targetInstrInfo =
         machineFunction.getSubtarget().getInstrInfo();
-    Module &module = *machineFunction.getFunction().getParent();
-    LLVMContext &context = module.getContext();
+    DebugLoc debugLocation = machineFunction.front().begin()->getDebugLoc();
 
-    GlobalVariable *instructionCounter = module.getNamedGlobal("ic");
-    if (!instructionCounter) {
-      instructionCounter =
-          new GlobalVariable(module, IntegerType::get(context, 64), false,
+    Module &module = *machineFunction.getFunction().getParent();
+    GlobalVariable *globalVar = module.getGlobalVariable("ic");
+
+    if (!globalVar) {
+      LLVMContext &llvmContext = module.getContext();
+      globalVar =
+          new GlobalVariable(module, IntegerType::get(llvmContext, 64), false,
                              GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &basicBlock : machineFunction) {
-      int instructionCount =
-          std::distance(basicBlock.begin(), basicBlock.end());
+      unsigned instructionCount = 0;
+      for (auto &instruction : basicBlock) {
+        if (!instruction.isDebugInstr())
+          ++instructionCount;
+      }
 
-      auto insertPoint = basicBlock.getFirstTerminator();
-
-      BuildMI(basicBlock, insertPoint, debugLocation,
+      BuildMI(basicBlock, basicBlock.getFirstTerminator(), debugLocation,
               targetInstrInfo->get(X86::ADD64ri32))
-          .addGlobalAddress(instructionCounter)
+          .addGlobalAddress(globalVar, 0, X86II::MO_NO_FLAG)
           .addImm(instructionCount);
     }
 
