@@ -21,14 +21,13 @@ public:
     const TargetInstrInfo *targetInstrInfo =
         machineFunction.getSubtarget().getInstrInfo();
     Module &module = *machineFunction.getFunction().getParent();
-    GlobalVariable *instructionCounter =
-        module.getNamedGlobal("ic");
+    GlobalVariable *instructionCounter = module.getNamedGlobal("ic");
 
     if (!instructionCounter) {
       LLVMContext &context = module.getContext();
-      instructionCounter = new GlobalVariable(
-          module, IntegerType::get(context, 64), false,
-          GlobalValue::ExternalLinkage, nullptr, "ic");
+      instructionCounter =
+          new GlobalVariable(module, IntegerType::get(context, 64), false,
+                             GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     for (auto &basicBlock : machineFunction) {
@@ -37,7 +36,9 @@ public:
       auto insertPoint = basicBlock.getFirstTerminator();
 
       if (insertPoint != basicBlock.end() &&
-          insertPoint != basicBlock.begin()) {
+          insertPoint != basicBlock.begin() &&
+          insertPoint->getOpcode() >= X86::JCC_1 &&
+          insertPoint->getOpcode() <= X86::JCC_4) {
         --insertPoint;
       }
 
