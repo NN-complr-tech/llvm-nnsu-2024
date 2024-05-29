@@ -38,7 +38,7 @@ void DePrEcAtEd_FuNc();
 // CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
 int DEPRECATED_SUMM(int a, int b) {
     return a + b;
-
+}
 // CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
 void dEpReCaTiOn();
 
@@ -55,7 +55,7 @@ void deprecatedFunc();
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 int deprecatedSumm(int a, int b) {
     return a + b;
-
+}
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 void deprecation();
 
@@ -81,7 +81,7 @@ void DePrEcAtEd_FuNc();
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 int DEPRECATED_SUMM(int a, int b) {
     return a + b;
-
+}
 // CASE-INSENSITIVE: warning: The function name has 'deprecated'
 void dEpReCaTiOn();
 
