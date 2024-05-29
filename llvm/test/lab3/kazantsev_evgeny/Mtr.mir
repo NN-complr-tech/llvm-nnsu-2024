@@ -32,21 +32,21 @@
 
 --- |
   target triple = "x86_64"
-
+  
   define dso_local <2 x double> @me(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c, <2 x double> noundef %d) local_unnamed_addr {
   entry:
     %mul = fmul <2 x double> %a, %b
     %add = fadd <2 x double> %mul, %c
     ret <2 x double> %add
   }
-
+  
   define dso_local <2 x double> @ow(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c, <2 x double> noundef %d) local_unnamed_addr {
   entry:
     %mul1 = fmul <2 x double> %c, %d
     %add = fadd <2 x double> %mul1, %c
     ret <2 x double> %add
   }
-
+  
   define dso_local <2 x double> @meow(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c, <2 x double> noundef %d) local_unnamed_addr {
   entry:
     %mul = fmul <2 x double> %a, %b
@@ -56,10 +56,10 @@
     %0 = tail call <2 x double> @llvm.fmuladd.v2f64(<2 x double> %a, <2 x double> %b, <2 x double> %sub)
     ret <2 x double> %0
   }
-
+  
   ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
   declare <2 x double> @llvm.fmuladd.v2f64(<2 x double>, <2 x double>, <2 x double>) #0
-
+  
   define dso_local <2 x double> @roar(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c, <2 x double> noundef %d) local_unnamed_addr {
   entry:
     %mul1 = fmul <2 x double> %b, %d
@@ -144,6 +144,7 @@ body:             |
     %5:vr128 = nofpexcept ADDPDrr %4, %2, implicit $mxcsr
     $xmm0 = COPY %5
     RET 0, $xmm0
+
 ...
 ---
 name:            ow
@@ -215,6 +216,7 @@ body:             |
     %5:vr128 = nofpexcept ADDPDrr %4, %2, implicit $mxcsr
     $xmm0 = COPY %5
     RET 0, $xmm0
+
 ...
 ---
 name:            meow
@@ -294,6 +296,7 @@ body:             |
     %8:vr128 = nofpexcept ADDPDrr %4, killed %7, implicit $mxcsr
     $xmm0 = COPY %8
     RET 0, $xmm0
+
 ...
 ---
 name:            roar
@@ -375,3 +378,4 @@ body:             |
     $xmm0 = COPY %7
     RET 0, $xmm0
 
+...
