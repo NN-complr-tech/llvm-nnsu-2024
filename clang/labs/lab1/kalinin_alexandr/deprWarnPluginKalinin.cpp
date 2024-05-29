@@ -66,11 +66,8 @@ public:
     for (const auto &Arg : Args) {
       if (Arg == "-case-insensitive") {
         CaseSensitive = false;
-      } else if (Arg == "-case-sensitive") {
-        CaseSensitive = true;
       } else {
-        CI.getDiagnostics().Report(llvm::diag::warn_invalid_value)
-            << Arg << "invalid argument";
+        CaseSensitive = true;
       }
     }
     return true;
