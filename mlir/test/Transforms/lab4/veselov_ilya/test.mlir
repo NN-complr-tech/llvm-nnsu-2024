@@ -2,11 +2,11 @@
 
 module {
   llvm.func @_Z5emptyv() attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: @_Z5emptyv() countOfCalls = 2
+    // CHECK: llvm.func @_Z5emptyv() attributes {{.*}}countOfCalls = 2 : i32
     llvm.return
   }
   llvm.func @_Z3sumii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) -> (i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: @_Z3sumii countOfCalls = 2
+    // CHECK: llvm.func @_Z3sumii(%arg0: i32 {llvm.noundef}, %arg1: i32 {llvm.noundef}) -> (i32 {llvm.noundef}) attributes {{.*}}countOfCalls = 2 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
     %2 = llvm.alloca %0 x i32 {alignment = 4 : i64} : (i32) -> !llvm.ptr
@@ -18,7 +18,7 @@ module {
     llvm.return %5 : i32
   }
   llvm.func @_Z9test_funcv() -> (i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: @_Z9test_funcv countOfCalls = 0
+    // CHECK: llvm.func @_Z9test_funcv() -> (i32 {llvm.noundef}) attributes {{.*}}countOfCalls = 0 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.mlir.constant(5 : i32) : i32
     %2 = llvm.mlir.constant(7 : i32) : i32
@@ -32,12 +32,12 @@ module {
     llvm.return %7 : i32
   }
   llvm.func @_Z10call_emptyv() attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: @_Z10call_emptyv countOfCalls = 1
+    // CHECK: llvm.func @_Z10call_emptyv() attributes {{.*}}countOfCalls = 1 : i32
     llvm.call @_Z5emptyv() : () -> ()
     llvm.return
   }
   llvm.func @_Z13sum_and_emptyv() attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
-    // CHECK: @_Z13sum_and_emptyv countOfCalls = 0
+    // CHECK: llvm.func @_Z13sum_and_emptyv() attributes {{.*}}countOfCalls = 0 : i32
     %0 = llvm.mlir.constant(1 : i32) : i32
     %1 = llvm.mlir.constant(2 : i32) : i32
     %2 = llvm.mlir.constant(3 : i32) : i32
