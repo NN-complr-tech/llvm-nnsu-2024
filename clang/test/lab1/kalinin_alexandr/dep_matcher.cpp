@@ -1,6 +1,6 @@
 // RUN: split-file %s %t
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPlugin%pluginext -plugin plugin_for_deprecated_functions %t/with_-i.cpp -plugin-arg-plugin_for_deprecated_functions -i 2>&1 | FileCheck %t/with_-i.cpp
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPlugin%pluginext -plugin plugin_for_deprecated_functions %t/without_-i.cpp 2>&1 | FileCheck %t/without_-i.cpp
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions %t/with_-i.cpp -plugin-arg-plugin_for_deprecated_functions -i 2>&1 | FileCheck %t/with_-i.cpp
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions %t/without_-i.cpp 2>&1 | FileCheck %t/without_-i.cpp
 
 //--- with_-i.cpp
 
