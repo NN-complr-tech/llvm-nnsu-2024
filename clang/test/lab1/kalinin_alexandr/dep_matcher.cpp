@@ -1,84 +1,39 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions -case-sensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-SENSITIVE
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions -case-insensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-INSENSITIVE
+// RUN: split-file %s %t
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPlugin%pluginext -plugin plugin_for_deprecated_functions %t/with_-i.cpp -plugin-arg-plugin_for_deprecated_functions -i 2>&1 | FileCheck %t/with_-i.cpp
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPlugin%pluginext -plugin plugin_for_deprecated_functions %t/without_-i.cpp 2>&1 | FileCheck %t/without_-i.cpp
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void deprecation();
+//--- with_-i.cpp
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void deprfunction();
+// CHECK: warning: The function name contains "deprecated"
+void deprecatedFunction();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void foo();
+// CHECK: warning: The function name contains "deprecated"
+void functionWithDeprecatedWord();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void is_deprecated_function();
+// CHECK-NOT: warning: The function name contains "deprecated"
+void regularFunction();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void depfunc();
+class SomeClass {
+// CHECK: warning: The function name contains "deprecated"
+  void functionWithDePrEcAtEdWord();
+// CHECK-NOT: warning: The function name contains "deprecated"
+  void regularFunctionAgain();
+};
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void DEPRECATED_FUNC();
+//--- without_-i.cpp
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void DePrEcAtEd_FuNc();
+// CHECK: warning: The function name contains "deprecated"
+void deprecatedFunction2();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-int DEPRECATED_SUMM(int a, int b);
+// CHECK-NOT: warning: The function name contains "deprecated"
+void functionWithDeprecatedWord2();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void dEpReCaTiOn();
+// CHECK-NOT: warning: The function name contains "deprecated"
+void regularFunction2();
 
-// CASE-SENSITIVE-NOT: warning: The function name has 'deprecated'
-void DePrFuNc();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void deprecation();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void deprfunction();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void foo();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void is_deprecated_function();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void depfunc();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void DEPRECATED_FUNC();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void DePrEcAtEd_FuNc();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-int DEPRECATED_SUMM(int a, int b);
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void dEpReCaTiOn();
-
-// CASE-INSENSITIVE-NOT: warning: The function name has 'deprecated'
-void DePrFuNc();
-
-// CASE-SENSITIVE: warning: The function name has 'deprecated'
-void deprecated();
-
-// CASE-SENSITIVE: warning: The function name has 'deprecated'
-void deprecatedFunc();
-
-// CASE-SENSITIVE: warning: The function name has 'deprecated'
-int deprecatedSumm(int a, int b) {
-    return a + b;
-}
-
-// CASE-INSENSITIVE: warning: The function name has 'deprecated'
-void deprecated();
-
-// CASE-INSENSITIVE: warning: The function name has 'deprecated'
-void deprecatedFunc();
-
-// CASE-INSENSITIVE: warning: The function name has 'deprecated'
-int deprecatedSumm(int a, int b) {
-    return a + b;
-}
+class SomeClass2 {
+// CHECK-NOT: warning: The function name contains "deprecated"
+  void functionWithDePrEcAtEdWord2();
+// CHECK-NOT: warning: The function name contains "deprecated"
+  void regularFunctionAgain2();
+};

@@ -11,35 +11,19 @@ public:
   CustomNodeVisitor(bool caseSensitive) : CaseSensitive(caseSensitive) {}
 
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
-    if (fDecl && fDecl->isFunctionOrFunctionTemplate()) {
-      std::string functionName = fDecl->getNameInfo().getAsString();
-      std::string keyword = "deprecated";
-
-      if (!CaseSensitive) {
-        // Convert both strings to lower case for case-insensitive comparison
-        std::string lowerFunctionName = functionName;
-        std::transform(lowerFunctionName.begin(), lowerFunctionName.end(),
-                       lowerFunctionName.begin(), ::tolower);
-        std::transform(keyword.begin(), keyword.end(), keyword.begin(),
-                       ::tolower);
-
-        if (lowerFunctionName.find(keyword) != std::string::npos) {
-          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-          unsigned diagnID = diagn.getCustomDiagID(
-              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-          diagn.Report(fDecl->getLocation(), diagnID)
-              << fDecl->getNameInfo().getAsString();
-        }
-      } else {
-        // Case-sensitive comparison
-        if (functionName.find(keyword) != std::string::npos) {
-          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-          unsigned diagnID = diagn.getCustomDiagID(
-              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-          diagn.Report(fDecl->getLocation(), diagnID)
-              << fDecl->getNameInfo().getAsString();
-        }
-      }
+    std::string NameOfFunction = Pfunction->getNameInfo().getAsString();
+    if (!CaseSensitive) {
+      std::transform(NameOfFunction.begin(), NameOfFunction.end(),
+                     NameOfFunction.begin(), ::tolower);
+    }
+    if (NameOfFunction.find("deprecated") != std::string::npos) {
+      DiagnosticsEngine &Diagnostics =
+          Pfunction->getASTContext().getDiagnostics();
+      unsigned int DiagnosticsId = Diagnostics.getCustomDiagID(
+          DiagnosticsEngine::Warning,
+          "The function name contains \"deprecated\"");
+      SourceLocation PositionOfFunction = Pfunction->getLocation();
+      Diagnostics.Report(PositionOfFunction, DiagnosticsId) << NameOfFunction;
     }
     return true;
   }
