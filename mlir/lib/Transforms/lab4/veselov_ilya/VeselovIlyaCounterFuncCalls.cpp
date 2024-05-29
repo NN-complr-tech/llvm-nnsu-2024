@@ -19,7 +19,7 @@ public:
     ModuleOp mod = getOperation();
     std::map<StringRef, int> calls;
     mod.walk([&](LLVM::CallOp *callOper) {
-      StringRef callee = callOper.getCallee().value()
+      StringRef callee = callOper.getCallee().value();
       calls[callee]++;
     });
     mod.walk([&](LLVM::LLVMFuncOp funcOper) {
