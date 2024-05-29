@@ -1,6 +1,5 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -case-sensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-SENSITIVE
-// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -case-insensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-INSENSITIVE
-
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions case-sensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-SENSITIVE
+// RUN: %clang_cc1 -load %llvmshlibdir/deprWarnPluginKalinin%pluginext -plugin plugin_for_deprecated_functions -plugin-arg-plugin_for_deprecated_functions case-insensitive %s 2>&1 | FileCheck %s --check-prefix=CASE-INSENSITIVE
 
 // CASE-SENSITIVE: warning: The function name has 'deprecated'
 void deprecated();
