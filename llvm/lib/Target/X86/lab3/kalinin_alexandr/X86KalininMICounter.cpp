@@ -23,10 +23,8 @@ public:
     Module &module = *machineFunction.getFunction().getParent();
     LLVMContext &context = module.getContext();
 
-    // Create or retrieve the global instruction counter variable
     GlobalVariable *instructionCounter = module.getNamedGlobal("ic");
     if (!instructionCounter) {
-      LLVMContext &context = module.getContext();
       instructionCounter =
           new GlobalVariable(module, IntegerType::get(context, 64), false,
                              GlobalValue::ExternalLinkage, nullptr, "ic");
@@ -38,9 +36,9 @@ public:
 
       auto insertPoint = basicBlock.getFirstTerminator();
 
-      BuildMI(basicBl, basicBl.getFirstTerminator(), debugLocation,
-              targInstInf->get(X86::ADD64ri32))
-          .addGlobalAddress(gVar, 0, X86II::MO_NO_FLAG)
+      BuildMI(basicBlock, insertPoint, debugLocation,
+              targetInstrInfo->get(X86::ADD64ri32))
+          .addGlobalAddress(instructionCounter)
           .addImm(instructionCount);
     }
 
