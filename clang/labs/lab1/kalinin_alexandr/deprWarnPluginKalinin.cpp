@@ -2,6 +2,7 @@
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
+#include "llvm/Support/raw_ostream.h"
 
 using namespace clang;
 
@@ -11,25 +12,23 @@ public:
 
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
     if (fDecl && fDecl->isFunctionOrFunctionTemplate()) {
-      StringRef functionName = fDecl->getNameInfo().getAsString();
-      StringRef keyword = "deprecated";
+      std::string functionName = fDecl->getNameInfo().getAsString();
+      std::string keyword = "deprecated";
 
       if (!CaseSensitive) {
-        // Perform case-insensitive comparison
-        if (functionName.lower() == keyword.lower()) {
-          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-          unsigned diagnID = diagn.getCustomDiagID(
-              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-          diagn.Report(fDecl->getLocation(), diagnID) << functionName;
-        }
-      } else {
-        // Case-sensitive comparison
-        if (functionName == keyword) {
-          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-          unsigned diagnID = diagn.getCustomDiagID(
-              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-          diagn.Report(fDecl->getLocation(), diagnID) << functionName;
-        }
+        // Convert both strings to lower case for case-insensitive comparison
+        std::transform(functionName.begin(), functionName.end(),
+                       functionName.begin(), ::tolower);
+        std::transform(keyword.begin(), keyword.end(), keyword.begin(),
+                       ::tolower);
+      }
+
+      if (functionName.find(keyword) != std::string::npos) {
+        DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+        unsigned diagnID = diagn.getCustomDiagID(
+            DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+        diagn.Report(fDecl->getLocation(), diagnID)
+            << fDecl->getNameInfo().getAsString();
       }
     }
     return true;
@@ -70,7 +69,7 @@ public:
       } else if (Arg == "-case-sensitive") {
         CaseSensitive = true;
       } else {
-        CI.getDiagnostics().Report(llvm::diag::err_drv_invalid_value)
+        CI.getDiagnostics().Report(llvm::diag::warn_invalid_value)
             << Arg << "invalid argument";
       }
     }
