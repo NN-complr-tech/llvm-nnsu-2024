@@ -10,24 +10,26 @@ public:
   CustomNodeVisitor(bool caseSensitive) : CaseSensitive(caseSensitive) {}
 
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
-    if (fDecl) {
-      std::string functionName = fDecl->getNameInfo().getAsString();
-      std::string keyword = "deprecated";
+    if (fDecl && fDecl->isFunctionOrFunctionTemplate()) {
+      StringRef functionName = fDecl->getNameInfo().getAsString();
+      StringRef keyword = "deprecated";
 
       if (!CaseSensitive) {
-        // Convert both strings to lower case for case-insensitive comparison
-        std::transform(functionName.begin(), functionName.end(),
-                       functionName.begin(), ::tolower);
-        std::transform(keyword.begin(), keyword.end(), keyword.begin(),
-                       ::tolower);
-      }
-
-      if (functionName.find(keyword) != std::string::npos) {
-        DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
-        unsigned diagnID = diagn.getCustomDiagID(
-            DiagnosticsEngine::Warning, "The function name has 'deprecated'");
-        diagn.Report(fDecl->getLocation(), diagnID)
-            << fDecl->getNameInfo().getAsString();
+        // Perform case-insensitive comparison
+        if (functionName.lower() == keyword.lower()) {
+          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+          unsigned diagnID = diagn.getCustomDiagID(
+              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+          diagn.Report(fDecl->getLocation(), diagnID) << functionName;
+        }
+      } else {
+        // Case-sensitive comparison
+        if (functionName == keyword) {
+          DiagnosticsEngine &diagn = fDecl->getASTContext().getDiagnostics();
+          unsigned diagnID = diagn.getCustomDiagID(
+              DiagnosticsEngine::Warning, "The function name has 'deprecated'");
+          diagn.Report(fDecl->getLocation(), diagnID) << functionName;
+        }
       }
     }
     return true;
@@ -60,13 +62,16 @@ public:
     return std::make_unique<CustomConsumer>(CaseSensitive);
   }
 
-  bool ParseArgs(const CompilerInstance &Compiler,
+  bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &Args) override {
     for (const auto &Arg : Args) {
       if (Arg == "-case-insensitive") {
         CaseSensitive = false;
       } else if (Arg == "-case-sensitive") {
         CaseSensitive = true;
+      } else {
+        CI.getDiagnostics().Report(diag::err_drv_invalid_value)
+            << Arg << "invalid argument";
       }
     }
     return true;
