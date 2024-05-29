@@ -49,5 +49,5 @@ bool X86IsaevDMCounter::runOnMachineFunction(llvm::MachineFunction &MF) {
   return true;
 }
 
-static RegisterPass<X86IsaevDMCounter>
-    X("x86-isaev-inst-counter", "Instruction counter", false, false);
+static RegisterPass<X86IsaevDMCounter> X("x86-isaev-inst-counter",
+                                         "Instruction counter", false, false);
