@@ -21,8 +21,10 @@ public:
     const TargetInstrInfo *targetInstrInfo =
         machineFunction.getSubtarget().getInstrInfo();
     Module &module = *machineFunction.getFunction().getParent();
-    GlobalVariable *instructionCounter = module.getNamedGlobal("ic");
+    LLVMContext &context = module.getContext();
 
+    // Create or retrieve the global instruction counter variable
+    GlobalVariable *instructionCounter = module.getNamedGlobal("ic");
     if (!instructionCounter) {
       LLVMContext &context = module.getContext();
       instructionCounter =
@@ -33,17 +35,8 @@ public:
     for (auto &basicBlock : machineFunction) {
       int instructionCount =
           std::distance(basicBlock.begin(), basicBlock.end());
-      auto insertPoint = basicBlock.getFirstTerminator();
 
-      if (insertPoint != basicBlock.end() &&
-              insertPoint != basicBlock.begin() &&
-              insertPoint->getOpcode() >= X86::JCC_1 &&
-              insertPoint->getOpcode() <= X86::JCC_4 ||
-          insertPoint->getOpcode() == X86::JMP_1 ||
-          insertPoint->getOpcode() == X86::JMP_2 ||
-          insertPoint->getOpcode() == X86::JMP_4) {
-        --insertPoint;
-      }
+      auto insertPoint = basicBlock.getFirstTerminator();
 
       BuildMI(basicBlock, insertPoint, debugLocation,
               targetInstrInfo->get(X86::ADD64mi32))
@@ -63,6 +56,7 @@ char X86SKalininMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
+// Register the pass
 static RegisterPass<X86SKalininMICounterPass>
     X("x86-kalinin-mi-counter", "X86 Count of machine instructions pass", false,
       false);
