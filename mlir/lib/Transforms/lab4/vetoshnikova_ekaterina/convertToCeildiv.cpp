@@ -34,7 +34,7 @@ private:
   void replaceCeildiv(Operation *op, bool isSigned) {
 
     OpBuilder builder(op);
-    Location loc = op.getLoc();
+    Location loc = op->getLoc();
     Value a = op->getOperand(0);
     Value b = op->getOperand(1);
 
@@ -50,7 +50,7 @@ private:
       div = builder.create<arith::DivUIOp>(loc, sub, b);
     }
 
-    op->replaceAllUsesWith(div);
+    op->replaceAllUsesWith(ValueRange(div));
     op->erase();
   }
 };
