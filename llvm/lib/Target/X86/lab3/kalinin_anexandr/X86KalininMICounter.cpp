@@ -57,7 +57,7 @@ public:
   }
 };
 
-char X86SimonyanMICounterPass::ID = 0;
+char X86SKalininMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
