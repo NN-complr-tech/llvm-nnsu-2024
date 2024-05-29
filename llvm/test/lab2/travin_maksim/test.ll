@@ -138,4 +138,4 @@ entry:
 ; CHECK-NEXT:  %0 = load i32, ptr %a, align 4
 ; CHECK-NEXT:  %add = add nsw i32 %0, 3
 ; CHECK-NEXT:  store i32 %add, ptr %a, align 4
-; CHECK-NEXT:  ret voi
+; CHECK-NEXT:  ret void
