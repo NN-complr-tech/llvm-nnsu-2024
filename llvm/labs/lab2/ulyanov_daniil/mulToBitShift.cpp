@@ -1,6 +1,7 @@
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
+#include <optional>
 using namespace llvm;
 namespace {
 class MTBSPass : public PassInfoMixin<MTBSPass> {
@@ -14,28 +15,30 @@ public:
         auto *Op = dyn_cast<BinaryOperator>(InstIt);
         Value *LVal = Op->getOperand(0);
         Value *RVal = Op->getOperand(1);
-        int LLog = getLog2(LVal);
-        int RLog = getLog2(RVal);
-        if (RLog < LLog) {
-          std::swap(LLog, RLog);
-          std::swap(LVal, RVal);
-        }
-        if (RLog < 0) {
+        std::optional<int> LLog = getLog2(LVal);
+        std::optional<int> RLog = getLog2(RVal);
+        if (!RLog.has_value() || !LLog.has_value()) {
           continue;
+        }
+        if (RLog.has_value() && LLog.has_value()) {
+          if (RLog.value() < LLog.value()) {
+            std::swap(LLog, RLog);
+            std::swap(LVal, RVal);
+          }
         }
         IRBuilder<> Builder(Op);
         Value *NewVal =
-            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog));
+            Builder.CreateShl(LVal, ConstantInt::get(Op->getType(), RLog.value()));
         ReplaceInstWithValue(InstIt, NewVal);
       }
     }
     return PreservedAnalyses::all();
   }
-  int getLog2(llvm::Value *Op) {
+  std::optional<int> getLog2(llvm::Value *Op) {
     if (auto *CI = dyn_cast<ConstantInt>(Op)) {
       return CI->getValue().exactLogBase2();
     }
-    return -1;
+    return std::nullopt;
   }
 };
 } // namespace
