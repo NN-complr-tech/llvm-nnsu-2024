@@ -11,18 +11,18 @@ public:
   CustomNodeVisitor(bool caseSensitive) : CaseSensitive(caseSensitive) {}
 
   bool VisitFunctionDecl(FunctionDecl *fDecl) {
-    std::string NameOfFunction = Pfunction->getNameInfo().getAsString();
+    std::string NameOfFunction = fDecl->getNameInfo().getAsString();
     if (!CaseSensitive) {
       std::transform(NameOfFunction.begin(), NameOfFunction.end(),
                      NameOfFunction.begin(), ::tolower);
     }
     if (NameOfFunction.find("deprecated") != std::string::npos) {
       DiagnosticsEngine &Diagnostics =
-          Pfunction->getASTContext().getDiagnostics();
+          fDecl->getASTContext().getDiagnostics();
       unsigned int DiagnosticsId = Diagnostics.getCustomDiagID(
           DiagnosticsEngine::Warning,
           "The function name contains \"deprecated\"");
-      SourceLocation PositionOfFunction = Pfunction->getLocation();
+      SourceLocation PositionOfFunction = fDecl->getLocation();
       Diagnostics.Report(PositionOfFunction, DiagnosticsId) << NameOfFunction;
     }
     return true;
