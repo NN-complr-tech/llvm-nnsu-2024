@@ -18,11 +18,9 @@ public:
   void runOnOperation() override {
     ModuleOp mod = getOperation();
     std::map<StringRef, int> calls;
-    mod.walk([&](Operation *oper) {
-      if (auto callOper = dyn_cast<LLVM::CallOp>(oper)) {
-        StringRef callee = callOper.getCallee().value();
-        calls[callee]++;
-      }
+    mod.walk([&](LLVM::CallOp *callOper) {
+      StringRef callee = callOper.getCallee().value()
+      calls[callee]++;
     });
     mod.walk([&](LLVM::LLVMFuncOp funcOper) {
       StringRef name = funcOper.getName();
