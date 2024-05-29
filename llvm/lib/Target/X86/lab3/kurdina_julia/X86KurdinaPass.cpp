@@ -25,7 +25,6 @@ public:
       Register reg_mul;
       Register reg_add_1;
       Register reg_add_2;
-      
       for (auto &instr : MBB) {
         if (instr.getOpcode() == X86::MULPDrr) {
           mul_instr = &instr;
