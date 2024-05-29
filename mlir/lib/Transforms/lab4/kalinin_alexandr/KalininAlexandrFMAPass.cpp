@@ -10,36 +10,38 @@ class KalininAlexandrFMAPass
     : public PassWrapper<KalininAlexandrFMAPass,
                          OperationPass<LLVM::LLVMFuncOp>> {
 private:
-  void handleMulOp(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
-                   Value &otherOperand) {
+  void replaceAddWithFMA(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
+                         Value &otherOperand) {
     OpBuilder builder(addOp);
-    Value fma = builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
-                                            mulOp.getOperand(1), otherOperand);
-    addOp.replaceAllUsesWith(fma);
+    Value fmaValue = builder.create<LLVM::FMAOp>(
+        addOp.getLoc(), mulOp.getOperand(0), mulOp.getOperand(1), otherOperand);
+    addOp.replaceAllUsesWith(fmaValue);
     addOp.erase();
   }
 
 public:
   void runOnOperation() override {
-    LLVM::LLVMFuncOp func = getOperation();
-    // Add operation.
-    func.walk([this](LLVM::FAddOp addOp) {
-      Value addLHS = addOp.getOperand(0);
-      Value addRHS = addOp.getOperand(1);
-      if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
-        handleMulOp(addOp, mulOpLHS, addRHS);
-      } else if (auto mulOpRHS = addRHS.getDefiningOp<LLVM::FMulOp>()) {
-        handleMulOp(addOp, mulOpRHS, addLHS);
+    LLVM::LLVMFuncOp function = getOperation();
+    // Handle FAdd operations.
+    function.walk([this](LLVM::FAddOp addOp) {
+      Value addLeftOperand = addOp.getOperand(0);
+      Value addRightOperand = addOp.getOperand(1);
+      if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
+        replaceAddWithFMA(addOp, mulLeftOperand, addRightOperand);
+      } else if (auto mulRightOperand =
+                     addRightOperand.getDefiningOp<LLVM::FMulOp>()) {
+        replaceAddWithFMA(addOp, mulRightOperand, addLeftOperand);
       }
     });
 
-    // Mul operation.
-    func.walk([](LLVM::FMulOp mulOp) {
+    // Handle FMul operations.
+    function.walk([](LLVM::FMulOp mulOp) {
       if (mulOp.use_empty()) {
         mulOp.erase();
       }
     });
   }
+
   StringRef getArgument() const final { return "kalinin_alexandr_fma"; }
   StringRef getDescription() const final {
     return "Replaces add and multiply operations with a single instruction.";
