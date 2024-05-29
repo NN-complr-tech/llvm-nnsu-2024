@@ -7,7 +7,6 @@
 
 using namespace llvm;
 
-namespace {
 struct AddPass : public PassInfoMixin<AddPass> {
   PreservedAnalyses run(Function &Func,
                         FunctionAnalysisManager &FuncAnalysisMgr) {
@@ -16,64 +15,55 @@ struct AddPass : public PassInfoMixin<AddPass> {
     auto &Context = Func.getContext();
     Module *ParentModule = Func.getParent();
     FunctionType *FuncType = FunctionType::get(Type::getVoidTy(Context), false);
-    FunctionCallee loopStartFunc =
-        ParentModule->getOrInsertFunction("loop_start", FuncType);
-    FunctionCallee loopEndFunc =
-        ParentModule->getOrInsertFunction("loop_end", FuncType);
 
     for (auto &Loop : LoopInf) { // Iterate over all loops in the function
       BasicBlock *LoopHeader = Loop->getHeader();
-      // Insert loop_start at the terminators of the predecessors of the loop
-      // header
-      for (auto *Pred : predecessors(LoopHeader)) {
-        if (!Loop->contains(Pred)) {
-          bool hasLoopStart = false;
-          for (auto &I : *Pred) {
-            if (auto *CI = dyn_cast<CallInst>(&I)) {
-              if (CI->getCalledFunction() == loopStartFunc.getCallee()) {
-                hasLoopStart = true;
-                break;
-              }
+      BasicBlock *PreheaderBlock = Loop->getLoopPreheader();
+      IRBuilder<> IRBuild(LoopHeader->getContext());
+
+      if (PreheaderBlock != nullptr) { // Check if the loop has a preheader
+        bool IsLoopStartFunc = false;
+        for (Instruction &Inst : *PreheaderBlock) {
+          if (CallInst *Call = dyn_cast<CallInst>(&Inst)) {
+            if (Call->getCalledFunction() &&
+                Call->getCalledFunction()->getName() == "loop_start") {
+              IsLoopStartFunc = true;
+              break;
             }
           }
-          if (!hasLoopStart) {
-            IRBuilder<> builder(&*Pred->getTerminator());
-            builder.CreateCall(loopStartFunc);
-          }
+        }
+        if (!IsLoopStartFunc) { // Check if the preheader block has a call to
+                                // loop_start
+          IRBuild.SetInsertPoint(PreheaderBlock->getTerminator());
+          IRBuild.CreateCall(
+              ParentModule->getOrInsertFunction("loop_start", FuncType));
         }
       }
 
-      // Insert loop_end at the first insertion points of the successors of the
-      // exiting blocks
-      SmallVector<BasicBlock *, 8> ExitingBlocks;
-      Loop->getExitingBlocks(ExitingBlocks);
-      for (auto *ExitingBlock : ExitingBlocks) {
-        for (auto it = succ_begin(ExitingBlock), e = succ_end(ExitingBlock);
-             it != e; ++it) {
-          BasicBlock *Successor = *it;
-          if (!Loop->contains(Successor)) {
-            bool hasLoopEnd = false;
-            for (auto &I : *Successor) {
-              if (auto *CI = dyn_cast<CallInst>(&I)) {
-                if (CI->getCalledFunction() == loopEndFunc.getCallee()) {
-                  hasLoopEnd = true;
-                  break;
-                }
-              }
+      SmallVector<BasicBlock *, 8> ExitBlocks;
+      Loop->getExitBlocks(ExitBlocks); // Get all exit blocks of the loop
+      bool IsLoopEndFunc = false;
+      for (BasicBlock *ExitBlock : ExitBlocks) { // Iterate over all exit blocks
+        IsLoopEndFunc = false;
+        for (Instruction &Inst : *ExitBlock) {
+          if (CallInst *Call = dyn_cast<CallInst>(&Inst)) {
+            if (Call->getCalledFunction() &&
+                Call->getCalledFunction()->getName() == "loop_end") {
+              IsLoopEndFunc = true;
+              break;
             }
-            if (!hasLoopEnd) {
-              IRBuilder<> builder(&*Successor->getFirstInsertionPt());
-              builder.CreateCall(loopEndFunc);
-            }
-            break;
           }
+        }
+        if (!IsLoopEndFunc) { // Check if the exit block has a call to loop_end
+          IRBuild.SetInsertPoint(&*ExitBlock->getFirstInsertionPt());
+          IRBuild.CreateCall(
+              ParentModule->getOrInsertFunction("loop_end", FuncType));
         }
       }
     }
     return PreservedAnalyses::all();
   }
 };
-} // namespace
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
