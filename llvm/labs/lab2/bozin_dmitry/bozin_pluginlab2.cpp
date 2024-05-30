@@ -116,8 +116,7 @@ struct BozinInlinePass : public llvm::PassInfoMixin<BozinInlinePass> {
 
 } // namespace
 
-llvm::PassPluginLibraryInfo
-getBozinInlinePluginPluginInfo() {
+llvm::PassPluginLibraryInfo getBozinInlinePluginPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "BozinInlinePass", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
@@ -136,4 +135,4 @@ extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return getBozinInlinePluginPluginInfo();
 }
-    
+   
