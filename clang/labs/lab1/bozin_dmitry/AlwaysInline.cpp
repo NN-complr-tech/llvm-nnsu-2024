@@ -10,12 +10,14 @@
 #include "llvm/ADT/StringRef.h"
 
 namespace {
-    class AlwaysInlineVisitor
+class AlwaysInlineVisitor
     : public clang::RecursiveASTVisitor<AlwaysInlineVisitor> {
 public:
   bool VisitStmt(clang::Stmt *Statement) {
-    if (clang::isa<clang::IfStmt>(Statement) || clang::isa<clang::WhileStmt>(Statement) ||
-        clang::isa<clang::ForStmt>(Statement) || clang::isa<clang::DoStmt>(Statement) ||
+    if (clang::isa<clang::IfStmt>(Statement) ||
+        clang::isa<clang::WhileStmt>(Statement) ||
+        clang::isa<clang::ForStmt>(Statement) ||
+        clang::isa<clang::DoStmt>(Statement) ||
         clang::isa<clang::SwitchStmt>(Statement)) {
       hasCondition = true;
     }
@@ -24,7 +26,6 @@ public:
 
   bool hasCondition = false;
 };
-
 
 class AlwaysInlineConsumer : public clang::ASTConsumer {
 public:
@@ -52,7 +53,7 @@ public:
   }
 };
 
-class BozinAlwaysInlinePlugin : public clang::PluginASTAction {
+class AlwaysInlinePlugin : public clang::PluginASTAction {
 protected:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &Compiler,
@@ -73,5 +74,6 @@ protected:
 
 } // namespace
 
-static clang::FrontendPluginRegistry::Add<BozinAlwaysInlinePlugin>
-    X("bozin-always-inline", "adds always_inline if function has no conditions");
+static clang::FrontendPluginRegistry::Add<AlwaysInlinePlugin>
+    X("bozin-always-inline",
+      "adds always_inline if function has no conditions");
