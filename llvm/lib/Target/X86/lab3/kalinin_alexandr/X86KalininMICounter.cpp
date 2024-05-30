@@ -16,30 +16,34 @@ public:
 
   X86SKalininMICounterPass() : MachineFunctionPass(ID) {}
 
-  bool runOnMachineFunction(MachineFunction &MF) override {
-    DebugLoc DL = MF.front().begin()->getDebugLoc();
-    const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
-    Module &M = *MF.getFunction().getParent();
-    GlobalVariable *globalCounter = M.getNamedGlobal("ic");
+  bool runOnMachineFunction(MachineFunction &machineFunction) override {
+    DebugLoc debugLoc = machineFunction.front().begin()->getDebugLoc();
+    const TargetInstrInfo *targetInstrInfo =
+        machineFunction.getSubtarget().getInstrInfo();
+    Module &module = *machineFunction.getFunction().getParent();
+    GlobalVariable *globalCounter = module.getGlobalVariable("ic");
 
     if (!globalCounter) {
-      LLVMContext &context = M.getContext();
+      LLVMContext &llvmContext = module.getContext();
       globalCounter =
-          new GlobalVariable(M, IntegerType::get(context, 64), false,
+          new GlobalVariable(module, IntegerType::get(llvmContext, 64), false,
                              GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
-    for (auto &MBB : MF) {
-      int instructionCount = std::distance(MBB.begin(), MBB.end());
-      auto insertPoint = MBB.getFirstTerminator();
+    for (auto &basicBlock : machineFunction) {
+      int instructionCount =
+          std::distance(basicBlock.begin(), basicBlock.end());
+      auto insertPoint = basicBlock.getFirstTerminator();
 
-      if (insertPoint != MBB.end() && insertPoint != MBB.begin() &&
+      if (insertPoint != basicBlock.end() &&
+          insertPoint != basicBlock.begin() &&
           insertPoint->getOpcode() >= X86::JCC_1 &&
           insertPoint->getOpcode() <= X86::JCC_4) {
         --insertPoint;
       }
 
-      BuildMI(MBB, insertPoint, DL, TII->get(X86::ADD64mi32))
+      BuildMI(basicBlock, insertPoint, debugLoc,
+              targetInstrInfo->get(X86::ADD64mi32))
           .addReg(0)
           .addImm(1)
           .addReg(0)
