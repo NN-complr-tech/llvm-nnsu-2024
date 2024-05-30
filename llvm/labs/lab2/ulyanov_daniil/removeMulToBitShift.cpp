@@ -40,6 +40,9 @@ bool runPlugin(Function &F) {
       }
     }
   }
+  if (instrDeleteList.empty()) {
+    return true;
+  }
   for (auto *instr : instrDeleteList)
     instr->eraseFromParent();
 
