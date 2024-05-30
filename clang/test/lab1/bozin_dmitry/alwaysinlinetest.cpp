@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -ast-dump -ast-dump-filter bar -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext -add-plugin bozin-always-inline %s | FileCheck %s
+// RUN: %clang_cc1 -ast-dump -ast-dump-filter function -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext -add-plugin bozin-always-inline %s | FileCheck %s
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function1 'int \(\)'}}
 int function1() { return 1; }
@@ -68,7 +68,7 @@ int function7() {
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
 
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) foo8 'int \(\)'}}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function8 'int \(\)'}}
 int function8() {
   int count;
   {
@@ -80,7 +80,7 @@ int function8() {
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) foo9 'int \(\)'}}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function9 'int \(\)'}}
 int function9() {
   int count;
   {
@@ -94,7 +94,7 @@ int function9() {
 }
 // CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) foo10 'int \(int, int\)'}}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function10 'int \(int, int\)'}}
 int function10(int number, int value) {
   int count;
   count = number - value;
