@@ -25,8 +25,7 @@ public:
   }
 
   bool VisitFunctionDecl(clang::FunctionDecl *func) {
-    if (type == IdType::Func && func->getName() == cur_name &&
-        isValidIdentifier(new_name)) {
+    if (type == IdType::Func && func->getName() == cur_name) {
       rewriter.ReplaceText(func->getNameInfo().getSourceRange(), new_name);
     }
     return true;
@@ -43,17 +42,15 @@ public:
   }
 
   bool VisitVarDecl(clang::VarDecl *var) {
-    if (type == IdType::Var && var->getName() == cur_name &&
-        isValidIdentifier(new_name)) {
+    if (type == IdType::Var && var->getName() == cur_name) {
       rewriter.ReplaceText(var->getLocation(), cur_name.size(), new_name);
     }
-    if (type == IdType::Class && isValidIdentifier(new_name) &&
+    if (type == IdType::Class &&
         var->getType().getAsString() == cur_name + " *") {
       rewriter.ReplaceText(var->getTypeSourceInfo()->getTypeLoc().getBeginLoc(),
                            cur_name.size(), new_name);
     }
-    if (type == IdType::Class && var->getType().getAsString() == cur_name &&
-        isValidIdentifier(new_name)) {
+    if (type == IdType::Class && var->getType().getAsString() == cur_name) {
       rewriter.ReplaceText(
           var->getTypeSourceInfo()->getTypeLoc().getSourceRange(), new_name);
     }
@@ -177,6 +174,10 @@ protected:
       }
     }
     if (i == id_type.size()) {
+      PrintParamsError(CI);
+      return false;
+    }
+    if (!isValidIdentifier(params[1].second) || !isValidIdentifier(params[2].second)) {
       PrintParamsError(CI);
       return false;
     }
