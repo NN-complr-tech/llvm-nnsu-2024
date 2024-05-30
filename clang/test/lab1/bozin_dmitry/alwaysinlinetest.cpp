@@ -3,7 +3,9 @@
 // RUN: -plugin-arg-bozin-always-inline --help %s 2>&1 | FileCheck %s --check-prefix=CHECK-HELP
 // CHECK-HELP: adds always_inline if function has no conditions
 
-// RUN: %clang_cc1 -ast-dump -ast-dump-filter function -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext -add-plugin bozin-always-inline %s | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext\
+// RUN: -add-plugin bozin-always-inline %s\
+// RUN: -ast-dump %s -ast-dump-filter function | FileCheck %s
 
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function1 'int \(\)'}}
 int function1() { return 1; }
