@@ -492,4 +492,3 @@ body:             |
     RET64 $xmm0
     ; CHECK: $xmm0 = VFMADD213PDZ128r $xmm0, $xmm1, $xmm0, implicit $mxcsr
     ; CHECK-NEXT: RET64 $xmm0
-...
