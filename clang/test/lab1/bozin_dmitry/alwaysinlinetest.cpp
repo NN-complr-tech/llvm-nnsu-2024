@@ -2,107 +2,39 @@
 // RUN: -add-plugin bozin-always-inline %s\
 // RUN: -ast-dump %s -ast-dump-filter function | FileCheck %s
 namespace {
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function1 'int \(\)'}}
-int function1() { return 1; }
-// CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testMultiply 'int \(int, int\)'}}
+// CHECK: `-AlwaysInlineAttr {{.* always_inline}}
+int testMultiply(int valueOne, int valueTwo) { return valueOne * valueTwo; }
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function2 'int \(\)'}}
-int function2() {
-  bool flag = false;
-  if (flag) {
-    flag = true;
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testSum 'int \(int, int\)'}}
+// CHECK: `-AlwaysInlineAttr {{.* always_inline}}
+int testSum(int valueOne, int valueTwo) {
+  {} {} {{} {}} {} {{{}} {} {}} {} {
+    { return valueOne + valueTwo; }
   }
-  return 1;
 }
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
 
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function3 'int \(\)'}}
-int function3() {
-  while (false) {
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testEmptyFunc 'void \(\)'}}
+// CHECK: `-AlwaysInlineAttr {{.* always_inline}}
+void testEmptyFunc() {
+  {} {{}} {{} {} {{{{}}}}} {}
+}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testIfStmt 'bool \(int, int\)'}}
+bool testIfStmt(int a, int b) {
+  if (a < b)
+    return true;
+  return false;
+}
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
+
+// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testLoop 'void \(int\)'}}
+void testLoop(int value) {
+  for (int i = 0; i < value; ++i) {
+    // do nothing
   }
-  return 1;
 }
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function4 'int \(\)'}}
-int function4() {
-  for (int i = 0; i < 3; i++) {
-  }
-  return 1;
-}
-
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function5 'int \(\)'}}
-int function5() {
-  while (false) {
-    if (true) {
-      int value = 1;
-      if (value) {
-        return value;
-      }
-    }
-  }
-  return 1;
-}
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function6 'int \(\)'}}
-int function6() {
-  do {
-
-  } while (false);
-  return 1;
-}
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function7 'int \(\)'}}
-int function7() {
-  int number = 2;
-  switch (number) {
-  case 2:
-    break;
-  default:
-    break;
-  }
-  return number;
-}
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function8 'int \(\)'}}
-int function8() {
-  int count;
-  {
-    while (false) {
-      ;
-    }
-  }
-  return 1;
-}
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function9 'int \(\)'}}
-int function9() {
-  int count;
-  {
-    {
-      while (false) {
-        ;
-      }
-    }
-  }
-  return 1;
-}
-// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
-
-// CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+test\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) function10 'int \(int, int\)'}}
-int function10(int number, int value) {
-  int count;
-  count = number - value;
-  return count;
-}
-// CHECK: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> always_inline}}
+// CHECK-NOT: `-AlwaysInlineAttr {{0[xX][0-9a-fA-F]+ <(line|col):([0-9]+:[0-9]|[0-9]+)> Implicit always_inline}}
 } // namespace
 
 // RUN: %clang_cc1 -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext\
