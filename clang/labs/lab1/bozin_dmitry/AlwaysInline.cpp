@@ -36,7 +36,7 @@ public:
           continue;
         }
         clang::Stmt *Body = FuncDecl->getBody();
-        if (Body != nullptr) {
+        if (Body) {
           AlwaysInlineVisitor Visitor;
           Visitor.TraverseStmt(Body);
           if (!Visitor.hasCondition) {
