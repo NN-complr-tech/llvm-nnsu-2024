@@ -14,7 +14,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
                               llvm::FunctionAnalysisManager &) {
     llvm::SmallVector<llvm::CallInst *, 8> CallsToInline;
     llvm::IRBuilder<> Builder(Func.getContext());
-    
+
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
         if (auto *CI = llvm::dyn_cast<llvm::CallInst>(&Instr)) {
