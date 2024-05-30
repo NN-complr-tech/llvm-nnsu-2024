@@ -61,9 +61,9 @@ protected:
     return std::make_unique<AlwaysInlineConsumer>();
   }
   bool ParseArgs(const clang::CompilerInstance &Compiler,
-                 const std::vector<std::string> &Args) override {
-    for (const std::string &Arg : Args) {
-      if (Arg == "--help") {
+                 const std::vector<std::string> &args) override {
+    for (const std::string &arg : args) {
+      if (arg == "--help") {
         llvm::outs() << "adds always_inline if function has no conditions\n";
         return false;
       }
