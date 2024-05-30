@@ -9,16 +9,6 @@ enum class IdType { Var, Func, Class };
 
 class RenameVisitor : public clang::RecursiveASTVisitor<RenameVisitor> {
 public:
-  bool isValidIdentifier(const std::string &name) const {
-    clang::Lexer lexer(clang::SourceLocation(), clang::LangOptions(),
-                       name.c_str(), name.c_str(),
-                       name.c_str() + name.length());
-    for (clang::Token tok; !lexer.LexFromRawLexer(tok);)
-      if (tok.isNot(clang::tok::identifier))
-        return false;
-    return true;
-  }
-
   explicit RenameVisitor(clang::Rewriter rewriter, IdType type,
                          clang::StringRef cur_name, clang::StringRef new_name)
       : rewriter(rewriter), type(type), cur_name(cur_name), new_name(new_name) {
@@ -134,6 +124,16 @@ public:
   }
 
 protected:
+  bool isValidIdentifier(const std::string &name) const {
+    clang::Lexer lexer(clang::SourceLocation(), clang::LangOptions(),
+                       name.c_str(), name.c_str(),
+                       name.c_str() + name.length());
+    for (clang::Token tok; !lexer.LexFromRawLexer(tok);)
+      if (tok.isNot(clang::tok::identifier))
+        return false;
+    return true;
+  }
+
   bool ParseArgs(const clang::CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
     std::vector<std::pair<std::string, std::string>> params = {
@@ -177,7 +177,8 @@ protected:
       PrintParamsError(CI);
       return false;
     }
-    if (!isValidIdentifier(params[1].second) || !isValidIdentifier(params[2].second)) {
+    if (!isValidIdentifier(params[1].second) ||
+        !isValidIdentifier(params[2].second)) {
       PrintParamsError(CI);
       return false;
     }
