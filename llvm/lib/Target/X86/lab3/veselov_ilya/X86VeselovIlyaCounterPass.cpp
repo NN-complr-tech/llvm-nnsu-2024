@@ -29,10 +29,15 @@ public:
         if (!mi.isDebugInstr())
           ++InstrCount;
       }
-      BuildMI(mbb, mbb.getFirstTerminator(), dl, tii->get(X86::ADD64mi32))
-          .addGlobalAddress(gVar)
-          .addImm(0)
+      auto pos = mbb.getFirstTerminator();
+      if (pos != mbb.begin() && pos != mbb.end() &&
+          pos->getOpcode() >= X86::JCC_1 && pos->getOpcode() <= X86::JCC_4)
+        --pos;
+      BuildMI(mbb, pos, dl, tii->get(X86::ADD64mi32))
           .addReg(0)
+          .addImm(1)
+          .addReg(0)
+          .addGlobalAddress(gVar)
           .addReg(0)
           .addImm(InstrCount);
     }
