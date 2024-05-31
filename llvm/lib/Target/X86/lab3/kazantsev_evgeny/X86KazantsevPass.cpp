@@ -75,7 +75,6 @@ bool X86KazantsevPass::runOnMachineFunction(MachineFunction &MF) {
       (*mul).eraseFromParent();
     }
   }
-
   return Modified;
 }
 

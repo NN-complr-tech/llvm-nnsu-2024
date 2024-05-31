@@ -68,7 +68,6 @@
     %mul3 = fmul <2 x double> %add, %add2
     ret <2 x double> %mul3
   }
-
   attributes #0 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
 
 ...

@@ -1,5 +1,4 @@
 set(PluginName X86KazantsevPass)
-
 file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp)
 add_llvm_pass_plugin(${PluginName}
     ${ALL_SOURCE_FILES}     
