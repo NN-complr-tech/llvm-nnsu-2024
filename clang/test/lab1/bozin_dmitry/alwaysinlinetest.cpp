@@ -1,6 +1,6 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/BozinAlwaysInlinePlugin%pluginext\
 // RUN: -add-plugin bozin-always-inline %s\
-// RUN: -ast-dump %s -ast-dump-filter function | FileCheck %s
+// RUN: -ast-dump %s -ast-dump-filter test | FileCheck %s
 namespace {
 // CHECK: FunctionDecl {{0[xX][0-9a-fA-F]+ <.+tests\.cpp:([0-9]+:[0-9]|[0-9]+), (line|col):([0-9]+:[0-9]|[0-9]+)> (line|col):([0-9]+:[0-9]|[0-9]+) testMultiply 'int \(int, int\)'}}
 // CHECK: `-AlwaysInlineAttr {{.* always_inline}}
