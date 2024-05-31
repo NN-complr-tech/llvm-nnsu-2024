@@ -92,4 +92,4 @@ public:
 
 static clang::FrontendPluginRegistry::Add<AddAttrAlwaysInlineAction>
     X("always_inline",
-      "Adds the always_inline attribute to functions without conditions");    
+      "Adds the always_inline attribute to functions without conditions");
