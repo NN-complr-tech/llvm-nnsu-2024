@@ -11,6 +11,23 @@ module {
     %4 = llvm.add %3, %1  : i32
     llvm.return %4 : i32
   }
+  func.func @function1() -> i32 attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
+    // CHECK: func.func @function1() {{.*}}attributes {{.*}}numCalls = 2 : i32
+    %0 = arith.constant 1 : i32
+    return %0 : i32
+  }
+  func.func @function2() -> i32 attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
+    // CHECK: func.func @function2() {{.*}}attributes {{.*}}numCalls = 1 : i32
+    %0 = call @function1() : () -> i32
+    return %0 : i32
+  }
+  func.func @function3() -> i32 attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
+    // CHECK: func.func @function3() {{.*}}attributes {{.*}}numCalls = 0 : i32
+    %0 = call @function1() : () -> i32
+    %1 = call @function2() : () -> i32
+    %2 = arith.addi %0, %1 : i32
+    return %2 : i32
+  }
   llvm.func @_Z5func2v() -> (i32 {llvm.noundef}) attributes {passthrough = ["mustprogress", "noinline", "nounwind", "optnone", ["uwtable", "2"], ["frame-pointer", "all"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
   // CHECK: llvm.func @_Z5func2v() {{.*}}attributes {{.*}}numCalls = 2 : i32
     %0 = llvm.call @_Z5func1v() : () -> i32
