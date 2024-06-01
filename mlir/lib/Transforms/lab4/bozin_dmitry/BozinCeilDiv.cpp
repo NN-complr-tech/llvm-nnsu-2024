@@ -22,17 +22,15 @@ public:
 
   void runOnOperation() override {
     getOperation()->walk([&](Operation *op) {
-      if (auto ceilDivUI = dyn_cast<arith::CeilDivUIOp>(op)) {
-        transformCeilDiv(ceilDivUI, CeilDivType::Unsigned);
-      } else if (auto ceilDivSI = dyn_cast<arith::CeilDivSIOp>(op)) {
-        transformCeilDiv(ceilDivSI, CeilDivType::Signed);
+      if (isa<arith::CeilDivUIOp, arith::CeilDivSIOp>(op)) {
+        transformCeilDiv(op);
       }
     });
   }
 
 private:
   template <typename CeilDivOp>
-  void transformCeilDiv(CeilDivOp op, CeilDivType divType) {
+  void transformCeilDiv(CeilDivOp op) {
     OpBuilder builder(op);
     Location location = op.getLoc();
     Value numerator = op.getLhs();
