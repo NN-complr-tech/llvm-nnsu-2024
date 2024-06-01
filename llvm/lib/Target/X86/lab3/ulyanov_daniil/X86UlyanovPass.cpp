@@ -13,7 +13,10 @@ public:
   bool runOnMachineFunction(llvm::MachineFunction &MF) override {
     auto *GV = MF.getFunction().getParent()->getNamedGlobal("ic");
     if (!GV) {
-      return false;
+      Module *M = MF.getFunction().getParent();
+      GV =
+        new GlobalVariable(*M, IntegerType::get(M->getContext(), 64), false,
+                           GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     auto DL = MF.front().begin()->getDebugLoc();
