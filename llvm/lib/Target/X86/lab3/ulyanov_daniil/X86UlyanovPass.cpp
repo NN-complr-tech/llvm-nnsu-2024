@@ -14,9 +14,8 @@ public:
     auto *GV = MF.getFunction().getParent()->getNamedGlobal("ic");
     if (!GV) {
       Module *M = MF.getFunction().getParent();
-      GV =
-        new GlobalVariable(*M, IntegerType::get(M->getContext(), 64), false,
-                           GlobalValue::ExternalLinkage, nullptr, "ic");
+      GV = new GlobalVariable(*M, IntegerType::get(M->getContext(), 64), false,
+                              GlobalValue::ExternalLinkage, nullptr, "ic");
     }
 
     auto DL = MF.front().begin()->getDebugLoc();
