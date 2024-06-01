@@ -33,16 +33,8 @@ public:
     for (auto &basicBlock : machineFunction) {
       int instructionCount =
           std::distance(basicBlock.begin(), basicBlock.end());
-      auto insertPoint = basicBlock.getFirstTerminator();
 
-      if (insertPoint != basicBlock.end() &&
-          insertPoint != basicBlock.begin() &&
-          insertPoint->getOpcode() >= X86::JCC_1 &&
-          insertPoint->getOpcode() <= X86::JCC_4) {
-        --insertPoint;
-      }
-
-      BuildMI(basicBlock, insertPoint, debugLoc,
+      BuildMI(basicBlock, basicBlock.getFirstTerminator(), debugLoc,
               targetInstrInfo->get(X86::ADD64mi32))
           .addReg(0)
           .addImm(1)
