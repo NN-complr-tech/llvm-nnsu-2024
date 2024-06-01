@@ -31,15 +31,17 @@ public:
     }
 
     for (auto &basicBlock : machineFunction) {
-      // Find the first non-special instruction
       MachineBasicBlock::iterator insertPos = basicBlock.begin();
-      while (insertPos != basicBlock.end() && (insertPos->isPHI() || insertPos->isDebugValue())) {
+      while (insertPos != basicBlock.end() &&
+             (insertPos->isPHI() || insertPos->isDebugValue())) {
         ++insertPos;
       }
 
-      size_t instructionCount = std::distance(basicBlock.begin(), basicBlock.end());
+      size_t instructionCount =
+          std::distance(basicBlock.begin(), basicBlock.end());
 
-      BuildMI(basicBlock, insertPos, debugLoc, targetInstrInfo->get(X86::ADD64ri32))
+      BuildMI(basicBlock, insertPos, debugLoc,
+              targetInstrInfo->get(X86::ADD64ri32))
           .addGlobalAddress(globalCounter, 0, X86II::MO_NO_FLAG)
           .addImm(instructionCount);
     }
