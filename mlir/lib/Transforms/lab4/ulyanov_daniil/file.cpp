@@ -14,27 +14,24 @@ public:
   }
 
   void runOnOperation() override {
-    std::vector<LLVM::LLVMFuncOp> funcs;
     std::map<StringRef, int> callCounter;
 
     getOperation()->walk([&](Operation *op) {
-      if (auto func = dyn_cast<LLVM::LLVMFuncOp>(op)) {
-        funcs.push_back(func);
-      }
-
       if (auto call = dyn_cast<LLVM::CallOp>(op)) {
         StringRef funcName = call.getCallee().value();
         callCounter[funcName]++;
       }
     });
 
-    StringRef attrName = "numCalls";
-    for (auto &func : funcs) {
-      int numCalls = callCounter[func.getName()];
-      auto attrValue =
-          IntegerAttr::get(IntegerType::get(func.getContext(), 32), numCalls);
-      func->setAttr(attrName, attrValue);
-    }
+    getOperation()->walk([&](Operation *op) {
+      if (auto func = dyn_cast<LLVM::LLVMFuncOp>(op)) {
+        StringRef attrName = "numCalls";
+        int numCalls = callCounter[func.getName()];
+        auto attrValue =
+            IntegerAttr::get(IntegerType::get(func.getContext(), 32), numCalls);
+        func->setAttr(attrName, attrValue);
+      }
+    });
   }
 };
 } // namespace
