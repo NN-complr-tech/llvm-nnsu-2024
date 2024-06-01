@@ -31,16 +31,11 @@ public:
     }
 
     for (auto &basicBlock : machineFunction) {
-      int instructionCount =
-          std::distance(basicBlock.begin(), basicBlock.end());
+      unsigned instructionCount = basicBlock.size();
 
       BuildMI(basicBlock, basicBlock.getFirstTerminator(), debugLoc,
-              targetInstrInfo->get(X86::ADD64mi32))
-          .addReg(0)
-          .addImm(1)
-          .addReg(0)
-          .addGlobalAddress(globalCounter)
-          .addReg(0)
+              targetInstrInfo->get(X86::ADD64ri32))
+          .addGlobalAddress(globalCounter, 0, X86II::MO_NO_FLAG)
           .addImm(instructionCount);
     }
 
