@@ -3,66 +3,63 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
 
-using namespace clang;
-
-class PrintClassVisitor : public RecursiveASTVisitor<PrintClassVisitor> {
+class PrintClassesVisitor
+    : public clang::RecursiveASTVisitor<PrintClassesVisitor> {
 public:
-  bool VisitCXXRecordDecl(CXXRecordDecl *declaration) {
-    llvm::outs() << declaration->getNameAsString().c_str() << "\n";
-    for (const auto &field : declaration->fields()) {
-      llvm::outs() << " |_" << field->getNameAsString().c_str() << "\n";
+  explicit PrintClassesVisitor(clang::ASTContext *Context) : Context(Context) {}
+
+  bool VisitCXXRecordDecl(clang::CXXRecordDecl *Res) {
+    llvm::outs() << Res->getNameAsString() << "\n";
+
+    for (clang::Decl *decl : Res->decls()) {
+      if (auto *field = clang::dyn_cast<clang::FieldDecl>(decl)) {
+        llvm::outs() << "  |_ " << field->getNameAsString() << "\n";
+      } else if (auto *staticField = clang::dyn_cast<clang::VarDecl>(decl)) {
+        if (staticField->isStaticDataMember()) {
+          llvm::outs() << "  |_ " << staticField->getNameAsString() << "\n";
+        }
+      }
     }
     return true;
   }
+
+private:
+  clang::ASTContext *Context;
 };
 
-class PrintClassConsumer : public ASTConsumer {
+class PrintClassesConsumer : public clang::ASTConsumer {
 public:
-  explicit PrintClassConsumer(CompilerInstance &CI) : Visitor() {}
+  explicit PrintClassesConsumer(clang::ASTContext *Context)
+      : Visitor(Context) {}
 
-  void HandleTranslationUnit(ASTContext &Context) override {
+  void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 
 private:
-  PrintClassVisitor Visitor;
+  PrintClassesVisitor Visitor;
 };
 
-class PrintClassASTAction : public PluginASTAction {
+class PrintClassesPlugin : public clang::PluginASTAction {
 public:
   std::unique_ptr<clang::ASTConsumer>
   CreateASTConsumer(clang::CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<PrintClassConsumer>(Compiler);
+    return std::make_unique<PrintClassesConsumer>(&Compiler.getASTContext());
   }
 
-  bool ParseArgs(const CompilerInstance &CI,
-                 const std::vector<std::string> &args) override {
-    if (!args.empty() && args[0] == "help") {
-      PrintHelp(llvm::errs());
+protected:
+  bool ParseArgs(const clang::CompilerInstance &Compiler,
+                 const std::vector<std::string> &Args) override {
+    for (const std::string &arg : Args) {
+      if (arg == "--help") {
+        llvm::outs()
+            << "This plugin displays the name of the class and it's fields.\n";
+      }
     }
     return true;
   }
-  void PrintHelp(llvm::raw_ostream &ros) {
-    ros << "#Help for the Clang \"kozyrevaPrintClassPlugin\" plugin\n\n"
-        << "##Description\n"
-        << "This clang plugin outputs the names of all classes(structures) and "
-           "their fields in the C/C++ source file.\n\n"
-        << "##Usage\n"
-        << "To use the plugin, upload it to Clang using the following command "
-           ":\n"
-        << "clang -cc1 -load /path/to/plugin.so(.dll) -plugin -plugin "
-           "print-class-plugin /path/to/source.cpp\n\n"
-        << "##Output format\n"
-        << "The plugin outputs the names of classes(structures) and fields in "
-           "the following format :\n"
-        << "NameClass\n"
-        << "|_nameField\n\n"
-        << "##Version\n"
-        << "Version 1.1\n\n";
-  }
 };
 
-static clang::FrontendPluginRegistry::Add<PrintClassASTAction>
-    X("print-class-plugin",
-      "A plugin that prints the names of classes (structures).");
+static clang::FrontendPluginRegistry::Add<PrintClassesPlugin>
+    X("print-classes", "Prints classes description.");
