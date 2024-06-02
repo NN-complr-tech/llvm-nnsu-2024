@@ -186,19 +186,25 @@ entry:
   %cmp = icmp slt i32 %0, 1
   br i1 %cmp, label %if.then, label %if.end
 
-if.then:                                          ; preds = %entry
-  call void @_Z4foo4v()
-  br label %1
+if.then: ; preds = %entry
+  %1 = alloca float, align 4
+  store float 1.000000e+00, ptr %1, align 4
+  %2 = load float, ptr %1, align 4
+  %cmp1 = fcmp olt float %2, 2.000000e+00
+  br i1 %cmp1, label %if.then.1, label %if.end.1
 
-1:
-  br label %post-call1
+if.then.1: ; preds = %if.then
+  %3 = load float, ptr %1, align 4
+  %add = fadd float %3, 1.000000e+00
+  store float %add, ptr %1, align 4
+  br label %if.end.1
 
-post-call1:                                       ; preds = %1, %if.then
-  br label %if.end
+if.end.1: ; preds = %if.then.1, %if.then
+  br label %post-call
 
-if.end:                                           ; preds = %post-call1, %entry
-  %2 = load i32, ptr %a, align 4
-  %inc = add nsw i32 %2, 1
+post-call: ; preds = %if.end.1, %entry
+  %4 = load i32, ptr %a, align 4
+  %inc = add nsw i32 %4, 1
   store i32 %inc, ptr %a, align 4
   ret void
 }
@@ -222,12 +228,10 @@ if.end:                                           ; preds = %post-call1, %entry
 ; CHECK-NEXT:   store float %add, ptr %1, align 4
 ; CHECK-NEXT:   br label %if.end.1
 ; CHECK: if.end.1: ; preds = %if.then.1, %if.then
-; CHECK-NEXT:   br label %post-call1
-; CHECK: post-call1: ; preds = %if.end.1, %if.then
-; CHECK-NEXT:   br label %if.end
-; CHECK: if.end: ; preds = %post-call1, %entry
-; CHECK-NEXT:   %2 = load i32, ptr %a, align 4
-; CHECK-NEXT:   %inc = add nsw i32 %2, 1
+; CHECK-NEXT:   br label %post-call
+; CHECK: post-call: ; preds = %if.end.1, %entry
+; CHECK-NEXT:   %4 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %4, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
