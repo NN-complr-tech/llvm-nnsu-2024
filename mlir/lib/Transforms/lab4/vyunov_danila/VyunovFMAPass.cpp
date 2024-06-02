@@ -1,56 +1,48 @@
-#include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/Dialect/LLVMIR/LLVMDialect.h"
-#include "mlir/Dialect/Math/IR/Math.h"
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
-#include "llvm/Support/raw_ostream.h"
 
 using namespace mlir;
 
 namespace {
 class VyunovFMAPass
-    : public PassWrapper<VyunovFMAPass, OperationPass<LLVM::LLVMFuncOp>> {
-public:
-  StringRef getArgument() const final { return "VyunovFMAPass"; }
-  StringRef getDescription() const final { return "fma pass"; }
-
-  void getDependentDialects(DialectRegistry &registry) const override {
-    registry.insert<mlir::math::MathDialect>();
+    : public PassWrapper<VyunovFMAPass,
+                         OperationPass<LLVM::LLVMFuncOp>> {
+private:
+  void handleMulOp(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
+                   Value &otherOperand) {
+    OpBuilder builder(addOp);
+    Value fma = builder.create<LLVM::FMAOp>(addOp.getLoc(), mulOp.getOperand(0),
+                                            mulOp.getOperand(1), otherOperand);
+    addOp.replaceAllUsesWith(fma);
+    addOp.erase();
   }
 
+public:
   void runOnOperation() override {
-    LLVM::LLVMFuncOp function = getOperation();
-    mlir::OpBuilder builder(function);
-
-    auto replaceAndEraseOp = [&](mlir::LLVM::FMulOp &mulOp,
-                                 mlir::LLVM::FAddOp &addOp,
-                                 mlir::Value &thirdOperand) -> void {
-      builder.setInsertionPoint(addOp);
-      mlir::Value fmaResult =
-          builder.create<mlir::math::FmaOp>(addOp.getLoc(), mulOp.getOperand(0),
-                                            mulOp.getOperand(1), thirdOperand);
-      addOp.replaceAllUsesWith(fmaResult);
-      addOp.erase();
-      mulOp.erase();
-    };
-
-    function.walk([&](mlir::LLVM::FAddOp addOp) {
-      mlir::Value addLhs = addOp.getOperand(0);
-      mlir::Value addRhs = addOp.getOperand(1);
-
-      if (auto mulOp = addLhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
-        if (mulOp->hasOneUse()) {
-          replaceAndEraseOp(mulOp, addOp, addRhs);
-        }
-      }
-
-      else if (auto mulOp = addRhs.getDefiningOp<mlir::LLVM::FMulOp>()) {
-        if (mulOp->hasOneUse()) {
-          replaceAndEraseOp(mulOp, addOp, addLhs);
-        }
+    LLVM::LLVMFuncOp func = getOperation();
+    // Add operation.
+    func.walk([this](LLVM::FAddOp addOp) {
+      Value addLHS = addOp.getOperand(0);
+      Value addRHS = addOp.getOperand(1);
+      if (auto mulOpLHS = addLHS.getDefiningOp<LLVM::FMulOp>()) {
+        handleMulOp(addOp, mulOpLHS, addRHS);
+      } else if (auto mulOpRHS = addRHS.getDefiningOp<LLVM::FMulOp>()) {
+        handleMulOp(addOp, mulOpRHS, addLHS);
       }
     });
+
+    // Mul operation.
+    func.walk([](LLVM::FMulOp mulOp) {
+      if (mulOp.use_empty()) {
+        mulOp.erase();
+      }
+    });
+  }
+  StringRef getArgument() const final { return "vyunov_danila_fma"; }
+  StringRef getDescription() const final {
+    return "Replaces add and multiply operations with a single instruction.";
   }
 };
 } // namespace
@@ -58,12 +50,11 @@ public:
 MLIR_DECLARE_EXPLICIT_TYPE_ID(VyunovFMAPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(VyunovFMAPass)
 
-mlir::PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "VyunovFMAPass", "0.1",
-          []() { mlir::PassRegistration<VyunovFMAPass>(); }};
+PassPluginLibraryInfo getVyunovFMAPassPluginInfo() {
+  return {MLIR_PLUGIN_API_VERSION, "vyunov_danila_fma", LLVM_VERSION_STRING,
+          []() { PassRegistration<VyunovFMAPass>(); }};
 }
 
-extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
-mlirGetPassPluginInfo() {
-  return getFunctionCallCounterPassPluginInfo();
+extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
+  return getVyunovFMAPassPluginInfo();
 }
