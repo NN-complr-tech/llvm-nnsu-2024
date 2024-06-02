@@ -14,7 +14,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
                               llvm::FunctionAnalysisManager &) {
     llvm::SmallVector<llvm::CallInst *, 8> CallsToInline;
     llvm::IRBuilder<> Builder(Func.getContext());
-
+    
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Instr : Block) {
         if (auto *CI = llvm::dyn_cast<llvm::CallInst>(&Instr)) {
@@ -36,21 +36,19 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
       llvm::BasicBlock *PrevBB = nullptr;
       llvm::BasicBlock *CurrentBB = nullptr;
 
+      // Clone each basic block from Callee and create branches
       for (llvm::BasicBlock &CalleeBB : *Callee) {
         CurrentBB =
             llvm::BasicBlock::Create(Func.getContext(), "", &Func, PostCallBB);
         ValueMap[&CalleeBB] = CurrentBB;
         Builder.SetInsertPoint(CurrentBB);
         for (llvm::Instruction &Inst : CalleeBB) {
-          if (!Inst.isTerminator()) {
-            llvm::Instruction *NewInst = Inst.clone();
-            // if (!NewInst) {
-            //   llvm::errs() << "Error: Failed to clone instruction.\n";
-            //   return llvm::PreservedAnalyses::none();
-            // }
-            Builder.Insert(NewInst);
-            ValueMap[&Inst] = NewInst;
+          if (Inst.isTerminator()) {
+            break;
           }
+          llvm::Instruction *NewInst = Inst.clone();
+          Builder.Insert(NewInst);
+          ValueMap[&Inst] = NewInst;
         }
 
         if (PrevBB) {
@@ -71,6 +69,7 @@ struct IsaevInlinePass : public llvm::PassInfoMixin<IsaevInlinePass> {
         Builder.CreateBr(PostCallBB);
       }
 
+      // Fix operands of newly cloned instructions
       for (auto Iter = ValueMap.begin(); Iter != ValueMap.end(); ++Iter) {
         if (llvm::BasicBlock *NewBB =
                 llvm::dyn_cast<llvm::BasicBlock>(Iter->second)) {

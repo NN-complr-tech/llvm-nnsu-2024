@@ -1,5 +1,6 @@
 ; RUN: opt -load-pass-plugin=%llvmshlibdir/IsaevInlinePass%pluginext -passes=isaev-inline -S %s | FileCheck %s
 
+; Test 1
 ;void foo1() {
 ;  float a = 1.0f;
 ;  a += 1.0f;
@@ -21,7 +22,7 @@ entry:
   ret void
 }
 
-define dso_local void @_Z4bar1v() #0 {
+define dso_local void @_Z4bar1v() {
 entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
@@ -37,20 +38,21 @@ entry:
 ; CHECK-NEXT:   %a = alloca i32, align 4
 ; CHECK-NEXT:   store i32 0, ptr %a, align 4
 ; CHECK-NEXT:   br label %post-call
-; CHECK: 0:                                                
+; CHECK: 0:
 ; CHECK-NEXT:   %1 = alloca float, align 4
 ; CHECK-NEXT:   store float 1.000000e+00, ptr %1, align 4
 ; CHECK-NEXT:   %2 = load float, ptr %1, align 4
 ; CHECK-NEXT:   %3 = fadd float %2, 1.000000e+00
 ; CHECK-NEXT:   store float %3, ptr %1, align 4
 ; CHECK-NEXT:   br label %post-call
-; CHECK: post-call:                                        
+; CHECK: post-call:
 ; CHECK-NEXT:   %4 = load i32, ptr %a, align 4
 ; CHECK-NEXT:   %inc = add nsw i32 %4, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
 
+; Test 2
 ;void foo2(int) {
 ;  float a = 1.0f;
 ;  a += 1.0f;
@@ -62,7 +64,7 @@ entry:
 ;  a++;
 ;}
 
-define dso_local void @_Z4foo2i(i32 noundef %0) #0 {
+define dso_local void @_Z4foo2i(i32 noundef %0) {
 entry:
   %.addr = alloca i32, align 4
   %a = alloca float, align 4
@@ -74,7 +76,7 @@ entry:
   ret void
 }
 
-define dso_local void @_Z4bar2v() #0 {
+define dso_local void @_Z4bar2v() {
 entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
@@ -88,16 +90,17 @@ entry:
 
 ; CHECK: define dso_local void @_Z4bar2v() {
 ; CHECK-NEXT: entry:
-; CHECK-NEXT:  %a = alloca i32, align 4
-; CHECK-NEXT:  store i32 0, ptr %a, align 4
-; CHECK-NEXT:  %0 = load i32, ptr %a, align 4
-; CHECK-NEXT:  call void @_Z4foo2i(i32 noundef %0)
-; CHECK-NEXT:  %1 = load i32, ptr %a, align 4
-; CHECK-NEXT:  %inc = add nsw i32 %1, 1
-; CHECK-NEXT:  store i32 %inc, ptr %a, align 4
-; CHECK-NEXT:  ret void
+; CHECK-NEXT:   %a = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %a, align 4
+; CHECK-NEXT:   %0 = load i32, ptr %a, align 4
+; CHECK-NEXT:   call void @_Z4foo2i(i32 noundef %0)
+; CHECK-NEXT:   %1 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %1, 1
+; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
+; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
 
+; Test 3
 ;float foo3() {
 ;  float a = 1.0f;
 ;  a += 1.0f;
@@ -110,7 +113,7 @@ entry:
 ;  a++;
 ;}
 
-define dso_local noundef float @_Z4foo3v() #0 {
+define dso_local noundef float @_Z4foo3v() {
 entry:
   %a = alloca float, align 4
   store float 1.000000e+00, ptr %a, align 4
@@ -121,7 +124,7 @@ entry:
   ret float %1
 }
 
-define dso_local void @_Z4bar3v() #0 {
+define dso_local void @_Z4bar3v() {
 entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
@@ -133,16 +136,17 @@ entry:
 }
 
 ; CHECK: define dso_local void @_Z4bar3v() {
-; CHECK-NEXT:entry:
-; CHECK-NEXT:  %a = alloca i32, align 4
-; CHECK-NEXT:  store i32 0, ptr %a, align 4
-; CHECK-NEXT:  %call = call noundef float @_Z4foo3v()
-; CHECK-NEXT:  %0 = load i32, ptr %a, align 4
-; CHECK-NEXT:  %inc = add nsw i32 %0, 1
-; CHECK-NEXT:  store i32 %inc, ptr %a, align 4
-; CHECK-NEXT:  ret void
-; CHECK-NEXT:}
+; CHECK-NEXT: entry:
+; CHECK-NEXT:   %a = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %a, align 4
+; CHECK-NEXT:   %call = call noundef float @_Z4foo3v()
+; CHECK-NEXT:   %0 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %0, 1
+; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
+; CHECK-NEXT:   ret void
+; CHECK-NEXT: }
 
+; Test 4
 ;void foo4() {
 ;  float a = 1.0f;
 ;  if (a < 2.0f)
@@ -156,7 +160,7 @@ entry:
 ;  a++;
 ;}
 
-define dso_local void @_Z4foo4v() #0 {
+define dso_local void @_Z4foo4v() {
 entry:
   %a = alloca float, align 4
   store float 1.000000e+00, ptr %a, align 4
@@ -174,7 +178,7 @@ if.end:                                           ; preds = %if.then, %entry
   ret void
 }
 
-define dso_local void @_Z4bar4v() #0 {
+define dso_local void @_Z4bar4v() {
 entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
@@ -184,11 +188,17 @@ entry:
 
 if.then:                                          ; preds = %entry
   call void @_Z4foo4v()
+  br label %1
+
+1:
+  br label %post-call1
+
+post-call1:                                       ; preds = %1, %if.then
   br label %if.end
 
-if.end:                                           ; preds = %if.then, %entry
-  %1 = load i32, ptr %a, align 4
-  %inc = add nsw i32 %1, 1
+if.end:                                           ; preds = %post-call1, %entry
+  %2 = load i32, ptr %a, align 4
+  %inc = add nsw i32 %2, 1
   store i32 %inc, ptr %a, align 4
   ret void
 }
@@ -200,43 +210,42 @@ if.end:                                           ; preds = %if.then, %entry
 ; CHECK-NEXT:   %0 = load i32, ptr %a, align 4
 ; CHECK-NEXT:   %cmp = icmp slt i32 %0, 1
 ; CHECK-NEXT:   br i1 %cmp, label %if.then, label %if.end
-; CHECK: if.then:                                          ; preds = %entry
-; CHECK-NEXT:   br label %post-call
-; CHECK: 1:                                                
-; CHECK-NEXT:   %2 = alloca float, align 4
-; CHECK-NEXT:   store float 1.000000e+00, ptr %2, align 4
-; CHECK-NEXT:   %3 = load float, ptr %2, align 4
-; CHECK-NEXT:   %4 = fcmp olt float %3, 2.000000e+00
-; CHECK-NEXT:   br label %5
-; CHECK: 5:                                                ; preds = %1
-; CHECK-NEXT:   %6 = load float, ptr %2, align 4
-; CHECK-NEXT:   %7 = fadd float %6, 1.000000e+00
-; CHECK-NEXT:   store float %7, ptr %2, align 4
-; CHECK-NEXT:   br label %8
-; CHECK: 8:                                                ; preds = %5
-; CHECK-NEXT:   br label %post-call
-; CHECK: post-call:                                        ; preds = %8, %if.then
+; CHECK: if.then: ; preds = %entry
+; CHECK-NEXT:   %1 = alloca float, align 4
+; CHECK-NEXT:   store float 1.000000e+00, ptr %1, align 4
+; CHECK-NEXT:   %2 = load float, ptr %1, align 4
+; CHECK-NEXT:   %cmp1 = fcmp olt float %2, 2.000000e+00
+; CHECK-NEXT:   br i1 %cmp1, label %if.then.1, label %if.end.1
+; CHECK: if.then.1: ; preds = %if.then
+; CHECK-NEXT:   %3 = load float, ptr %1, align 4
+; CHECK-NEXT:   %add = fadd float %3, 1.000000e+00
+; CHECK-NEXT:   store float %add, ptr %1, align 4
+; CHECK-NEXT:   br label %if.end.1
+; CHECK: if.end.1: ; preds = %if.then.1, %if.then
+; CHECK-NEXT:   br label %post-call1
+; CHECK: post-call1: ; preds = %if.end.1, %if.then
 ; CHECK-NEXT:   br label %if.end
-; CHECK: if.end:                                           ; preds = %post-call, %entry
-; CHECK-NEXT:   %9 = load i32, ptr %a, align 4
-; CHECK-NEXT:   %inc = add nsw i32 %9, 1
+; CHECK: if.end: ; preds = %post-call1, %entry
+; CHECK-NEXT:   %2 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %2, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
 
-; void foo5() {
-;   float a = 1.0f;
-;   a += 1.0f;
-; }
+; Test 5
+;void foo5() {
+;  float a = 1.0f;
+;  a += 1.0f;
+;}
 ;
-; void bar5() {
-;   int a = 0;
-;   foo5();
-;   foo5();
-;   a++;
-; }
+;void bar5() {
+;  int a = 0;
+;  foo5();
+;  foo5();
+;  a++;
+;}
 
-define dso_local void @_Z4foo5v() #0 {
+define dso_local void @_Z4foo5v() {
 entry:
   %a = alloca float, align 4
   store float 1.000000e+00, ptr %a, align 4
@@ -246,42 +255,42 @@ entry:
   ret void
 }
 
-define dso_local void @_Z4bar5v() #0 {
+define dso_local void @_Z4bar5v() {
 entry:
   %a = alloca i32, align 4
   store i32 0, ptr %a, align 4
   call void @_Z4foo5v()
   call void @_Z4foo5v()
   %0 = load i32, ptr %a, align 4
-  %add = add nsw i32 %0, 3
-  store i32 %add, ptr %a, align 4
+  %inc = add nsw i32 %0, 1
+  store i32 %inc, ptr %a, align 4
   ret void
 }
 
 ; CHECK: define dso_local void @_Z4bar5v() {
 ; CHECK-NEXT: entry:
-; CHECK-NEXT: %a = alloca i32, align 4
-; CHECK-NEXT: store i32 0, ptr %a, align 4
-; CHECK-NEXT: br label %post-call
-; CHECK: 0:                                             
-; CHECK-NEXT: %1 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %1, align 4
-; CHECK-NEXT: %2 = load float, ptr %1, align 4
-; CHECK-NEXT: %3 = fadd float %2, 1.000000e+00
-; CHECK-NEXT: store float %3, ptr %1, align 4
-; CHECK-NEXT: br label %post-call
-; CHECK: post-call:                                        
-; CHECK-NEXT: br label %post-call1
-; CHECK: 4:                                                
-; CHECK-NEXT: %5 = alloca float, align 4
-; CHECK-NEXT: store float 1.000000e+00, ptr %5, align 4
-; CHECK-NEXT: %6 = load float, ptr %5, align 4
-; CHECK-NEXT: %7 = fadd float %6, 1.000000e+00
-; CHECK-NEXT: store float %7, ptr %5, align 4
-; CHECK-NEXT: br label %post-call1
-; CHECK: post-call1:                                       
-; CHECK-NEXT: %8 = load i32, ptr %a, align 4
-; CHECK-NEXT: %add = add nsw i32 %8, 3
-; CHECK-NEXT: store i32 %add, ptr %a, align 4
-; CHECK-NEXT: ret void
+; CHECK-NEXT:   %a = alloca i32, align 4
+; CHECK-NEXT:   store i32 0, ptr %a, align 4
+; CHECK-NEXT:   br label %post-call
+; CHECK: 0:
+; CHECK-NEXT:   %1 = alloca float, align 4
+; CHECK-NEXT:   store float 1.000000e+00, ptr %1, align 4
+; CHECK-NEXT:   %2 = load float, ptr %1, align 4
+; CHECK-NEXT:   %3 = fadd float %2, 1.000000e+00
+; CHECK-NEXT:   store float %3, ptr %1, align 4
+; CHECK-NEXT:   br label %post-call
+; CHECK: post-call:
+; CHECK-NEXT:   br label %post-call1
+; CHECK: 4:
+; CHECK-NEXT:   %5 = alloca float, align 4
+; CHECK-NEXT:   store float 1.000000e+00, ptr %5, align 4
+; CHECK-NEXT:   %6 = load float, ptr %5, align 4
+; CHECK-NEXT:   %7 = fadd float %6, 1.000000e+00
+; CHECK-NEXT:   store float %7, ptr %5, align 4
+; CHECK-NEXT:   br label %post-call1
+; CHECK: post-call1:
+; CHECK-NEXT:   %8 = load i32, ptr %a, align 4
+; CHECK-NEXT:   %add = add nsw i32 %8, 1
+; CHECK-NEXT:   store i32 %add, ptr %a, align 4
+; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
