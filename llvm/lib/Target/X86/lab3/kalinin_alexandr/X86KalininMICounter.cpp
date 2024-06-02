@@ -51,11 +51,6 @@ char X86SKalininMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
-llvmGetPassPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "X86SKalininMICounterPass", "v0.1",
-          [](PassBuilder &PB) {
-            PB.registerMachineFunctionPass(
-                []() { return new X86SKalininMICounterPass(); });
-          }};
-}
+static RegisterPass<X86SKalininMICounterPass>
+    X("x86-kalinin-mi-counter", "X86 Count of machine instructions pass", false,
+      false);
