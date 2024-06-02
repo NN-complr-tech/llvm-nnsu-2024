@@ -7,8 +7,7 @@ using namespace mlir;
 
 namespace {
 class VyunovFMAPass
-    : public PassWrapper<VyunovFMAPass,
-                         OperationPass<LLVM::LLVMFuncOp>> {
+    : public PassWrapper<VyunovFMAPass, OperationPass<LLVM::LLVMFuncOp>> {
 private:
   void handleMulOp(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp,
                    Value &otherOperand) {
