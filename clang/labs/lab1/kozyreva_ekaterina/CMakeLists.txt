@@ -1,14 +1,14 @@
-add_llvm_library(kozyrevaPrintNamesPlugin MODULE PrintNames.cpp PLUGIN_TOOL clang)
+add_llvm_library(kozyrevaPrintClassPlugin MODULE PrintClassPlugin.cpp PLUGIN_TOOL clang)
 
 if(WIN32 OR CYGWIN)
   set(LLVM_LINK_COMPONENTS
     Support
   )
-  clang_target_link_libraries(kozyrevaPrintNamesPlugin PRIVATE
+  clang_target_link_libraries(kozyrevaPrintClassPlugin PRIVATE
     clangAST
     clangBasic
     clangFrontend
     )
 endif()
 
-set(CLANG_TEST_DEPS "kozyrevaPrintNamesPlugin" ${CLANG_TEST_DEPS} PARENT_SCOPE)
+set(CLANG_TEST_DEPS "kozyrevaPrintClassPlugin" ${CLANG_TEST_DEPS} PARENT_SCOPE)
