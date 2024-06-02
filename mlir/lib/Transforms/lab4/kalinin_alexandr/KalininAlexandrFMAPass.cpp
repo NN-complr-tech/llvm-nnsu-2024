@@ -20,6 +20,14 @@ private:
     addOp.erase();
   }
 
+  void replaceDoubleMulAdd(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp) {
+    OpBuilder builder(addOp);
+    Value doubleValue = builder.create<LLVM::FAddOp>(
+        addOp.getLoc(), mulOp, mulOp);
+    addOp.replaceAllUsesWith(doubleValue);
+    addOp.erase();
+  }
+
 public:
   void runOnOperation() override {
     LLVM::LLVMFuncOp function = getOperation();
@@ -27,10 +35,18 @@ public:
       Value addLeftOperand = addOp.getOperand(0);
       Value addRightOperand = addOp.getOperand(1);
       if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
-        replaceAddWithFMA(addOp, mulLeftOperand, addRightOperand);
+        if (addRightOperand == addLeftOperand) {
+          replaceDoubleMulAdd(addOp, mulLeftOperand);
+        } else {
+          replaceAddWithFMA(addOp, mulLeftOperand, addRightOperand);
+        }
       } else if (auto mulRightOperand =
                      addRightOperand.getDefiningOp<LLVM::FMulOp>()) {
-        replaceAddWithFMA(addOp, mulRightOperand, addLeftOperand);
+        if (addLeftOperand == addRightOperand) {
+          replaceDoubleMulAdd(addOp, mulRightOperand);
+        } else {
+          replaceAddWithFMA(addOp, mulRightOperand, addLeftOperand);
+        }
       }
     });
     function.walk([](LLVM::FMulOp mulOp) {
