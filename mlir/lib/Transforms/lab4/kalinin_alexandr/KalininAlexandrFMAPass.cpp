@@ -23,24 +23,16 @@ private:
 public:
   void runOnOperation() override {
     LLVM::LLVMFuncOp function = getOperation();
-    SmallVector<std::pair<LLVM::FAddOp, std::pair<LLVM::FMulOp, Value>>, 4>
-        worklist;
-
-    function.walk([this, &worklist](LLVM::FAddOp addOp) {
+    function.walk([this](LLVM::FAddOp addOp) {
       Value addLeftOperand = addOp.getOperand(0);
       Value addRightOperand = addOp.getOperand(1);
       if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
-        worklist.push_back({addOp, {mulLeftOperand, addRightOperand}});
+        replaceAddWithFMA(addOp, mulLeftOperand, addRightOperand);
       } else if (auto mulRightOperand =
                      addRightOperand.getDefiningOp<LLVM::FMulOp>()) {
-        worklist.push_back({addOp, {mulRightOperand, addLeftOperand}});
+        replaceAddWithFMA(addOp, mulRightOperand, addLeftOperand);
       }
     });
-
-    for (auto &entry : worklist) {
-      replaceAddWithFMA(entry.first, entry.second.first, entry.second.second);
-    }
-
     function.walk([](LLVM::FMulOp mulOp) {
       if (mulOp.use_empty()) {
         mulOp.erase();

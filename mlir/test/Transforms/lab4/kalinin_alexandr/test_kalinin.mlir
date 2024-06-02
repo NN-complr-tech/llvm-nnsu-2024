@@ -71,7 +71,8 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i16, dense<16> : 
     %0 = llvm.fmul %arg0, %arg1 : f64
     %1 = llvm.fadd %0, %0 : f64
     llvm.return %1 : f64
-    // CHECK: %0 = llvm.intr.fma(%arg0, %arg1, %arg0) : (f64, f64, f64) -> f64
-    // CHECK-NEXT: llvm.return %0 : f64
+    // CHECK: %0 = llvm.fmul %arg0, %arg1 : f64
+    // CHECK-NEXT: %1 = llvm.intr.fma(%arg0, %arg1, %0) : (f64, f64, f64) -> f64
+    // CHECK-NEXT: llvm.return %1 : f64
   }
 }
