@@ -2,6 +2,7 @@
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Tools/Plugins/PassPlugin.h"
+#include "llvm/Support/Debug.h"
 
 using namespace mlir;
 
@@ -25,7 +26,7 @@ public:
     SmallVector<std::pair<LLVM::FAddOp, std::pair<LLVM::FMulOp, Value>>, 4>
         worklist;
 
-    function.walk([&](LLVM::FAddOp addOp) {
+    function.walk([this](LLVM::FAddOp addOp) {
       Value addLeftOperand = addOp.getOperand(0);
       Value addRightOperand = addOp.getOperand(1);
       if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
