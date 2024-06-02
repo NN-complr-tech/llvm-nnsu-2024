@@ -22,9 +22,9 @@ private:
 
   void replaceDoubleMulAdd(LLVM::FAddOp &addOp, LLVM::FMulOp &mulOp) {
     OpBuilder builder(addOp);
-    Value doubleValue = builder.create<LLVM::FAddOp>(
-        addOp.getLoc(), mulOp, mulOp);
-    addOp.replaceAllUsesWith(doubleValue);
+    Value fmaValue = builder.create<LLVM::FMAOp>(
+        addOp.getLoc(), mulOp.getOperand(0), mulOp.getOperand(1), mulOp);
+    addOp.replaceAllUsesWith(fmaValue);
     addOp.erase();
   }
 
