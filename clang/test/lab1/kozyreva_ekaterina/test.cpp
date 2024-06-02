@@ -1,62 +1,36 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/kozyrevaPrintClassPlugin%pluginext -plugin print-class-plugin %s | FileCheck %s
-class SimpleClass {
-    int a;
-    float b;
+// RUN: %clang_cc1 -load %llvmshlibdir/kozyrevaPrintClassesNamePlugin%pluginext -plugin print-classes %s | FileCheck %s
+
+// CHECK: Test1
+struct Test1
+{
+    // CHECK-NEXT: |_ A
+    int A;
+    // CHECK-NEXT: |_ B
+    int B;
 };
-// CHECK: SimpleClass
-// CHECK-NEXT: |_a
-// CHECK-NEXT: |_b
 
-class EmptyClass {};
-// CHECK: EmptyClass
-
-class Empire {
-    int world;
+// CHECK: Test2
+class Test2
+{
+    // CHECK-NEXT: |_ Arr
+    double Arr;
+    // CHECK-NEXT: |_ B
+    const int B = 2;
 };
-// CHECK: Empire
-// CHECK-NEXT: |_world
 
-template <typename T> class One {
-    T two;
+// CHECK: Test3
+class Test3
+{
+    // CHECK-NEXT: |_ Arg
+    static int Arg;
+public:
+    // CHECK-NEXT: |_ Brr
+    int Brr = 2;
 };
-// CHECK: One
-// CHECK-NEXT: |_two
 
-class MyClass {
-    One<int> t;    
-};
-// CHECK: MyClass
-// CHECK-NEXT: |_t
+// CHECK: Test4
+struct Test4{};
 
-struct B {
-    int e;
-    float b;
-    double c;
-    long long d;
-};
-// CHECK: B
-// CHECK-NEXT: |_e
-// CHECK-NEXT: |_b
-// CHECK-NEXT: |_c
-// CHECK-NEXT: |_d
+// RUN: %clang_cc1 -load %llvmshlibdir/kozyrevaPrintClassesNamePlugin%pluginext -plugin print-classes -plugin-arg-print-classes --help 1>&1 | FileCheck %s --check-prefix=HELP
 
-struct Computer {
-    struct Processor {
-      int clock_frequency;
-    };
-    struct Memory{
-      int size;
-    };
-    struct Motherboard{};
-    struct GPU{};
-};
-// CHECK: Computer
-// CHECK: Processor
-// CHECK-NEXT: |_clock_frequency
-// CHECK: Memory
-// CHECK-NEXT: |_size
-// CHECK: Motherboard
-// CHECK: GPU
-
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassPlugin%pluginext -plugin print-class-plugin %s -plugin-arg-print-class-plugin help 2>&1 | FileCheck %s --check-prefix=HELP
-// HELP: #Help for the Clang
+// HELP: This plugin displays the name of the class and it's fields.
