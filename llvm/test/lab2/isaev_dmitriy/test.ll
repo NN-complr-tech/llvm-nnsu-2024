@@ -202,10 +202,13 @@ if.then.1: ; preds = %if.then
 if.end.1: ; preds = %if.then.1, %if.then
   br label %post-call
 
-post-call: ; preds = %if.end.1, %entry
+post-call: ; preds = %if.end.1
   %4 = load i32, ptr %a, align 4
   %inc = add nsw i32 %4, 1
   store i32 %inc, ptr %a, align 4
+  br label %if.end
+
+if.end: ; preds = %post-call, %entry
   ret void
 }
 
@@ -229,10 +232,12 @@ post-call: ; preds = %if.end.1, %entry
 ; CHECK-NEXT:   br label %if.end.1
 ; CHECK: if.end.1: ; preds = %if.then.1, %if.then
 ; CHECK-NEXT:   br label %post-call
-; CHECK: post-call: ; preds = %if.end.1, %entry
+; CHECK: post-call: ; preds = %if.end.1
 ; CHECK-NEXT:   %4 = load i32, ptr %a, align 4
 ; CHECK-NEXT:   %inc = add nsw i32 %4, 1
 ; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
+; CHECK-NEXT:   br label %if.end
+; CHECK: if.end: ; preds = %post-call, %entry
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
 
