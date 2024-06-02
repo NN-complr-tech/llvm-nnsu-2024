@@ -23,13 +23,6 @@ public:
     Module &module = *machineFunction.getFunction().getParent();
     GlobalVariable *globalCounter = module.getGlobalVariable("ic");
 
-    if (!globalCounter) {
-      LLVMContext &llvmContext = module.getContext();
-      globalCounter =
-          new GlobalVariable(module, IntegerType::get(llvmContext, 64), false,
-                             GlobalValue::ExternalLinkage, nullptr, "ic");
-    }
-
     for (auto &basicBlock : machineFunction) {
       MachineBasicBlock::iterator insertPos = basicBlock.begin();
       while (insertPos != basicBlock.end() &&
@@ -41,8 +34,12 @@ public:
           std::distance(basicBlock.begin(), basicBlock.end());
 
       BuildMI(basicBlock, insertPos, debugLoc,
-              targetInstrInfo->get(X86::ADD64ri32))
-          .addGlobalAddress(globalCounter, 0, X86II::MO_NO_FLAG)
+              targetInstrInfo->get(X86::ADD64mi32))
+          .addReg(0)
+          .addImm(1)
+          .addReg(0)
+          .addGlobalAddress(globalCounter)
+          .addReg(0)
           .addImm(instructionCount);
     }
 
@@ -54,6 +51,11 @@ char X86SKalininMICounterPass::ID = 0;
 
 } // end anonymous namespace
 
-static RegisterPass<X86SKalininMICounterPass>
-    X("x86-kalinin-mi-counter", "X86 Count of machine instructions pass", false,
-      false);
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
+  return {LLVM_PLUGIN_API_VERSION, "X86SKalininMICounterPass", "v0.1",
+          [](PassBuilder &PB) {
+            PB.registerMachineFunctionPass(
+                []() { return new X86SKalininMICounterPass(); });
+          }};
+}
