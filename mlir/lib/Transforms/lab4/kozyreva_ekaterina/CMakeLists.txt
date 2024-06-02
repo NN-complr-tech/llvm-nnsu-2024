@@ -1,4 +1,4 @@
-set(PluginName KozyrevaCilDivConvert)
+set(PluginName kCeilDiv)
 
 file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
 add_llvm_pass_plugin(${PluginName}
