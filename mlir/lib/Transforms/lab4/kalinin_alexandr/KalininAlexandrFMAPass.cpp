@@ -26,7 +26,7 @@ public:
     SmallVector<std::pair<LLVM::FAddOp, std::pair<LLVM::FMulOp, Value>>, 4>
         worklist;
 
-    function.walk([this](LLVM::FAddOp addOp) {
+    function.walk([this, &worklist](LLVM::FAddOp addOp) {
       Value addLeftOperand = addOp.getOperand(0);
       Value addRightOperand = addOp.getOperand(1);
       if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
