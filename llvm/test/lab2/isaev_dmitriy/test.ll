@@ -299,7 +299,7 @@ entry:
 ; CHECK-NEXT:   br label %post-call1
 ; CHECK: post-call1:
 ; CHECK-NEXT:   %8 = load i32, ptr %a, align 4
-; CHECK-NEXT:   %add = add nsw i32 %8, 1
-; CHECK-NEXT:   store i32 %add, ptr %a, align 4
+; CHECK-NEXT:   %inc = add nsw i32 %8, 1
+; CHECK-NEXT:   store i32 %inc, ptr %a, align 4
 ; CHECK-NEXT:   ret void
 ; CHECK-NEXT: }
