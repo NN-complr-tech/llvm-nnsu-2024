@@ -6,7 +6,7 @@
 using namespace mlir;
 
 namespace {
-class BonyukFusedMultiplyAddPass
+class PivovarovFMAPass
     : public PassWrapper<PivovarovMergePass,
                          OperationPass<LLVM::LLVMFuncOp>> {
 public:
