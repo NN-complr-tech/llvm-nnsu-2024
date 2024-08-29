@@ -10,5 +10,3 @@ add_llvm_pass_plugin(${PluginName}
         )
 
 set(MLIR_TEST_DEPENDS ${PluginName} ${MLIR_TEST_DEPENDS} PARENT_SCOPE)
-
-
