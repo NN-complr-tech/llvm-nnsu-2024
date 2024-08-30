@@ -11,7 +11,8 @@ namespace {
         : public PassWrapper<PivovarovMergePass,
         OperationPass<LLVM::LLVMFuncOp>> {
     private:
-        void combineMulAdd(LLVM::FAddOp addOp, LLVM::FMulOp mulOp, Value otherOperand) {
+        void replaceAddWithFMA(LLVM::FAddOp& addOp, LLVM::FMulOp& mulOp,
+            Value& otherOperand) {
             OpBuilder builder(addOp);
             Value fmaValue = builder.create<LLVM::FMAOp>(
                 addOp.getLoc(), mulOp.getOperand(0), mulOp.getOperand(1), otherOperand);
@@ -19,22 +20,38 @@ namespace {
             addOp.erase();
         }
 
+        void replaceDoubleMulAdd(LLVM::FAddOp& addOp, LLVM::FMulOp& mulOp) {
+            OpBuilder builder(addOp);
+            Value fmaValue = builder.create<LLVM::FMAOp>(
+                addOp.getLoc(), mulOp.getOperand(0), mulOp.getOperand(1), mulOp);
+            addOp.replaceAllUsesWith(fmaValue);
+            addOp.erase();
+        }
+
     public:
         void runOnOperation() override {
             LLVM::LLVMFuncOp function = getOperation();
-
             function.walk([this](LLVM::FAddOp addOp) {
-                Value lhs = addOp.getOperand(0);
-                Value rhs = addOp.getOperand(1);
-
-                if (auto mulOp = lhs.getDefiningOp<LLVM::FMulOp>()) {
-                    combineMulAdd(addOp, mulOp, rhs);
+                Value addLeftOperand = addOp.getOperand(0);
+                Value addRightOperand = addOp.getOperand(1);
+                if (auto mulLeftOperand = addLeftOperand.getDefiningOp<LLVM::FMulOp>()) {
+                    if (addRightOperand == addLeftOperand) {
+                        replaceDoubleMulAdd(addOp, mulLeftOperand);
+                    }
+                    else {
+                        replaceAddWithFMA(addOp, mulLeftOperand, addRightOperand);
+                    }
                 }
-                else if (auto mulOp = rhs.getDefiningOp<LLVM::FMulOp>()) {
-                    combineMulAdd(addOp, mulOp, lhs);
+                else if (auto mulRightOperand =
+                    addRightOperand.getDefiningOp<LLVM::FMulOp>()) {
+                    if (addLeftOperand == addRightOperand) {
+                        replaceDoubleMulAdd(addOp, mulRightOperand);
+                    }
+                    else {
+                        replaceAddWithFMA(addOp, mulRightOperand, addLeftOperand);
+                    }
                 }
                 });
-
             function.walk([](LLVM::FMulOp mulOp) {
                 if (mulOp.use_empty()) {
                     mulOp.erase();
@@ -44,17 +61,19 @@ namespace {
 
         StringRef getArgument() const final { return "pivovarov-combine-mul-add"; }
         StringRef getDescription() const final {
-            return "Combines multiplication and addition into a single FMA operation.";
+            return "Replaces add and multiply operations with a single instruction.";
         }
     };
+} // namespace
 
 MLIR_DECLARE_EXPLICIT_TYPE_ID(PivovarovMergePass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(PivovarovMergePass)
 
-extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo
-mlirGetPassPluginInfo() {
-    return { MLIR_PLUGIN_API_VERSION, "pivovarov-combine-mul-add",
-            LLVM_VERSION_STRING,
+PassPluginLibraryInfo getPivovarovMergePassPluginInfo() {
+    return { MLIR_PLUGIN_API_VERSION, "pivovarov-combine-mul-add", LLVM_VERSION_STRING,
             []() { PassRegistration<PivovarovMergePass>(); } };
 }
 
+extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
+    return getPivovarovMergePassPluginInfo();
+}
