@@ -1,4 +1,4 @@
-#RUN: llc -march=x86-64 --load=%llvmshlibdir/X86PivovarovMICounter%shlibext -run-pass=x86-pivovarov-mi-counter" %s -o - | FileCheck %s
+#RUN: llc -march=x86-64 --load=%llvmshlibdir/X86PivovarovMICounter%shlibext -run-pass=x86-pivovarov-mi-counter %s -o - | FileCheck %s
 
 # source.cpp
 #
