@@ -54,4 +54,3 @@ bool X86PivovarovMICounter::runOnMachineFunction(llvm::MachineFunction &MF) {
 
 static RegisterPass<X86PivovarovMICounter>
     X("x86-pivovarov-mi-counter", "Instruction counter", false, false);
-
