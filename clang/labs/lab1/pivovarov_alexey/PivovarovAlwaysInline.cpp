@@ -2,8 +2,8 @@
 #include "clang/AST/Attr.h"
 #include "clang/AST/Decl.h"
 #include "clang/AST/Stmt.h"
+#include "clang/Frontend/FrontendAction.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
-#include "clang/Plugin/ASTAction.h"
 #include <queue>
 
 class AlwaysInlineConsumer : public clang::ASTConsumer {
