@@ -22,8 +22,10 @@ public:
           while (!StQueue.empty() && !CondFound) {
             clang::Stmt *St = StQueue.front();
             StQueue.pop();
-            if (clang::isa<clang::IfStmt>(St) || clang::isa<clang::WhileStmt>(St) ||
-                clang::isa<clang::ForStmt>(St) || clang::isa<clang::DoStmt>(St) ||
+            if (clang::isa<clang::IfStmt>(St) ||
+                clang::isa<clang::WhileStmt>(St) ||
+                clang::isa<clang::ForStmt>(St) ||
+                clang::isa<clang::DoStmt>(St) ||
                 clang::isa<clang::SwitchStmt>(St)) {
               CondFound = true;
               break;
@@ -35,7 +37,8 @@ public:
           if (!CondFound) {
             clang::SourceLocation Location(Decl->getSourceRange().getBegin());
             clang::SourceRange Range(Location);
-            Decl->addAttr(clang::AlwaysInlineAttr::Create(Decl->getASTContext(), Range));
+            Decl->addAttr(
+                clang::AlwaysInlineAttr::Create(Decl->getASTContext(), Range));
           }
         }
       }
@@ -59,4 +62,5 @@ protected:
 };
 
 static clang::FrontendPluginRegistry::Add<AlwaysInlinePlugin>
-    X("always-inline-plugin", "Print a function without conditions with an attribute");
+    X("always-inline-plugin",
+      "Print a function without conditions with an attribute");
