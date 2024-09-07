@@ -1,11 +1,14 @@
-if (NOT WIN32 AND NOT CYGWIN)
-  set(PluginName VeselovBitwiseShiftMultiplier)
-  
-  file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
-  add_llvm_pass_plugin(${PluginName} 
-  ${ALL_SOURCE_FILES} DEPENDS
-  intrinsics_gen
-  BUILDTREE_ONLY )
+add_llvm_library(MamaevaRenamePlugin MODULE MamaevaRenamePlugin.cpp PLUGIN_TOOL clang)
 
-  set(LLVM_TEST_DEPENDS ${PluginName} ${LLVM_TEST_DEPENDS} PARENT_SCOPE)
+if(WIN32 OR CYGWIN)
+  set(LLVM_LINK_COMPONENTS
+    Support
+  )
+  clang_target_link_libraries(MamaevaRenamePlugin PRIVATE
+    clangAST
+    clangBasic
+    clangFrontend
+    )
 endif()
+
+set(CLANG_TEST_DEPS "MamaevaRenamePlugin" ${CLANG_TEST_DEPS} PARENT_SCOPE)
