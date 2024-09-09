@@ -121,5 +121,8 @@ public:
 
 static clang::FrontendPluginRegistry::Add<RenameIdPlugin>
     X("mamaeva-rename-plugin", "Renaming an identifier");
+
+
 static clang::FrontendPluginRegistry::Add<RenameIdPlugin>
     Y("rename", "Rename variable, function or class");
+
