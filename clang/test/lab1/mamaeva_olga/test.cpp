@@ -36,3 +36,54 @@ public:
 // SECOND-CHECK-NEXT:     D* c = new D();
 // SECOND-CHECK-NEXT:     delete c;
 // SECOND-CHECK-NEXT: }
+
+//--- test2.cpp
+class C {
+private:
+    int a;
+public:
+    C() {}
+    C(int a): a(a) {}
+    ~C();
+    int getA() {
+        return a;
+    }
+};
+void func() {
+    C* c = new C();
+    delete c;
+}
+
+// RUN: %clang_cc1 -load %llvmshlibdir/LebedevaRenamePlugin%pluginext -add-plugin lebedeva-rename-plugin\
+// RUN: -plugin-arg-lebedeva-rename-plugin OldName="func1" -plugin-arg-lebedeva-rename-plugin NewName="newFunc" %t/test3.cpp 
+// RUN: FileCheck %s < %t/test3.cpp --check-prefix=THIRD-CHECK
+
+// THIRD-CHECK: double newFunc(int a) {
+// THIRD-CHECK-NEXT:     int c = a + 10;
+// THIRD-CHECK-NEXT:     double d = c * 6;
+// THIRD-CHECK-NEXT:     return c + d;
+// THIRD-CHECK-NEXT: };
+
+//--- test3.cpp
+double func1(int a) {
+    int c = a + 10;
+    double d = c * 6;
+    return c + d;
+};
+
+// RUN: %clang_cc1 -load %llvmshlibdir/LebedevaRenamePlugin%pluginext -add-plugin lebedeva-rename-plugin\
+// RUN: -plugin-arg-lebedeva-rename-plugin OldName="notFunc" -plugin-arg-lebedeva-rename-plugin NewName="newFunc" %t/test4.cpp 
+// RUN: FileCheck %s < %t/test4.cpp --check-prefix=FOURTH-CHECK
+
+// FOURTH-CHECK: int func2(int a, int b) {
+// FOURTH-CHECK-NEXT:     int c = a + 10;
+// FOURTH-CHECK-NEXT:     int d = c * 10;
+// FOURTH-CHECK-NEXT:     return c + d;
+// FOURTH-CHECK-NEXT: };
+
+//--- test4.cpp
+int func2(int a, int b) {
+    int c = a + 10;
+    int d = c * 10;
+    return c + d;
+};
