@@ -16,23 +16,19 @@ struct ZawadaLoopPass : public PassInfoMixin<ZawadaLoopPass> {
     FunctionType *functionType =
         FunctionType::get(Type::getVoidTy(context), false);
     Module *parent = function.getParent();
-    auto *loopStartFunction =
-        parent->getOrInsertFunction("loop_start", functionType);
-    auto *loopEndFunction =
-        parent->getOrInsertFunction("loop_end", functionType);
 
     for (auto &loop : loopInfo) {
       IRBuilder<> builder(loop->getHeader()->getContext());
       if (auto *entryBlock = loop->getLoopPreheader()) {
         builder.SetInsertPoint(entryBlock->getTerminator());
-        builder.CreateCall(loopStartFunction);
+        builder.CreateCall(parent->getOrInsertFunction("loop_start", functionType););
       }
 
       SmallVector<BasicBlock *, 8> exitBlock;
       loop->getExitBlocks(exitBlock);
       for (auto *exit : exitBlock) {
         builder.SetInsertPoint(&*exit->getFirstInsertionPt());
-        builder.CreateCall(loopEndFunction);
+        builder.CreateCall(parent->getOrInsertFunction("loop_end", functionType););
       }
     }
 
