@@ -21,14 +21,14 @@ struct ZawadaLoopPass : public PassInfoMixin<ZawadaLoopPass> {
       IRBuilder<> builder(loop->getHeader()->getContext());
       if (auto *entryBlock = loop->getLoopPreheader()) {
         builder.SetInsertPoint(entryBlock->getTerminator());
-        builder.CreateCall(parent->getOrInsertFunction("loop_start", functionType););
+        builder.CreateCall(parent->getOrInsertFunction("loop_start", functionType));
       }
 
       SmallVector<BasicBlock *, 8> exitBlock;
       loop->getExitBlocks(exitBlock);
       for (auto *exit : exitBlock) {
         builder.SetInsertPoint(&*exit->getFirstInsertionPt());
-        builder.CreateCall(parent->getOrInsertFunction("loop_end", functionType););
+        builder.CreateCall(parent->getOrInsertFunction("loop_end", functionType));
       }
     }
 
