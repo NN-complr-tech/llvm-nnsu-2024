@@ -19,16 +19,42 @@ struct ZawadaLoopPass : public PassInfoMixin<ZawadaLoopPass> {
 
     for (auto &loop : loopInfo) {
       IRBuilder<> builder(loop->getHeader()->getContext());
-      if (auto *entryBlock = loop->getLoopPreheader()) {
-        builder.SetInsertPoint(entryBlock->getTerminator());
-        builder.CreateCall(parent->getOrInsertFunction("loop_start", functionType));
+      BasicBlock *entryBlock = loop->getLoopPreheader();
+      SmallVector<BasicBlock *, 8> exitBlock;
+      bool loopFunc = false;
+
+      if (entryBlock != nullptr) {
+        loopFunc = false;
+        for (auto &i : *entryBlock)
+          if (auto *callInst = dyn_cast<CallInst>(&i))
+            if (callInst->getCalledFunction() &&
+                callInst->getCalledFunction()->getName() == "loop_start") {
+              loopFunc = true;
+              break;
+            }
+        if (!loopFunc) {
+          builder.SetInsertPoint(entryBlock->getTerminator());
+          builder.CreateCall(
+              parent->getOrInsertFunction("loop_start", functionType));
+        }
       }
 
-      SmallVector<BasicBlock *, 8> exitBlock;
       loop->getExitBlocks(exitBlock);
-      for (auto *exit : exitBlock) {
-        builder.SetInsertPoint(&*exit->getFirstInsertionPt());
-        builder.CreateCall(parent->getOrInsertFunction("loop_end", functionType));
+      loopFunc = false;
+      for (auto *ex : exitBlock) {
+        loopFunc = false;
+        for (auto &i : *ex)
+          if (auto *callInst = dyn_cast<CallInst>(&i))
+            if (callInst->getCalledFunction() &&
+                callInst->getCalledFunction()->getName() == "loop_end") {
+              loopFunc = true;
+              break;
+            }
+        if (!loopFunc) {
+          builder.SetInsertPoint(&*ex->getFirstInsertionPt());
+          builder.CreateCall(
+              parent->getOrInsertFunction("loop_end", functionType));
+        }
       }
     }
 
