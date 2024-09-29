@@ -42,7 +42,7 @@ private:
     Register MulDestReg = MI->getOperand(0).getReg();
 
     for (auto NextMI = std::next(MI); NextMI != MBB.end(); ++NextMI) {
-      if (NextMI->getOpcode() == X86::ADDPDrr && 
+      if (NextMI->getOpcode() == X86::ADDPDrr &&
           usesRegister(NextMI, MulDestReg)) {
         if (!hasInterveningDependency(NextMI, MulDestReg, MBB)) {
           replaceWithFusedInstruction(MF, MBB, MI, NextMI, MulDestReg);
@@ -68,7 +68,7 @@ private:
     return false;
   }
 
-  bool hasInterveningDependency(MachineBasicBlock::iterator NextMI, 
+  bool hasInterveningDependency(MachineBasicBlock::iterator NextMI,
                                 Register Reg,MachineBasicBlock &MBB) {
     if (NextMI->getOperand(0).getReg() != Reg) {
       for (auto CheckMI = std::next(NextMI); CheckMI != MBB.end(); ++CheckMI) {
@@ -78,13 +78,13 @@ private:
       }
     }
 
-    return (NextMI->getOperand(1).getReg() == Reg && 
+    return (NextMI->getOperand(1).getReg() == Reg &&
             NextMI->getOperand(2).getReg() == Reg);
   }
 
   void replaceWithFusedInstruction(MachineFunction &MF, MachineBasicBlock &MBB,
                                    MachineBasicBlock::iterator MI,
-                                   MachineBasicBlock::iterator NextMI, 
+                                   MachineBasicBlock::iterator NextMI,
                                    Register Reg) {
     MachineInstrBuilder Builder =
         BuildMI(MBB, MI, MI->getDebugLoc(),
