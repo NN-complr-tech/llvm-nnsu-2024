@@ -69,7 +69,7 @@ private:
   }
 
   bool hasInterveningDependency(MachineBasicBlock::iterator NextMI,
-                                Register Reg,MachineBasicBlock &MBB) {
+                                Register Reg, MachineBasicBlock &MBB) {
     if (NextMI->getOperand(0).getReg() != Reg) {
       for (auto CheckMI = std::next(NextMI); CheckMI != MBB.end(); ++CheckMI) {
         if (usesRegister(CheckMI, Reg)) {
