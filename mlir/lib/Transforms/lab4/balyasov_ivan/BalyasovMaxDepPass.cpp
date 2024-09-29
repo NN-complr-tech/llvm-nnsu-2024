@@ -45,7 +45,7 @@ private:
     return maxDepth;
   }
 };
-}// namespace
+} // namespace
 
 MLIR_DECLARE_EXPLICIT_TYPE_ID(BalyasovMaxDepPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(BalyasovMaxDepPass)
