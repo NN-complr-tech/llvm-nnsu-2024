@@ -50,7 +50,6 @@
     %6 = load i32, ptr %i, align 4
     %inc = add nsw i32 %6, 1
     store i32 %inc, ptr %i, align 4
-    br label %for.cond, !llvm.loop !6
 
   for.end:                                          ; preds = %for.cond
     %7 = load i32, ptr %d, align 4
