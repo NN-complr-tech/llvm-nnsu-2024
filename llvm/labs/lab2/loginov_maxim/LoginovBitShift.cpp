@@ -62,8 +62,8 @@ bool registerPipeLine(llvm::StringRef Name, llvm::FunctionPassManager &FPM,
 }
 
 PassPluginLibraryInfo getBitwiseShiftPluginPluginInfo() {
-  return {LLVM_PLUGIN_API_VERSION, "loginov-bitwise-shift",
-          LLVM_VERSION_STRING, [](PassBuilder &PB) {
+  return {LLVM_PLUGIN_API_VERSION, "loginov-bitwise-shift", LLVM_VERSION_STRING,
+          [](PassBuilder &PB) {
             PB.registerPipelineParsingCallback(registerPipeLine);
           }};
 }
