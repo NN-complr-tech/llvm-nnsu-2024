@@ -42,7 +42,8 @@ private:
     Register MulDestReg = MI->getOperand(0).getReg();
 
     for (auto NextMI = std::next(MI); NextMI != MBB.end(); ++NextMI) {
-      if (NextMI->getOpcode() == X86::ADDPDrr && usesRegister(NextMI, MulDestReg)) {
+      if (NextMI->getOpcode() == X86::ADDPDrr && 
+          usesRegister(NextMI, MulDestReg)) {
         if (!hasInterveningDependency(NextMI, MulDestReg, MBB)) {
           replaceWithFusedInstruction(MF, MBB, MI, NextMI, MulDestReg);
           InstructionsToDelete.push_back(&*MI);
@@ -67,8 +68,8 @@ private:
     return false;
   }
 
-  bool hasInterveningDependency(MachineBasicBlock::iterator NextMI, Register Reg,
-                                MachineBasicBlock &MBB) {
+  bool hasInterveningDependency(MachineBasicBlock::iterator NextMI, 
+                                Register Reg,MachineBasicBlock &MBB) {
     if (NextMI->getOperand(0).getReg() != Reg) {
       for (auto CheckMI = std::next(NextMI); CheckMI != MBB.end(); ++CheckMI) {
         if (usesRegister(CheckMI, Reg)) {
@@ -77,12 +78,14 @@ private:
       }
     }
 
-    return (NextMI->getOperand(1).getReg() == Reg && NextMI->getOperand(2).getReg() == Reg);
+    return (NextMI->getOperand(1).getReg() == Reg && 
+            NextMI->getOperand(2).getReg() == Reg);
   }
 
   void replaceWithFusedInstruction(MachineFunction &MF, MachineBasicBlock &MBB,
                                    MachineBasicBlock::iterator MI,
-                                   MachineBasicBlock::iterator NextMI, Register Reg) {
+                                   MachineBasicBlock::iterator NextMI, 
+                                   Register Reg) {
     MachineInstrBuilder Builder =
         BuildMI(MBB, MI, MI->getDebugLoc(),
                 MF.getSubtarget().getInstrInfo()->get(X86::VFMADD213PDr));
@@ -96,4 +99,4 @@ private:
 char BalyasovMulPass::ID = 0;
 static RegisterPass<BalyasovMulPass> X("x86-balyasov-mul-pass",
                                        "x86 Balyasov Intrinsics Pass");
-}
+} // namespace
