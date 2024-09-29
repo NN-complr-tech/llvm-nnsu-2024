@@ -38,7 +38,8 @@ MLIR_DECLARE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(FunctionCallCounterPass)
 
 PassPluginLibraryInfo getFunctionCallCounterPassPluginInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "LoginovCountFuncCallsPass", LLVM_VERSION_STRING,
+  return {MLIR_PLUGIN_API_VERSION, "LoginovCountFuncCallsPass",
+          LLVM_VERSION_STRING,
           []() { PassRegistration<FunctionCallCounterPass>(); }};
 }
 
