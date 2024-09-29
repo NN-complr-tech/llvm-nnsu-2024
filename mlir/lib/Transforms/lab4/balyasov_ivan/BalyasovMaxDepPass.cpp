@@ -22,8 +22,10 @@ public:
   void runOnOperation() override {
     getOperation()->walk([this](Operation *operation) {
       int maxDepth = calculateMaxDepth(operation);
-      operation->setAttr("maxDepth",
-                          IntegerAttr::get(IntegerType::get(operation->getContext(), 32), maxDepth));
+      operation->setAttr(
+          "maxDepth",
+          IntegerAttr::get(IntegerType::get(operation->getContext(), 32),
+                           maxDepth));
     });
   }
 
@@ -34,15 +36,16 @@ private:
     for (Region &region : operation->getRegions()) {
       for (Block &block : region) {
         for (Operation &nestedOperation : block) {
-          maxDepth = std::max(maxDepth, calculateMaxDepth(&nestedOperation, currentDepth + 1));
+          maxDepth = std::max(
+              maxDepth, calculateMaxDepth(&nestedOperation, currentDepth + 1));
         }
       }
     }
 
     return maxDepth;
   }
-} ;
-} 
+};
+}// namespace
 
 MLIR_DECLARE_EXPLICIT_TYPE_ID(BalyasovMaxDepPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(BalyasovMaxDepPass)
