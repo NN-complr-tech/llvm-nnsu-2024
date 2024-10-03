@@ -79,4 +79,4 @@ bool X86MulatoPass::runOnMachineFunction(MachineFunction &MF) {
 }
 
 static RegisterPass<X86MulatoPass> X("x86-mulato-pass", "X86 Mulato Pass",
-                                      false, false);
+                                     false, false);
