@@ -62,4 +62,3 @@ protected:
 
 static clang::FrontendPluginRegistry::Add<PrintClassesPlugin>
     X("classes-ryabkov", "Prints classes description.");
-   
