@@ -53,14 +53,12 @@ protected:
                  const std::vector<std::string> &Args) override {
     for (const std::string &arg : Args) {
       if (arg == "--help") {
-        llvm::outs()
-            << "Display names of classes.\n";
+        llvm::outs() << "Display names of classes.\n";
       }
     }
     return true;
-      }
+  }
 };
 
 static clang::FrontendPluginRegistry::Add<PrintClassesPlugin>
     X("mirzakhmedov-classes-print", "Prints classes description.");
-    
