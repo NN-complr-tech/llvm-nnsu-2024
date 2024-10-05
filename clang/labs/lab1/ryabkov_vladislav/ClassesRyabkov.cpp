@@ -53,14 +53,13 @@ protected:
                  const std::vector<std::string> &Args) override {
     for (const std::string &arg : Args) {
       if (arg == "--help") {
-        llvm::outs()
-            << "Classes and fields\n";
+        llvm::outs() << "Classes and fields\n";
       }
     }
     return true;
-    }
+  }
 };
 
 static clang::FrontendPluginRegistry::Add<PrintClassesPlugin>
     X("classes-ryabkov", "Prints classes description.");
-    
+   
