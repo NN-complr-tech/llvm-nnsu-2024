@@ -1,4 +1,4 @@
-add_llvm_library(MGKPlugin MODULE MGKClass.cpp PLUGIN_TOOL clang)
+add_llvm_library(MGKPlugin MODULE MGKPlugin.cpp PLUGIN_TOOL clang)
 
 if(WIN32 OR CYGWIN)
   set(LLVM_LINK_COMPONENTS
