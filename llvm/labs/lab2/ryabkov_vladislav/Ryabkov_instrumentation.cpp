@@ -6,7 +6,8 @@
 
 namespace {
 struct InstrFunctionsPass : llvm::PassInfoMixin<InstrFunctionsPass> {
-  llvm::PreservedAnalyses run(llvm::Function &F, llvm::FunctionAnalysisManager &) {
+  llvm::PreservedAnalyses run(llvm::Function &F,
+                              llvm::FunctionAnalysisManager &) {
     llvm::LLVMContext &Ctx = F.getContext();
     llvm::IRBuilder<> Builder(Ctx);
     llvm::Module *Mod = F.getParent();
@@ -26,7 +27,8 @@ struct InstrFunctionsPass : llvm::PassInfoMixin<InstrFunctionsPass> {
           llvm::CallInst *callInstr = llvm::cast<llvm::CallInst>(&Instr);
           if (callInstr->getCalledFunction() == startInstrFunc.getCallee()) {
             hasStartInstr = true;
-          } else if (callInstr->getCalledFunction() == endInstrFunc.getCallee()) {
+          } else if (callInstr->getCalledFunction() ==
+                     endInstrFunc.getCallee()) {
             hasEndInstr = true;
           }
         }
