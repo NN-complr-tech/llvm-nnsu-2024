@@ -5,11 +5,12 @@
 
 class BitwiseShift : public llvm::PassInfoMixin<BitwiseShift> {
 public:
-  llvm::PreservedAnalyses run(llvm::Function &func, 
+  llvm::PreservedAnalyses run(llvm::Function &func,
                               llvm::FunctionAnalysisManager &FAM) {
     bool changed = false;
     for (auto &basicBlock : func) {
-      for (auto InstIt = basicBlock.begin(), end = basicBlock.end(); InstIt != end; ++InstIt) {
+      for (auto InstIt = basicBlock.begin(), end = basicBlock.end();
+           InstIt != end; ++InstIt) {
         if (InstIt->getOpcode() != llvm::Instruction::Mul)
           continue;
         auto *Op = llvm::dyn_cast<llvm::BinaryOperator>(InstIt);
@@ -36,7 +37,8 @@ public:
         }
       }
     }
-    return changed ? llvm::PreservedAnalyses::none() : llvm::PreservedAnalyses::all();
+    return changed ? llvm::PreservedAnalyses::none()
+                   : llvm::PreservedAnalyses::all();
   }
 
 private:
@@ -64,6 +66,7 @@ llvm::PassPluginLibraryInfo getBitwiseShiftPluginPluginInfo() {
           }};
 }
 
-extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo llvmGetPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   return getBitwiseShiftPluginPluginInfo();
 }
