@@ -1,4 +1,4 @@
-#include "llvm/IR/Function.h" 
+#include "llvm/IR/Function.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
@@ -7,7 +7,8 @@
 namespace {
 struct FuncInstrumentationPass : llvm::PassInfoMixin<FuncInstrumentationPass> {
 
-  bool hasInstrumentCalls(llvm::Function &func, llvm::FunctionCallee &calleeFunc) {
+  bool hasInstrumentCalls(llvm::Function &func,
+                          llvm::FunctionCallee &calleeFunc) {
     for (auto *user : calleeFunc.getCallee()->users()) {
       if (auto *callInstruction = llvm::dyn_cast<llvm::CallInst>(user)) {
         if (callInstruction->getParent()->getParent() == &func) {
@@ -38,14 +39,18 @@ struct FuncInstrumentationPass : llvm::PassInfoMixin<FuncInstrumentationPass> {
     return finalReturnInst;
   }
 
-  llvm::PreservedAnalyses run(llvm::Function &func, llvm::FunctionAnalysisManager &) {
+  llvm::PreservedAnalyses run(llvm::Function &func,
+                              llvm::FunctionAnalysisManager &) {
     llvm::LLVMContext &context = func.getContext();
     llvm::IRBuilder<> irBuilder(context);
     llvm::Module *module = func.getParent();
 
-    llvm::FunctionType *instrumentFuncType = llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
-    llvm::FunctionCallee beginFunc = module->getOrInsertFunction("instrument_start", instrumentFuncType);
-    llvm::FunctionCallee finishFunc = module->getOrInsertFunction("instrument_end", instrumentFuncType);
+    llvm::FunctionType *instrumentFuncType =
+        llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
+    llvm::FunctionCallee beginFunc =
+        module->getOrInsertFunction("instrument_start", instrumentFuncType);
+    llvm::FunctionCallee finishFunc =
+        module->getOrInsertFunction("instrument_end", instrumentFuncType);
 
     bool beginInserted = hasInstrumentCalls(func, beginFunc);
     bool finishInserted = hasInstrumentCalls(func, finishFunc);
@@ -67,9 +72,10 @@ struct FuncInstrumentationPass : llvm::PassInfoMixin<FuncInstrumentationPass> {
 
   static bool isRequired() { return true; }
 };
-}
+} // namespace
 
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo llvmGetPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "instrument_functions", "0.1",
           [](llvm::PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
