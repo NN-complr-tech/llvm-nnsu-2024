@@ -41,6 +41,5 @@ public:
 
 char X86KanakovMICounterPass::ID = 0;
 static RegisterPass<X86KanakovMICounterPass>
-    X("kanakov_mi_counter",
-      "X86 Count number of machine instructions pass",
+    X("kanakov_mi_counter", "X86 Count number of machine instructions pass",
       false, false);
