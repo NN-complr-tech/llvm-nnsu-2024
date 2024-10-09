@@ -10,30 +10,24 @@ class X86ShmelevCountMInstruction : public MachineFunctionPass {
 public:
   static char ID;
   X86ShmelevCountMInstruction() : MachineFunctionPass(ID) {}
-  bool
-  runOnMachineFunction(llvm::MachineFunction &mFunction) override {
-    auto *globalVar =
-        mFunction.getFunction().getParent()->getNamedGlobal("ic");
+  bool runOnMachineFunction(llvm::MachineFunction &mFunction) override {
+    auto *globalVar = mFunction.getFunction().getParent()->getNamedGlobal("ic");
     if (!globalVar) {
       return false;
     }
 
     auto debugLoc = mFunction.front().begin()->getDebugLoc();
-    auto *targetInstrInfo =
-        mFunction.getSubtarget().getInstrInfo();
+    auto *targetInstrInfo = mFunction.getSubtarget().getInstrInfo();
 
     for (auto &basicBlock : mFunction) {
-      int cnt =
-          std::distance(basicBlock.begin(), basicBlock.end());
+      int cnt = std::distance(basicBlock.begin(), basicBlock.end());
       auto place = basicBlock.getFirstTerminator();
-      if (place != basicBlock.end() &&
-          place != basicBlock.begin() &&
+      if (place != basicBlock.end() && place != basicBlock.begin() &&
           place->getOpcode() >= X86::JCC_1 &&
           place->getOpcode() <= X86::JCC_4) {
         --place;
       }
-      BuildMI(basicBlock, place, debugLoc,
-              targetInstrInfo->get(X86::ADD64mi32))
+      BuildMI(basicBlock, place, debugLoc, targetInstrInfo->get(X86::ADD64mi32))
           .addReg(0)
           .addImm(1)
           .addReg(0)
