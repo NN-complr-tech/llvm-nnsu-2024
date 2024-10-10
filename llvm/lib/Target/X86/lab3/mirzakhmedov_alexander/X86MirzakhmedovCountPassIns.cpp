@@ -37,7 +37,7 @@ bool X86MirzakhmedovCountPassIns::runOnMachineFunction(
     int cnt = std::distance(b_block.begin(), b_block.end());
     auto location = b_block.getFirstTerminator();
     if (location != b_block.end() && location != b_block.begin() &&
-        location->getOpcode() >= X86::JCC_1 && 
+        location->getOpcode() >= X86::JCC_1 &&
         location->getOpcode() <= X86::JCC_4) {
       --location;
     }
@@ -54,6 +54,6 @@ bool X86MirzakhmedovCountPassIns::runOnMachineFunction(
 }
 
 static RegisterPass<X86MirzakhmedovCountPassIns>
-    X("x86-mirzakhmedov-cnt-pass", 
-      "A pass that counts the number of X86 machine instructions", false, 
+    X("x86-mirzakhmedov-cnt-pass",
+      "A pass that counts the number of X86 machine instructions", false,
       false);
