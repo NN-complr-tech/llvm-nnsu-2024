@@ -16,13 +16,14 @@ public:
 
 char X86MirzakhmedovCountPassIns::ID = 0;
 
-bool X86MirzakhmedovCountPassIns::runOnMachineFunction(llvm::MachineFunction &machine_func) {
+bool X86MirzakhmedovCountPassIns::runOnMachineFunction(
+    llvm::MachineFunction &machine_func) {
   auto *glob_var = machine_func.getFunction().getParent()->getNamedGlobal("ic");
   if (!glob_var) {
     LLVMContext &con = machine_func.getFunction().getParent()->getContext();
     glob_var = new GlobalVariable(*machine_func.getFunction().getParent(),
-                            IntegerType::get(con, 64), false,
-                            GlobalValue::ExternalLinkage, nullptr, "ic");
+                                  IntegerType::get(con, 64), false,
+                                  GlobalValue::ExternalLinkage, nullptr, "ic");
     glob_var->setAlignment(Align(8));
     if (!glob_var) {
       return false;
@@ -36,7 +37,8 @@ bool X86MirzakhmedovCountPassIns::runOnMachineFunction(llvm::MachineFunction &ma
     int cnt = std::distance(b_block.begin(), b_block.end());
     auto location = b_block.getFirstTerminator();
     if (location != b_block.end() && location != b_block.begin() &&
-        location->getOpcode() >= X86::JCC_1 && location->getOpcode() <= X86::JCC_4) {
+        location->getOpcode() >= X86::JCC_1 && 
+        location->getOpcode() <= X86::JCC_4) {
       --location;
     }
 
@@ -52,4 +54,6 @@ bool X86MirzakhmedovCountPassIns::runOnMachineFunction(llvm::MachineFunction &ma
 }
 
 static RegisterPass<X86MirzakhmedovCountPassIns>
-    X("x86-mirzakhmedov-cnt-pass", "A pass that counts the number of X86 machine instructions", false, false);
+    X("x86-mirzakhmedov-cnt-pass", 
+      "A pass that counts the number of X86 machine instructions", false, 
+      false);
