@@ -37,4 +37,3 @@ public:
 static RegisterPass<X86LoginovInstrCountPass>
     X("x86-loginov-instr-count",
       "A pass counting the number of X86 machine instructions", false, false);
-
