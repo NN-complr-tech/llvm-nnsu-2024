@@ -8,10 +8,10 @@ using namespace llvm;
 
 namespace {
 
-class X86KanakovMICounterPass : public MachineFunctionPass {
+class X86KanakovMICounter : public MachineFunctionPass {
 public:
   static char ID;
-  X86KanakovMICounterPass() : MachineFunctionPass(ID) {}
+  X86KanakovMICounter() : MachineFunctionPass(ID) {}
 
   bool runOnMachineFunction(MachineFunction &MF) override {
     const TargetInstrInfo *TII = MF.getSubtarget().getInstrInfo();
@@ -39,7 +39,8 @@ public:
 };
 } // namespace
 
-char X86KanakovMICounterPass::ID = 0;
-static RegisterPass<X86KanakovMICounterPass>
-    X("kanakov_mi_counter", "X86 Count number of machine instructions pass",
+char X86KanakovMICounter::ID = 0;
+static RegisterPass<X86KanakovMICounter>
+    X("kanakov_mi_counter",
+      "X86 Count number of machine instructions pass",
       false, false);
