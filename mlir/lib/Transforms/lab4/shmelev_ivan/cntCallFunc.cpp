@@ -27,8 +27,9 @@ public:
 
     for (auto &func : functions) {
       auto count = funcCallTally[func.getName()];
-      auto attrValue = IntegerAttr::get(IntegerType::get(func.getContext(), 32), count);
-      func->setAttr("callCount", attrValue);
+      auto attrValue =
+          IntegerAttr::get(IntegerType::get(func.getContext(), 32), count);
+      func->setAttr("cnt_call", attrValue);
     }
   }
 };
