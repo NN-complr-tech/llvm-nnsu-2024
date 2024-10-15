@@ -81,4 +81,4 @@ public:
 
 char X86multAddRyabkovPass::ID = 0;
 static RegisterPass<X86multAddRyabkovPass> X("x86-mult-add-ryabkov-pass",
-                                             "RyabkovVA X86", false, false);                                            
+                                             "RyabkovVA X86", false, false);
