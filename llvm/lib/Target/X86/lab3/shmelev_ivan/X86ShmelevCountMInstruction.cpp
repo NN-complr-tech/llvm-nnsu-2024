@@ -46,3 +46,4 @@ static RegisterPass<X86ShmelevCountMInstruction>
       "Counts the number of machine instructions executed during"
       "the execution of the function",
       false, false);
+// FIXME
