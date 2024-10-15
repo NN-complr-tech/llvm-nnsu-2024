@@ -14,7 +14,8 @@ public:
   static char ID;
   X86multAddRyabkovPass() : MachineFunctionPass(ID) {}
   bool runOnMachineFunction(MachineFunction &mach_func) override {
-    const TargetInstrInfo *information = mach_func.getSubtarget().getInstrInfo();
+    const TargetInstrInfo *information =
+        mach_func.getSubtarget().getInstrInfo();
     std::vector<std::pair<MachineInstr *, MachineInstr *>> instruction_delete;
     bool modify = false;
     bool regstr = false;
@@ -29,14 +30,17 @@ public:
         if (instruction.getOpcode() == X86::MULPDrr) {
           instruction_mult = &instruction;
           auto instruction_next = std::next(instruction.getIterator());
-          for (; instruction_next != mach_basic_block.end(); ++instruction_next) {
+          for (; instruction_next != mach_basic_block.end();
+               ++instruction_next) {
             if (instruction_next->getOpcode() == X86::ADDPDrr) {
               instruction_add = &*instruction_next;
               mult_regstr = instruction_mult->getOperand(0).getReg();
               add_first_regstr = instruction_add->getOperand(1).getReg();
               add_second_regstr = instruction_add->getOperand(2).getReg();
-              if (mult_regstr == add_first_regstr || mult_regstr == add_second_regstr) {
-                instruction_delete.emplace_back(instruction_mult, instruction_add);
+              if (mult_regstr == add_first_regstr ||
+                  mult_regstr == add_second_regstr) {
+                instruction_delete.emplace_back(instruction_mult,
+                                                instruction_add);
                 modify = true;
                 if (mult_regstr == add_first_regstr) {
                   regstr = false;
@@ -76,5 +80,5 @@ public:
 } // namespace
 
 char X86multAddRyabkovPass::ID = 0;
-static RegisterPass<X86multAddRyabkovPass> X("x86-mult-add-ryabkov-pass", "RyabkovVA X86",
-                                     false, false);
+static RegisterPass<X86multAddRyabkovPass> X("x86-mult-add-ryabkov-pass",
+                                             "RyabkovVA X86", false, false);                                            
