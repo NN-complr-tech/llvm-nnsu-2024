@@ -4,9 +4,9 @@
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
+#include <optional>
 #include <stack>
 #include <string>
-#include <optional>
 
 namespace {
 struct mul_to_bit_shift : llvm::PassInfoMixin<mul_to_bit_shift> {
