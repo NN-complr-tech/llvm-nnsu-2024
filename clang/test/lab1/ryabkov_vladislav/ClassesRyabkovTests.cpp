@@ -36,6 +36,18 @@ struct ComplexClass
     static bool isSet;
 };
 
+// CHECK: outerClass
+class outerClass {
+    // CHECK-NEXT: |_ a
+    int a;
+    // CHECK-NEXT: |_ b
+    char b;
+    // CHECK-NEXT: innerClass
+    class innerClass {
+        //CHECK-NEXT: |_ var
+        float var;
+    };
+};
 
 // CHECK: Blank
 struct Blank{};
