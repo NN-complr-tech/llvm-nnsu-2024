@@ -6,6 +6,7 @@
 #include "llvm/Passes/PassPlugin.h"
 #include <stack>
 #include <string>
+#include <optional>
 
 namespace {
 struct mul_to_bit_shift : llvm::PassInfoMixin<mul_to_bit_shift> {
@@ -74,14 +75,14 @@ private:
       }
       Op->reverseUseList();
       if (!StInst) {
-        return -2;
+        return std::nullopt;
       }
       if (auto *CI =
               llvm::dyn_cast<llvm::ConstantInt>(StInst->getValueOperand())) {
         return CI->getValue().exactLogBase2();
       }
     }
-    return -2;
+    return std::nullopt;
   }
 };
 } // namespace
