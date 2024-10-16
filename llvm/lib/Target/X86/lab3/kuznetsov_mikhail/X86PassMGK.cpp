@@ -90,5 +90,4 @@ public:
 
 char X86PassMGK::ID = 0;
 
-static RegisterPass<X86PassMGK>
-    X("x86-pass-mgk", "X86 Pass MGK", false, false);
+static RegisterPass<X86PassMGK> X("x86-pass-mgk", "X86 Pass MGK", false, false);
