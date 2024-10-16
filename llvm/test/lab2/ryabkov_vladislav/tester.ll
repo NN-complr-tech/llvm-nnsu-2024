@@ -147,3 +147,39 @@ define dso_local noundef signext i8 @_Z15sybmolCodeASCIIc(i8 noundef signext %0)
 ; CHECK-NEXT: %11 = load i8, ptr %2, align 1
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i8 %11
+
+
+define i32 @multi_ret(i32 %x) {
+entry:
+    %is_zero = icmp eq i32 %x, 0
+    br i1 %is_zero, label %return_zero, label %check_negative
+
+check_negative:
+    %is_negative = icmp slt i32 %x, 0
+    br i1 %is_negative, label %return_negative, label %return_positive
+
+return_zero:
+    ret i32 0
+
+return_negative:
+    ret i32 -1
+
+return_positive:
+    ret i32 1
+}
+
+; CHECK-LABEL: multi_ret
+; CHECK: entry:
+; CHECK-NEXT: call void @instrument_start()
+; CHECK-NEXT: %is_zero = icmp eq i32 %x, 0
+; CHECK-NEXT: br i1 %is_zero, label %return_zero, label %check_negative
+; CHECK: check_negative:                                   ; preds = %entry
+; CHECK-NEXT: %is_negative = icmp slt i32 %x, 0
+; CHECK-NEXT: br i1 %is_negative, label %return_negative, label %return_positive
+; CHECK: return_zero:                                      ; preds = %entry
+; CHECK: ret i32 0
+; CHECK: return_negative:                                  ; preds = %check_negative
+; CHECK: ret i32 -1
+; CHECK: return_positive:                                  ; preds = %check_negative
+; CHECK-NEXT: call void @instrument_end()
+; CHECK-NEXT: ret i32 1
