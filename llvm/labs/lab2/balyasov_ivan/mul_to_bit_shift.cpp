@@ -57,7 +57,7 @@ public:
   }
 
 private:
-  int getLogBase2(llvm::Value *val) {
+  std::optional<int> getLogBase2(llvm::Value *val) {
     if (llvm::ConstantInt *CI = llvm::dyn_cast<llvm::ConstantInt>(val)) {
       return CI->getValue().exactLogBase2();
     }
