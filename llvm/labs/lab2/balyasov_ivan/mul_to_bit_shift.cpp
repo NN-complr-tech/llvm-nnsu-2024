@@ -28,8 +28,16 @@ public:
         llvm::Value *lhs = op->getOperand(0);
         llvm::Value *rhs = op->getOperand(1);
 
-        int lg1 = getLogBase2(lhs);
-        int lg2 = getLogBase2(rhs);
+        std::optional<int> lg1_opt = getLogBase2(lhs);
+        std::optional<int> lg2_opt = getLogBase2(rhs);
+
+        if (!lg1_opt.has_value() || !lg2_opt.has_value()) {
+          continue; 
+        }
+
+        int lg1 = lg1_opt.value();
+        int lg2 = lg2_opt.value();
+
         if (lg1 < lg2) {
           std::swap(lg1, lg2);
           std::swap(lhs, rhs);
