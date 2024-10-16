@@ -51,26 +51,18 @@ func.func @func4() {
   %c0 = arith.constant 0 : i32
   %c1 = arith.constant 1 : i32
   %c2 = arith.constant 2 : i32
-  %c3 = arith.constant 3 : i32
-  %a = arith.constant 0 : i32 
-
+  %c3 = arith.constant 3 : i32 
   %cmp1 = arith.cmpi "sgt", %c1, %c0 : i32
   scf.if %cmp1 {
+    %a = arith.constant 60 : i32
     %cmp2 = arith.cmpi "sgt", %c2, %c0 : i32
     scf.if %cmp2 {
+      %b = arith.constant 50 : i32
       %cmp3 = arith.cmpi "sgt", %c3, %c0 : i32
       scf.if %cmp3 {
-        %a = arith.constant 60 : i32
+        %d = arith.constant 20 : i32
       } 
-      else {
-        %a = arith.constant 50 : i32
-      }
     } 
-    else {
-      %a = arith.constant 20 : i32
-    }
-  } 
-  else {
-    %a = arith.constant 10 : i32
   }
+  func.return
 }
