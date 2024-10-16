@@ -46,26 +46,31 @@ func.func @func3() {
 }
 
 //--- func4.mlir
-func.func @func4(%arg0: i32, %arg1: i32, %arg2: i32) {
-// CHECK: func.func @func4(%arg0: i32, %arg1: i32, %arg2: i32) attributes {maxDepth = 4 : i32}
-  %c50 = arith.constant 50 : i32
-  %c100 = arith.constant 100 : i32
+func.func @func4() {
+// CHECK: func.func @func4() attributes {maxDepth = 4 : i32}
   %c0 = arith.constant 0 : i32
+  %c1 = arith.constant 1 : i32
+  %c2 = arith.constant 2 : i32
+  %c3 = arith.constant 3 : i32
+  %a = arith.constant 0 : i32 
 
-  %cmp_a = arith.cmpi "sgt", %arg0, %c0 : i32
-  scf.if %cmp_a {
-    %cmp_b = arith.cmpi "sgt", %arg1, %c0 : i32
-    scf.if %cmp_b {
-      %cmp_c = arith.cmpi "sgt", %arg2, %c0 : i32
-      scf.if %cmp_c {
-        %arg2 = %c100  
-      } else {
-        %arg2 = %c50  
+  %cmp1 = arith.cmpi "sgt", %c1, %c0 : i32
+  scf.if %cmp1 {
+    %cmp2 = arith.cmpi "sgt", %c2, %c0 : i32
+    scf.if %cmp2 {
+      %cmp3 = arith.cmpi "sgt", %c3, %c0 : i32
+      scf.if %cmp3 {
+        %a = arith.constant 60 : i32
+      } 
+      else {
+        %a = arith.constant 50 : i32
       }
-    } else {
-      %arg1 = %c50 
+    } 
+    else {
+      %a = arith.constant 20 : i32
     }
-  } else {
-    %arg0 = %c50  
+  } 
+  else {
+    %a = arith.constant 10 : i32
   }
 }
