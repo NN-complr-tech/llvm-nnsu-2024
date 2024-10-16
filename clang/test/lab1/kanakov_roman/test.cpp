@@ -105,3 +105,58 @@ int a = 0;
 
 //--- testNotFunc.cpp
 void function() {}
+
+// RUN: %clang_cc1 -load %llvmshlibdir/KanakovRenameInd%pluginext -add-plugin kanakov-rename-plugin\
+// RUN: -plugin-arg-kanakov-rename-plugin nameOld_="a" -plugin-arg-kanakov-rename-plugin nameNew_="b" %t/testLocalVar.cpp
+// RUN: FileCheck %s < %t/testLocalVar.cpp --check-prefix=TENTH-CHECK
+
+// TENTH-CHECK: int funcVar() {
+// TENTH-CHECK-NEXT:   int b = 5;
+// TENTH-CHECK-NEXT:   b++;
+// TENTH-CHECK-NEXT:   return b;
+// TENTH-CHECK-NEXT: }
+
+//--- testLocalVar.cpp
+int funcVar() {
+  int a = 5;
+  a++;
+  return a;
+}
+
+// RUN: %clang_cc1 -load %llvmshlibdir/KanakovRenameInd%pluginext -add-plugin kanakov-rename-plugin\
+// RUN: -plugin-arg-kanakov-rename-plugin nameOld_="b" -plugin-arg-kanakov-rename-plugin nameNew_="newVar" %t/testLocalVar2.cpp
+// RUN: FileCheck %s < %t/testLocalVar2.cpp --check-prefix=ELEVENTH-CHECK
+
+// ELEVENTH-CHECK: auto funcVar2(int a) -> int {
+// ELEVENTH-CHECK-NEXT:   return ++a;
+// ELEVENTH-CHECK-NEXT: }
+// ELEVENTH-CHECK-NEXT: namespace {
+// ELEVENTH-CHECK-NEXT: int newVar = funcVar2(5);
+// ELEVENTH-CHECK-NEXT: }
+
+//--- testLocalVar2.cpp
+auto funcVar2(int a) -> int {
+  return ++a;
+}
+namespace {
+int b = funcVar2(5);
+}
+
+// RUN: %clang_cc1 -load %llvmshlibdir/KanakovRenameInd%pluginext -add-plugin kanakov-rename-plugin\
+// RUN: -plugin-arg-kanakov-rename-plugin nameOld_="a" -plugin-arg-kanakov-rename-plugin nameNew_="b" %t/testLocalVar3.cpp
+// RUN: FileCheck %s < %t/testLocalVar3.cpp --check-prefix=TWELVETH-CHECK
+
+// TWELVETH-CHECK: class Example {
+// TWELVETH-CHECK-NEXT: public:
+// TWELVETH-CHECK-NEXT:	  void demo() {
+// TWELVETH-CHECK-NEXT:     int b = 42;
+// TWELVETH-CHECK-NEXT:   }
+// TWELVETH-CHECK-NEXT: };
+
+//--- testLocalVar3.cpp
+class Example {
+public:
+    void demo() {
+        int a = 42;
+    }
+};
