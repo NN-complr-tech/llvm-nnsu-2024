@@ -44,10 +44,7 @@ public:
                 delInstr.emplace_back(mulInstr, addInstr);
                 flag = true;
 
-                if (regMul != regAdd1)
-                  reg = true;
-                else
-                  reg = false;
+                reg = regMul != regAdd1;
 
                 break;
               }

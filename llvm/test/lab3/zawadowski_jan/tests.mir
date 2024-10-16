@@ -34,6 +34,11 @@
 #   return tmp + b;
 # }
 
+# __m128d muladd_test7(__m128d a, __m128d b, __m128d c) {
+#   __m128d tmp = a + b;
+#   return tmp * c;
+# }
+
 --- |
   ; ModuleID = 'source.ll'
   source_filename = "source.cpp"
@@ -93,6 +98,14 @@
     %div = fdiv <2 x double> %mul, %b
     %add = fadd <2 x double> %div, %b
     ret <2 x double> %add
+  }
+  
+  ; Function Attrs: mustprogress nofree norecurse nosync nounwind willreturn memory(none) uwtable
+  define dso_local noundef <2 x double> @"?muladd_test7@@YA?AU__m128d@@U1@00@Z"(<2 x double> noundef %a, <2 x double> noundef %b, <2 x double> noundef %c) local_unnamed_addr #2 {
+  entry:
+    %add = fadd <2 x double> %a, %b
+    %mul = fmul <2 x double> %add, %c
+    ret <2 x double> %mul
   }
   
   attributes #0 = { mustprogress nofree nosync nounwind willreturn memory(none) uwtable "min-legal-vector-width"="128" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
@@ -505,6 +518,71 @@ body:             |
     ; CHECK: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
     ; CHECK-NEXT: renamable $xmm0 = nofpexcept DIVPDrr killed renamable $xmm0, renamable $xmm1, implicit $mxcsr
     ; CHECK-NEXT: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    ; CHECK-NEXT: RET64 $xmm0
+
+...
+---
+name:            '?muladd_test7@@YA?AU__m128d@@U1@00@Z'
+alignment:       16
+exposesReturnsTwice: false
+legalized:       false
+regBankSelected: false
+selected:        false
+failedISel:      false
+tracksRegLiveness: true
+hasWinCFI:       false
+callsEHReturn:   false
+callsUnwindInit: false
+hasEHCatchret:   false
+hasEHScopes:     false
+hasEHFunclets:   false
+isOutlined:      false
+debugInstrRef:   true
+failsVerification: false
+tracksDebugUserValues: true
+registers:       []
+liveins:
+  - { reg: '$xmm0', virtual-reg: '' }
+  - { reg: '$xmm1', virtual-reg: '' }
+  - { reg: '$xmm2', virtual-reg: '' }
+frameInfo:
+  isFrameAddressTaken: false
+  isReturnAddressTaken: false
+  hasStackMap:     false
+  hasPatchPoint:   false
+  stackSize:       0
+  offsetAdjustment: 0
+  maxAlignment:    1
+  adjustsStack:    false
+  hasCalls:        false
+  stackProtector:  ''
+  functionContext: ''
+  maxCallFrameSize: 0
+  cvBytesOfCalleeSavedRegisters: 0
+  hasOpaqueSPAdjustment: false
+  hasVAStart:      false
+  hasMustTailInVarArgFunc: false
+  hasTailCall:     false
+  localFrameSize:  0
+  savePoint:       ''
+  restorePoint:    ''
+fixedStack:      []
+stack:           []
+entry_values:    []
+callSites:       []
+debugValueSubstitutions: []
+constants:       []
+machineFunctionInfo: {}
+body:             |
+  bb.0.entry:
+    liveins: $xmm0, $xmm1, $xmm2
+  
+    renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
+    RET64 $xmm0
+
+    ; CHECK: renamable $xmm0 = nofpexcept ADDPDrr killed renamable $xmm0, killed renamable $xmm1, implicit $mxcsr
+    ; CHECK-NEXT: renamable $xmm0 = nofpexcept MULPDrr killed renamable $xmm0, killed renamable $xmm2, implicit $mxcsr
     ; CHECK-NEXT: RET64 $xmm0
 
 ...
