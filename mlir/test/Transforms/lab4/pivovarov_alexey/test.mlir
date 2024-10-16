@@ -74,5 +74,14 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i16, dense<16> : 
     // CHECK-NEXT: %1 = llvm.intr.fma(%arg0, %arg1, %0) : (f64, f64, f64) -> f64
     // CHECK-NEXT: llvm.return %1 : f64
   }
+  llvm.func local_unnamed_addr @_Z5func5dd(%arg0: f64 {llvm.noundef}, %arg1: f64 {llvm.noundef}) -> (f64 {llvm.noundef}) attributes {memory = #llvm.memory_effects<other = none, argMem = none, inaccessibleMem = none>, passthrough = ["mustprogress", "nofree", "norecurse", "nosync", "nounwind", "willreturn", ["uwtable", "2"], ["min-legal-vector-width", "0"], ["no-trapping-math", "true"], ["stack-protector-buffer-size", "8"], ["target-cpu", "x86-64"], ["target-features", "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87"], ["tune-cpu", "generic"]]} {
+    %0 = llvm.mlir.constant(3.000000e+00 : f64) : f64
+    %1 = llvm.mlir.constant(-1.000000e+00 : f64) : f64
+    %2 = llvm.fmul %arg0, %0  : f64
+    %3 = llvm.fadd %2, %1  : f64
+    %4 = llvm.fmul %3, %arg1  : f64
+    %5 = llvm.fadd %2, %4  : f64
+    llvm.return %5 : f64
+  }
 }
 
