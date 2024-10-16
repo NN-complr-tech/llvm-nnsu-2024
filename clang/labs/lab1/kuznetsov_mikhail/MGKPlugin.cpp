@@ -60,7 +60,7 @@ public:
       }
     }
     return true;
-    }
+  }
 };
 
 static clang::FrontendPluginRegistry::Add<PrintClassFieldsAction>
