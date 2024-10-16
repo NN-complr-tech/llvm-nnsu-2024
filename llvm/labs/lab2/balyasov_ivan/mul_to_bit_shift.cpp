@@ -31,10 +31,6 @@ public:
         std::optional<int> lg1_opt = getLogBase2(lhs);
         std::optional<int> lg2_opt = getLogBase2(rhs);
 
-        if (!lg1_opt.has_value() || !lg2_opt.has_value()) {
-          continue;
-        }
-
         int lg1 = lg1_opt.value();
         int lg2 = lg2_opt.value();
 
