@@ -36,6 +36,35 @@ struct House
     double w;
 };
 
+// CHECK: Vehicle
+class Vehicle
+{
+public:
+    // CHECK-NEXT: |_ speed
+    float speed;
+    // CHECK-NEXT: |_ fuelType
+    char fuelType;
+};
+
+// CHECK: Classout
+class Classout {
+    // CHECK-NEXT: |_ some
+    int some;
+    // CHECK-NEXT: |_ thing
+    char thing;
+    // CHECK-NEXT: nstdClass
+    class nstdClass {
+        //CHECK-NEXT: |_ x
+        float x;
+    };
+};
+
+template<typename T>
+// CHECK: Tree
+class Tree{
+    // CHECK-NEXT: |_ n
+    T n;
+};
 
 // CHECK: Empty
 class Empty{};
