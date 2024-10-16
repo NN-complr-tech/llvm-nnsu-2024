@@ -70,5 +70,4 @@ func.func @func4(%arg0: i32, %arg1: i32, %arg2: i32) -> i32 {
   else {
     func.return %c1 : i32 
   }
-  func.return %c0 : i32
 }
