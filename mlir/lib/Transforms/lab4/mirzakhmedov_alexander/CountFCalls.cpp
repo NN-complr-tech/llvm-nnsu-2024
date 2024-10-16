@@ -25,10 +25,9 @@ public:
     getOperation()->walk([&](LLVM::LLVMFuncOp funcOp) {
       StringRef funcName = funcOp.getName();
       int callsNum = cnt.lookup(funcName);
-      funcOp->setAttr(
-          "call-count",
-          IntegerAttr::get(IntegerType::get(funcOp.getContext(), 32),
-                           callsNum));
+      funcOp->setAttr("call-count",
+                      IntegerAttr::get(
+                          IntegerType::get(funcOp.getContext(), 32), callsNum));
     });
   }
 };
@@ -39,7 +38,8 @@ MLIR_DEFINE_EXPLICIT_TYPE_ID(MirzakhmedovPassCountFCalls)
 
 PassPluginLibraryInfo getMirzakhmedovCountFCallsPluginInfo() {
   return {MLIR_PLUGIN_API_VERSION, "MirzakhmedovCountFCalls",
-          LLVM_VERSION_STRING, []() { PassRegistration<MirzakhmedovPassCountFCalls>(); }};
+          LLVM_VERSION_STRING,
+          []() { PassRegistration<MirzakhmedovPassCountFCalls>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
