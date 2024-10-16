@@ -47,7 +47,7 @@ func.func @func3() {
 
 //--- func4.mlir
 func.func @func4() {
-// CHECK: func.func @func4() attributes {maxDepth = 4 : i32}
+// CHECK: func.func @func4(%arg0: i32, %arg1: i32, %arg2: i32) attributes {maxDepth = 4 : i32}
   %c0 = arith.constant 0 : i32
   %c1 = arith.constant 1 : i32
   %c2 = arith.constant 2 : i32
