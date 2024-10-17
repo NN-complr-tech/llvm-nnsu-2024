@@ -21,8 +21,8 @@ struct FunctionInstrumentation : llvm::PassInfoMixin<FunctionInstrumentation> {
     llvm::FunctionCallee endInstr =
         mod->getOrInsertFunction("end_instrument", funcType);
 
-    llvm::Value* val = startInstr.getCallee()->stripPointerCasts();
-    llvm::Value* val1 = endInstr.getCallee()->stripPointerCasts();
+    llvm::Value *val = startInstr.getCallee()->stripPointerCasts();
+    llvm::Value *val1 = endInstr.getCallee()->stripPointerCasts();
     if (llvm::isa<llvm::Function>(val) && llvm::isa<llvm::Function>(val1)) {
       llvm::Function *startFunc = llvm::cast<llvm::Function>(val);
       llvm::Function *endFunc = llvm::cast<llvm::Function>(val1);
