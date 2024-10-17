@@ -13,13 +13,15 @@ public:
   StringRef getArgument() const final { return "ryabkov_ceildiv"; }
   StringRef getDescription() const final {
     return "Converts arith.ceildivui and arith.ceildivsi operations "
-            "into a sequence of basic arithmetic operations.";
+           "into a sequence of basic arithmetic operations.";
   }
 
   void runOnOperation() override {
-    getOperation()->walk([&](arith::CeilDivUIOp ceilDivOp) { processCeilDiv(ceilDivOp); });
+    getOperation()->walk(
+        [&](arith::CeilDivUIOp ceilDivOp) { processCeilDiv(ceilDivOp); });
 
-    getOperation()->walk([&](arith::CeilDivSIOp ceilDivSIOp) { processCeilDiv(ceilDivSIOp); });
+    getOperation()->walk(
+        [&](arith::CeilDivSIOp ceilDivSIOp) { processCeilDiv(ceilDivSIOp); });
   }
 
 private:
@@ -32,9 +34,12 @@ private:
     Type lhsType = lhsValue.getType();
     arith::ConstantOp constOne = opBuilder.create<arith::ConstantOp>(
         ceilDivOp.getLoc(), lhsType, opBuilder.getIntegerAttr(lhsType, 1));
-    arith::AddIOp addOp = opBuilder.create<arith::AddIOp>(ceilDivOp.getLoc(), lhsValue, rhsValue);
-    arith::SubIOp subOp = opBuilder.create<arith::SubIOp>(ceilDivOp.getLoc(), addOp, constOne);
-    arith::DivUIOp divOp = opBuilder.create<arith::DivUIOp>(ceilDivOp.getLoc(), subOp, rhsValue);
+    arith::AddIOp addOp =
+        opBuilder.create<arith::AddIOp>(ceilDivOp.getLoc(), lhsValue, rhsValue);
+    arith::SubIOp subOp =
+        opBuilder.create<arith::SubIOp>(ceilDivOp.getLoc(), addOp, constOne);
+    arith::DivUIOp divOp =
+        opBuilder.create<arith::DivUIOp>(ceilDivOp.getLoc(), subOp, rhsValue);
 
     ceilDivOp.replaceAllUsesWith(divOp.getOperation());
     ceilDivOp.erase();
@@ -49,9 +54,12 @@ private:
     Type lhsType = lhsValue.getType();
     arith::ConstantOp constOne = opBuilder.create<arith::ConstantOp>(
         ceilDivSIOp.getLoc(), lhsType, opBuilder.getIntegerAttr(lhsType, 1));
-    arith::AddIOp addOp = opBuilder.create<arith::AddIOp>(ceilDivSIOp.getLoc(), lhsValue, rhsValue);
-    arith::SubIOp subOp = opBuilder.create<arith::SubIOp>(ceilDivSIOp.getLoc(), addOp, constOne);
-    arith::DivSIOp divOp = opBuilder.create<arith::DivSIOp>(ceilDivSIOp.getLoc(), subOp, rhsValue);
+    arith::AddIOp addOp = opBuilder.create<arith::AddIOp>(ceilDivSIOp.getLoc(),
+                                                          lhsValue, rhsValue);
+    arith::SubIOp subOp =
+        opBuilder.create<arith::SubIOp>(ceilDivSIOp.getLoc(), addOp, constOne);
+    arith::DivSIOp divOp =
+        opBuilder.create<arith::DivSIOp>(ceilDivSIOp.getLoc(), subOp, rhsValue);
 
     ceilDivSIOp.replaceAllUsesWith(divOp.getOperation());
     ceilDivSIOp.erase();
@@ -62,8 +70,8 @@ MLIR_DECLARE_EXPLICIT_TYPE_ID(RyabkovDivPass)
 MLIR_DEFINE_EXPLICIT_TYPE_ID(RyabkovDivPass)
 
 PassPluginLibraryInfo RyabkovDivPassPluginInfo() {
-  return {MLIR_PLUGIN_API_VERSION, "ryabkov_ceildiv",
-          LLVM_VERSION_STRING, []() { PassRegistration<RyabkovDivPass>(); }};
+  return {MLIR_PLUGIN_API_VERSION, "ryabkov_ceildiv", LLVM_VERSION_STRING,
+          []() { PassRegistration<RyabkovDivPass>(); }};
 }
 
 extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo mlirGetPassPluginInfo() {
