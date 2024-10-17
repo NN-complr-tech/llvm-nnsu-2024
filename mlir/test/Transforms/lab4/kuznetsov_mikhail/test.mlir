@@ -6,7 +6,7 @@ module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i1, dense<8> : ve
     // CHECK-NEXT: %0 = arith.addi %arg0, %arg1  : i32
     // CHECK-NEXT: %1 = arith.subi %0, %c1_i32 : i32
     // CHECK-NEXT: %2 = arith.divsi %1, %arg1  : i32
-    // CHECK-NOT: %3 = arith.ceildivsi %arg0, %arg1 : i32
+    // CHECK-NOT: arith.ceildivsi
     %0 = arith.ceildivsi %arg0, %arg1 : i32
     llvm.return %0 : i32
   }
