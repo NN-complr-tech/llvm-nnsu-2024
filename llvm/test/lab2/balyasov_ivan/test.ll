@@ -125,3 +125,22 @@ define dso_local void @f6() #0 {
 ; CHECK: %3 = load i32, ptr %1, align 4
 ; CHECK-NEXT: %4 = shl i32 3, 2
 ; CHECK-NEXT: store i32 %4, ptr %2, align 4
+
+
+; int f9(int a) {
+;     return a * 8;
+; }
+
+define dso_local i32 @f9(i32 noundef %a) #0 {
+entry:
+  %a.addr = alloca i32, align 4
+  store i32 %a, ptr %a.addr, align 4
+  %0 = load i32, ptr %a.addr, align 4
+  %mul = mul nsw i32 %0, 8
+  ret i32 %mul
+}
+
+; CHECK-LABEL: @f9
+; CHECK: store i32 %a, ptr %a.addr, align 4
+; CHECK-NEXT: %0 = load i32, ptr %a.addr, align 4
+; CHECK-NEXT: %mul1 = shl i32 %0, 3
