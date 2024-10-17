@@ -69,7 +69,7 @@ func.func @func4() {
 
 //--- func5.mlir
 func.func @func5() {
-// CHECK: func.func @func4() attributes {maxDepth = 3 : i32}
+// CHECK: func.func @func5() attributes {maxDepth = 3 : i32}
   %0 = arith.constant 1 : i32
   %1 = arith.constant 2 : i32
   %2 = arith.constant 3 : i32
