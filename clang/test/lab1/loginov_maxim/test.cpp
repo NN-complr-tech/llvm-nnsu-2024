@@ -24,6 +24,7 @@ public:
 // SECOND-CHECK: class D {
 // SECOND-CHECK-NEXT: private:
 // SECOND-CHECK-NEXT:     int a;
+// SECOND-CHECK-NEXT:     static int s;
 // SECOND-CHECK-NEXT: public:
 // SECOND-CHECK-NEXT:     D() {}
 // SECOND-CHECK-NEXT:     D(int a): a(a) {}
@@ -31,7 +32,11 @@ public:
 // SECOND-CHECK-NEXT:     int getA() {
 // SECOND-CHECK-NEXT:         return a;
 // SECOND-CHECK-NEXT:     }
+// SECOND-CHECK-NEXT:     static int getStaticMember() {
+// SECOND-CHECK-NEXT:         return s; 
+// SECOND-CHECK-NEXT:     } 
 // SECOND-CHECK-NEXT: };
+// SECOND-CHECK-NEXT: int D::s = 0;
 // SECOND-CHECK-NEXT: void func() {
 // SECOND-CHECK-NEXT:     D* c = new D();
 // SECOND-CHECK-NEXT:     delete c;
@@ -41,6 +46,7 @@ public:
 class C {
 private:
     int a;
+    static int s;
 public:
     C() {}
     C(int a): a(a) {}
@@ -48,7 +54,12 @@ public:
     int getA() {
         return a;
     }
+    static int getStaticMember() {
+        return s;
+    }
 };
+int C::s = 0;
+
 void func() {
     C* c = new C();
     delete c;
