@@ -4,10 +4,12 @@
 
 namespace {
 
-struct ShmelevFuncInstrumentationPass : llvm::PassInfoMixin<ShmelevFuncInstrumentationPass> {
+struct ShmelevFuncInstrumentationPass
+    : llvm::PassInfoMixin<ShmelevFuncInstrumentationPass> {
 
-  llvm::PreservedAnalyses run(llvm::Function &function,
-                              llvm::FunctionAnalysisManager &func_analysis_manager) {
+  llvm::PreservedAnalyses
+  run(llvm::Function &function,
+      llvm::FunctionAnalysisManager &func_analysis_manager) {
 
     llvm::LLVMContext &con = function.getContext();
 
@@ -57,8 +59,8 @@ struct ShmelevFuncInstrumentationPass : llvm::PassInfoMixin<ShmelevFuncInstrumen
     if (!end_func_add) {
       llvm::ReturnInst *return_inst;
       for (llvm::BasicBlock &basic_block : function) {
-        if ((return_inst = llvm::dyn_cast<llvm::ReturnInst>(basic_block.getTerminator())) !=
-            NULL) {
+        if ((return_inst = llvm::dyn_cast<llvm::ReturnInst>(
+                 basic_block.getTerminator())) != NULL) {
           builder.SetInsertPoint(basic_block.getTerminator());
           builder.CreateCall(end_instr);
         }
@@ -77,7 +79,8 @@ llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "instrument_functions", "0.1",
           [](llvm::PassBuilder &pass_builder) {
             pass_builder.registerPipelineParsingCallback(
-                [](llvm::StringRef name, llvm::FunctionPassManager &func_pass_manager,
+                [](llvm::StringRef name,
+                   llvm::FunctionPassManager &func_pass_manager,
                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
                   if (name == "instrument_functions") {
                     func_pass_manager.addPass(ShmelevFuncInstrumentationPass{});
