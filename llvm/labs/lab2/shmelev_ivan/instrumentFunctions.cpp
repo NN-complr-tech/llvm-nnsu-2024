@@ -1,69 +1,67 @@
-#include "llvm/IR/Function.h"
-#include "llvm/IR/Instructions.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/raw_ostream.h"
 
 namespace {
-struct FuncInstrumentationPass : llvm::PassInfoMixin<FuncInstrumentationPass> {
 
-  bool hasInstrumentCalls(llvm::Function &func,
-                          llvm::FunctionCallee &calleeFunc) {
-    for (auto *user : calleeFunc.getCallee()->users()) {
-      if (auto *callInstruction = llvm::dyn_cast<llvm::CallInst>(user)) {
-        if (callInstruction->getParent()->getParent() == &func) {
-          return true;
+struct ShmelevFuncInstrumentationPass : llvm::PassInfoMixin<ShmelevFuncInstrumentationPass> {
+
+  llvm::PreservedAnalyses run(llvm::Function &function,
+                              llvm::FunctionAnalysisManager &func_analysis_manager) {
+
+    llvm::LLVMContext &con = function.getContext();
+
+    llvm::IRBuilder<> builder(con);
+
+    auto module = function.getParent();
+
+    llvm::FunctionType *func_type =
+        llvm::FunctionType::get(llvm::Type::getVoidTy(con), false);
+
+    llvm::FunctionCallee start_instr =
+        module->getOrInsertFunction("instrument_start", func_type);
+
+    llvm::FunctionCallee end_instr =
+        module->getOrInsertFunction("instrument_end", func_type);
+
+    bool start_func_add = false;
+    bool end_func_add = false;
+
+    llvm::CallInst *call_inst;
+
+    for (auto *user : start_instr.getCallee()->users()) {
+      if ((call_inst = llvm::dyn_cast<llvm::CallInst>(user)) != NULL) {
+        call_inst = llvm::cast<llvm::CallInst>(user);
+        if (call_inst->getParent()->getParent() == &function) {
+          start_func_add = true;
+          break;
         }
       }
     }
-    return false;
-  }
 
-  void addInstrumentCall(llvm::Function &func, llvm::FunctionCallee &calleeFunc,
-                         llvm::IRBuilder<> &irBuilder, bool &alreadyInserted) {
-    if (!alreadyInserted) {
-      irBuilder.SetInsertPoint(&func.getEntryBlock().front());
-      irBuilder.CreateCall(calleeFunc);
-      alreadyInserted = true;
-    }
-  }
-
-  llvm::ReturnInst *findFinalReturnInst(llvm::Function &func) {
-    llvm::ReturnInst *finalReturnInst = nullptr;
-    for (llvm::BasicBlock &block : func) {
-      llvm::Instruction *terminatorInst = block.getTerminator();
-      if (llvm::isa<llvm::ReturnInst>(terminatorInst)) {
-        finalReturnInst = llvm::cast<llvm::ReturnInst>(terminatorInst);
+    for (auto *user : end_instr.getCallee()->users()) {
+      if ((call_inst = llvm::dyn_cast<llvm::CallInst>(user)) != NULL) {
+        call_inst = llvm::cast<llvm::CallInst>(user);
+        if (call_inst->getParent()->getParent() == &function) {
+          end_func_add = true;
+          break;
+        }
       }
     }
-    return finalReturnInst;
-  }
 
-  llvm::PreservedAnalyses run(llvm::Function &func,
-                              llvm::FunctionAnalysisManager &) {
-    llvm::LLVMContext &context = func.getContext();
-    llvm::IRBuilder<> irBuilder(context);
-    llvm::Module *module = func.getParent();
+    if (!start_func_add) {
+      builder.SetInsertPoint(&function.getEntryBlock().front());
+      builder.CreateCall(start_instr);
+    }
 
-    llvm::FunctionType *instrumentFuncType =
-        llvm::FunctionType::get(llvm::Type::getVoidTy(context), false);
-    llvm::FunctionCallee beginFunc =
-        module->getOrInsertFunction("instrument_start", instrumentFuncType);
-    llvm::FunctionCallee finishFunc =
-        module->getOrInsertFunction("instrument_end", instrumentFuncType);
-
-    bool beginInserted = hasInstrumentCalls(func, beginFunc);
-    bool finishInserted = hasInstrumentCalls(func, finishFunc);
-
-    addInstrumentCall(func, beginFunc, irBuilder, beginInserted);
-
-    if (!finishInserted) {
-      llvm::ReturnInst *finalReturnInst = findFinalReturnInst(func);
-
-      if (finalReturnInst) {
-        irBuilder.SetInsertPoint(finalReturnInst);
-        irBuilder.CreateCall(finishFunc);
-        finishInserted = true;
+    if (!end_func_add) {
+      llvm::ReturnInst *return_inst;
+      for (llvm::BasicBlock &basic_block : function) {
+        if ((return_inst = llvm::dyn_cast<llvm::ReturnInst>(basic_block.getTerminator())) !=
+            NULL) {
+          builder.SetInsertPoint(basic_block.getTerminator());
+          builder.CreateCall(end_instr);
+        }
       }
     }
 
@@ -74,15 +72,15 @@ struct FuncInstrumentationPass : llvm::PassInfoMixin<FuncInstrumentationPass> {
 };
 } // namespace
 
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+extern "C" LLVM_ATTRIBUTE_WEAK::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
   return {LLVM_PLUGIN_API_VERSION, "instrument_functions", "0.1",
-          [](llvm::PassBuilder &PB) {
-            PB.registerPipelineParsingCallback(
-                [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
+          [](llvm::PassBuilder &pass_builder) {
+            pass_builder.registerPipelineParsingCallback(
+                [](llvm::StringRef name, llvm::FunctionPassManager &func_pass_manager,
                    llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
-                  if (name == "instrument-functions") {
-                    FPM.addPass(FuncInstrumentationPass{});
+                  if (name == "instrument_functions") {
+                    func_pass_manager.addPass(ShmelevFuncInstrumentationPass{});
                     return true;
                   }
                   return false;

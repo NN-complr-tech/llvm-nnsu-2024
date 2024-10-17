@@ -1,4 +1,4 @@
-; RUN: opt -load-pass-plugin %llvmshlibdir/ShmelevInstrumnetF%pluginext -passes=instrument-functions -S %s | FileCheck %s
+; RUN: opt -load-pass-plugin %llvmshlibdir/ShmelevInstrumnetF%pluginext -passes=instrument_functions -S %s | FileCheck %s
 define dso_local void @_Z16instrument_startv() #0 {
   ret void
 }
@@ -171,7 +171,6 @@ define dso_local noundef i32 @_Z3maxii(i32 noundef %0, i32 noundef %1) #0 {
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %14
 
-
 define i32 @multi_ret(i32 %x) {
 entry:
     %is_zero = icmp eq i32 %x, 0
@@ -200,9 +199,11 @@ return_positive:
 ; CHECK-NEXT: %is_negative = icmp slt i32 %x, 0
 ; CHECK-NEXT: br i1 %is_negative, label %return_negative, label %return_positive
 ; CHECK: return_zero:                                      ; preds = %entry
+; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 0
 ; CHECK: return_negative:                                  ; preds = %check_negative
+; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 -1
-; CHECK: return_positive:                                  ; preds = %check_negative
+; CHECK:return_positive:                                  ; preds = %check_negative
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 1
