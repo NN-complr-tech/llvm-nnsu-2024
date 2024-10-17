@@ -66,3 +66,20 @@ func.func @func4() {
   }
   func.return
 }
+
+//--- func5.mlir
+func.func @func5() {
+// CHECK: func.func @func4() attributes {maxDepth = 3 : i32}
+  %0 = arith.constant 1 : i32
+  %1 = arith.constant 2 : i32
+  %2 = arith.constant 3 : i32
+  %sum = arith.addi %0, %1 : i32
+  %cmp1 = arith.cmpi "eq", %sum, %2 : i32
+  scf.if %cmp1 {
+    %cmp2 = arith.cmpi "eq", %1, %1 : i32
+    scf.if %cmp2 {
+      %new_value = arith.constant 3 : i32
+    }
+  }
+  func.return
+}
