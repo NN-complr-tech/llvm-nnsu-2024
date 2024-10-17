@@ -177,9 +177,11 @@ return_positive:
 ; CHECK-NEXT: %is_negative = icmp slt i32 %x, 0
 ; CHECK-NEXT: br i1 %is_negative, label %return_negative, label %return_positive
 ; CHECK: return_zero:                                      ; preds = %entry
-; CHECK: ret i32 0
+; CHECK-NEXT: call void @instrument_end()
+; CHECK-NEXT: ret i32 0
 ; CHECK: return_negative:                                  ; preds = %check_negative
-; CHECK: ret i32 -1
-; CHECK: return_positive:                                  ; preds = %check_negative
+; CHECK-NEXT: call void @instrument_end()
+; CHECK-NEXT: ret i32 -1
+; CHECK:return_positive:                                  ; preds = %check_negative
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 1
