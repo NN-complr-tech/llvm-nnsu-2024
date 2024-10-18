@@ -36,7 +36,7 @@ public:
 // SECOND-CHECK-NEXT:         return s; 
 // SECOND-CHECK-NEXT:     } 
 // SECOND-CHECK-NEXT: };
-// SECOND-CHECK:      int D::s = 0;
+// SECOND-CHECK:      int Ñ::s = 0;
 // SECOND-CHECK-NEXT: void func() {
 // SECOND-CHECK-NEXT:     D* c = new D();
 // SECOND-CHECK-NEXT:     delete c;
