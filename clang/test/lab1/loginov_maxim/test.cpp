@@ -59,7 +59,6 @@ public:
     }
 };
 int C::s = 0;
-
 void func() {
     C* c = new C();
     delete c;
